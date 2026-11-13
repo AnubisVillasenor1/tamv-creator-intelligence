@@ -93,7 +93,7 @@ TAMV ONLINE NETWORK · Mineral del Monte, Hidalgo, México.
 
 ## TAMV HyperCore Turbo
 
-La ruta `/hypercore` ofrece un panel de diagnóstico operativo y `GET /api/hypercore/audit` devuelve un informe sin caché de la política, el estado de certificación y la autoprueba de concurrencia. La navegación ya incluye un acceso directo al panel.
+La ruta `/hypercore` ofrece un panel de diagnóstico operativo y `GET /api/tamv/hypercore/audit` devuelve un informe sin caché de la política, el estado de certificación y la autoprueba de concurrencia. La navegación ya incluye un acceso directo al panel.
 
 - **Govern Core:** política versionada `tamv.govern.policy.v2`, validación fail-closed y funciones NIST CSF 2.0.
 - **Integrity Core:** los archivos de política, ejecutor paralelo, configuración y rutas del panel se incluyen en el conjunto de fuentes protegidas por el verificador de certificación.
