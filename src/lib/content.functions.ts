@@ -4,19 +4,9 @@ import { contentSchema, reviewSchema } from './content-schema';
 export const reviewContent = createServerFn({ method: 'POST' })
   .inputValidator((data: unknown) => contentSchema.parse(data))
   .handler(async ({ data }) => {
-    // Keep integrity code inside the server handler; it is not needed by the browser.
-    try {
-      const { assertTamvAttributionIntegrity, TamvSovereigntyBreachError } =
-        await import('../../tamv-pack/core/tamv-sovereign-core');
-      await assertTamvAttributionIntegrity();
-    } catch (error) {
-      const code = error instanceof Error && 'code' in error ? String(error.code) : 'TAMV_SOVEREIGNTY_BREACH';
-      console.error('TAMV integrity gate rejected creator review', { code });
-      return {
-        ok: false as const,
-        error: 'Falló la verificación de integridad y atribución TAMV. El borrador no se envió al servicio de IA.',
-      };
-    }
+    const { requireTamvCertification } = await import("./tamv-certification");
+    const blockedResponse = await requireTamvCertification("creator.review");
+    if (blockedResponse) throw blockedResponse;
 
     const { generateResponse, GatewayError } = await import('@lovable.dev/ai-gateway');
     const runId = crypto.randomUUID();

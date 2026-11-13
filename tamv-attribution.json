@@ -1,0 +1,62 @@
+{
+  "schema": "tamv.attribution.manifest.v1",
+  "issuer": "TAMV ONLINE NETWORK",
+  "product": "PLAY & GO",
+  "pack": "tamv-online-network-creator-intelligence-pack",
+  "packVersion": "1.2.1",
+  "attribution": {
+    "canonicalText": "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.",
+    "required": true,
+    "visibility": "public",
+    "enforcement": "fail-closed-premium"
+  },
+  "requiredFiles": [
+    "ATTRIBUTION.md",
+    "README.md",
+    "src/lib/tamv-attribution.ts",
+    "src/components/branding/TamvAttribution.tsx",
+    "src/routes/__root.tsx",
+    "src/lib/tamv-certification.ts",
+    "src/lib/content.functions.ts",
+    "src/routes/api.tamv.status.ts",
+    "src/routes/api.generation.ts",
+    "src/routes/api.voice.generate.ts",
+    "src/routes/api.audiocore.advanced.ts",
+    "src/routes/api.agent.ts",
+    "scripts/tamv-certification.mjs",
+    "tamv-pack/core/tamv-sovereign-core.ts"
+  ],
+  "integrity": {
+    "algorithm": "sha256",
+    "canonicalTextSha256": "sha256:ae0ef2a55f14c869da77581f9e68f457d5ec73028d6146b516e6b873f46891c6",
+    "files": {
+      "ATTRIBUTION.md": "sha256:850af658102c7c350ae91cbb8a5799a4ffba50dd5533a073417b854a8f776385",
+      "README.md": "sha256:554a1af86d90bec6ce4547eac003dc4734293559545cf7980e36af103e5b8c2a",
+      "src/lib/tamv-attribution.ts": "sha256:c9721bd6fdc581804b4b3a4947aa1769a9af1435e1f9e272823e90cf8bbf5f24",
+      "src/components/branding/TamvAttribution.tsx": "sha256:5d33b2e482d8df417e6fc51fc478d3264fde4a1e9e2f8ad130d231c3fb451332",
+      "src/routes/__root.tsx": "sha256:f7f6c83c61abe3032a05e1b86d8dfc1622af05a22e0d478e8d70380e9f090849",
+      "src/lib/tamv-certification.ts": "sha256:b8e7f0394f639f652be5e90e67d692deae8e9bace14ebce464e67bf57b44fdf7",
+      "src/lib/content.functions.ts": "sha256:2d0b0b10c185fd58e1c435e3d9b6a6af03c32288e8c5b44f1598995316b21d8b",
+      "src/routes/api.tamv.status.ts": "sha256:c32a767d3e4753a7c15c0e40b7899378a2a90db017beb265b884ec314764d363",
+      "src/routes/api.generation.ts": "sha256:9912afaf6aac51ab5f05c2829fc7a3173d2b8cfe60f2b167510abb6b053c7b31",
+      "src/routes/api.voice.generate.ts": "sha256:403cf2c9fb5f183fb5c624530c7796f84c2dc82955f0deb7f9c44ceb324eea71",
+      "src/routes/api.audiocore.advanced.ts": "sha256:e39d2c28826d5f16ca5ec7f2d07d415f1944e01788528cbaf6b65ee143618524",
+      "src/routes/api.agent.ts": "sha256:53af17d6c8c636b140ece37e9d6ff2ea7773e6a4e44946de68fa8eebb46ef427",
+      "scripts/tamv-certification.mjs": "sha256:25201e7ad627788ed79eaf16dd9faf9a354c40c01575b4d79ffbb0ccd2b7cada",
+      "tamv-pack/core/tamv-sovereign-core.ts": "sha256:edb10e15903e0fc34120a846df0bc878e198e16624725a8dc9b1e76ac147a5b4"
+    }
+  },
+  "governance": {
+    "policy": "tamv-algorithmic-governance-v1",
+    "consentRequired": true,
+    "audit": true,
+    "rightsProtection": true
+  },
+  "license": {
+    "core": "AGPL-3.0-only",
+    "commercial": "TAMV-Commercial-1.0",
+    "features": [
+      "creator.review"
+    ]
+  }
+}

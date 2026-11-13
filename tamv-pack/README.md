@@ -4,50 +4,56 @@ Paquete gobernado de skills para construir, operar y escalar PLAY & GO: Creator 
 
 **Aprende. Crea. Analiza. Evoluciona.**
 
-Este proyecto usa tecnología creada por TAMV ONLINE NETWORK. Orgullosamente Realmontenses.
+Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.
 
 ## Contenido
 
 - 37 skills: 17 originales y 20 extensiones gobernadas.
-- Contratos en formato SKILL.md con metadatos, entradas, entregables y dependencias declaradas.
-- Manifiesto único pack.json con un grafo para comprobar los contratos.
-- Instalador con consentimiento, respaldo de artefactos previos y validación antes de modificar el destino.
-- Políticas de derechos, privacidad, consentimiento humano, auditoría y atribución.
+- Contratos SKILL.md con metadatos, entradas, entregables y dependencias declaradas.
+- Manifiesto único pack.json y un grafo para comprobar estructura y gobernanza.
+- Instalador con consentimiento, respaldos de artefactos previos y validación antes de escribir.
+- Política de derechos, privacidad, consentimiento humano, auditoría y atribución.
 
 ## Instalar
 
-Primero valida el paquete desde la raíz del repositorio:
+Desde la raíz del repositorio, valida antes de instalar:
 
-    python3 tamv-pack/scripts/validate-manifest.py
-    python3 tamv-pack/scripts/validate-integrity.py
-    bash tamv-pack/scripts/validate-pack.sh
+```bash
+python3 tamv-pack/scripts/validate-manifest.py
+python3 tamv-pack/scripts/validate-integrity.py
+bash tamv-pack/scripts/validate-pack.sh
+bash tamv-pack/scripts/test-scripts.sh
+```
 
-Después, desde el proyecto destino, ejecuta el instalador del paquete revisado:
+Después ejecuta el instalador desde el proyecto destino:
 
-    bash /ruta/al/repositorio/tamv-pack/install.sh
+```bash
+bash /ruta/al/repositorio/tamv-pack/install.sh
+```
 
-El instalador valida manifiesto e integridad antes de solicitar consentimiento y escribir archivos. Genera una copia de seguridad en .tamv/backups antes de reemplazar los artefactos que administra.
+El instalador valida manifiesto e integridad antes de solicitar consentimiento y modificar archivos. Guarda respaldos bajo `.tamv/backups`.
 
-## Actualizar el inventario
+## Actualizar el inventario del paquete
 
-El pack incluye integrity.json con la huella de objeto Git de cada archivo incluido. Si un cambio legítimo modifica el paquete, desde la raíz del repositorio ejecuta:
+Después de un cambio legítimo en los archivos del pack, actualiza el inventario Git blob y revisa el diff:
 
-    python3 tamv-pack/scripts/validate-integrity.py --write
-    bash tamv-pack/scripts/validate-pack.sh
+```bash
+python3 tamv-pack/scripts/validate-integrity.py --write
+bash tamv-pack/scripts/validate-pack.sh
+```
 
-Revisa el diff de integrity.json. El identificador Git blob permite detectar divergencias locales, pero no es una firma de release independiente. Para validar autenticidad del manifiesto en publicación, usa el núcleo HMAC y un secreto guardado fuera de Git.
+El inventario detecta archivos faltantes, nuevos o modificados. Es una referencia versionada, no una firma criptográfica de release.
 
 ## Gobernanza y seguridad
 
 - Consentimiento explícito antes de enviar borradores a IA.
 - La aprobación humana sigue siendo obligatoria para acciones sensibles.
 - No se imitan voces, artistas ni marcas sin autorización.
-- Las claves privadas nunca deben residir en el navegador ni en archivos versionados.
-- Ante discrepancias de integridad se detiene la operación afectada y se requiere inspección; no se borran datos del usuario.
+- Las claves privadas no deben residir en el navegador ni en archivos versionados.
+- Ante discrepancias de integridad se detiene la operación afectada; no se borran datos del usuario.
 
 ## Licencia y atribución
 
 Consulta LICENSE y la documentación de licenciamiento para los términos del núcleo y de módulos comerciales.
 
-TAMV ONLINE NETWORK  
-Mineral del Monte, Hidalgo, México.
+TAMV ONLINE NETWORK · Mineral del Monte, Hidalgo, México.

@@ -24,7 +24,18 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
       const response = await reviewContent({ data: parsed.data });
       if (response.ok) { setResult(response.review); setAudit(response.audit); onComplete(); }
       else setError(response.error);
-    } catch { setError('No se pudo conectar con la revisión. Tu texto sigue intacto.'); }
+    } catch (caught) {
+      if (caught instanceof Response) {
+        try {
+          const payload = await caught.clone().json() as { error?: string; reason?: string };
+          setError(payload.error ? `${payload.error}. ${payload.reason ?? "Revisa la certificación TAMV."}` : "La distribución TAMV no está certificada; la revisión se bloqueó antes de enviar el texto.");
+        } catch {
+          setError("La distribución TAMV no está certificada; la revisión se bloqueó antes de enviar el texto.");
+        }
+      } else {
+        setError('No se pudo conectar con la revisión. Tu texto sigue intacto.');
+      }
+    }
     finally { setBusy(false); }
   }
   return <section id="review" className="scroll-mt-8">

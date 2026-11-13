@@ -1,79 +1,91 @@
 # TAMV Creator Intelligence
 
-TAMV Creator Intelligence es el panel de Creator Operating System de TAMV ONLINE NETWORK para revisar borradores con asistencia de IA, explorar un catálogo gobernado de 37 skills y mantener trazabilidad sin publicar contenido automáticamente.
+TAMV Creator Intelligence es el entorno Creator Operating System de TAMV ONLINE NETWORK para revisar borradores con asistencia de IA, explorar un catálogo gobernado de 37 skills y conservar trazabilidad sin publicar contenido automáticamente.
 
 **PLAY & GO · Aprende. Crea. Analiza. Evoluciona.**
 
-**Atribución institucional:** Este proyecto usa tecnología creada por TAMV ONLINE NETWORK. Orgullosamente Realmontenses.
+## Atribución institucional
 
-## Componentes
+Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.
+
+## Capacidades implementadas
 
 - Aplicación React 19, TanStack Start, Vite, TypeScript y Vitest.
 - Revisión creativa mediante una función de servidor y el AI Gateway de Lovable.
-- Catálogo de 37 skills definido en tamv-pack/pack.json y comprobado contra los directorios reales.
-- Instalador del pack con consentimiento explícito, copias de seguridad y validación previa a cualquier escritura.
-- Controles de derechos, consentimiento, gobernanza, procedencia e integridad de archivos.
-
-## Requisitos
-
-- Bun compatible con bun.lock.
-- Python 3.10 o superior para los verificadores del pack.
-- Bash y ShellCheck para validar scripts.
-- Variables de entorno de Supabase/Lovable configuradas en el gestor de secretos de desarrollo o despliegue.
+- Catálogo de 37 skills gobernado por `tamv-pack/pack.json`, con validación estructural de dependencias.
+- Instalador con consentimiento explícito, copias de seguridad y rechazo antes de escribir si el paquete no supera la validación.
+- Inventario de integridad Git para el paquete y certificación Ed25519 para las funciones de IA.
+- Endpoint público `GET /api/tamv/status` con estado y motivo de certificación.
+- Rutas protegidas `POST /api/generation`, `/api/voice/generate`, `/api/audiocore/advanced` y `/api/agent`.
 
 ## Desarrollo local
 
-1. Copia .env.example a .env.local y completa valores de tu propio proyecto.
-2. Instala dependencias con bun install --frozen-lockfile.
-3. Inicia con bun run dev.
+1. Copia `.env.example` a `.env.local` y completa valores de tu propio proyecto.
+2. Instala dependencias con `bun install --frozen-lockfile`.
+3. Inicia con `bun run dev`.
 
-Antes de integrar cambios, ejecuta:
+Ejecuta antes de integrar cambios:
 
-    bun run lint
-    bun run test
-    bun run build
-    python3 scripts/validate-repo-hygiene.py
-    bash tamv-pack/scripts/validate-pack.sh
-    bash tamv-pack/scripts/test-scripts.sh
+```bash
+bun run tamv:check
+python3 scripts/validate-repo-hygiene.py
+bash tamv-pack/scripts/validate-pack.sh
+bash tamv-pack/scripts/test-scripts.sh
+bun run lint
+bun run test
+bun run build
+```
 
-## Integridad, atribución y cadena de confianza
+## Certificación del runtime
 
-La revisión creativa verifica en el servidor la atribución institucional antes de remitir un borrador al proveedor de IA. Si la validación falla, la operación se rechaza y el borrador no se envía.
+`tamv-attribution.json` contiene el manifest de certificación; `tamv-attribution.sig` contiene una firma Ed25519 separada. El manifest vincula el texto canónico con hashes SHA-256 de los archivos que definen la atribución, el footer visible, el root shell, el gate de revisión IA, el endpoint de estado, el verificador de release y el núcleo de integridad.
 
-El paquete incluye:
-- Un inventario de Git blobs para detectar deriva, archivos faltantes, archivos agregados o modificaciones accidentales en la distribución.
-- Un núcleo de integridad en tamv-pack/core/tamv-sovereign-core.ts, con huellas SHA-512, derivación PBKDF2/SHA-384 y sobres autenticados HMAC/SHA-384.
-- Pruebas negativas para alteración de archivos, conjunto inconsistente y atribución incorrecta.
-- Validación de estructura de skills y dependencias antes de la instalación.
+El runtime revalida los hashes desde fuentes incluidas en el build y verifica la firma con `TAMV_ATTRIBUTION_PUBLIC_KEY`. Cualquier archivo obligatorio ausente, discrepancia, falta de clave, texto alterado o firma inválida mantiene la distribución sin certificar.
 
-El inventario de blobs es una referencia versionada y usa los identificadores Git de cada archivo; no debe confundirse con una firma criptográfica externa. Para autenticar publicaciones, el secreto HMAC debe permanecer fuera del repositorio, en un gestor de secretos. El inventario del mismo repositorio no impide por sí solo que alguien con permisos reescriba archivos y referencias: habilita revisión independiente y protección de ramas.
+- `GET /api/tamv/status` siempre responde `200` e informa `certified`, estado, motivo y si las funciones certificadas están habilitadas.
+- La revisión IA se bloquea antes de llamar al AI Gateway y rechaza solicitudes no certificadas con HTTP `403` y código `TAMV_ATTRIBUTION_INTEGRITY_FAILED`.
+- Las rutas `POST /api/generation`, `/api/voice/generate`, `/api/audiocore/advanced` y `/api/agent` también devuelven `403` sin certificación o si la capacidad no está autorizada. Si la distribución está certificada y la capacidad autorizada, responden `501 TAMV_CAPABILITY_NOT_IMPLEMENTED` hasta conectar el gateway real; no simulan resultados ni ejecutan servicios externos.
+- El borrador de Creator Review permanece en el formulario y no se envía al proveedor cuando el gate falla.
 
-La atribución es metadato público, no un secreto que deba ocultarse con cifrado. La respuesta a una discrepancia detiene la operación afectada; no borra datos del usuario ni destruye archivos.
+### Estado de la firma de este repositorio
 
-### Actualizar el inventario después de un cambio legítimo
+`tamv-attribution.sig` contiene deliberadamente `UNSIGNED_RELEASE_PENDING`. No se proporcionó una clave privada oficial de TAMV para firmar esta distribución. Por ello, el runtime debe reportar `signature-missing` y mantener bloqueadas las funciones certificadas hasta que el responsable de release firme el manifest. No se ha inventado una firma ni se ha guardado una clave privada en Git.
 
-Desde la raíz del repositorio, regenera el inventario Git blob y revisa el diff antes de confirmar:
+### Actualizar hashes después de un cambio aprobado
 
-    python3 tamv-pack/scripts/validate-integrity.py --write
-    bash tamv-pack/scripts/validate-pack.sh
+```bash
+bun run tamv:hash
+bun run tamv:check
+```
 
-No regeneres el inventario para ocultar un fallo sin revisar los archivos afectados.
+`tamv:hash` recalcula SHA-256 y restablece el marcador `UNSIGNED_RELEASE_PENDING`; la firma anterior queda invalidada deliberadamente. Cualquier cambio en un archivo cubierto necesita revisar el nuevo inventario y firmar un release nuevo.
 
-## Variables de entorno
+### Firmar un release
 
-- .env y los archivos de entorno locales quedan fuera de Git.
-- .env.example contiene únicamente nombres de variables y marcadores.
-- Las claves privadas de Supabase, AI y firma solo deben estar en el servidor o en el gestor de secretos; nunca en variables VITE_*.
-- Las claves públicas de Supabase no sustituyen las políticas RLS ni los controles de autorización.
+Genera o custodia una clave Ed25519 en un gestor de secretos controlado por TAMV. Nunca guardes la clave privada en Git, `.env.example` ni variables `VITE_*`. En el entorno seguro de release ejecuta:
 
-Si una clave privada se hubiera expuesto históricamente, revócala y genera otra en el proveedor correspondiente. Quitar el archivo en un commit nuevo no elimina sus versiones anteriores del historial.
+```bash
+TAMV_ATTRIBUTION_PRIVATE_KEY="$(cat /ruta-segura/tamv-attribution-private.pem)" bun run tamv:sign
+TAMV_ATTRIBUTION_PUBLIC_KEY="$(cat /ruta-segura/tamv-attribution-public.pem)" bun run tamv:verify
+```
 
-## Estado de producción
+Configura `TAMV_ATTRIBUTION_PUBLIC_KEY` en el entorno servidor. La clave pública no es secreta; la privada sí. Configura `TAMV_CERTIFICATION_REQUIRED=true` para que el build falle si el release no está firmado y verificado. El gate de runtime permanece en modo fail-closed para las funciones certificadas.
 
-El workflow de GitHub ejecuta higiene del repositorio, validación del pack, pruebas del instalador, ShellCheck, lint, pruebas de la aplicación y build de producción. El estado de CI debe revisarse antes de integrar. Secretos, RLS, proveedores externos y despliegue final deben verificarse en el entorno operativo; el código por sí solo no demuestra que estén configurados.
+## Límites de confianza
+
+- El inventario Git del paquete detecta divergencias pero no reemplaza una firma criptográfica independiente.
+- La firma Ed25519 autentica el manifest solo si la clave pública viene de un canal confiable y la privada permanece protegida.
+- El gate certifica la distribución. `creator.review` es la única integración IA real; las demás rutas existen como guardas fail-closed y permanecen en `501` cuando la distribución está certificada y la capacidad autorizada, hasta conectar los gateways de música, voz, AudioCore y agente.
+- La certificación de distribución no constituye un sistema completo de licencias individuales ni reemplaza autenticación, cuotas o políticas RLS.
+- Una discrepancia detiene la operación afectada. No borra archivos del usuario ni ejecuta autodestrucción.
+- Si una credencial privada se expuso, revócala y genera otra; borrar el archivo en un commit posterior no elimina el historial anterior.
+
+## Validación y despliegue
+
+GitHub Actions ejecuta higiene del repositorio, revisión de hashes, validación del paquete, pruebas del instalador, ShellCheck, lint, pruebas unitarias y build de producción. La firma de release y la configuración del proveedor deben verificarse de forma explícita.
 
 ## Licencia y autoría
 
-Consulta tamv-pack/LICENSE, tamv-pack/README.md y la documentación de licencias para conocer los términos aplicables al núcleo y a los módulos comerciales.
+Consulta `tamv-pack/LICENSE`, `tamv-pack/README.md` y la documentación de licencias. La certificación de distribución y el licenciamiento comercial por usuario son controles distintos.
 
 TAMV ONLINE NETWORK · Mineral del Monte, Hidalgo, México.

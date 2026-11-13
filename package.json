@@ -5,13 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "node scripts/tamv-certification.mjs --check && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "tamv:check": "node scripts/tamv-certification.mjs --check",
+    "tamv:hash": "node scripts/tamv-certification.mjs --update-hashes",
+    "tamv:sign": "node scripts/tamv-certification.mjs --sign",
+    "tamv:verify": "node scripts/tamv-certification.mjs --check --require-signature"
   },
   "overrides": {
     "rolldown": "1.2.1"

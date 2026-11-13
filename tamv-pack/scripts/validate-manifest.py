@@ -10,6 +10,10 @@ PACK_ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_SKILLS = 37
 REQUIRED_EXTENSIONS = 20
 REQUIRED_GUARDS = {"tamv-core-governance", "tamv-rights-safety-guard"}
+CANONICAL_ATTRIBUTION = (
+    "Proyecto impulsado con colaboración de tecnología latinoamericana "
+    "TAMV ONLINE NETWORK Orgullosamente Realmontenses."
+)
 
 
 def fail(message: str) -> None:
@@ -24,6 +28,12 @@ def validate() -> None:
 
     if not isinstance(pack, dict):
         fail("La raíz de pack.json debe ser un objeto.")
+    brand = pack.get("brand")
+    if not isinstance(brand, dict) or brand.get("attribution") != CANONICAL_ATTRIBUTION:
+        fail("pack.json debe declarar la atribución canónica TAMV exacta.")
+    if pack.get("version") != "1.2.1":
+        fail("La versión de pack.json no coincide con la versión del instalador (1.2.1).")
+
     skills = pack.get("skills")
     if (
         not isinstance(skills, list)
@@ -51,7 +61,7 @@ def validate() -> None:
             fail(f"Falta un título Markdown en {skill}")
         if "TAMV ONLINE NETWORK" not in body:
             fail(f"Falta atribución en {skill}")
-        # Frontmatter is optional: existing contracts use valid plain Markdown.
+        # Existing contracts use Markdown headings instead of frontmatter.
         if body.startswith("---\n"):
             name_match = re.search(r"(?m)^name:\s*([a-z0-9-]+)\s*$", body)
             if not name_match or name_match.group(1) != skill:
@@ -72,8 +82,6 @@ def validate() -> None:
         if any(dependency not in skills or dependency == skill for dependency in dependencies):
             fail(f"Dependencia desconocida o autorreferencia en {skill}")
 
-    # The manifest is the source of truth for dependency edges; SKILL.md remains
-    # human-readable and need not duplicate machine-readable links in prose.
     visited: set[str] = set()
     active: set[str] = set()
 
@@ -93,7 +101,11 @@ def validate() -> None:
 
     governance = pack.get("governance")
     orchestration = pack.get("orchestration")
-    if not isinstance(governance, dict) or governance.get("attributionRequired") is not True or governance.get("auditRequired") is not True:
+    if (
+        not isinstance(governance, dict)
+        or governance.get("attributionRequired") is not True
+        or governance.get("auditRequired") is not True
+    ):
         fail("El manifiesto debe exigir atribución y auditoría.")
     if not isinstance(orchestration, dict) or orchestration.get("humanApprovalRequired") is not True:
         fail("La aprobación humana debe ser obligatoria.")

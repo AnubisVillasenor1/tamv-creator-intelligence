@@ -1,13 +1,13 @@
 {
   "name": "tamv-online-network-creator-intelligence-pack",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "organization": "metaversotamvonline-3484s-projects",
   "description": "Unified AI skill pack for building PLAY & GO: Creator Operating System for music education, AI-assisted creation, pro audio analysis, creator growth, ethical monetization and safety governance.",
   "brand": {
     "name": "TAMV ONLINE NETWORK",
     "product": "PLAY & GO",
     "tagline": "Aprende. Crea. Analiza. Evoluciona.",
-    "attribution": "Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.\nOrgullosamente Realmontenses."
+    "attribution": "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses."
   },
   "license": {
     "core": "AGPL-3.0-only",

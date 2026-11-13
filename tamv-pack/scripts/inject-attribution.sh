@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ -f "README.md" ]]; then
-  if ! grep -q "TAMV ONLINE NETWORK" "README.md"; then
-    cat >> README.md <<'EOF'
+CANONICAL_ATTRIBUTION="Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses."
 
----
-
-## TAMV ONLINE NETWORK
-
-Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.
-Orgullosamente Realmontenses.
-EOF
-  fi
+if [[ ! -f "README.md" ]]; then
+  echo "ERROR: README.md no existe; no se creó un archivo de documentación sustituto." >&2
+  exit 1
 fi
 
-echo "Atribución inyectada correctamente."
+if ! grep -qF "$CANONICAL_ATTRIBUTION" README.md; then
+  printf '\n---\n\n## TAMV ONLINE NETWORK\n\n%s\n' "$CANONICAL_ATTRIBUTION" >> README.md
+fi
+
+echo "Atribución canónica TAMV verificada o inyectada."

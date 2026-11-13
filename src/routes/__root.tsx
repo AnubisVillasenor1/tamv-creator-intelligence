@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { TamvAttribution } from "../components/branding/TamvAttribution";
 
 function NotFoundComponent() {
   return (
@@ -112,6 +113,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <TamvAttribution />
         <Scripts />
       </body>
     </html>

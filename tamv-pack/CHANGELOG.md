@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1 — Atribución canónica y herramientas reproducibles
+
+- Unifica la atribución textual del paquete con el contrato canónico TAMV.
+- Hace idempotente la inyección de atribución y prueba que no se duplique.
+- Corrige la escritura final del inventario para que `--write` produzca JSON válido.
+- Valida la coherencia entre la versión de `pack.json` y la del instalador.
+
 ## 1.2.0 — Integridad y endurecimiento del repositorio
 
 - Añade validación de atribución en el servidor antes de enviar borradores al proveedor de IA.
