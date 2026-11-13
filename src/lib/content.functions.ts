@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
 import { contentSchema, reviewSchema } from './content-schema';
+import { authorizeGovernedCapability } from './hypercore-turbo/policy';
 
 export const reviewContent = createServerFn({ method: 'POST' })
   .inputValidator((data: unknown) => contentSchema.parse(data))
@@ -7,6 +8,17 @@ export const reviewContent = createServerFn({ method: 'POST' })
     const { requireTamvCertification } = await import("./tamv-certification");
     const blockedResponse = await requireTamvCertification("creator.review");
     if (blockedResponse) throw blockedResponse;
+    const governance = authorizeGovernedCapability({
+      capability: "creator.review",
+      consentGranted: data.consent === true,
+      certificationValid: true,
+    });
+    if (!governance.allowed) {
+      throw new Response(JSON.stringify({ error: "TAMV_GOVERNANCE_DENIED", reason: governance.reasonCode }), {
+        status: 403,
+        headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+      });
+    }
 
     const { generateResponse, GatewayError } = await import('@lovable.dev/ai-gateway');
     const runId = crypto.randomUUID();
@@ -34,7 +46,7 @@ export const reviewContent = createServerFn({ method: 'POST' })
       return {
         ok: true as const,
         review: reviewSchema.parse(JSON.parse(responseText)),
-        audit: { runId, hash, model: 'openai/gpt-6-astra', timestamp: new Date().toISOString(), skills: ['tamv-core-governance', 'tamv-rights-safety-guard', 'tamv-content-review', 'tamv-audience-research', 'tamv-quality-gate'] },
+        audit: { runId, hash, model: 'openai/gpt-6-astra', timestamp: new Date().toISOString(), governance: { policyVersion: governance.policyVersion, decision: governance.reasonCode }, skills: ['tamv-core-governance', 'tamv-rights-safety-guard', 'tamv-content-review', 'tamv-audience-research', 'tamv-quality-gate'] },
       };
     } catch (error) {
       if (error instanceof GatewayError) {

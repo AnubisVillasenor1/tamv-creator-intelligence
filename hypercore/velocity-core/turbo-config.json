@@ -1,0 +1,50 @@
+{
+  "schema": "tamv.velocity.config.v1",
+  "version": "1.0.0",
+  "execution": {
+    "mode": "parallel-verified",
+    "maxConcurrency": 4,
+    "timeoutMs": 10000,
+    "retry": {
+      "maxAttempts": 1,
+      "backoff": "exponential",
+      "baseDelayMs": 250,
+      "onlyIdempotent": true
+    }
+  },
+  "cache": {
+    "enabled": false,
+    "strategy": "content-hash",
+    "ttlSeconds": 300,
+    "storage": "not-configured"
+  },
+  "queues": {
+    "audio": {
+      "name": "tamv-audio-generation",
+      "concurrency": 1
+    },
+    "voice": {
+      "name": "tamv-voice-generation",
+      "concurrency": 1
+    },
+    "analysis": {
+      "name": "tamv-spectral-analysis",
+      "concurrency": 4
+    },
+    "agents": {
+      "name": "tamv-agent-orchestration",
+      "concurrency": 4
+    }
+  },
+  "observability": {
+    "structuredResults": true,
+    "traceIds": true,
+    "redactPayloads": true,
+    "metrics": "adapter-required"
+  },
+  "notes": [
+    "In-process async concurrency only; no BullMQ/Redis worker is provisioned by this configuration.",
+    "Do not enable retries for side-effecting jobs without durable idempotency keys.",
+    "SLSA provenance and durable audit storage are required before release certification."
+  ]
+}
