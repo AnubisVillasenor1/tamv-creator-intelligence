@@ -1,0 +1,55 @@
+{
+  "name": "tamv-online-network-creator-intelligence-pack",
+  "version": "1.0.0",
+  "organization": "metaversotamvonline-3484s-projects",
+  "description": "Unified AI skill pack for building PLAY & GO: Creator Operating System for music education, AI-assisted creation, pro audio analysis, creator growth, ethical monetization and safety governance.",
+  "brand": {
+    "name": "TAMV ONLINE NETWORK",
+    "product": "PLAY & GO",
+    "tagline": "Aprende. Crea. Analiza. Evoluciona.",
+    "attribution": "Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.\nOrgullosamente Realmontenses."
+  },
+  "license": {
+    "core": "AGPL-3.0-only",
+    "commercialModules": "TAMV-Commercial-1.0"
+  },
+  "governance": {
+    "authority": "TAMV ONLINE NETWORK",
+    "policy": "algorithmic-governance-v1",
+    "safetyGuard": "tamv-rights-safety-guard",
+    "auditRequired": true,
+    "attributionRequired": true
+  },
+  "skills": [
+    "tamv-core-governance",
+    "tamv-play-and-go-architect",
+    "tamv-nextjs-supabase-builder",
+    "tamv-musicgen-local",
+    "tamv-voice-identity",
+    "tamv-audiocore-dsp",
+    "tamv-bullmq-redis",
+    "tamv-supabase-rls-security",
+    "tamv-license-authority",
+    "tamv-creator-growth",
+    "tamv-monetization-advisor",
+    "tamv-marketing-growth",
+    "tamv-seo-discoverability",
+    "tamv-conversion-optimizer",
+    "tamv-launch-strategist",
+    "tamv-rights-safety-guard",
+    "tamv-support-assistant"
+  ],
+  "dependencies": {
+    "recommended": [
+      "next",
+      "typescript",
+      "tailwindcss",
+      "supabase-js",
+      "drizzle-orm",
+      "bullmq",
+      "ioredis",
+      "stripe",
+      "prom-client"
+    ]
+  }
+}
