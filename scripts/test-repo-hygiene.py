@@ -34,7 +34,8 @@ def main() -> int:
         sample.write_text("safe baseline\n", encoding="utf-8")
         git(repo, "add", "sample.txt")
         git(repo, "commit", "-m", "fixture")
-        sample.write_text("ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcd\n", encoding="utf-8")
+        credential = "ghp_" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcd"
+        sample.write_text(credential + "\n", encoding="utf-8")
         git(repo, "add", "sample.txt")
         sample.write_text("safe working tree\n", encoding="utf-8")
 
@@ -44,7 +45,7 @@ def main() -> int:
         rendered = output.getvalue()
         if result != 1 or "index" not in rendered or "GitHub credential" not in rendered:
             raise AssertionError("The validator failed to detect a secret present only in the Git index.")
-        if "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcd" in rendered:
+        if credential in rendered:
             raise AssertionError("The validator exposed the suspected credential in its diagnostic.")
 
         env_file = repo / ".env.production"
