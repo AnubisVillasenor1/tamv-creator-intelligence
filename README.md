@@ -52,11 +52,11 @@ Estos estados proceden de la auditoría versionada del repositorio. Deben compro
 | Revisión creativa | Un ejecutor real identificado | Requiere configuración segura del proveedor. |
 | Integridad | 22 archivos protegidos por SHA-256 | Detecta divergencias; no sustituye una firma. |
 | Firma Ed25519 | `UNSIGNED_RELEASE_PENDING` | Release sin certificar hasta verificar una firma real. |
-| Procedencia SLSA | Verificador no integrado al runtime | Una firma de manifiesto no demuestra procedencia. |
+| Procedencia SLSA | El workflow de release genera y verifica atestación del bundle; el runtime no aplica esa política | Solo se considera acreditado tras ejecutar el workflow con tag y permisos válidos. |
 | Música, voz y AudioCore | No habilitadas como capacidades certificadas | No simular éxito; denegar o responder `501`. |
 | Ledger durable | Pendiente | No prometer persistencia append-only sin almacenamiento y pruebas. |
 | RLS multi-tenant | Pendiente de migraciones y pruebas | La documentación no demuestra aislamiento. |
-| SBOM y atestación | Pendientes de validación integral | Requieren artefactos y verificación. |
+| SBOM y atestación | Generación CycloneDX y atestaciones configuradas en release workflow | Falta evidencia de ejecución real del workflow de release autorizado. |
 | Producción | No certificada | Requiere superar los gates de este documento. |
 
 No conviertas “planeado”, “declarado” o “configurado” en “implementado”, “operativo” o “certificado” sin evidencia reproducible.
@@ -159,6 +159,8 @@ Cada mecanismo prueba algo diferente:
 
 Ciclo esperado: revisar el diff; validar catálogo, licencias e inventarios; recalcular hashes; invalidar firma anterior; firmar el manifiesto canónico; verificar con clave pública; ejecutar pruebas, lint, build y controles de seguridad; generar SBOM y atestación verificables; publicar artefacto, manifiesto, firma y evidencias juntos; verificar que producción ejecuta el artefacto publicado.
 
+El workflow de release implementa un bundle con metadatos normalizados, checksum SHA-256, SBOM CycloneDX, atestación de procedencia y atestación SBOM; después verifica ambas contra el repositorio y la identidad del workflow. Está condicionado a un tag autorizado sobre main, secretos Ed25519 reales y permisos GitHub de atestación. La validación normal de PR no ejecuta ese workflow de release: no declares una release certificada hasta que el run del tag concluya correctamente.
+
 La clave privada no debe aparecer en Git, logs, artefactos, frontend ni mensajes de error. Usa secretos protegidos o un servicio de firma auditado. No guardes la clave privada en el repositorio.
 
 El marcador actual `UNSIGNED_RELEASE_PENDING` no puede convertirse en una firma mediante una variable de entorno o un cambio textual. Solo se acredita certificación cuando una firma real verifica el manifiesto exacto distribuido.
@@ -226,8 +228,8 @@ Verifica la versión de Node.js y archiva la salida con el SHA auditado.
 La auditoría identifica tareas que no se cierran solo con documentación:
 
 1. Release Ed25519 real validado de extremo a extremo.
-2. Verificador SLSA confiable en pipeline y, si aplica, runtime.
-3. SBOM por release y política de análisis de dependencias.
+2. Aplicar política de procedencia en runtime/despliegue cuando corresponda y comprobar la identidad del artefacto desplegado.
+3. Integrar análisis de vulnerabilidades y política de bloqueo para dependencias; el workflow genera SBOM, pero eso no detecta ni elimina CVE por sí solo.
 4. Ledger durable append-only con control de acceso, retención, integridad y recuperación.
 5. Migraciones, políticas RLS y pruebas de aislamiento multi-tenant.
 6. Cuotas distribuidas si hay múltiples instancias.
