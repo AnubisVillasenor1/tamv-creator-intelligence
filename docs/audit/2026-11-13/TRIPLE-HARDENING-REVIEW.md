@@ -120,3 +120,9 @@ The timeout error now carries a settlement signal that always resolves when the 
 
 Scope limitation: this is a process-local capacity guard. It does not cancel the upstream provider request, distribute quota across serverless instances, or provide durable accounting. A provider promise that never settles will retain its slot; true cancellation needs explicit provider/gateway support and should be implemented when the gateway contract exposes an abort signal.
 
+## Metrics endpoint access control — 2026-11-13
+
+The HyperCore metrics route previously returned process metrics to any caller. It now requires a server-only bearer credential configured through TAMV_METRICS_TOKEN. The token must be between 32 and 4,096 characters and contain no whitespace; a missing or weak configuration disables the route with 503, while a missing, malformed, oversized or mismatched request credential receives 401. Comparison uses fixed-size SHA-256 digests with timingSafeEqual, and responses are marked no-store/nosniff. No token is shipped in the example environment file or exposed through a VITE_ variable.
+
+The new regression tests cover missing/weak configuration, missing/basic/oversized credentials, mixed-case Bearer syntax, successful authorization, mismatches and non-disclosure of the expected token. The README and environment template document the configuration contract. The README SHA-256 entry was recalculated in the attribution manifest; the release signature remains pending.
+

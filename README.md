@@ -187,6 +187,8 @@ El marcador actual `UNSIGNED_RELEASE_PENDING` no puede convertirse en una firma 
 
 **Gate:** cada capacidad activa tiene responsable, contrato, autorización, pruebas, límites y evidencia operativa.
 
+El endpoint /api/tamv/hypercore/metrics exige el encabezado Authorization: Bearer y el secreto de servidor TAMV_METRICS_TOKEN (mínimo 32 caracteres aleatorios). Si el secreto no está configurado, el endpoint devuelve 503; si falta o no coincide el token, devuelve 401. Mantén la variable fuera del cliente: no uses el prefijo VITE_. La plantilla .env.example la deja vacía de forma deliberada.
+
 ### Capa 3 — Calidad, gobernanza y evidencia
 
 - Separar capacidades declaradas, contratadas, implementadas, probadas y operadas.
