@@ -1,0 +1,39 @@
+name: Validate TAMV Pack
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Locate and validate the package
+        shell: bash
+        run: |
+          if [ -f tamv-pack/pack.json ]; then
+            PACK_DIR=tamv-pack
+          elif [ -f pack.json ]; then
+            PACK_DIR=.
+          else
+            echo 'TAMV pack.json not found'; exit 1
+          fi
+          echo "PACK_DIR=$PACK_DIR" >> "$GITHUB_ENV"
+          bash "$PACK_DIR/scripts/validate-pack.sh"
+      - name: Check all shell scripts with ShellCheck
+        shell: bash
+        run: |
+          command -v shellcheck
+          find "$PACK_DIR" -type f -name '*.sh' -print0 | xargs -0 shellcheck --severity=warning
+      - name: Test installation, cancellation and governance
+        shell: bash
+        run: bash "$PACK_DIR/scripts/test-scripts.sh"

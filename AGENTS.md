@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application conventions
+
+- Keep creator-review inference in a validated TanStack server function using AI Gateway; this keeps private credentials and prompts outside browser code.
+- Treat the package manifest as the skill inventory and validate the dashboard registry against it; this prevents drift between the app and the distributable package.
+- Keep review drafts and results in session React state and return audit metadata with each result; no storage or publication is implied by submitting a review.
+- Run package installers only from the destination project and preserve package-owned files in backups before replacement; this protects existing installations.

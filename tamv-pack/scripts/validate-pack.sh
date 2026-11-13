@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PACK_DIR="$(dirname -- "$SCRIPT_DIR")"
+cd -- "$PACK_DIR"
+
 required_files=(
   README.md
   LICENSE
@@ -28,4 +32,10 @@ if ! grep -q "AGPL-3.0-only" pack.json; then
   exit 1
 fi
 
-echo "Validación completada."
+python3 scripts/validate-manifest.py
+
+while IFS= read -r -d '' script; do
+  bash -n "$script"
+done < <(find . -type f -name '*.sh' -print0)
+
+echo "Validación completada: estructura, manifiesto y sintaxis de scripts."

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TAMV_VERSION="1.0.0"
+TAMV_VERSION="1.1.0"
+PACK_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ATTRIBUTION_FILE="TAMV_ATTRIBUTION.md"
 GOVERNANCE_FILE="TAMV_GOVERNANCE.md"
 INSTALL_LOG=".tamv/install.log"
@@ -20,6 +21,19 @@ if [[ "${CONFIRM:-}" != "y" && "${CONFIRM:-}" != "Y" ]]; then
 fi
 
 mkdir -p .tamv
+
+# Preserve the previous installation before replacing package-owned files.
+BACKUP_DIR="$(mktemp -d .tamv/backup-XXXXXXXX)"
+for item in TAMV_ATTRIBUTION.md TAMV_GOVERNANCE.md .tamv/skills .tamv/pack.json; do
+  if [[ -e "$item" ]]; then
+    cp -R -- "$item" "$BACKUP_DIR/"
+  fi
+done
+mkdir -p .tamv/backups
+mv -- "$BACKUP_DIR" .tamv/backups/
+mkdir -p .tamv/skills
+cp -R -- "$PACK_DIR/skills/." .tamv/skills/
+cp -- "$PACK_DIR/pack.json" .tamv/pack.json
 
 cat > "${ATTRIBUTION_FILE}" <<'EOF'
 # TAMV ONLINE NETWORK

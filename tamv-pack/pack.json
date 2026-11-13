@@ -1,6 +1,6 @@
 {
   "name": "tamv-online-network-creator-intelligence-pack",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "organization": "metaversotamvonline-3484s-projects",
   "description": "Unified AI skill pack for building PLAY & GO: Creator Operating System for music education, AI-assisted creation, pro audio analysis, creator growth, ethical monetization and safety governance.",
   "brand": {
@@ -37,7 +37,27 @@
     "tamv-conversion-optimizer",
     "tamv-launch-strategist",
     "tamv-rights-safety-guard",
-    "tamv-support-assistant"
+    "tamv-support-assistant",
+    "tamv-audience-research",
+    "tamv-content-review",
+    "tamv-brand-voice",
+    "tamv-storytelling",
+    "tamv-editorial-calendar",
+    "tamv-channel-adaptation",
+    "tamv-community-care",
+    "tamv-experiment-design",
+    "tamv-retention-insights",
+    "tamv-campaign-measurement",
+    "tamv-learning-path",
+    "tamv-lesson-design",
+    "tamv-practice-coach",
+    "tamv-release-readiness",
+    "tamv-accessibility-review",
+    "tamv-metadata-provenance",
+    "tamv-consent-ledger",
+    "tamv-privacy-minimization",
+    "tamv-quality-gate",
+    "tamv-workflow-orchestrator"
   ],
   "dependencies": {
     "recommended": [
@@ -51,5 +71,110 @@
       "stripe",
       "prom-client"
     ]
+  },
+  "skillGraph": {
+    "tamv-audience-research": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-creator-growth"
+    ],
+    "tamv-content-review": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-marketing-growth"
+    ],
+    "tamv-brand-voice": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-marketing-growth"
+    ],
+    "tamv-storytelling": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-marketing-growth"
+    ],
+    "tamv-editorial-calendar": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-launch-strategist"
+    ],
+    "tamv-channel-adaptation": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-marketing-growth"
+    ],
+    "tamv-community-care": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-support-assistant"
+    ],
+    "tamv-experiment-design": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-conversion-optimizer"
+    ],
+    "tamv-retention-insights": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-creator-growth"
+    ],
+    "tamv-campaign-measurement": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-marketing-growth"
+    ],
+    "tamv-learning-path": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-play-and-go-architect"
+    ],
+    "tamv-lesson-design": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-play-and-go-architect"
+    ],
+    "tamv-practice-coach": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-creator-growth"
+    ],
+    "tamv-release-readiness": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-launch-strategist"
+    ],
+    "tamv-accessibility-review": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-play-and-go-architect"
+    ],
+    "tamv-metadata-provenance": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard"
+    ],
+    "tamv-consent-ledger": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard"
+    ],
+    "tamv-privacy-minimization": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-supabase-rls-security"
+    ],
+    "tamv-quality-gate": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard"
+    ],
+    "tamv-workflow-orchestrator": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard"
+    ]
+  },
+  "orchestration": {
+    "entry": "tamv-core-governance",
+    "safety": "tamv-rights-safety-guard",
+    "quality": "tamv-quality-gate",
+    "humanApprovalRequired": true,
+    "cyclePolicy": "reuse-completed-dependency"
   }
 }

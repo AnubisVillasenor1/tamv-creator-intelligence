@@ -1,23 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from 'react';
+import { Activity, ArrowDown, ArrowUpRight, AudioLines, Blocks, BookOpen, Check, ChevronRight, CircleHelp, GitBranch, Github, LayoutDashboard, Search, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CreatorReview } from '@/components/creator-review';
+import { skillRegistry } from '@/lib/skill-registry';
+import sculpture from '@/assets/sound-sculpture.jpg';
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({ meta: [
+    { title: 'TAMV — Creator Intelligence Monitor' },
+    { name: 'description', content: 'Monitor PLAY & GO: revisión creativa con AI Gateway y 37 skills conectados bajo gobernanza TAMV.' },
+    { property: 'og:title', content: 'TAMV — Creator Intelligence Monitor' },
+    { property: 'og:description', content: 'Audiencia, objetivos y creatividad: inteligencia gobernada para creadores.' },
+    { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' },
+  ] }),
   component: Index,
 });
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+  const [view, setView] = useState('Monitor general');
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('Todos');
+  const [selected, setSelected] = useState<(typeof skillRegistry)[number]>();
+  const [reviews, setReviews] = useState(0);
+  const [info, setInfo] = useState(false);
+  const nav = [{ name: 'Monitor general', icon: LayoutDashboard }, { name: 'Revisión creativa', icon: Sparkles }, { name: 'Red de skills', icon: Blocks }, { name: 'Gobernanza', icon: ShieldCheck }, { name: 'Documentación', icon: BookOpen }];
+  const filtered = skillRegistry.filter(s => (category === 'Todos' || s.category === category) && `${s.name} ${s.description} ${s.id}`.toLowerCase().includes(search.toLowerCase()));
+  function go(name: string) { setView(name); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  return <div className="app-shell">
+    <aside className="app-sidebar">
+      <div className="brand"><AudioLines className="text-primary" size={28}/><div>TAMV<span>ONLINE NETWORK</span></div></div>
+      <div className="workspace-label">CREATOR WORKSPACE</div>
+      <nav aria-label="Navegación principal">{nav.map(({ name, icon: Icon }) => <Button key={name} variant="ghost" className={`nav-item ${view === name ? 'nav-active' : ''}`} onClick={() => go(name)}><Icon size={18}/><span>{name}</span>{view === name && <span className="nav-indicator"/>}</Button>)}</nav>
+      <div className="sidebar-bottom"><div className="flex gap-2 items-center text-sm"><ShieldCheck size={17} className="text-primary"/>Gobernanza TAMV</div><p>Control humano. Creación responsable.</p><div className="sidebar-profile"><span className="avatar">AV</span><div>Anubis Villaseñor<span>Creator workspace</span></div><Button variant="ghost" size="icon" title="Acerca del espacio" aria-label="Acerca del espacio" onClick={() => setInfo(true)}><CircleHelp/></Button></div></div>
+    </aside>
+    <main className="main-content">
+      <header className="topbar"><div className="flex gap-2 items-center"><span className="text-muted-foreground">Workspace</span><ChevronRight size={13}/><span>{view}</span></div><div className="flex items-center gap-5"><span className="status-label"><span className="status-dot"/>PACK v1.1.0</span><Button variant="ghost" size="icon" aria-label="Abrir repositorio en GitHub" title="Repositorio en GitHub" asChild><a href="https://github.com/AnubisVillasenor1/TAMV-Online-Network-Creator-Intelligence-Pack-" target="_blank" rel="noreferrer"><Github/></a></Button></div></header>
+      <div className="page-body">
+        {(view === 'Monitor general' || view === 'Revisión creativa') && <>
+          <div className="page-title"><div><div className="eyebrow">PLAY & GO / CREATOR OPERATING SYSTEM</div><h1>{view === 'Monitor general' ? 'Monitor general' : 'Revisión creativa'}</h1><p>Un espacio para crear con intención.</p></div><Button variant="outline" onClick={() => go('Red de skills')}><GitBranch/>Explorar skills<ArrowUpRight/></Button></div>
+          {view === 'Monitor general' && <>
+            <section className="creative-banner"><img src={sculpture} width={1536} height={1024} alt="Escultura de ondas de sonido en metal plateado"/><div className="banner-content"><span className="eyebrow">INTELIGENCIA AL SERVICIO DEL CREADOR</span><h2>PLAY & GO<span>Aprende. Crea.<br/>Analiza. Evoluciona.</span></h2><Button onClick={() => document.getElementById('review')?.scrollIntoView({ behavior: 'smooth' })}>Revisar un borrador<ArrowUpRight/></Button></div><span className="banner-caption">CREATIVE INTELLIGENCE / TAMV</span></section>
+            <section className="stats-strip" aria-label="Resumen del monitor">{[{ label: 'Skills en el paquete', value: '37', note: '17 originales + 20 nuevos', icon: Blocks },{ label: 'Conexiones gobernadas', value: String(new Set(skillRegistry.flatMap(s => s.dependencies.map(d => `${s.id}:${d}`))).size), note: 'Dependencias declaradas', icon: GitBranch },{ label: 'Revisiones de esta sesión', value: String(reviews).padStart(2,'0'), note: 'Sin publicación automática', icon: Activity },{ label: 'Control creativo', value: 'Humano', note: 'Confirmación y consentimiento', icon: ShieldCheck }].map(s => <div className="stat" key={s.label}><div className="stat-label">{s.label}<s.icon size={16}/></div><div className="stat-value">{s.value}</div><div className="stat-note">{s.note}</div></div>)}</section>
+          </>}
+          <CreatorReview onComplete={() => setReviews(v => v+1)}/>
+          {view === 'Monitor general' && <section className="network-preview"><div className="section-heading"><div><span className="eyebrow">UN ECOSISTEMA, CONECTADO</span><h2>La red detrás de cada idea.</h2></div><Button variant="ghost" onClick={() => go('Red de skills')}>Ver los 37 skills<ArrowUpRight/></Button></div><div className="workflow-band">{['Gobernanza','Derechos y seguridad','Revisión creativa','Control de calidad'].map((s,i) => <div key={s}><span className="workflow-number">0{i+1}</span><span>{s}</span>{i < 3 && <ChevronRight size={18}/>}</div>)}</div></section>}
+        </>}
+        {view === 'Red de skills' && <><div className="page-title"><div><span className="eyebrow">ECOSISTEMA TAMV</span><h1>Red de skills</h1><p>37 especialidades. Una gobernanza compartida.</p></div><span className="quiet-label"><GitBranch size={16}/>20 nuevos</span></div><div className="skill-toolbar"><div className="search-field"><Search size={17}/><input aria-label="Buscar skills" placeholder="Buscar una especialidad…" value={search} onChange={e => setSearch(e.target.value)}/></div><select aria-label="Filtrar por categoría" className="field" value={category} onChange={e => setCategory(e.target.value)}>{['Todos','Contenido','Crecimiento','Educación','Operación','Gobernanza','Base'].map(c => <option key={c}>{c}</option>)}</select></div><div className="skill-grid">{filtered.map((s,i) => <Button variant="ghost" key={s.id} className="skill-tile" onClick={() => setSelected(s)}><div className="flex justify-between w-full"><span className="eyebrow">{s.category}</span><ArrowUpRight size={16}/></div><h2>{s.name}</h2><p>{s.description}</p><div className="skill-foot"><GitBranch size={13}/>{s.dependencies.length} dependencias<span>{String(i+1).padStart(2,'0')}</span></div></Button>)}</div>{filtered.length === 0 && <p className="py-12 text-muted-foreground">No hay skills con esos criterios.</p>}</>}
+        {view === 'Gobernanza' && <><div className="page-title"><div><span className="eyebrow">ALGORITHMIC GOVERNANCE V1</span><h1>El creador tiene el control.</h1><p>Los permisos no se heredan entre skills.</p></div><ShieldCheck size={36} className="text-primary"/></div><div className="governance-list">{['Consentimiento explícito antes de enviar contenido a IA.','Derechos de autor e identidad protegidos; sin imitación de voces o artistas.','Claves privadas fuera del navegador.','Propuestas, no decisiones legales, fiscales o financieras definitivas.','Trazabilidad por revisión: identificador, fecha, modelo y SHA-256.','El borrador y la propuesta no se guardan ni se publican automáticamente.','La aprobación de la persona es necesaria para cualquier acción sensible.'].map((r,i) => <div key={r}><span className="eyebrow">0{i+1}</span><p>{r}</p><Check size={17} className="text-primary"/></div>)}</div><p className="text-muted-foreground text-sm mt-8">La red declara dependencias y contratos de colaboración; no ejecuta automáticamente servicios locales de audio ni acciones externas.</p></>}
+        {view === 'Documentación' && <><div className="page-title"><div><span className="eyebrow">CREATOR INTELLIGENCE PACK</span><h1>Instalación y actualización</h1><p>Tu repositorio, tu control.</p></div><BookOpen size={30} className="text-primary"/></div><div className="docs-body"><h2>Instalar en un proyecto existente</h2><p>Clona el paquete fuera de tu proyecto, revisa sus scripts y ejecuta el instalador desde la carpeta del proyecto destino. La instalación pide tu consentimiento y conserva la atribución.</p><pre>git clone https://github.com/AnubisVillasenor1/TAMV-Online-Network-Creator-Intelligence-Pack-.git /tmp/tamv-source<br/>bash /tmp/tamv-source/tamv-pack/scripts/validate-pack.sh<br/># Desde tu proyecto destino:<br/>bash /tmp/tamv-source/tamv-pack/install.sh</pre><h2>Actualizar sin perder cambios</h2><p>Guarda tus modificaciones primero. Descarga una nueva copia en una carpeta separada, compara el paquete y reemplaza solo los archivos revisados. Vuelve a validar antes de instalar. El README incluye los pasos completos y la alternativa para repositorios con el paquete en la raíz.</p><h2>Comprobaciones automáticas</h2><p>GitHub Actions valida el manifiesto, las 37 carpetas, las dependencias y los scripts en cada push y solicitud de cambios. El monitor no recibe resultados de GitHub en tiempo real.</p><Button variant="outline" asChild><a href="https://github.com/AnubisVillasenor1/TAMV-Online-Network-Creator-Intelligence-Pack-" target="_blank" rel="noreferrer"><Github/>Abrir repositorio<ArrowUpRight/></a></Button></div></>}
+        <footer className="app-footer"><div><AudioLines size={18}/><span>Este proyecto usa tecnología creada por <strong>TAMV ONLINE NETWORK.</strong><br/>Orgullosamente Realmontenses.</span></div><span>CREATED WITH PURPOSE.</span></footer>
+      </div>
+    </main>
+    {(selected || info) && <div className="modal-overlay" onClick={() => { setSelected(undefined); setInfo(false); }}><section role="dialog" aria-modal="true" aria-label={selected?.name ?? 'Acerca de TAMV'} className="detail-modal" onClick={e => e.stopPropagation()}><Button variant="ghost" size="icon" className="modal-close" aria-label="Cerrar detalle" onClick={() => { setSelected(undefined); setInfo(false); }}><X/></Button><span className="eyebrow">{selected?.category ?? 'TAMV ONLINE NETWORK'}</span><h2>{selected?.name ?? 'Creator Intelligence'}</h2><p>{selected?.description ?? 'PLAY & GO · Aprende. Crea. Analiza. Evoluciona.'}</p>{selected && <><h3>Entradas</h3><p>{selected.inputs}</p><h3>Entregable</h3><p>{selected.outputs}</p><h3>Dependencias</h3><ul>{selected.dependencies.map(d => <li key={d} className="break-all">{d}</li>)}</ul><p className="text-xs text-muted-foreground mt-5">Contrato del paquete. La ejecución de servicios externos requiere una integración autorizada.</p></>}</section></div>}
+  </div>;
 }
