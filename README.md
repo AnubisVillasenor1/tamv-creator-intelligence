@@ -9,7 +9,7 @@
 [![Catálogo 37 skills](https://img.shields.io/badge/skills-37%20contratos-64748b.svg)](tamv-pack/pack.json)
 [![Auditoría](https://img.shields.io/badge/auditor%C3%ADa-hallazgos%20y%20evidencia-64748b.svg)](docs/audit/2026-11-13/README.md)
 
-> **Estado: release sin certificar.** \`tamv-attribution.sig\` conserva \`UNSIGNED_RELEASE_PENDING\`. La existencia de controles, políticas, skills o documentación no demuestra certificación, disponibilidad productiva, conformidad legal ni validación académica. Las capacidades que requieren certificación o procedencia verificadas deben permanecer bloqueadas.
+> **Estado: release sin certificar.** `tamv-attribution.sig` conserva `UNSIGNED_RELEASE_PENDING`. La existencia de controles, políticas, skills o documentación no demuestra certificación, disponibilidad productiva, conformidad legal ni validación académica. Las capacidades que requieren certificación o procedencia verificadas deben permanecer bloqueadas.
 
 **Atribución canónica:** Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.
 
@@ -51,9 +51,9 @@ Estos estados proceden de la auditoría versionada del repositorio. Deben compro
 | Catálogo | 37 contratos de skills | No son 37 ejecutores. |
 | Revisión creativa | Un ejecutor real identificado | Requiere configuración segura del proveedor. |
 | Integridad | 22 archivos protegidos por SHA-256 | Detecta divergencias; no sustituye una firma. |
-| Firma Ed25519 | \`UNSIGNED_RELEASE_PENDING\` | Release sin certificar hasta verificar una firma real. |
+| Firma Ed25519 | `UNSIGNED_RELEASE_PENDING` | Release sin certificar hasta verificar una firma real. |
 | Procedencia SLSA | Verificador no integrado al runtime | Una firma de manifiesto no demuestra procedencia. |
-| Música, voz y AudioCore | No habilitadas como capacidades certificadas | No simular éxito; denegar o responder \`501\`. |
+| Música, voz y AudioCore | No habilitadas como capacidades certificadas | No simular éxito; denegar o responder `501`. |
 | Ledger durable | Pendiente | No prometer persistencia append-only sin almacenamiento y pruebas. |
 | RLS multi-tenant | Pendiente de migraciones y pruebas | La documentación no demuestra aislamiento. |
 | SBOM y atestación | Pendientes de validación integral | Requieren artefactos y verificación. |
@@ -63,7 +63,7 @@ No conviertas “planeado”, “declarado” o “configurado” en “implemen
 
 ## Arquitectura
 
-\`\`\`text
+```text
 TAMV Creator Intelligence
 ├── tamv-pack/       # pack.json, 37 SKILL.md, instalador y validadores
 ├── src/             # UI, rutas, revisión creativa y HyperCore
@@ -73,7 +73,7 @@ TAMV Creator Intelligence
 ├── docs/audit/      # hallazgos, amenazas y remediación
 ├── tamv-attribution.json
 └── tamv-attribution.sig
-\`\`\`
+```
 
 - **Govern Core:** política, allowlists, consentimiento y denegación por defecto.
 - **Integrity Core:** hashes y verificación de firma del manifiesto.
@@ -86,9 +86,9 @@ Las siete federaciones TAMV son una arquitectura conceptual de gobernanza. Este 
 
 ## Catálogo de skills
 
-El inventario está en [\`tamv-pack/pack.json\`](tamv-pack/pack.json). Abarca gobernanza, arquitectura de PLAY & GO, desarrollo web, música generativa, voz, DSP, colas, seguridad de datos, licencias, crecimiento, marketing, SEO, soporte, investigación, revisión editorial, aprendizaje, accesibilidad, metadatos, consentimiento, privacidad, calidad y orquestación.
+El inventario está en [`tamv-pack/pack.json`](tamv-pack/pack.json). Abarca gobernanza, arquitectura de PLAY & GO, desarrollo web, música generativa, voz, DSP, colas, seguridad de datos, licencias, crecimiento, marketing, SEO, soporte, investigación, revisión editorial, aprendizaje, accesibilidad, metadatos, consentimiento, privacidad, calidad y orquestación.
 
-La validación debe comprobar 37 IDs únicos coincidentes con carpetas y archivos \`SKILL.md\`, títulos y atribución, frontmatter coherente cuando exista, dependencias válidas, ausencia de ciclos y controles de gobernanza obligatorios. Un skill puede estar contratado sin tener ejecutor; la UI debe mostrar el estado real por capacidad.
+La validación debe comprobar 37 IDs únicos coincidentes con carpetas y archivos `SKILL.md`, títulos y atribución, frontmatter coherente cuando exista, dependencias válidas, ausencia de ciclos y controles de gobernanza obligatorios. Un skill puede estar contratado sin tener ejecutor; la UI debe mostrar el estado real por capacidad.
 
 ## Instalación
 
@@ -96,50 +96,50 @@ Requisitos: Git, Bun compatible con el lockfile, Node.js compatible con Vite/Tan
 
 ### CLI de skills
 
-\`\`\`bash
+```bash
 npx skills add AnubisVillasenor1/tamv-creator-intelligence
-\`\`\`
+```
 
 ### Validación manual
 
-\`\`\`bash
+```bash
 git clone https://github.com/AnubisVillasenor1/tamv-creator-intelligence.git
 cd tamv-creator-intelligence
 python3 tamv-pack/scripts/validate-manifest.py
 python3 tamv-pack/scripts/validate-integrity.py
 bash tamv-pack/scripts/validate-pack.sh
 bash tamv-pack/scripts/test-scripts.sh
-\`\`\`
+```
 
 Para instalar en el proyecto destino:
 
-\`\`\`bash
+```bash
 bash /ruta/al/repositorio/tamv-pack/install.sh
-\`\`\`
+```
 
-El instalador debe solicitar consentimiento, validar antes de escribir, respaldar archivos reemplazados y registrar el resultado. El destino por defecto es \`.agents/skills/\`; puede cambiarse mediante \`TAMV_SKILLS_DIR\`. Revisa el diff después de instalar.
+El instalador debe solicitar consentimiento, validar antes de escribir, respaldar archivos reemplazados y registrar el resultado. El destino por defecto es `.agents/skills/`; puede cambiarse mediante `TAMV_SKILLS_DIR`. Revisa el diff después de instalar.
 
 ## Desarrollo y pruebas
 
-\`\`\`bash
+```bash
 bun install --frozen-lockfile
 bun run test
 bun run lint
 bun run tamv:check
 bun run build
-\`\`\`
+```
 
 | Comando | Función |
 |---|---|
-| \`bun run dev\` | Desarrollo local. |
-| \`bun run test\` | Pruebas Vitest. |
-| \`bun run lint\` | ESLint. |
-| \`bun run build\` | Compuerta de certificación y compilación. |
-| \`bun run tamv:check\` | Verificación de certificación e inventario. |
-| \`bun run tamv:hash\` | Recalcula hashes e invalida la firma anterior. |
-| \`bun run tamv:sign\` | Firma el manifiesto con Ed25519. |
-| \`bun run tamv:verify\` | Verifica hashes y exige firma válida. |
-| \`bun run tamv:keygen\` | Genera un par Ed25519 local. |
+| `bun run dev` | Desarrollo local. |
+| `bun run test` | Pruebas Vitest. |
+| `bun run lint` | ESLint. |
+| `bun run build` | Comprueba integridad y compila; exige firma cuando `TAMV_CERTIFICATION_REQUIRED=true`. |
+| `bun run tamv:check` | Verificación de certificación e inventario. |
+| `bun run tamv:hash` | Recalcula hashes e invalida la firma anterior. |
+| `bun run tamv:sign` | Firma el manifiesto con Ed25519. |
+| `bun run tamv:verify` | Verifica hashes y exige firma válida. |
+| `bun run tamv:keygen` | Genera un par Ed25519 local. |
 
 Ejecuta también los validadores Python y Bash anteriores. Un comando aislado exitoso no acredita toda la cadena. Conserva SHA, logs y artefactos CI.
 
@@ -157,7 +157,7 @@ Ciclo esperado: revisar el diff; validar catálogo, licencias e inventarios; rec
 
 La clave privada no debe aparecer en Git, logs, artefactos, frontend ni mensajes de error. Usa secretos protegidos o un servicio de firma auditado. No guardes la clave privada en el repositorio.
 
-El marcador actual \`UNSIGNED_RELEASE_PENDING\` no puede convertirse en una firma mediante una variable de entorno o un cambio textual. Solo se acredita certificación cuando una firma real verifica el manifiesto exacto distribuido.
+El marcador actual `UNSIGNED_RELEASE_PENDING` no puede convertirse en una firma mediante una variable de entorno o un cambio textual. Solo se acredita certificación cuando una firma real verifica el manifiesto exacto distribuido.
 
 ## Triple hardening
 
@@ -204,14 +204,14 @@ No generes ni distribuyas voces, interpretaciones, grabaciones, composiciones, i
 
 ## Auditoría y evidencia
 
-Consulta [\`docs/audit/2026-11-13/\`](docs/audit/2026-11-13/README.md) para el resumen, hallazgos, matriz de consistencia, registro de sesgos, modelo de amenazas, remediación e índice de evidencias.
+Consulta [`docs/audit/2026-11-13/`](docs/audit/2026-11-13/README.md) para el resumen, hallazgos, matriz de consistencia, registro de sesgos, modelo de amenazas, remediación e índice de evidencias.
 
-Madurez por capacidad: \`M0-declared → M1-contracted → M2-implemented → M3-tested → M4-operated → M5-audited\`. El nivel se gana con evidencia. Para cada claim técnico conserva commit, prueba, entorno, resultado y limitaciones. Un DOI, repositorio o número de archivos no constituye por sí solo revisión por pares ni certificación externa.
+Madurez por capacidad: `M0-declared → M1-contracted → M2-implemented → M3-tested → M4-operated → M5-audited`. El nivel se gana con evidencia. Para cada claim técnico conserva commit, prueba, entorno, resultado y limitaciones. Un DOI, repositorio o número de archivos no constituye por sí solo revisión por pares ni certificación externa.
 
-\`\`\`bash
+```bash
 node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit
 node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report
-\`\`\`
+```
 
 Verifica la versión de Node.js y archiva la salida con el SHA auditado.
 
@@ -244,9 +244,9 @@ No incluyas en commits, logs o artefactos archivos de recuperación, tokens, cla
 
 La licencia depende de los archivos de licencia vigentes y del mapa correspondiente al commit:
 
-- Núcleo: [\`LICENSE\`](LICENSE).
-- Alcance por rutas: [\`LICENSE-MAP.md\`](LICENSE-MAP.md).
-- Avisos: [\`NOTICE\`](NOTICE) y [\`ATTRIBUTION.md\`](ATTRIBUTION.md).
+- Núcleo: [`LICENSE`](LICENSE).
+- Alcance por rutas: [`LICENSE-MAP.md`](LICENSE-MAP.md).
+- Avisos: [`NOTICE`](NOTICE) y [`ATTRIBUTION.md`](ATTRIBUTION.md).
 - Activos comerciales: licencia específica y acuerdo firmado.
 - Dependencias, modelos, datasets, voces y medios: conservan sus licencias.
 
