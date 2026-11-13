@@ -22,7 +22,18 @@ export const Route = createFileRoute("/api/hypercore/audit")({
           {
             id: "velocity-runner",
             critical: true,
-            run: async () => ({ selfTest: true, maxConcurrency: 4 }),
+            run: async () => {
+              const probe = await runTurboParallel([
+                { id: "probe-a", run: async () => "a" },
+                { id: "probe-b", run: async () => "b" },
+              ], { maxConcurrency: 2, timeoutMs: 1_000 });
+              return {
+                selfTest: probe.length === 2 &&
+                  probe.every((result) => result.status === "fulfilled") &&
+                  probe.map((result) => result.value).join("") === "ab",
+                maxConcurrency: 2,
+              };
+            },
           },
         ], { maxConcurrency: 3, timeoutMs: 8_000, failFastOnCritical: false });
 
