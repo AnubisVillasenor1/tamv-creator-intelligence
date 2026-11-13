@@ -6,7 +6,15 @@
   "framework": {
     "name": "NIST Cybersecurity Framework",
     "version": "2.0",
-    "functions": ["GOVERN", "IDENTIFY", "PROTECT", "DETECT", "RESPOND", "RECOVER"]
+    "functions": [
+      "GOVERN",
+      "IDENTIFY",
+      "PROTECT",
+      "DETECT",
+      "RESPOND",
+      "RECOVER"
+    ],
+    "id": "NIST-CSF-2.0"
   },
   "defaults": {
     "decision": "deny",
@@ -29,7 +37,14 @@
     "denyIfMissing": true,
     "denyIfExpired": true,
     "denyIfRevoked": true,
-    "requiredFor": ["creator.review", "music.generation", "voice.generation", "agent.orchestration", "external.publishing", "personal_data.processing"]
+    "requiredFor": [
+      "creator.review",
+      "music.generation",
+      "voice.generation",
+      "agent.orchestration",
+      "external.publishing",
+      "personal_data.processing"
+    ]
   },
   "rights": {
     "voiceImpersonation": "block-without-authorization",
