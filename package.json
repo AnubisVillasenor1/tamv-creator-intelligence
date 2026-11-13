@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "tamv:check": "node scripts/tamv-certification.mjs --check",
+    "tamv:check": "node scripts/tamv-certification.mjs --check && bash tamv-pack/scripts/validate-pack.sh",
     "tamv:hash": "node scripts/tamv-certification.mjs --update-hashes",
     "tamv:sign": "node scripts/tamv-certification.mjs --sign",
     "tamv:verify": "node scripts/tamv-certification.mjs --check --require-signature"
