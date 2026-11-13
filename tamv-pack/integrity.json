@@ -63,6 +63,7 @@
     "tamv-pack/skills/tamv-supabase-rls-security/SKILL.md": "ff02627c058471cf11c842f7d2beceef0b6bbe43",
     "tamv-pack/skills/tamv-support-assistant/SKILL.md": "fb9e63d6b3ac14cb7068cccba6c9b6c50dd92b98",
     "tamv-pack/skills/tamv-voice-identity/SKILL.md": "06f9b8b7fb1c619496770c4a41dee3a8842f6edc",
-    "tamv-pack/skills/tamv-workflow-orchestrator/SKILL.md": "d148636e1d9d64d4fde77e14b250badbbfa37f1a"
+    "tamv-pack/skills/tamv-workflow-orchestrator/SKILL.md": "d148636e1d9d64d4fde77e14b250badbbfa37f1a",
+    "scripts/validate-manifest.py": "67bca2ef24f57ca7682569da77441b84f07fb092"
   }
 }

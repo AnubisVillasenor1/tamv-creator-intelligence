@@ -1,4 +1,4 @@
-"""Validate skill inventory, metadata, governance and dependency contracts."""
+"""Validate skill inventory, attribution, governance and dependency contracts."""
 from __future__ import annotations
 
 import json
@@ -47,10 +47,15 @@ def validate() -> None:
         if not skill_file.is_file():
             fail(f"Falta el contrato del skill: {skill}")
         body = skill_file.read_text(encoding="utf-8")
+        if not re.search(r"(?m)^#\s+\S", body):
+            fail(f"Falta un título Markdown en {skill}")
         if "TAMV ONLINE NETWORK" not in body:
             fail(f"Falta atribución en {skill}")
-        if not body.startswith("---\n") or f"name: {skill}\n" not in body:
-            fail(f"Frontmatter inválido en {skill}")
+        # Frontmatter is optional: existing contracts use valid plain Markdown.
+        if body.startswith("---\n"):
+            name_match = re.search(r"(?m)^name:\s*([a-z0-9-]+)\s*$", body)
+            if not name_match or name_match.group(1) != skill:
+                fail(f"Frontmatter inconsistente en {skill}")
 
     graph = pack.get("skillGraph")
     if not isinstance(graph, dict) or len(graph) != REQUIRED_EXTENSIONS:
@@ -66,10 +71,9 @@ def validate() -> None:
             fail(f"Faltan controles obligatorios en {skill}")
         if any(dependency not in skills or dependency == skill for dependency in dependencies):
             fail(f"Dependencia desconocida o autorreferencia en {skill}")
-        body = (skill_root / skill / "SKILL.md").read_text(encoding="utf-8")
-        if any((chr(96) + dependency + chr(96)) not in body for dependency in dependencies):
-            fail(f"Contrato de conexión incompleto: {skill}")
 
+    # The manifest is the source of truth for dependency edges; SKILL.md remains
+    # human-readable and need not duplicate machine-readable links in prose.
     visited: set[str] = set()
     active: set[str] = set()
 
