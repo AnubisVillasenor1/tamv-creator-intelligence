@@ -8,7 +8,7 @@
 
 The repository has a useful fail-closed foundation and documents several limitations explicitly. It is not ready to be represented as a certified production release. The release signature is still `UNSIGNED_RELEASE_PENDING`; the runtime provenance verifier deliberately returns `verified: false`; the generation/voice/AudioCore/agent endpoints are intentionally unavailable; and durable audit persistence and verified multi-tenant RLS remain open.
 
-The README was rewritten to make the architecture, actual capability status, security boundaries, release sequence, technical debt and production gates explicit. Because `README.md` is one of the 22 protected source files, its SHA-256 entry in `tamv-attribution.json` was recalculated and independently compared with the file content. The signature marker remains pending and was not replaced with a fabricated signature.
+The README was rewritten to make the architecture, actual capability status, security boundaries, release sequence, technical debt and production gates explicit. Because `README.md` is one of the 22 protected source files, its SHA-256 entry in `tamv-attribution.json` was recalculated and independently compared with the file content. The signature marker remains pending and was not replaced with a fabricated signature. The first CI run also exposed a stale internal pack inventory: 20 existing entries diverged and one file was unregistered. The 21 entries were reconciled against the current Git blob IDs and the inventory now contains 61 tracked pack files; this correction is awaiting a fresh CI run.
 
 ## Layer 1 — Integrity and software supply chain
 
@@ -39,6 +39,7 @@ The README was rewritten to make the architecture, actual capability status, sec
 | H3-02 | Policy documents can overstate implemented controls. | P1 | Existing audit records open ledger, RLS, observability and NIST mapping evidence. | Link every policy claim to a test, configuration, operational record or explicitly open gap. |
 | H3-03 | Legal/academic claims need provenance and jurisdiction-specific review. | P1 | Existing audit separates claims from independent evidence. | Keep claims at the demonstrated evidence tier; obtain competent review for licensing, privacy and market-specific obligations. |
 | H3-04 | README was part of the protected manifest. | Addressed in this branch | README replaced; `integrity.files["README.md"]` recomputed and compared against the resulting content. Signature intentionally remains pending. | Run the repository validators and CI against this branch before merge. |
+| H3-05 | Internal pack inventory was stale: 20 existing hashes differed and one script was not registered. | Addressed in this branch; CI recheck pending | Refreshed the 20 differing Git blob IDs and added the current blob ID for `scripts/normalize-skill-frontmatter.mjs`; inventory count is now 61. | Fresh CI must confirm the inventory has no missing, stale or mismatched entries. |
 
 ## Verification protocol
 
