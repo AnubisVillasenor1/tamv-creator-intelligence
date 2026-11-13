@@ -1,0 +1,107 @@
+name: TAMV Certified Release (Ed25519)
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tamv-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify-sign-build:
+    name: Verify, sign and build certified release
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout tagged source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Require a release tag pointing to main history
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Release tag must point to a commit reachable from origin/main."
+            exit 1
+          fi
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.5"
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate repository and 37-skill pack
+        run: |
+          set -euo pipefail
+          bun run tamv:check
+          python3 tamv-pack/scripts/validate-manifest.py
+          python3 tamv-pack/scripts/validate-integrity.py
+          bash tamv-pack/scripts/validate-pack.sh
+          bash tamv-pack/scripts/test-scripts.sh
+
+      - name: Require release signing secrets
+        shell: bash
+        env:
+          TAMV_ATTRIBUTION_PRIVATE_KEY: ${{ secrets.TAMV_ATTRIBUTION_PRIVATE_KEY }}
+          TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$TAMV_ATTRIBUTION_PRIVATE_KEY" || { echo "::error::Missing repository secret TAMV_ATTRIBUTION_PRIVATE_KEY"; exit 1; }
+          test -n "$TAMV_ATTRIBUTION_PUBLIC_KEY" || { echo "::error::Missing repository secret TAMV_ATTRIBUTION_PUBLIC_KEY"; exit 1; }
+
+      - name: Recalculate source hashes and invalidate old signature
+        run: bun run tamv:hash
+
+      - name: Sign manifest with Ed25519
+        env:
+          TAMV_ATTRIBUTION_PRIVATE_KEY: ${{ secrets.TAMV_ATTRIBUTION_PRIVATE_KEY }}
+          TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+        run: bun run tamv:sign
+
+      - name: Verify signature and hashes fail-closed
+        env:
+          TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+          TAMV_CERTIFICATION_REQUIRED: "true"
+        run: bun run tamv:verify
+
+      - name: Run tests and lint
+        run: |
+          set -euo pipefail
+          bun run test
+          bun run lint
+
+      - name: Build certified production output
+        env:
+          TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+          TAMV_CERTIFICATION_REQUIRED: "true"
+        run: bun run build
+
+      - name: Re-verify release inputs after build
+        env:
+          TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+          TAMV_CERTIFICATION_REQUIRED: "true"
+        run: bun run tamv:verify
+
+      - name: Publish signed build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tamv-creator-intelligence-${{ github.ref_name }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            tamv-attribution.json
+            tamv-attribution.sig
+            dist/
+            .output/
