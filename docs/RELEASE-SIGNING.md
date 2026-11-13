@@ -35,11 +35,11 @@ From the repository root, after making reviewed changes:
 
 ```bash
 bun install --frozen-lockfile
-bun run tamv:check
 python3 tamv-pack/scripts/validate-manifest.py
 python3 tamv-pack/scripts/validate-integrity.py
 bash tamv-pack/scripts/validate-pack.sh
 bun run tamv:hash
+bun run tamv:check
 TAMV_ATTRIBUTION_PRIVATE_KEY="$(cat "$HOME/.config/tamv/keys/tamv-attribution-private.pem")" \
 TAMV_ATTRIBUTION_PUBLIC_KEY="$(cat "$HOME/.config/tamv/keys/tamv-attribution-public.pem")" \
   bun run tamv:sign
