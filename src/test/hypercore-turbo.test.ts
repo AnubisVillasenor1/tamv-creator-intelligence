@@ -1,10 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { runTurboParallel } from "../lib/hypercore-turbo/parallel-runner";
-import { validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
+import { authorizeGovernedCapability, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
 
 describe("TAMV HyperCore Turbo", () => {
   it("validates the Govern Core policy", () => {
     expect(validateGovernCorePolicy()).toEqual({ valid: true, errors: [] });
+  });
+
+  it("rejects inherited object keys as unknown capabilities", () => {
+    for (const capability of ["constructor", "__proto__", "toString", "hasOwnProperty"]) {
+      expect(authorizeGovernedCapability({
+        capability,
+        consentGranted: true,
+        certificationValid: true,
+      })).toEqual({
+        allowed: false,
+        policyVersion: "2.0.0",
+        reasonCode: "CAPABILITY_NOT_ALLOWLISTED",
+      });
+    }
   });
 
   it("runs independent asynchronous checks with bounded concurrency", async () => {

@@ -95,3 +95,20 @@ This review combines source inspection with the repository's existing audit arti
 - Durable, append-only audit persistence, production database migrations, verified multi-tenant RLS/negative isolation tests, SBOM/attestation, and load/failover tests still require implementation.
 - Local hooks are developer guardrails, not server-side policy. Required CI, branch protection and release authorization still need to be enforced in repository settings.
 
+## Further runtime hardening — 2026-11-13
+
+### Capability authorization allowlist
+
+A code review found that the policy used the JavaScript in operator to check whether a capability was allowlisted. That operator also recognizes inherited object properties such as constructor and toString. The guard now uses Object.prototype.hasOwnProperty.call, so only explicit capability keys may reach the consent check. Regression tests cover constructor, __proto__, toString and hasOwnProperty. The protected SHA-256 entry for src/lib/hypercore-turbo/policy.ts was recalculated in the attribution manifest; the release signature remains intentionally unsigned.
+
+### HyperCore metrics cardinality and label safety
+
+- The per-metric registry is capped at 256 time series. Once the normal-series budget is reached, further distinct label sets fold into one overflow series instead of growing the in-process map without bound.
+- Series keys now use JSON-encoded ordered label tuples rather than delimiter concatenation, avoiding collisions when a label contains commas or equals signs.
+- Prometheus label rendering escapes CR, LF, tabs, quotes and backslashes and replaces unsupported control characters rather than allowing multi-line/control-character injection.
+- A dedicated metrics test suite verifies the cardinality cap, collision resistance and escaping.
+
+### Verification scope
+
+These controls become verified only when the GitHub Actions workflow succeeds on the corresponding commit. Metrics remain process-local; the cap bounds memory/cardinality but does not make metrics durable or distributed. No SLSA verification, release signing, database/RLS migration, or provider-backed music/voice/AudioCore/agent gateway is claimed by these changes.
+
