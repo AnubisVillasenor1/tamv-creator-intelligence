@@ -1,55 +1,108 @@
-"""Validate pack inventory and governance links; no application runtime dependency."""
+"""Validate skill inventory, metadata, governance and dependency contracts."""
+from __future__ import annotations
+
 import json
 import re
+import sys
 from pathlib import Path
 
+PACK_ROOT = Path(__file__).resolve().parents[1]
+REQUIRED_SKILLS = 37
+REQUIRED_EXTENSIONS = 20
+REQUIRED_GUARDS = {"tamv-core-governance", "tamv-rights-safety-guard"}
 
-def validate(root: Path) -> None:
-    pack = json.loads((root / "pack.json").read_text())
-    skills = pack["skills"]
-    if len(skills) != 37 or len(set(skills)) != 37:
-        raise ValueError("El paquete debe tener 37 skills únicos: 17 originales y 20 nuevos.")
-    folders = {p.name for p in (root / "skills").iterdir() if p.is_dir()}
+
+def fail(message: str) -> None:
+    raise ValueError(message)
+
+
+def validate() -> None:
+    try:
+        pack = json.loads((PACK_ROOT / "pack.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        fail(f"No se pudo leer pack.json: {error}")
+
+    if not isinstance(pack, dict):
+        fail("La raíz de pack.json debe ser un objeto.")
+    skills = pack.get("skills")
+    if (
+        not isinstance(skills, list)
+        or any(not isinstance(skill, str) for skill in skills)
+        or len(skills) != REQUIRED_SKILLS
+        or len(set(skills)) != REQUIRED_SKILLS
+    ):
+        fail(f"El paquete debe declarar {REQUIRED_SKILLS} skills únicos.")
+
+    skill_root = PACK_ROOT / "skills"
+    if not skill_root.is_dir():
+        fail("No existe el directorio skills.")
+    folders = {path.name for path in skill_root.iterdir() if path.is_dir()}
     if folders != set(skills):
-        raise ValueError("El manifiesto y las carpetas de skills no coinciden.")
+        fail("El manifiesto y las carpetas de skills no coinciden.")
+
     for skill in skills:
         if not re.fullmatch(r"tamv-[a-z0-9-]+", skill):
-            raise ValueError(f"Nombre inseguro: {skill}")
-        body = (root / "skills" / skill / "SKILL.md").read_text()
+            fail(f"Nombre de skill inseguro: {skill!r}")
+        skill_file = skill_root / skill / "SKILL.md"
+        if not skill_file.is_file():
+            fail(f"Falta el contrato del skill: {skill}")
+        body = skill_file.read_text(encoding="utf-8")
         if "TAMV ONLINE NETWORK" not in body:
-            raise ValueError(f"Falta atribución: {skill}")
-    graph = pack["skillGraph"]
-    if len(graph) != 20:
-        raise ValueError("Se requieren 20 skills adicionales con conexiones declaradas.")
-    for skill, dependencies in graph.items():
-        if skill not in skills or not dependencies or len(set(dependencies)) != len(dependencies):
-            raise ValueError(f"Dependencias inválidas: {skill}")
-        if not {"tamv-core-governance", "tamv-rights-safety-guard"}.issubset(dependencies):
-            raise ValueError(f"Faltan controles obligatorios: {skill}")
-        if any(d not in skills or d == skill for d in dependencies):
-            raise ValueError(f"Dependencia desconocida o recursiva: {skill}")
-        body = (root / "skills" / skill / "SKILL.md").read_text()
+            fail(f"Falta atribución en {skill}")
         if not body.startswith("---\n") or f"name: {skill}\n" not in body:
-            raise ValueError(f"Falta frontmatter: {skill}")
-        if any(f"`{d}`" not in body for d in dependencies):
-            raise ValueError(f"Contrato de conexión incompleto: {skill}")
-    visited, active = set(), set()
+            fail(f"Frontmatter inválido en {skill}")
+
+    graph = pack.get("skillGraph")
+    if not isinstance(graph, dict) or len(graph) != REQUIRED_EXTENSIONS:
+        fail(f"Se requieren {REQUIRED_EXTENSIONS} extensiones con dependencias declaradas.")
+    for skill, dependencies in graph.items():
+        if skill not in skills or not isinstance(dependencies, list) or not dependencies:
+            fail(f"Dependencias inválidas: {skill}")
+        if any(not isinstance(dependency, str) for dependency in dependencies):
+            fail(f"Las dependencias deben ser cadenas: {skill}")
+        if len(set(dependencies)) != len(dependencies):
+            fail(f"Dependencias duplicadas: {skill}")
+        if not REQUIRED_GUARDS.issubset(dependencies):
+            fail(f"Faltan controles obligatorios en {skill}")
+        if any(dependency not in skills or dependency == skill for dependency in dependencies):
+            fail(f"Dependencia desconocida o autorreferencia en {skill}")
+        body = (skill_root / skill / "SKILL.md").read_text(encoding="utf-8")
+        if any((chr(96) + dependency + chr(96)) not in body for dependency in dependencies):
+            fail(f"Contrato de conexión incompleto: {skill}")
+
+    visited: set[str] = set()
+    active: set[str] = set()
+
     def visit(skill: str) -> None:
         if skill in active:
-            raise ValueError(f"Ciclo en el grafo de dependencias: {skill}")
+            fail(f"Ciclo en el grafo de dependencias: {skill}")
         if skill in visited:
             return
         active.add(skill)
-        for dep in graph.get(skill, []):
-            visit(dep)
+        for dependency in graph.get(skill, []):
+            visit(dependency)
         active.remove(skill)
         visited.add(skill)
+
     for skill in skills:
         visit(skill)
-    if pack["orchestration"]["humanApprovalRequired"] is not True:
-        raise ValueError("La aprobación humana debe ser obligatoria.")
+
+    governance = pack.get("governance")
+    orchestration = pack.get("orchestration")
+    if not isinstance(governance, dict) or governance.get("attributionRequired") is not True or governance.get("auditRequired") is not True:
+        fail("El manifiesto debe exigir atribución y auditoría.")
+    if not isinstance(orchestration, dict) or orchestration.get("humanApprovalRequired") is not True:
+        fail("La aprobación humana debe ser obligatoria.")
+    for key in ("entry", "safety", "quality"):
+        if orchestration.get(key) not in skills:
+            fail(f"Orquestación referencia un skill desconocido: {key}")
+
     print(f"Manifiesto válido: {len(skills)} skills, {len(graph)} extensiones gobernadas.")
 
 
 if __name__ == "__main__":
-    validate(Path(__file__).resolve().parents[1])
+    try:
+        validate()
+    except (ValueError, KeyError, TypeError) as error:
+        print(f"Error de manifiesto: {error}", file=sys.stderr)
+        sys.exit(1)

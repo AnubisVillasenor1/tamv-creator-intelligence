@@ -1,4 +1,4 @@
-name: Validate TAMV Pack
+name: Validate TAMV Pack and Application
 
 on:
   push:
@@ -8,32 +8,52 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - name: Locate and validate the package
-        shell: bash
+          python-version: "3.12"
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Check repository hygiene
+        run: python3 scripts/validate-repo-hygiene.py
+
+      - name: Validate TAMV package
+        run: bash tamv-pack/scripts/validate-pack.sh
+
+      - name: Test installation and tamper rejection
+        run: bash tamv-pack/scripts/test-scripts.sh
+
+      - name: Install ShellCheck
         run: |
-          if [ -f tamv-pack/pack.json ]; then
-            PACK_DIR=tamv-pack
-          elif [ -f pack.json ]; then
-            PACK_DIR=.
-          else
-            echo 'TAMV pack.json not found'; exit 1
-          fi
-          echo "PACK_DIR=$PACK_DIR" >> "$GITHUB_ENV"
-          bash "$PACK_DIR/scripts/validate-pack.sh"
-      - name: Check all shell scripts with ShellCheck
+          sudo apt-get update
+          sudo apt-get install --yes shellcheck
+
+      - name: Lint shell scripts
         shell: bash
-        run: |
-          command -v shellcheck
-          find "$PACK_DIR" -type f -name '*.sh' -print0 | xargs -0 shellcheck --severity=warning
-      - name: Test installation, cancellation and governance
-        shell: bash
-        run: bash "$PACK_DIR/scripts/test-scripts.sh"
+        run: find tamv-pack -type f -name '*.sh' -print0 | xargs -0 shellcheck --severity=warning
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint application
+        run: bun run lint
+
+      - name: Run unit and routing tests
+        run: bun run test
+
+      - name: Build production application
+        run: bun run build

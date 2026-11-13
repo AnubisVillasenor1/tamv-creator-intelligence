@@ -1,0 +1,9 @@
+# Enable branch protection / required code-owner review in repository settings
+# to enforce these review assignments.
+/.gitignore @AnubisVillasenor1
+/.env.example @AnubisVillasenor1
+/.github/workflows/validate-pack.yml @AnubisVillasenor1
+/src/lib/content.functions.ts @AnubisVillasenor1
+/src/test/tamv-sovereign-core.test.ts @AnubisVillasenor1
+/tamv-pack/core/tamv-sovereign-core.ts @AnubisVillasenor1
+/tamv-pack/scripts/validate-manifest.py @AnubisVillasenor1
