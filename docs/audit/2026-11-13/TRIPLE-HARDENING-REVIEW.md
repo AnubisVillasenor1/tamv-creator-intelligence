@@ -112,3 +112,11 @@ A code review found that the policy used the JavaScript in operator to check whe
 
 These controls become verified only when the GitHub Actions workflow succeeds on the corresponding commit. Metrics remain process-local; the cap bounds memory/cardinality but does not make metrics durable or distributed. No SLSA verification, release signing, database/RLS migration, or provider-backed music/voice/AudioCore/agent gateway is claimed by these changes.
 
+## Timeout and concurrency accounting — 2026-11-13
+
+The creator-review gateway uses a timeout to bound how long the caller waits. A timeout alone does not cancel a provider promise. Previously, the request's finally block released its process-local concurrency slot immediately, even if the upstream promise had not finished; repeated timeouts could therefore make the in-flight counter understate active provider work.
+
+The timeout error now carries a settlement signal that always resolves when the original provider promise either fulfills or rejects. On timeout, the request transfers slot release to that signal instead of freeing it immediately. This keeps local backpressure aligned with outstanding provider work. Regression tests verify that the slot remains occupied after timeout, is released once the provider settles, concurrent slots remain bounded, and the daily cap still applies when burst tokens refill.
+
+Scope limitation: this is a process-local capacity guard. It does not cancel the upstream provider request, distribute quota across serverless instances, or provide durable accounting. A provider promise that never settles will retain its slot; true cancellation needs explicit provider/gateway support and should be implemented when the gateway contract exposes an abort signal.
+
