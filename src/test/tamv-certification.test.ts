@@ -92,7 +92,7 @@ describe("TAMV attribution certification runtime", () => {
     const signed = await signManifest(TAMV_ATTRIBUTION_MANIFEST);
     const invalid = await verifyTamvCertification({
       manifest: TAMV_ATTRIBUTION_MANIFEST,
-      signature: signed.signature.slice(0, -1) + (signed.signature.endsWith("A") ? "B" : "A"),
+      signature: (signed.signature.startsWith("A") ? "B" : "A") + signed.signature.slice(1),
       publicKeyPem: signed.publicPem,
       sourceFiles: TAMV_CERTIFICATION_SOURCE_FILES,
       cryptoProvider,
