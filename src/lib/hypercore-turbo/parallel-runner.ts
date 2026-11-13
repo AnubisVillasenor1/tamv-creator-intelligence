@@ -163,6 +163,7 @@ export async function runTurboParallel<T>(
       const index = cursor++;
       if (index >= tasks.length) return;
       const task = tasks[index];
+      if (!task) return;
       const result = await execute(task, options, controller.signal);
       results[index] = result;
       if (task.critical && result.status !== "fulfilled" && options.failFast) {
