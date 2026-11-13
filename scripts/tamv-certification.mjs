@@ -24,6 +24,12 @@ const REQUIRED_FILES = [
   "src/routes/api.agent.ts",
   "scripts/tamv-certification.mjs",
   "tamv-pack/core/tamv-sovereign-core.ts",
+  "src/lib/hypercore-turbo/policy.ts",
+  "src/lib/hypercore-turbo/velocity.ts",
+  "hypercore/govern-core/policy.json",
+  "hypercore/velocity-core/turbo.config.json",
+  "src/routes/api.hypercore.audit.ts",
+  "src/routes/hypercore.tsx",
 ];
 const UNSIGNED_MARKER = "UNSIGNED_RELEASE_PENDING";
 
@@ -98,7 +104,13 @@ async function loadRequiredSources() {
     !sources["src/routes/api.generation.ts"].includes('unavailableTamvCapabilityResponse("music.generation")') ||
     !sources["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generate")') ||
     !sources["src/routes/api.audiocore.advanced.ts"].includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
-    !sources["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.execute")')
+    !sources["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.execute")') ||
+    !sources["src/lib/hypercore-turbo/policy.ts"].includes("tamv.govern.policy.v2") ||
+    !sources["src/lib/hypercore-turbo/velocity.ts"].includes("runTurboParallel") ||
+    !sources["hypercore/govern-core/policy.json"].includes("NIST-CSF-2.0") ||
+    !sources["hypercore/velocity-core/turbo.config.json"].includes("maxConcurrency") ||
+    !sources["src/routes/api.hypercore.audit.ts"].includes('createFileRoute("/api/hypercore/audit")') ||
+    !sources["src/routes/hypercore.tsx"].includes('createFileRoute("/hypercore")')
   ) {
     throw new Error("La atribución visible o el punto de control del runtime fue alterado o desconectado.");
   }
