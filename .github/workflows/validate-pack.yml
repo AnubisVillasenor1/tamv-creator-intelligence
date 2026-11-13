@@ -31,6 +31,9 @@ jobs:
       - name: Check repository hygiene
         run: python3 scripts/validate-repo-hygiene.py
 
+      - name: Validate TAMV source hashes and release manifest
+        run: node scripts/tamv-certification.mjs --check
+
       - name: Validate TAMV package
         run: bash tamv-pack/scripts/validate-pack.sh
 
