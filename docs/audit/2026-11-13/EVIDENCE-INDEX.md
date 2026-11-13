@@ -101,7 +101,15 @@ npx skills add AnubisVillasenor1/tamv-creator-intelligence --list
 # → clona el repositorio y encuentra 37 skills
 ```
 
-No se registró ninguna instalación en el repositorio: el comando solo enumera. La
+Y una instalación real en un proyecto temporal:
+
+```bash
+npx skills add AnubisVillasenor1/tamv-creator-intelligence \
+  --skill '*' --agent opencode -y --copy
+# → 37 carpetas en .agents/skills/ y skills-lock.json
+```
+
+No se registró ninguna instalación en el repositorio. La
 indexación del pack en skills.sh depende de la telemetría del directorio y de la
 cuenta del propietario; al 2026-11-13 la página devuelve 404. Ver
 `docs/PUBLISHING.md`.
