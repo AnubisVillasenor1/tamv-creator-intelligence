@@ -1,3 +1,11 @@
+---
+name: tamv-bullmq-redis
+description: Diseñar colas de trabajo y workers para tareas pesadas.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV BullMQ + Redis
 
 ## Propósito

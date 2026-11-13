@@ -1,0 +1,38 @@
+{
+  "schema": "tamv.genesis.pack.v1",
+  "name": "tamv-genesis",
+  "version": "2.0.0",
+  "codename": "TAMV GENESIS Ω",
+  "license": "AGPL-3.0-only",
+  "description": "Kernel de gobernanza, evidencia y trayectoria para el ecosistema TAMV. No ejecuta capacidades: las evalúa, las limita y las documenta.",
+  "modules": [
+    { "id": "evidence", "file": "src/evidence.ts", "purpose": "Canonical JSON, tiers T0–T4 y techos de estatus." },
+    { "id": "claims", "file": "src/claims.ts", "purpose": "Evaluación de claims, conflictos y caducidad de revisión." },
+    { "id": "capabilities", "file": "src/capabilities.ts", "purpose": "Escalera M0–M5 y detección de deriva de vocabulario." },
+    { "id": "workledger", "file": "src/workledger.ts", "purpose": "Cadena de procedencia, ventanas y protocolo de atestación." },
+    { "id": "scorecard", "file": "src/scorecard.ts", "purpose": "Puntaje ponderado con tope por compuerta bloqueante." },
+    { "id": "knowledge", "file": "src/knowledge.ts", "purpose": "Catálogo del corpus, sensibilidad y exclusión." },
+    { "id": "policy", "file": "src/policy.ts", "purpose": "Punto de decisión deny-by-default." }
+  ],
+  "data": [
+    "data/identity.json",
+    "data/capabilities.json",
+    "data/claims.json",
+    "data/work-ledger.json",
+    "data/scorecard.json",
+    "data/knowledge-sources.json"
+  ],
+  "commands": {
+    "audit": "node --experimental-strip-types cli/sovereign.mjs audit",
+    "verify": "node --experimental-strip-types cli/sovereign.mjs verify",
+    "score": "node --experimental-strip-types cli/sovereign.mjs score",
+    "build": "node --experimental-strip-types cli/sovereign.mjs build"
+  },
+  "invariants": [
+    "Un claim nunca supera el techo de su evidencia.",
+    "Una capacidad nunca hereda madurez de otra.",
+    "Las horas no se acreditan con artefactos, solo con atestación T3/T4.",
+    "El material restringido no entra al bundle.",
+    "Un release sin firma no puede ser certificado, aunque sus hashes sean válidos."
+  ]
+}

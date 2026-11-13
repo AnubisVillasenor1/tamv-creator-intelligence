@@ -1,0 +1,590 @@
+{
+  "schema": "tamv.claims.v1",
+  "reviewedAt": "2026-11-13",
+  "policy": "Un claim nunca supera el techo de su evidencia. La independencia no se simula con volumen.",
+  "claims": [
+    {
+      "id": "C-001",
+      "statement": "Anubis VillaseÃ±or acumula aproximadamente 24,000 horas de trabajo hacia TAMV al 13 de noviembre de 2026.",
+      "status": "unverified",
+      "confidence": 0.55,
+      "sourceType": "self-published",
+      "owner": "Anubis VillaseÃ±or",
+      "domain": "biographical",
+      "evidence": [
+        {
+          "id": "EV-HOURS-2026",
+          "kind": "statement",
+          "locator": "declaraciÃ³n del autor, 2026-11-13",
+          "capturedAt": "2026-11-13",
+          "note": "Cifra aportada para esta auditorÃ­a; no existe bitÃ¡cora horaria."
+        },
+        {
+          "id": "EV-HOURS-2025",
+          "kind": "url",
+          "locator": "tamvonlinenetwork.blogspot.com, Â«Un llamado de apoyo para el WEFÂ», 2025-10-07",
+          "capturedAt": "2026-11-13",
+          "note": "Primera cifra publicada: 19,000 horas."
+        },
+        {
+          "id": "EV-HOURS-TRACE",
+          "kind": "file",
+          "locator": "corpus:compendio-trazabilidad.pdf",
+          "capturedAt": "2026-11-08",
+          "note": "Clasifica la cifra como declaraciÃ³n autobiogrÃ¡fica no verificada de forma independiente."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "id": "EV-HOURS-DENOM",
+          "kind": "file",
+          "locator": "tamv-genesis/data/work-ledger.json",
+          "capturedAt": "2026-11-13",
+          "note": "24,000 h desde 2020 implican ~9.6 h/dÃ­a sin dÃ­as libres; desde 2014, ~5.1 h/dÃ­a."
+        }
+      ],
+      "whatWouldChangeIt": "Una atestaciÃ³n T3 de un tercero con bitÃ¡cora de periodos, mÃ©todo de conteo y muestra verificable; o una reducciÃ³n de la cifra a las horas documentadas.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["horas", "trayectoria", "cifra-publicada"]
+    },
+    {
+      "id": "C-002",
+      "statement": "El paquete declara 37 contratos de skill y el manifiesto los enumera sin duplicados.",
+      "status": "corroborated",
+      "confidence": 0.95,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-PACK-37",
+          "kind": "file",
+          "locator": "tamv-pack/pack.json",
+          "capturedAt": "2026-11-13",
+          "note": "Lista canÃ³nica de ids; verificada por tamv-genesis/cli/sovereign.mjs."
+        }
+      ],
+      "whatWouldChangeIt": "Que el manifiesto y las carpetas diverjan en nÃºmero o en ids, o que se elimine un contrato sin actualizar el paquete.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["skills", "inventario"]
+    },
+    {
+      "id": "C-003",
+      "statement": "La interfaz presenta Â«37 skills conectadosÂ» y un ecosistema operativo de 37 especialidades.",
+      "status": "contradicted",
+      "confidence": 0.98,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-UI-37",
+          "kind": "file",
+          "locator": "src/routes/index.tsx",
+          "capturedAt": "2026-11-13",
+          "note": "Texto y metadatos afirman 37 skills conectados."
+        },
+        {
+          "id": "EV-EXEC-1",
+          "kind": "file",
+          "locator": "src/lib/content.functions.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Solo creator.review tiene ejecutor; cuatro rutas devuelven 501."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "id": "EV-REGISTRY-PLACEHOLDER",
+          "kind": "file",
+          "locator": "src/lib/skill-registry.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Los contratos base usan Â«Consultar contrato del skillÂ» como entrada y salida."
+        }
+      ],
+      "whatWouldChangeIt": "Conectar y probar 37 ejecutores, o cambiar la interfaz para decir Â«37 contratos declarados, 1 ejecutorÂ».",
+      "reviewedAt": "2026-11-13",
+      "tags": ["skills", "sobreafirmaciÃ³n"],
+      "contradicts": ["C-002"]
+    },
+    {
+      "id": "C-004",
+      "statement": "La distribuciÃ³n estÃ¡ certificada y el release estÃ¡ firmado.",
+      "status": "contradicted",
+      "confidence": 0.99,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-SIG-PENDING",
+          "kind": "file",
+          "locator": "tamv-attribution.sig",
+          "capturedAt": "2026-11-13",
+          "note": "Contiene UNSIGNED_RELEASE_PENDING."
+        },
+        {
+          "id": "EV-SIG-RUNTIME",
+          "kind": "file",
+          "locator": "src/lib/tamv-certification.ts",
+          "capturedAt": "2026-11-13",
+          "note": "signature-missing deshabilita todas las capacidades premium."
+        }
+      ],
+      "whatWouldChangeIt": "Firmar el manifiesto con la clave Ed25519 oficial y publicar la clave pÃºblica en el canal de release.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["release", "certificaciÃ³n"],
+      "contradicts": ["C-005"]
+    },
+    {
+      "id": "C-005",
+      "statement": "El producto estÃ¡ listo para producciÃ³n y puede operar sin supervisiÃ³n.",
+      "status": "contradicted",
+      "confidence": 0.97,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-501",
+          "kind": "file",
+          "locator": "src/routes/api.generation.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Cuatro capacidades devuelven 501."
+        },
+        {
+          "id": "EV-NO-DB",
+          "kind": "file",
+          "locator": "drizzle/schema.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Esquema vacÃ­o; no hay ledger durable ni standby."
+        },
+        {
+          "id": "EV-README-HONEST",
+          "kind": "file",
+          "locator": "README.md",
+          "capturedAt": "2026-11-13",
+          "note": "El README reconoce el estado no certificado y las capacidades pendientes."
+        }
+      ],
+      "whatWouldChangeIt": "Firma del release, gateways conectados, persistencia durable y una prueba de operaciÃ³n sostenida con incidentes registrados.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["producciÃ³n", "madurez"]
+    },
+    {
+      "id": "C-006",
+      "statement": "La auditorÃ­a es durable, append-only y encadenada por hash.",
+      "status": "contradicted",
+      "confidence": 0.96,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-AUDIT-POLICY",
+          "kind": "file",
+          "locator": "hypercore/govern-core/policy.json",
+          "capturedAt": "2026-11-13",
+          "note": "audit.appendOnlyStorage: true, audit.hashChaining: true."
+        },
+        {
+          "id": "EV-AUDIT-ABSENT",
+          "kind": "file",
+          "locator": "drizzle/schema.ts",
+          "capturedAt": "2026-11-13",
+          "note": "No existe tabla, cola ni almacÃ©n de eventos."
+        }
+      ],
+      "whatWouldChangeIt": "Un almacÃ©n append-only con encadenamiento verificable y una prueba de restauraciÃ³n.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["auditorÃ­a", "persistencia"]
+    },
+    {
+      "id": "C-007",
+      "statement": "La procedencia SLSA estÃ¡ verificada en cada release.",
+      "status": "contradicted",
+      "confidence": 0.9,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-SLSA-SCRIPT",
+          "kind": "file",
+          "locator": "scripts/verify-slsa.sh",
+          "capturedAt": "2026-11-13",
+          "note": "El script existe y documenta el comando slsa-verifier."
+        },
+        {
+          "id": "EV-SLSA-CI",
+          "kind": "file",
+          "locator": ".github/workflows/ci.yml",
+          "capturedAt": "2026-11-13",
+          "note": "El pipeline no invoca verify-slsa.sh ni publica attestations."
+        }
+      ],
+      "whatWouldChangeIt": "Ejecutar la verificaciÃ³n en CI sobre un artefacto firmado y adjuntar la attestation al release.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["supply-chain", "slsa"]
+    },
+    {
+      "id": "C-008",
+      "statement": "El sistema cumple NIST CSF 2.0.",
+      "status": "unverified",
+      "confidence": 0.4,
+      "sourceType": "self-published",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "institutional",
+      "evidence": [
+        {
+          "id": "EV-NIST-MAP",
+          "kind": "file",
+          "locator": "hypercore/govern-core/policy.json",
+          "capturedAt": "2026-11-13",
+          "note": "Mapea las seis funciones, sin evaluaciÃ³n de madurez ni evidencias por control."
+        }
+      ],
+      "whatWouldChangeIt": "Una evaluaciÃ³n independiente por funciÃ³n y categorÃ­a, con evidencias y hallazgos.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["cumplimiento", "nist"]
+    },
+    {
+      "id": "C-009",
+      "statement": "La automatizaciÃ³n opera con riesgo cero.",
+      "status": "unverified",
+      "confidence": 0.1,
+      "sourceType": "self-published",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-ZERO-RISK",
+          "kind": "file",
+          "locator": "corpus:ISABELLA_CERO_RISK_BASED_AUTOMATION_V2.md",
+          "capturedAt": "2026-11-08",
+          "note": "TÃ­tulo y narrativa; no define riesgo residual ni mÃ©trica."
+        }
+      ],
+      "whatWouldChangeIt": "Ninguna evidencia puede probar riesgo cero. Sustituir por riesgo residual medido, con umbrales y revisiÃ³n.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["riesgo", "claim-absoluto"]
+    },
+    {
+      "id": "C-010",
+      "statement": "El portafolio contiene 23 obras con DOI.",
+      "status": "unverified",
+      "confidence": 0.35,
+      "sourceType": "self-published",
+      "owner": "Anubis VillaseÃ±or",
+      "domain": "academic",
+      "evidence": [
+        {
+          "id": "EV-DOI-23",
+          "kind": "url",
+          "locator": "portafolio del autor",
+          "capturedAt": "2026-11-13",
+          "note": "MenciÃ³n de 23 obras con DOI."
+        },
+        {
+          "id": "EV-DOI-DISCREPANCY",
+          "kind": "file",
+          "locator": "corpus:compendio-trazabilidad.pdf",
+          "capturedAt": "2026-11-08",
+          "note": "Recuentos anteriores difieren; la causa no se estableciÃ³."
+        }
+      ],
+      "whatWouldChangeIt": "Un inventario con DOI resueltos, tÃ­tulos, fechas y deduplicaciÃ³n por contenido.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["doi", "recuento"]
+    },
+    {
+      "id": "C-011",
+      "statement": "La arquitectura opera como siete federaciones y seis hypercores.",
+      "status": "declared",
+      "confidence": 0.3,
+      "sourceType": "self-published",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-FED-DOC",
+          "kind": "file",
+          "locator": "corpus:ISABELLA_GENESIS_OMEGA_TAMV_DOCUMENTO_MAESTRO_TECNICO_OPERATIVO_v1.0.md",
+          "capturedAt": "2026-11-08",
+          "note": "Las siete federaciones se presentan como lÃ­mites lÃ³gicos propuestos, no como clÃºsteres."
+        }
+      ],
+      "whatWouldChangeIt": "Despliegues separados, contratos entre federaciones y pruebas de aislamiento e interoperabilidad.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["arquitectura", "federaciÃ³n"]
+    },
+    {
+      "id": "C-012",
+      "statement": "El aislamiento multi-tenant estÃ¡ implementado con RLS.",
+      "status": "unverified",
+      "confidence": 0.25,
+      "sourceType": "self-published",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-RLS-SKILL",
+          "kind": "file",
+          "locator": "tamv-pack/skills/tamv-supabase-rls-security/SKILL.md",
+          "capturedAt": "2026-11-13",
+          "note": "El skill describe RLS; no hay polÃ­ticas aplicadas ni migraciones."
+        },
+        {
+          "id": "EV-RLS-EMPTY",
+          "kind": "file",
+          "locator": "drizzle/schema.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Sin tablas ni polÃ­ticas en el repositorio."
+        }
+      ],
+      "whatWouldChangeIt": "Migraciones con polÃ­ticas RLS, pruebas de acceso cruzado entre tenants y negaciÃ³n por defecto.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["seguridad", "multi-tenant"]
+    },
+    {
+      "id": "C-013",
+      "statement": "Las respuestas de sistemas de IA constituyen auditorÃ­as o reconocimientos independientes.",
+      "status": "contradicted",
+      "confidence": 0.92,
+      "sourceType": "third-party",
+      "owner": "Anubis VillaseÃ±or",
+      "domain": "academic",
+      "evidence": [
+        {
+          "id": "EV-AI-REPORT",
+          "kind": "file",
+          "locator": "corpus:Reporte sobre la Arquitectura, Ecosistema y SoberanÃ­a TecnolÃ³gica.pdf",
+          "capturedAt": "2026-11-08",
+          "note": "Documento generado y Â«firmadoÂ» por un cuaderno de IA."
+        },
+        {
+          "id": "EV-TRACE-AI",
+          "kind": "file",
+          "locator": "corpus:compendio-trazabilidad.pdf",
+          "capturedAt": "2026-11-08",
+          "note": "Conservar una respuesta de IA no modifica su valor probatorio."
+        }
+      ],
+      "whatWouldChangeIt": "Un auditor humano identificable con alcance, mÃ©todo, artefactos examinados y criterios publicados.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["ia", "evidencia", "reconocimiento"]
+    },
+    {
+      "id": "C-014",
+      "statement": "La integridad de la atribuciÃ³n se verifica en tiempo de ejecuciÃ³n y falla cerrado.",
+      "status": "corroborated",
+      "confidence": 0.9,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-CERT-HASHES",
+          "kind": "test",
+          "locator": "scripts/tamv-certification.mjs",
+          "capturedAt": "2026-11-13",
+          "note": "22 archivos con SHA-256 y texto canÃ³nico; verificaciÃ³n reproducible."
+        },
+        {
+          "id": "EV-CERT-TEST",
+          "kind": "test",
+          "locator": "src/test/tamv-certification.test.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Prueba de manifest invÃ¡lido, atribuciÃ³n alterada y firma ausente."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "id": "EV-CERT-UNSIGNED",
+          "kind": "file",
+          "locator": "tamv-attribution.sig",
+          "capturedAt": "2026-11-13",
+          "note": "La integridad de origen se verifica; la autenticidad del emisor no."
+        }
+      ],
+      "whatWouldChangeIt": "Que un hash deje de coincidir o que la firma se valide contra una clave pÃºblica publicada.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["atribuciÃ³n", "integridad"]
+    },
+    {
+      "id": "C-015",
+      "statement": "Las rutas y la allowlist de polÃ­tica comparten un Ãºnico vocabulario de capacidades.",
+      "status": "corroborated",
+      "confidence": 0.85,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-DRIFT-CHECK",
+          "kind": "test",
+          "locator": "tamv-genesis/cli/sovereign.mjs",
+          "capturedAt": "2026-11-13",
+          "note": "Comprueba que cada id emitido por las rutas existe en la allowlist."
+        },
+        {
+          "id": "EV-DRIFT-FIX",
+          "kind": "commit",
+          "locator": "src/routes/api.voice.generate.ts y src/routes/api.agent.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Se alinearon voice.generateâ†’voice.generation y agent.executeâ†’agent.orchestration."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "id": "EV-DRIFT-HISTORY",
+          "kind": "file",
+          "locator": "docs/audit/2026-11-13/FINDINGS.md",
+          "capturedAt": "2026-11-13",
+          "note": "La deriva existiÃ³ en el commit 92a931f y se documenta como hallazgo F-04."
+        }
+      ],
+      "whatWouldChangeIt": "Que una ruta nueva emita un id fuera de la allowlist o que se renombre una capacidad sin migraciÃ³n.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["capacidades", "deriva", "remediado"]
+    },
+    {
+      "id": "C-016",
+      "statement": "El nÃºcleo del repositorio declara una sola licencia, AGPL-3.0-only.",
+      "status": "corroborated",
+      "confidence": 0.8,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "legal",
+      "evidence": [
+        {
+          "id": "EV-LICENSE-NOTICE",
+          "kind": "file",
+          "locator": "NOTICE",
+          "capturedAt": "2026-11-13",
+          "note": "Declara AGPL-3.0-only y aclara el apÃ©ndice Â«or laterÂ» del texto estÃ¡ndar."
+        },
+        {
+          "id": "EV-LICENSE-MAP",
+          "kind": "file",
+          "locator": "LICENSE-MAP.md",
+          "capturedAt": "2026-11-13",
+          "note": "Mapea cada zona del repositorio a su licencia."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "id": "EV-LICENSE-LOCAL",
+          "kind": "file",
+          "locator": "corpus local (CC BY 4.0 y Apache 2.0)",
+          "capturedAt": "2026-11-08",
+          "note": "Documentos externos al repositorio usan otras licencias; no se importan al paquete."
+        }
+      ],
+      "whatWouldChangeIt": "Que un archivo del nÃºcleo quede sin cobertura o que el NOTICE contradiga al manifiesto.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["licencia", "legal"]
+    },
+    {
+      "id": "C-017",
+      "statement": "La revisiÃ³n creativa exige autenticaciÃ³n de servidor, cuota y tiempo mÃ¡ximo.",
+      "status": "corroborated",
+      "confidence": 0.8,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-REVIEW-GUARD",
+          "kind": "file",
+          "locator": "src/lib/review-guard.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Cuota por usuario e instancia, concurrencia mÃ¡xima y timeout de respuesta."
+        },
+        {
+          "id": "EV-REVIEW-AUTH",
+          "kind": "file",
+          "locator": "src/lib/content.functions.ts",
+          "capturedAt": "2026-11-13",
+          "note": "requireSupabaseAuth en el middleware de la funciÃ³n de servidor."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "id": "EV-REVIEW-LIMIT",
+          "kind": "file",
+          "locator": "src/lib/review-guard.ts",
+          "capturedAt": "2026-11-13",
+          "note": "La cuota es por proceso; no es distribuida entre instancias."
+        }
+      ],
+      "whatWouldChangeIt": "Sustituir el contador en memoria por un almacÃ©n durable y probar el lÃ­mite con carga concurrente.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["seguridad", "cuota", "remediado"]
+    },
+    {
+      "id": "C-018",
+      "statement": "El error global de SSR se correlaciona con la peticiÃ³n que lo produjo.",
+      "status": "corroborated",
+      "confidence": 0.8,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "technical",
+      "evidence": [
+        {
+          "id": "EV-ERR-ALS",
+          "kind": "file",
+          "locator": "src/lib/error-capture.ts",
+          "capturedAt": "2026-11-13",
+          "note": "AsyncLocalStorage por peticiÃ³n; el estado global queda solo como respaldo."
+        },
+        {
+          "id": "EV-ERR-SERVER",
+          "kind": "file",
+          "locator": "src/server.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Cada fetch abre su propio contexto de captura."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "id": "EV-ERR-HISTORY",
+          "kind": "file",
+          "locator": "docs/audit/2026-11-13/FINDINGS.md",
+          "capturedAt": "2026-11-13",
+          "note": "Antes, un Ãºnico last-error con TTL de 5 s se consumÃ­a entre peticiones concurrentes."
+        }
+      ],
+      "whatWouldChangeIt": "Que una prueba concurrente devuelva la pila de otra peticiÃ³n.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["observabilidad", "remediado"]
+    },
+    {
+      "id": "C-019",
+      "statement": "El corpus local de TAMV se incorpora al paquete como evidencia de gobernanza, no como prueba de las horas.",
+      "status": "corroborated",
+      "confidence": 0.9,
+      "sourceType": "machine-check",
+      "owner": "TAMV ONLINE NETWORK",
+      "domain": "biographical",
+      "evidence": [
+        {
+          "id": "EV-CORPUS-CATALOG",
+          "kind": "file",
+          "locator": "tamv-genesis/data/knowledge-sources.json",
+          "capturedAt": "2026-11-13",
+          "note": "CatÃ¡logo con SHA-256, licencia, sensibilidad y uso permitido."
+        },
+        {
+          "id": "EV-CORPUS-EXCLUDED",
+          "kind": "file",
+          "locator": "tamv-genesis/data/knowledge-sources.json#KS-08",
+          "capturedAt": "2026-11-13",
+          "note": "El material restringido se marca excluded y no entra al bundle."
+        }
+      ],
+      "whatWouldChangeIt": "Que el catÃ¡logo incluya material restringido como doctrina o producto.",
+      "reviewedAt": "2026-11-13",
+      "tags": ["corpus", "gobernanza"]
+    }
+  ]
+}

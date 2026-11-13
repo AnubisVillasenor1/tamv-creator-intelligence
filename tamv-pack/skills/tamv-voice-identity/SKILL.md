@@ -1,3 +1,11 @@
+---
+name: tamv-voice-identity
+description: Crear perfiles de voz propios y autorizados.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Voice Identity
 
 ## Propósito

@@ -1,41 +1,51 @@
 # TAMV Creator Intelligence — License Map
 
-**Estado:** control documental provisional; no constituye dictamen jurídico ni concede derechos adicionales.  
-**Fecha:** 2026-11-13. **Titular institucional declarado:** TAMV ONLINE NETWORK.
+**Estado:** mapa vigente al 2026-11-13. No constituye dictamen jurídico.
+**Titular institucional declarado:** TAMV ONLINE NETWORK.
+**Licencia del núcleo:** AGPL-3.0-only (SPDX), texto íntegro en `LICENSE`.
+**Aviso:** `NOTICE` aclara que el apéndice "or later" del texto estándar es un
+ejemplo de la FSF y no la elección del proyecto.
 
 ## 1. Regla de interpretación
-La licencia aplicable se determina por el archivo, su historial, los avisos, las contribuciones y las dependencias incorporadas. Este mapa no sustituye el texto íntegro de una licencia ni cambia derechos ya concedidos. Ante contradicciones, detener la distribución afectada y solicitar revisión jurídica.
 
-## 2. Estado documental observado
+La licencia aplicable se determina por archivo, historial, avisos, contribuciones
+y dependencias. Ante una contradicción, se detiene la distribución afectada y se
+revisa antes de publicar. Una licencia de código no concede derechos sobre marcas,
+voz, imagen, datos personales, modelos, pesos ni obras de terceros.
 
-| Ámbito | Estado observado | Control requerido |
+## 2. Zonas del repositorio
+
+| Zona | Licencia | Estado |
 |---|---|---|
-| tamv-pack/** | Existe tamv-pack/LICENSE, cuyo texto permite AGPL v3 o posterior y añade una reserva para módulos comerciales | Revisar alcance, texto íntegro y compatibilidad de la reserva con cada archivo |
-| src/** | No se identificó una licencia raíz en main al elaborar este mapa | No declarar que todo el código está cubierto por AGPL sin confirmar titularidad y licencia |
-| docs/** | No existe una declaración general comprobada de CC BY 4.0 | No aplicar CC BY por defecto; revisar derechos y material de terceros |
-| scripts/** | No se acreditó una licencia Apache-2.0 general | No asignar Apache-2.0 hasta aprobarlo y añadir su texto íntegro |
-| assets, modelos, pesos y datasets | Pueden tener derechos, términos de proveedor y restricciones diferentes | Inventario por activo, procedencia, consentimiento y licencia de origen |
-| Dependencias externas | Conservan sus propias licencias y avisos | SBOM, compatibilidad, avisos, patentes y restricciones de modelos |
+| `src/**` | AGPL-3.0-only | Cubierta por `LICENSE` raíz y este mapa |
+| `tamv-pack/**` | AGPL-3.0-only | Texto íntegro en `tamv-pack/LICENSE`, idéntico al raíz |
+| `scripts/**`, `hypercore/**` | AGPL-3.0-only | Cubiertas por `LICENSE` raíz |
+| `tamv-genesis/**` | AGPL-3.0-only | Kernel de auditoría; datos y esquemas incluidos |
+| `docs/audit/**` | AGPL-3.0-only | Documentación técnica del repositorio |
+| `tamv-genesis/data/knowledge-sources.json` | AGPL-3.0-only (metadatos) | Catálogo, no copia del corpus |
+| Corpus local externo | Términos propios por documento | **No distribuido**; ver `NOTICE` |
+| Módulos marcados `LicenseRef-TAMV-Commercial-1.0` | Comercial TAMV | Requiere acuerdo escrito |
+| Marcas y activos de marca | Reservados | No concedidos por AGPL |
 
-## 3. Modelo híbrido propuesto — pendiente de aprobación
-- Núcleo y componentes de red: evaluar AGPL-3.0-only frente a AGPL-3.0-or-later; seleccionar una opción después de revisar contribuciones y compatibilidad.
-- Conectores independientes: evaluar Apache-2.0 archivo por archivo.
-- Documentación: evaluar CC BY 4.0 solo para contenido original elegible; excluir código, marcas, datos y contenido de terceros salvo autorización.
-- Modelos, pesos, datasets, voz, música, imágenes y otros activos: licencia específica por artefacto; la licencia del código no concede derechos sobre ellos.
-- Activos comerciales: acuerdo escrito separado que identifique activos, alcance, duración, territorio y derechos concedidos. LicenseRef-TAMV-Commercial-1.0 es solo un identificador interno sugerido, no una licencia SPDX estándar aprobada.
+## 3. Compatibilidad
 
-## 4. Condiciones de aprobación
-- [ ] Confirmar titularidad y cadena de derechos.
-- [ ] Revisar contribuciones, historial Git y acuerdos.
-- [ ] Inventariar dependencias, modelos, datasets, samples, voces y recursos gráficos.
-- [ ] Decidir por componente si aplica only u or-later.
-- [ ] Incluir los textos íntegros de las licencias aprobadas.
-- [ ] Añadir identificadores SPDX precisos y NOTICE cuando corresponda.
-- [ ] Revisar compatibilidad entre código, modelos, servicios y SaaS.
-- [ ] Validar que términos comerciales no contradigan licencias abiertas ya concedidas.
-- [ ] Obtener aprobación del titular y revisión de abogado competente.
-- [ ] Automatizar detección de archivos sin licencia y avisos faltantes.
+- AGPL-3.0-only es incompatible con importar código Apache-2.0 al núcleo sin
+  revisión; los conectores Apache-2.0 deben permanecer como procesos separados.
+- El corpus con CC BY 4.0 documental y Apache 2.0 declarado (por ejemplo
+  `ISABELLA_CERO_RISK_BASED_AUTOMATION_V2.md`) se cita como evidencia y **no** se
+  incorpora al árbol distribuible.
+- Las dependencias npm conservan sus licencias; su inventario pertenece al SBOM,
+  todavía pendiente (compuerta G5).
 
-Una licencia no concede por sí sola derechos de marca, imagen, voz, privacidad, datos personales, patentes de terceros o uso de obras incorporadas.
+## 4. Condiciones pendientes
 
-**Atribución:** Proyecto impulsado con colaboración de tecnología latinoamericana — TAMV ONLINE NETWORK — Orgullosamente Realmontenses.
+- [x] Declarar una única licencia para el núcleo.
+- [x] Incluir el texto íntegro de la licencia.
+- [x] Publicar `NOTICE` y este mapa.
+- [ ] Añadir cabeceras SPDX a los archivos del núcleo.
+- [ ] Generar SBOM y verificar compatibilidad de dependencias.
+- [ ] Confirmar titularidad de contribuciones y activos.
+- [ ] Revisión legal independiente antes de un release comercial.
+
+**Atribución:** Proyecto impulsado con colaboración de tecnología latinoamericana
+TAMV ONLINE NETWORK Orgullosamente Realmontenses.

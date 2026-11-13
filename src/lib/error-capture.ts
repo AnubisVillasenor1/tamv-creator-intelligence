@@ -1,11 +1,35 @@
 // Captures the original Error out-of-band so server.ts can recover the stack
 // when h3 has already swallowed the throw into a generic 500 Response.
+//
+// Correlation: the previous implementation kept a single global slot with a 5 s
+// TTL, so two concurrent requests could consume each other's error. Each fetch
+// now runs inside its own AsyncLocalStorage context; the global slot survives
+// only as a fallback for errors raised outside a request.
 
-let lastCapturedError: { error: unknown; at: number } | undefined;
+import { AsyncLocalStorage } from "node:async_hooks";
+
+interface ErrorSlot {
+  error: unknown;
+  at: number;
+}
+
+const requestScope = new AsyncLocalStorage<ErrorSlot>();
+let fallback: ErrorSlot | undefined;
 const TTL_MS = 5_000;
 
 function record(error: unknown) {
-  lastCapturedError = { error, at: Date.now() };
+  const slot = requestScope.getStore();
+  if (slot) {
+    slot.error = error;
+    slot.at = Date.now();
+    return;
+  }
+  fallback = { error, at: Date.now() };
+}
+
+/** Run a request handler with an isolated error slot. */
+export function runWithErrorCapture<T>(handler: () => T): T {
+  return requestScope.run({ error: undefined, at: 0 }, handler);
 }
 
 // h3's HTTPError serializes to {"status":500,"unhandled":true,"message":"HTTPError"} —
@@ -70,12 +94,19 @@ if (typeof globalThis.addEventListener === "function") {
 }
 
 export function consumeLastCapturedError(): unknown {
-  if (!lastCapturedError) return undefined;
-  if (Date.now() - lastCapturedError.at > TTL_MS) {
-    lastCapturedError = undefined;
+  const slot = requestScope.getStore();
+  if (slot) {
+    if (!slot.error) return undefined;
+    const { error, at } = slot;
+    slot.error = undefined;
+    return Date.now() - at > TTL_MS ? undefined : error;
+  }
+  if (!fallback) return undefined;
+  if (Date.now() - fallback.at > TTL_MS) {
+    fallback = undefined;
     return undefined;
   }
-  const { error } = lastCapturedError;
-  lastCapturedError = undefined;
+  const { error } = fallback;
+  fallback = undefined;
   return error;
 }

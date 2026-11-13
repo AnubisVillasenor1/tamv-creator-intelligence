@@ -298,9 +298,9 @@ export async function verifyTamvCertification(
     !sourceFiles["src/lib/content.functions.ts"].includes("requireTamvCertification") ||
     !sourceFiles["src/routes/api.tamv.status.ts"].includes("getTamvCertification") ||
     !sourceFiles["src/routes/api.generation.ts"].includes('unavailableTamvCapabilityResponse("music.generation")') ||
-    !sourceFiles["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generate")') ||
+    !sourceFiles["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generation")') ||
     !sourceFiles["src/routes/api.audiocore.advanced.ts"].includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
-    !sourceFiles["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.execute")') ||
+    !sourceFiles["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.orchestration")') ||
     !sourceFiles["src/lib/hypercore-turbo/policy.ts"].includes("tamv.govern.policy.v2") ||
     !sourceFiles["src/lib/hypercore-turbo/velocity.ts"].includes("runTurboParallel") ||
     !sourceFiles["hypercore/govern-core/policy.json"].includes("NIST-CSF-2.0") ||

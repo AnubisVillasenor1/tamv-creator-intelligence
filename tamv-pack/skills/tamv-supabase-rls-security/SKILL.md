@@ -1,3 +1,11 @@
+---
+name: tamv-supabase-rls-security
+description: Aplicar RLS, auditoría y trazabilidad.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Supabase RLS Security
 
 ## Propósito

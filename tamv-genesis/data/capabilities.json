@@ -1,0 +1,278 @@
+{
+  "schema": "tamv.capabilities.v1",
+  "policyVersion": "tamv.govern.policy.v2",
+  "capabilities": [
+    {
+      "id": "creator.review",
+      "label": "Revisión creativa",
+      "summary": "Revisión de un borrador con AI Gateway, consentimiento explícito y auditoría por revisión.",
+      "maturity": "M2-implemented",
+      "riskTier": "R2",
+      "requiresConsent": true,
+      "externalSideEffects": true,
+      "requiresCertification": true,
+      "implementedBy": ["src/lib/content.functions.ts", "src/lib/content-schema.ts"],
+      "endpoints": ["POST /_serverFn/reviewContent"],
+      "evidence": [
+        {
+          "id": "EV-REVIEW-CODE",
+          "kind": "file",
+          "locator": "src/lib/content.functions.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Función de servidor con validación Zod y política de gobernanza."
+        },
+        {
+          "id": "EV-REVIEW-TEST",
+          "kind": "test",
+          "locator": "src/test/content-rules.test.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Pruebas del contrato de contenido; no cubren el gateway ni la cuota."
+        }
+      ],
+      "blockedBy": [],
+      "nextGate": "G2-server-side-authorization"
+    },
+    {
+      "id": "music.generation",
+      "label": "Generación musical",
+      "summary": "Generación de audio musical; hoy devuelve 501 hasta conectar el gateway y firmar el release.",
+      "maturity": "M1-contracted",
+      "riskTier": "R4",
+      "requiresConsent": true,
+      "externalSideEffects": false,
+      "requiresCertification": true,
+      "implementedBy": ["src/routes/api.generation.ts"],
+      "endpoints": ["POST /api/generation"],
+      "evidence": [
+        {
+          "id": "EV-MUSIC-ROUTE",
+          "kind": "file",
+          "locator": "src/routes/api.generation.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Ruta fail-closed que responde 501 sin gateway."
+        }
+      ],
+      "blockedBy": ["G1-signed-release", "gateway-not-connected"],
+      "nextGate": "G3-audio-gateway"
+    },
+    {
+      "id": "voice.generation",
+      "label": "Identidad de voz",
+      "summary": "Síntesis de voz con control de identidad; contrato declarado, sin ejecutor.",
+      "maturity": "M1-contracted",
+      "riskTier": "R4",
+      "requiresConsent": true,
+      "externalSideEffects": false,
+      "requiresCertification": true,
+      "implementedBy": ["src/routes/api.voice.generate.ts"],
+      "endpoints": ["POST /api/voice/generate"],
+      "evidence": [
+        {
+          "id": "EV-VOICE-ROUTE",
+          "kind": "file",
+          "locator": "src/routes/api.voice.generate.ts",
+          "capturedAt": "2026-11-13",
+          "note": "El identificador de política es voice.generation; la ruta emitía voice.generate."
+        },
+        {
+          "id": "EV-VOICE-POLICY",
+          "kind": "file",
+          "locator": "hypercore/govern-core/policy.json",
+          "capturedAt": "2026-11-13",
+          "note": "Consentimiento obligatorio para voice.generation."
+        }
+      ],
+      "blockedBy": ["G1-signed-release", "voice-gateway-not-connected", "no-voice-consent-ledger"],
+      "nextGate": "G4-voice-identity-gateway"
+    },
+    {
+      "id": "audiocore.advanced",
+      "label": "AudioCore avanzado",
+      "summary": "Análisis espectral y DSP; el contrato existe, el servicio no está conectado.",
+      "maturity": "M1-contracted",
+      "riskTier": "R2",
+      "requiresConsent": false,
+      "externalSideEffects": false,
+      "requiresCertification": true,
+      "implementedBy": ["src/routes/api.audiocore.advanced.ts"],
+      "endpoints": ["POST /api/audiocore/advanced"],
+      "evidence": [
+        {
+          "id": "EV-AUDIO-ROUTE",
+          "kind": "file",
+          "locator": "src/routes/api.audiocore.advanced.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Ruta declarada; sin proveedor DSP."
+        }
+      ],
+      "blockedBy": ["G1-signed-release", "dsp-provider-not-connected"],
+      "nextGate": "G5-dsp-provider"
+    },
+    {
+      "id": "agent.orchestration",
+      "label": "Orquestación de agentes",
+      "summary": "Coordinación de agentes con permisos mínimos; la ruta emitía agent.execute, fuera de la allowlist.",
+      "maturity": "M1-contracted",
+      "riskTier": "R4",
+      "requiresConsent": true,
+      "externalSideEffects": true,
+      "requiresCertification": true,
+      "implementedBy": ["src/routes/api.agent.ts", "src/lib/hypercore-turbo/policy.ts"],
+      "endpoints": ["POST /api/agent"],
+      "evidence": [
+        {
+          "id": "EV-AGENT-ROUTE",
+          "kind": "file",
+          "locator": "src/routes/api.agent.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Respuesta 501; no hay worker ni cola durable."
+        },
+        {
+          "id": "EV-AGENT-POLICY",
+          "kind": "file",
+          "locator": "src/lib/hypercore-turbo/policy.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Allowlist con agent.orchestration."
+        }
+      ],
+      "blockedBy": ["G1-signed-release", "no-durable-queue", "agent-gateway-not-connected"],
+      "nextGate": "G6-agent-runtime"
+    },
+    {
+      "id": "external.publishing",
+      "label": "Publicación externa",
+      "summary": "Publicar en canales externos. Declarada en la política; sin implementación.",
+      "maturity": "M0-declared",
+      "riskTier": "R3",
+      "requiresConsent": true,
+      "externalSideEffects": true,
+      "requiresCertification": true,
+      "implementedBy": [],
+      "endpoints": [],
+      "evidence": [
+        {
+          "id": "EV-PUBLISH-POLICY",
+          "kind": "file",
+          "locator": "hypercore/govern-core/policy.json",
+          "capturedAt": "2026-11-13",
+          "note": "Aparece en consent.requiredFor; no existe ruta."
+        }
+      ],
+      "blockedBy": ["no-implementation", "G1-signed-release"],
+      "nextGate": "G7-publishing-gateway"
+    },
+    {
+      "id": "tamv.certification",
+      "label": "Certificación de distribución",
+      "summary": "Verificación de hashes de origen y firma Ed25519 del manifiesto.",
+      "maturity": "M3-tested",
+      "riskTier": "R1",
+      "requiresConsent": false,
+      "externalSideEffects": false,
+      "requiresCertification": false,
+      "implementedBy": ["src/lib/tamv-certification.ts", "scripts/tamv-certification.mjs"],
+      "endpoints": ["GET /api/tamv/status"],
+      "evidence": [
+        {
+          "id": "EV-CERT-CODE",
+          "kind": "file",
+          "locator": "src/lib/tamv-certification.ts",
+          "capturedAt": "2026-11-13",
+          "note": "22 archivos protegidos; falla cerrado ante cualquier discrepancia."
+        },
+        {
+          "id": "EV-CERT-TEST",
+          "kind": "test",
+          "locator": "src/test/tamv-certification.test.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Cubre manifest inválido, atribución alterada y firma ausente."
+        }
+      ],
+      "blockedBy": [],
+      "nextGate": "G1-signed-release"
+    },
+    {
+      "id": "hypercore.audit",
+      "label": "Auditoría HyperCore",
+      "summary": "Panel y endpoint de diagnóstico del runner paralelo y la política de gobernanza.",
+      "maturity": "M3-tested",
+      "riskTier": "R0",
+      "requiresConsent": false,
+      "externalSideEffects": false,
+      "requiresCertification": false,
+      "implementedBy": ["src/routes/api.tamv.hypercore.audit.ts", "src/routes/hypercore.tsx"],
+      "endpoints": ["GET /api/tamv/hypercore/audit", "GET /hypercore"],
+      "evidence": [
+        {
+          "id": "EV-HYPER-AUDIT",
+          "kind": "file",
+          "locator": "src/routes/api.tamv.hypercore.audit.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Diagnóstico de solo lectura."
+        },
+        {
+          "id": "EV-HYPER-TEST",
+          "kind": "test",
+          "locator": "src/test/hypercore-integrity-runtime.test.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Pruebas de integridad y runtime."
+        }
+      ],
+      "blockedBy": [],
+      "nextGate": "G8-load-and-failover-test"
+    },
+    {
+      "id": "sovereignty.dashboard",
+      "label": "Panel de soberanía",
+      "summary": "Scorecard, claims, capacidades y ledger de trabajo en una sola vista de solo lectura.",
+      "maturity": "M2-implemented",
+      "riskTier": "R0",
+      "requiresConsent": false,
+      "externalSideEffects": false,
+      "requiresCertification": false,
+      "implementedBy": ["src/routes/sovereignty.tsx", "src/routes/api.tamv.genesis.ts", "src/lib/genesis-bundle.ts"],
+      "endpoints": ["GET /sovereignty", "GET /api/tamv/genesis"],
+      "evidence": [
+        {
+          "id": "EV-SOVEREIGNTY-ROUTE",
+          "kind": "file",
+          "locator": "src/routes/sovereignty.tsx",
+          "capturedAt": "2026-11-13",
+          "note": "Vista de solo lectura; no ejecuta capacidades."
+        },
+        {
+          "id": "EV-SOVEREIGNTY-TEST",
+          "kind": "test",
+          "locator": "tamv-genesis/tests/data.test.ts",
+          "capturedAt": "2026-11-13",
+          "note": "Valida catálogo, claims y ledger empaquetados."
+        }
+      ],
+      "blockedBy": [],
+      "nextGate": "G9-accessibility-review"
+    },
+    {
+      "id": "skills.install",
+      "label": "Instalación del paquete",
+      "summary": "Instalador que copia contratos de skill y conserva respaldos.",
+      "maturity": "M1-contracted",
+      "riskTier": "R2",
+      "requiresConsent": false,
+      "externalSideEffects": true,
+      "requiresCertification": false,
+      "implementedBy": ["tamv-pack/install.sh", "tamv-pack/scripts/validate-pack.sh"],
+      "endpoints": [],
+      "evidence": [
+        {
+          "id": "EV-INSTALL",
+          "kind": "file",
+          "locator": "tamv-pack/install.sh",
+          "capturedAt": "2026-11-13",
+          "note": "Copia a .tamv/skills; no es una ruta que los agentes descubran por defecto."
+        }
+      ],
+      "blockedBy": ["no-agent-discovery-path"],
+      "nextGate": "G10-agent-discovery"
+    }
+  ]
+}

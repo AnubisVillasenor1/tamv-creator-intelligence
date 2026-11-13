@@ -1,3 +1,11 @@
+---
+name: tamv-seo-discoverability
+description: Optimizar SEO y descubrimiento.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV SEO & Discoverability
 
 ## Propósito

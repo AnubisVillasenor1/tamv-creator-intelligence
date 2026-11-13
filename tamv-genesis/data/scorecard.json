@@ -1,0 +1,165 @@
+{
+  "schema": "tamv.scorecard.v1",
+  "subject": "TAMV Creator Intelligence — tamv-genesis v2.0.0",
+  "generatedAt": "2026-11-13",
+  "scale": "0-100",
+  "weightedScore": 58.6,
+  "rawWeightedScore": 58.6,
+  "gateCapApplied": false,
+  "grade": "D",
+  "verdict": "Integridad de origen verificable y ejecución incompleta. El sistema es honesto sobre lo que no hace, pero todavía no es un release de producción: falta firma, almacén durable, SBOM y un ejecutor real por cada contrato anunciado.",
+  "dimensions": [
+    {
+      "id": "D1-attribution",
+      "label": "Integridad de atribución",
+      "weight": 10,
+      "score": 88,
+      "evidence": "22 archivos con SHA-256, texto canónico verificado y runtime fail-closed.",
+      "nextPoint": "Firmar el manifiesto y publicar la clave pública en el canal de release."
+    },
+    {
+      "id": "D2-supply-chain",
+      "label": "Cadena de suministro",
+      "weight": 12,
+      "score": 30,
+      "evidence": "Release sin firma, sin SBOM, sin attestation SLSA en CI y acciones fijadas por etiqueta mayor.",
+      "nextPoint": "Fijar acciones por SHA, generar SBOM CycloneDX y verificar procedencia en cada build."
+    },
+    {
+      "id": "D3-authorization",
+      "label": "Autorización y abuso",
+      "weight": 12,
+      "score": 72,
+      "evidence": "Revisión con autenticación Supabase, cuota por usuario, concurrencia máxima y timeout de respuesta.",
+      "nextPoint": "Mover la cuota a un almacén durable y probarla con concurrencia entre instancias."
+    },
+    {
+      "id": "D4-durability",
+      "label": "Persistencia y recuperación",
+      "weight": 10,
+      "score": 15,
+      "evidence": "drizzle/schema.ts vacío; no hay ledger durable, respaldo probado ni standby.",
+      "nextPoint": "Diseñar el ledger append-only con encadenamiento y una prueba de restauración documentada."
+    },
+    {
+      "id": "D5-observability",
+      "label": "Observabilidad",
+      "weight": 10,
+      "score": 68,
+      "evidence": "Correlación por petición con AsyncLocalStorage; sin trazas, métricas agregadas ni alertas.",
+      "nextPoint": "Exportar trazas con identificador de petición y alertar sobre denegaciones y fallos de integridad."
+    },
+    {
+      "id": "D6-documentation",
+      "label": "Consistencia documental",
+      "weight": 10,
+      "score": 72,
+      "evidence": "Versión y URL corregidas; contratos de skill base siguen con marcadores de posición.",
+      "nextPoint": "Generar el registro de skills desde los SKILL.md y eliminar textos de relleno."
+    },
+    {
+      "id": "D7-capability-honesty",
+      "label": "Honestidad de capacidades",
+      "weight": 12,
+      "score": 82,
+      "evidence": "Las rutas sin gateway devuelven 501; el vocabulario de capacidades quedó unificado.",
+      "nextPoint": "Rebajar a M1 las capacidades declaradas por encima de su evidencia y publicar el catálogo."
+    },
+    {
+      "id": "D8-skills",
+      "label": "Operabilidad de skills",
+      "weight": 8,
+      "score": 30,
+      "evidence": "37 contratos declarados, un ejecutor real y entradas/salidas genéricas en la base.",
+      "nextPoint": "Definir contrato verificable por skill y conectar al menos un ejecutor por categoría."
+    },
+    {
+      "id": "D9-licensing",
+      "label": "Claridad de licencia",
+      "weight": 8,
+      "score": 78,
+      "evidence": "NOTICE raíz, LICENSE completo y mapa por zona; el corpus externo con otras licencias queda excluido.",
+      "nextPoint": "Añadir cabeceras SPDX a los archivos del núcleo y validarlo en CI."
+    },
+    {
+      "id": "D10-work-evidence",
+      "label": "Evidencia de trayectoria",
+      "weight": 8,
+      "score": 45,
+      "evidence": "Cadena de procedencia documentada con tres cifras; cero horas con atestación independiente.",
+      "nextPoint": "Publicar bitácora por periodos y solicitar una atestación T3 sobre una muestra."
+    }
+  ],
+  "gates": [
+    {
+      "id": "G1-signed-release",
+      "label": "Release firmado (Ed25519)",
+      "passed": false,
+      "blocking": true,
+      "detail": "tamv-attribution.sig contiene UNSIGNED_RELEASE_PENDING; toda capacidad premium queda bloqueada."
+    },
+    {
+      "id": "G2-server-side-authorization",
+      "label": "Autorización de servidor en revisión creativa",
+      "passed": true,
+      "blocking": true,
+      "detail": "requireSupabaseAuth aplicado a reviewContent, con cuota y timeout."
+    },
+    {
+      "id": "G3-durable-audit-ledger",
+      "label": "Ledger durable append-only",
+      "passed": false,
+      "blocking": true,
+      "detail": "La política lo exige; no existe almacén ni tabla."
+    },
+    {
+      "id": "G4-license-consistency",
+      "label": "Licencia única y mapeada",
+      "passed": true,
+      "blocking": false,
+      "detail": "NOTICE + LICENSE raíz + LICENSE-MAP; AGPL-3.0-only."
+    },
+    {
+      "id": "G5-sbom",
+      "label": "SBOM y auditoría de dependencias",
+      "passed": false,
+      "blocking": true,
+      "detail": "No hay SBOM ni paso de auditoría de dependencias en CI."
+    },
+    {
+      "id": "G6-hours-attestation",
+      "label": "Atestación independiente de horas",
+      "passed": false,
+      "blocking": false,
+      "detail": "24,000 h siguen en estado unverified; bloquea el claim, no el producto."
+    },
+    {
+      "id": "G7-capability-vocabulary",
+      "label": "Vocabulario único de capacidades",
+      "passed": true,
+      "blocking": false,
+      "detail": "Verificado por el chequeo de deriva del CLI."
+    },
+    {
+      "id": "G8-load-and-failover",
+      "label": "Carga y failover probados",
+      "passed": false,
+      "blocking": false,
+      "detail": "No hay pruebas de carga, caos ni proveedor alterno."
+    },
+    {
+      "id": "G9-error-correlation",
+      "label": "Correlación de errores por petición",
+      "passed": true,
+      "blocking": false,
+      "detail": "AsyncLocalStorage por fetch; estado global solo como respaldo."
+    },
+    {
+      "id": "G10-agent-discovery",
+      "label": "Ruta de descubrimiento para agentes",
+      "passed": false,
+      "blocking": false,
+      "detail": "install.sh copia a .tamv/skills; los agentes buscan .claude/skills u otra ruta declarada."
+    }
+  ]
+}

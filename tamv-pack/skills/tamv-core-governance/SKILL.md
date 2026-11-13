@@ -1,3 +1,11 @@
+---
+name: tamv-core-governance
+description: Aplicar gobernanza algorítmica TAMV a cualquier solución generada con este paquete.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Core Governance
 
 ## Propósito

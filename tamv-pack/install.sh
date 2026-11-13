@@ -7,6 +7,10 @@ PACK_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ATTRIBUTION_FILE="TAMV_ATTRIBUTION.md"
 GOVERNANCE_FILE="TAMV_GOVERNANCE.md"
 INSTALL_LOG=".tamv/install.log"
+# skills.sh and the Skills CLI discover `.agents/skills/` in a project. Keep the
+# legacy `.tamv/skills` location available through TAMV_SKILLS_DIR for existing
+# installations, but do not default to a path no agent scans.
+SKILLS_DIR="${TAMV_SKILLS_DIR:-.agents/skills}"
 
 # Validate before prompting or writing into the destination project.
 python3 "$PACK_DIR/scripts/validate-manifest.py"
@@ -28,7 +32,7 @@ fi
 # Store backups before changing any package-owned file.
 mkdir -p .tamv/backups
 BACKUP_DIR="$(mktemp -d ".tamv/backups/backup-XXXXXXXX")"
-for item in "$ATTRIBUTION_FILE" "$GOVERNANCE_FILE" ".tamv/skills" ".tamv/pack.json" "README.md"; do
+for item in "$ATTRIBUTION_FILE" "$GOVERNANCE_FILE" "$SKILLS_DIR" ".tamv/skills" ".tamv/pack.json" "README.md"; do
   if [[ -e "$item" || -L "$item" ]]; then
     destination="$BACKUP_DIR/$item"
     mkdir -p -- "$(dirname -- "$destination")"
@@ -36,8 +40,8 @@ for item in "$ATTRIBUTION_FILE" "$GOVERNANCE_FILE" ".tamv/skills" ".tamv/pack.js
   fi
 done
 
-mkdir -p .tamv/skills
-cp -R -- "$PACK_DIR/skills/." .tamv/skills/
+mkdir -p "$SKILLS_DIR"
+cp -R -- "$PACK_DIR/skills/." "$SKILLS_DIR/"
 cp -- "$PACK_DIR/pack.json" .tamv/pack.json
 
 cat > "$ATTRIBUTION_FILE" <<EOF
@@ -84,6 +88,7 @@ EOF
   echo "version=${TAMV_VERSION}"
   echo "attribution=created"
   echo "governance=applied"
+  echo "skills_dir=${SKILLS_DIR}"
   echo "backup=${BACKUP_DIR}"
 } >> "$INSTALL_LOG"
 

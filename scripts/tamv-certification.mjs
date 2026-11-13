@@ -104,9 +104,9 @@ async function loadRequiredSources() {
     !sources["src/lib/content.functions.ts"].includes("requireTamvCertification") ||
     !sources["src/routes/api.tamv.status.ts"].includes("getTamvCertification") ||
     !sources["src/routes/api.generation.ts"].includes('unavailableTamvCapabilityResponse("music.generation")') ||
-    !sources["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generate")') ||
+    !sources["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generation")') ||
     !sources["src/routes/api.audiocore.advanced.ts"].includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
-    !sources["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.execute")') ||
+    !sources["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.orchestration")') ||
     !sources["src/lib/hypercore-turbo/policy.ts"].includes("tamv.govern.policy.v2") ||
     !sources["src/lib/hypercore-turbo/velocity.ts"].includes("runTurboParallel") ||
     !sources["hypercore/govern-core/policy.json"].includes("NIST-CSF-2.0") ||

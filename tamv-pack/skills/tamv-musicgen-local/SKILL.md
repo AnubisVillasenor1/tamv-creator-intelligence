@@ -1,3 +1,11 @@
+---
+name: tamv-musicgen-local
+description: Integrar generación musical local con MusicGen / AudioCraft.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV MusicGen Local
 
 ## Propósito

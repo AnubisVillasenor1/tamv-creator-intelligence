@@ -1,0 +1,160 @@
+{
+  "schema": "tamv.workledger.v1",
+  "subject": {
+    "legalName": "Anubis Villaseñor",
+    "professionalName": "Anubis Villaseñor",
+    "organization": "TAMV ONLINE NETWORK",
+    "origin": "Real del Monte, Hidalgo, México"
+  },
+  "claim": {
+    "hours": 24000,
+    "asOf": "2026-11-13",
+    "status": "unverified",
+    "statement": "Aproximadamente 24,000 horas de trabajo acumuladas hacia el ecosistema TAMV.",
+    "attribution": "Declaración del autor. La cifra no cuenta con bitácora horaria ni atestación independiente."
+  },
+  "provenanceChain": [
+    {
+      "date": "2025-10-07",
+      "hours": 19000,
+      "statement": "«Un llamado de apoyo para el WEF» declara 19,000 horas de desarrollo.",
+      "source": {
+        "id": "SRC-HOURS-2025",
+        "kind": "url",
+        "locator": "tamvonlinenetwork.blogspot.com, 2025-10-07",
+        "capturedAt": "2026-11-13"
+      },
+      "status": "declared-published"
+    },
+    {
+      "date": "2026-11-13",
+      "hours": 23000,
+      "statement": "«Más de 23,000 horas en solitario»; material del autor sin fecha de publicación registrada.",
+      "source": {
+        "id": "SRC-HOURS-23K",
+        "kind": "statement",
+        "locator": "material proporcionado por el autor; fecha de captura 2026-11-13",
+        "capturedAt": "2026-11-13"
+      },
+      "status": "declared"
+    },
+    {
+      "date": "2026-11-13",
+      "hours": 24000,
+      "statement": "Cifra aportada para esta auditoría: aproximadamente 24,000 horas al 13 de noviembre de 2026.",
+      "source": {
+        "id": "SRC-HOURS-24K",
+        "kind": "statement",
+        "locator": "declaración directa del autor, 2026-11-13",
+        "capturedAt": "2026-11-13"
+      },
+      "status": "declared"
+    }
+  ],
+  "windows": [
+    {
+      "id": "W-A",
+      "from": "2020-01-01",
+      "to": "2026-11-13",
+      "hours": 24000,
+      "years": 6.87,
+      "hoursPerDay": 9.57,
+      "hoursPerWeek": 67,
+      "alternative": true,
+      "note": "Escenario si el conteo inicia en 2020: 9.6 h/día sin un solo día libre durante 6.87 años."
+    },
+    {
+      "id": "W-B",
+      "from": "2014-01-01",
+      "to": "2026-11-13",
+      "hours": 24000,
+      "years": 12.87,
+      "hoursPerDay": 5.11,
+      "hoursPerWeek": 35.7,
+      "alternative": true,
+      "note": "Escenario si el conteo inicia en 2014: 5.1 h/día, una jornada parcial sostenida por 12.87 años."
+    },
+    {
+      "id": "W-C",
+      "from": "2025-10-07",
+      "to": "2026-11-13",
+      "hours": 5000,
+      "years": 1.1,
+      "hoursPerDay": 12.41,
+      "hoursPerWeek": 86.8,
+      "alternative": true,
+      "note": "Delta entre la cifra publicada (19,000 h) y la declarada (24,000 h): 12.4 h/día durante 403 días."
+    }
+  ],
+  "evidenceTiers": [
+    {
+      "tier": "T0",
+      "label": "Afirmación",
+      "definition": "Declaración del autor o de un agente que lo representa, sin artefacto adjunto.",
+      "creditRule": "No acredita horas; solo registra la existencia de la afirmación."
+    },
+    {
+      "tier": "T1",
+      "label": "Artefacto autopublicado",
+      "definition": "Archivo, página, repositorio o PDF controlado por el autor.",
+      "creditRule": "Acredita que el artefacto existe, no que su contenido sea cierto."
+    },
+    {
+      "tier": "T2",
+      "label": "Artefacto verificable por máquina",
+      "definition": "Hashes, grafo de commits, pruebas o manifiestos firmados que un tercero puede recomputar.",
+      "creditRule": "Acredita actividad en una ventana; no convierte actividad en horas."
+    },
+    {
+      "tier": "T3",
+      "label": "Atestación independiente",
+      "definition": "Tercero identificable sin vínculo económico o de identidad con el autor, con declaración verificable.",
+      "creditRule": "Única vía para acreditar horas de un periodo concreto."
+    },
+    {
+      "tier": "T4",
+      "label": "Auditoría independiente",
+      "definition": "Auditoría con alcance, método, muestreo, acceso y hallazgos repetibles.",
+      "creditRule": "Puede acreditar el total si cubre la cadena completa de periodos."
+    }
+  ],
+  "attestations": [
+    {
+      "id": "A-01",
+      "period": "2025-09-23/2026-11-13",
+      "hours": 0,
+      "artifact": "Grafo de commits y PRs del repositorio tamv-creator-intelligence",
+      "tier": "T2",
+      "status": "corroborated"
+    },
+    {
+      "id": "A-02",
+      "period": "2026-11-13/2026-11-13",
+      "hours": 0,
+      "artifact": "Manifiesto de certificación con 22 archivos y SHA-256",
+      "tier": "T2",
+      "status": "corroborated"
+    },
+    {
+      "id": "A-03",
+      "period": "2025-09-28/2026-11-08",
+      "hours": 0,
+      "artifact": "Corpus documental autopublicado (blogs, PDFs, Figshare, ORCID)",
+      "tier": "T1",
+      "status": "unverified"
+    },
+    {
+      "id": "A-04",
+      "period": "2020-01-01/2026-11-13",
+      "hours": 0,
+      "artifact": "Atestación independiente pendiente: auditor externo con bitácora y método",
+      "tier": "T0",
+      "status": "declared"
+    }
+  ],
+  "integrity": {
+    "chainHead": "sha256:26b88c85a55f60f0ae59dfae6272bc8cc54b3d2fbe433f757136dd570dc5bdc1",
+    "entries": 7,
+    "verifiedAt": "2026-11-13T00:00:00.000Z"
+  }
+}

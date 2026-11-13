@@ -4,7 +4,7 @@ import { unavailableTamvCapabilityResponse } from "../lib/tamv-certification";
 export const Route = createFileRoute("/api/agent")({
   server: {
     handlers: {
-      POST: async () => unavailableTamvCapabilityResponse("agent.execute"),
+      POST: async () => unavailableTamvCapabilityResponse("agent.orchestration"),
     },
   },
 });

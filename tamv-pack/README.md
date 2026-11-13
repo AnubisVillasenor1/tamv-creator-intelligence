@@ -31,7 +31,17 @@ Después ejecuta el instalador desde el proyecto destino:
 bash /ruta/al/repositorio/tamv-pack/install.sh
 ```
 
-El instalador valida manifiesto e integridad antes de solicitar consentimiento y modificar archivos. Guarda respaldos bajo `.tamv/backups`.
+El instalador valida manifiesto e integridad antes de solicitar consentimiento y modificar archivos. Copia los skills a `.agents/skills/` —la ruta que escanean el CLI de skills.sh, Claude Code, Cursor y Codex— y guarda respaldos bajo `.tamv/backups`. Para conservar instalaciones antiguas en su ruta previa:
+
+```bash
+TAMV_SKILLS_DIR=.tamv/skills bash /ruta/al/repositorio/tamv-pack/install.sh
+```
+
+También puedes instalar sin clonar, con el CLI oficial:
+
+```bash
+npx skills add AnubisVillasenor1/tamv-creator-intelligence
+```
 
 ## Actualizar el inventario del paquete
 

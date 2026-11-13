@@ -1,3 +1,11 @@
+---
+name: tamv-play-and-go-architect
+description: Diseñar arquitectura completa de PLAY & GO como Creator Operating System.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Play & Go Architect
 
 ## Propósito

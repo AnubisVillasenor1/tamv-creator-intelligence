@@ -1,3 +1,11 @@
+---
+name: tamv-support-assistant
+description: Soporte técnico al creador.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Support Assistant
 
 ## Propósito

@@ -1,0 +1,39 @@
+{
+  "schema": "tamv.identity.v1",
+  "subject": {
+    "legalName": "Anubis Villaseñor",
+    "professionalName": "Anubis Villaseñor",
+    "handles": ["OsoPanda1", "AnubisVillasenor1"],
+    "organization": "TAMV ONLINE NETWORK",
+    "origin": "Real del Monte, Hidalgo, México",
+    "declaredStart": "2020",
+    "statement": "Arquitecto del ecosistema TAMV y de Isabella AI; autor del corpus fundacional y del Creator Intelligence Pack."
+  },
+  "canonical": {
+    "attribution": "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.",
+    "product": "PLAY & GO",
+    "tagline": "Aprende. Crea. Analiza. Evoluciona.",
+    "repository": "https://github.com/AnubisVillasenor1/tamv-creator-intelligence",
+    "issuer": "TAMV ONLINE NETWORK"
+  },
+  "identityRisks": [
+    {
+      "id": "ID-01",
+      "risk": "Cuatro identidades públicas conviven sin un registro canónico: nombre legal, nombre profesional, OsoPanda1 y AnubisVillasenor1.",
+      "impact": "Un lector no puede verificar autoría ni continuidad entre obras.",
+      "mitigation": "Publicar un registro de identidad firmado que ligue handles, ORCID, repositorios y fechas."
+    },
+    {
+      "id": "ID-02",
+      "risk": "La organización aparece como 'TAMV ONLINE NETWORK', 'metaversotamvonline-3484s-projects' y una cuenta personal de GitHub.",
+      "impact": "La autoridad institucional de la firma de release queda ambigua.",
+      "mitigation": "Declarar una única entidad emisora y una única autoridad de firma en el manifiesto."
+    },
+    {
+      "id": "ID-03",
+      "risk": "El origen territorial se afirma en blogs y se repite en la atribución, pero no hay documento registral en el repositorio.",
+      "impact": "Es una declaración razonable, no un hecho verificado.",
+      "mitigation": "Mantener el estado 'declared' hasta anexar evidencia registral o renunciar al detalle."
+    }
+  ]
+}

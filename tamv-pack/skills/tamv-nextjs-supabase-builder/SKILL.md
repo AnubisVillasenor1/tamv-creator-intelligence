@@ -1,3 +1,11 @@
+---
+name: tamv-nextjs-supabase-builder
+description: Construir apps fullstack con Next.js, TypeScript, Tailwind y Supabase.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Next.js + Supabase Builder
 
 ## Propósito

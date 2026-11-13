@@ -27,6 +27,11 @@ dist-ssr
 .nitro
 *.local
 
+# The genesis bundle is generated source consumed by the app and the public
+# dashboard; it is committed on purpose so a fresh clone can build and verify.
+!tamv-genesis/dist/
+!tamv-genesis/dist/**
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

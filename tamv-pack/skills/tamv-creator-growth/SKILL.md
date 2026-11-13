@@ -1,3 +1,11 @@
+---
+name: tamv-creator-growth
+description: Acompañar el crecimiento del creador.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Creator Growth
 
 ## Propósito

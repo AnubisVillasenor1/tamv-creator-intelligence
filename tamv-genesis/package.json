@@ -1,0 +1,21 @@
+{
+  "name": "@tamv/genesis",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "TAMV GENESIS Ω — Sovereign Creator OS: evidence-first governance kernel, work ledger and claim audit.",
+  "license": "AGPL-3.0-only",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./data/*": "./data/*"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "audit": "node --experimental-strip-types cli/sovereign.mjs audit",
+    "verify": "node --experimental-strip-types cli/sovereign.mjs verify",
+    "build": "node cli/sovereign.mjs build"
+  }
+}

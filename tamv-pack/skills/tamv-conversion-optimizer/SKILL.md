@@ -1,3 +1,11 @@
+---
+name: tamv-conversion-optimizer
+description: CRO y estrategia de precios.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Conversion Optimizer
 
 ## Propósito

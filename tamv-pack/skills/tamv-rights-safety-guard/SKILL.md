@@ -1,3 +1,11 @@
+---
+name: tamv-rights-safety-guard
+description: Proteger derechos de autor, identidad vocal, privacidad y uso responsable de IA.
+license: AGPL-3.0-only
+metadata:
+  author: TAMV ONLINE NETWORK
+  pack: tamv-creator-intelligence
+---
 # TAMV Rights & Safety Guard
 
 ## Propósito

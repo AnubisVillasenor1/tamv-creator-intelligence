@@ -1,0 +1,8 @@
+{
+  "schema": "tamv.genesis.manifest.v1",
+  "generatedAt": "2026-11-13T00:00:00Z",
+  "files": {
+    "genesis.json": "sha256:47abfd140072b2059503562735b33c0f817f9335ad2e525fc5d93add77c6ce25",
+    "public.json": "sha256:2cb8a95bc5f6399f01bd0a4e426fa87be0fb75bbeccfac568b340b83c5c2ec49"
+  }
+}
