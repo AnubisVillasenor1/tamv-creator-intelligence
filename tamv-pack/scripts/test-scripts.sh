@@ -45,4 +45,11 @@ fi
 test ! -e .tamv
 test ! -e TAMV_ATTRIBUTION.md
 
+# The --write path must produce valid JSON and a lock that verifies immediately.
+INTEGRITY_COPY="$TEST_ROOT/integrity-copy"
+cp -R "$PACK_DIR" "$INTEGRITY_COPY"
+python3 "$INTEGRITY_COPY/scripts/validate-integrity.py" --write
+python3 "$INTEGRITY_COPY/scripts/validate-integrity.py"
+python3 -c 'import json, sys; json.load(open(sys.argv[1], encoding="utf-8"))' "$INTEGRITY_COPY/integrity.json"
+
 echo 'Pruebas de instalación, consentimiento, respaldo e integridad completadas.'

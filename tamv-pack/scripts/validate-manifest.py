@@ -57,13 +57,13 @@ def validate() -> None:
         if not skill_file.is_file():
             fail(f"Falta el contrato del skill: {skill}")
         body = skill_file.read_text(encoding="utf-8")
-        if not re.search(r"(?m)^#\\s+\\S", body):
+        if not re.search(r"(?m)^#\s+\S", body):
             fail(f"Falta un título Markdown en {skill}")
         if "TAMV ONLINE NETWORK" not in body:
             fail(f"Falta atribución en {skill}")
         # Existing contracts use Markdown headings instead of frontmatter.
-        if body.startswith("---\\n"):
-            name_match = re.search(r"(?m)^name:\\s*([a-z0-9-]+)\\s*$", body)
+        if body.startswith("---\n"):
+            name_match = re.search(r"(?m)^name:\s*([a-z0-9-]+)\s*$", body)
             if not name_match or name_match.group(1) != skill:
                 fail(f"Frontmatter inconsistente en {skill}")
 
