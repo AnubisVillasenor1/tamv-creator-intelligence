@@ -22,9 +22,23 @@ const MAX_SERIES_PER_METRIC = 256;
 function keyFor(labels: Labels): string {
   return JSON.stringify(Object.keys(labels).sort().map((key) => [key, labels[key]])) ?? "[]";
 }
+function replaceUnsupportedControlCharacters(value: string): string {
+  let sanitized = "";
+  for (const character of value) {
+    const codePoint = character.codePointAt(0) ?? 0;
+    const unsupported =
+      (codePoint >= 0 && codePoint <= 8) ||
+      codePoint === 11 ||
+      codePoint === 12 ||
+      (codePoint >= 14 && codePoint <= 31) ||
+      codePoint === 127;
+    sanitized += unsupported ? "�" : character;
+  }
+  return sanitized;
+}
+
 function escapeLabel(value: string): string {
-  return value
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "�")
+  return replaceUnsupportedControlCharacters(value)
     .replace(/\\/g, "\\\\")
     .replace(/\r/g, "\\r")
     .replace(/\n/g, "\\n")
