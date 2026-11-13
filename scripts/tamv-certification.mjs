@@ -28,8 +28,10 @@ const REQUIRED_FILES = [
   "src/lib/hypercore-turbo/velocity.ts",
   "hypercore/govern-core/policy.json",
   "hypercore/velocity-core/turbo-config.json",
-  "src/routes/api.hypercore.audit.ts",
+  "src/routes/api.tamv.hypercore.audit.ts",
   "src/routes/hypercore.tsx",
+  "src/lib/hypercore-turbo/parallel-runner.ts",
+  "scripts/verify-slsa.sh",
 ];
 const UNSIGNED_MARKER = "UNSIGNED_RELEASE_PENDING";
 
@@ -109,7 +111,9 @@ async function loadRequiredSources() {
     !sources["src/lib/hypercore-turbo/velocity.ts"].includes("runTurboParallel") ||
     !sources["hypercore/govern-core/policy.json"].includes("NIST-CSF-2.0") ||
     !sources["hypercore/velocity-core/turbo-config.json"].includes("maxConcurrency") ||
-    !sources["src/routes/api.hypercore.audit.ts"].includes('createFileRoute("/api/hypercore/audit")') ||
+    !sources["src/routes/api.tamv.hypercore.audit.ts"].includes('createFileRoute("/api/tamv/hypercore/audit")') ||
+    !sources["src/lib/hypercore-turbo/parallel-runner.ts"].includes("runTurboParallel") ||
+    !sources["scripts/verify-slsa.sh"].includes("slsa-verifier") ||
     !sources["src/routes/hypercore.tsx"].includes('createFileRoute("/hypercore")')
   ) {
     throw new Error("La atribución visible o el punto de control del runtime fue alterado o desconectado.");
