@@ -50,7 +50,7 @@ def write_lock(hashes: dict[str, str]) -> None:
         "updateCommand": "python3 tamv-pack/scripts/validate-integrity.py --write",
         "files": hashes,
     }
-    LOCK_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    LOCK_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def validate_lock(hashes: dict[str, str]) -> list[str]:

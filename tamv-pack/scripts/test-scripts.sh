@@ -4,6 +4,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PACK_DIR="$(dirname -- "$SCRIPT_DIR")"
 TEST_ROOT="$(mktemp -d)"
 trap 'rm -rf -- "$TEST_ROOT"' EXIT
+CANONICAL_ATTRIBUTION="Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses."
 mkdir -p "$TEST_ROOT/cancel" "$TEST_ROOT/accept" "$TEST_ROOT/missing"
 
 cd -- "$TEST_ROOT/cancel"
@@ -22,7 +23,9 @@ test -f .tamv/install.log
 test -f .tamv/pack.json
 test "$(find .tamv/skills -name SKILL.md | wc -l)" -eq 37
 grep -q 'Contenido propio' README.md
-grep -q 'version=1.2.0' .tamv/install.log
+grep -q 'version=1.2.1' .tamv/install.log
+grep -qF "$CANONICAL_ATTRIBUTION" TAMV_ATTRIBUTION.md
+grep -qF "$CANONICAL_ATTRIBUTION" README.md
 
 printf 'y\n' | bash "$PACK_DIR/install.sh"
 test -d .tamv/backups
@@ -30,7 +33,7 @@ find .tamv/backups -path '*/.tamv/skills/tamv-core-governance/SKILL.md' -print -
 bash "$SCRIPT_DIR/apply-tamv-governance.sh"
 bash "$SCRIPT_DIR/inject-attribution.sh"
 bash "$SCRIPT_DIR/inject-attribution.sh"
-test "$(grep -c 'Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.' README.md)" -eq 1
+test "$(grep -cF "$CANONICAL_ATTRIBUTION" README.md)" -eq 1
 
 # A modified distribution must be rejected before destination files are written.
 cp -R "$PACK_DIR" "$TEST_ROOT/tampered-pack"

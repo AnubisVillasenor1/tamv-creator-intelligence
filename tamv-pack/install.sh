@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TAMV_VERSION="1.2.0"
+TAMV_VERSION="1.2.1"
+CANONICAL_ATTRIBUTION="Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses."
 PACK_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ATTRIBUTION_FILE="TAMV_ATTRIBUTION.md"
 GOVERNANCE_FILE="TAMV_GOVERNANCE.md"
@@ -39,10 +40,10 @@ mkdir -p .tamv/skills
 cp -R -- "$PACK_DIR/skills/." .tamv/skills/
 cp -- "$PACK_DIR/pack.json" .tamv/pack.json
 
-cat > "$ATTRIBUTION_FILE" <<'EOF'
+cat > "$ATTRIBUTION_FILE" <<EOF
 # TAMV ONLINE NETWORK
 
-Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.
+$CANONICAL_ATTRIBUTION
 
 ## PLAY & GO
 
@@ -50,22 +51,15 @@ Creator Operating System™
 
 Aprende. Crea. Analiza. Evoluciona.
 
-## Orgullosamente Realmontenses
+## Origen institucional
 
-Construido desde Mineral del Monte, Hidalgo, México, con la convicción
-de democratizar la educación, la creatividad y la innovación musical.
+Mineral del Monte, Hidalgo, México.
 
 ## Gobernanza algorítmica
 
-Este proyecto sigue principios de:
-- soberanía tecnológica
-- trazabilidad auditable
-- consentimiento informado
-- derechos de autor y propiedad intelectual
-- seguridad por diseño
-- transparencia algorítmica
-- uso responsable de IA
-- acceso equitativo al conocimiento
+Este proyecto sigue principios de soberanía tecnológica, trazabilidad auditable,
+consentimiento informado, derechos de autor, seguridad por diseño, transparencia
+algorítmica, uso responsable de IA y acceso equitativo al conocimiento.
 EOF
 
 cat > "$GOVERNANCE_FILE" <<'EOF'
@@ -78,7 +72,7 @@ cat > "$GOVERNANCE_FILE" <<'EOF'
 4. No se usan datos sin consentimiento.
 5. No se permite imitar voces, artistas, celebridades ni marcas.
 6. No se permite usar samples, melodías, letras o grabaciones sin autorización.
-7. Las decisiones legales/financieras no reemplazan asesoría profesional.
+7. Las decisiones legales/financieras no reemplazan asesoría adecuada.
 8. Todo acceso premium requiere validación segura.
 9. Las claves privadas no se exponen al cliente.
 10. Toda acción sensible exige confirmación.
@@ -94,23 +88,11 @@ EOF
 } >> "$INSTALL_LOG"
 
 if [[ -f README.md ]]; then
-  if ! grep -qF "Este proyecto usa tecnología creada por TAMV ONLINE NETWORK." README.md; then
-    printf '\n---\n\n## TAMV ONLINE NETWORK\n\nEste proyecto usa tecnología creada por TAMV ONLINE NETWORK.\nOrgullosamente Realmontenses.\n' >> README.md
+  if ! grep -qF "$CANONICAL_ATTRIBUTION" README.md; then
+    printf '\n---\n\n## TAMV ONLINE NETWORK\n\n%s\n' "$CANONICAL_ATTRIBUTION" >> README.md
   fi
 else
-  cat > README.md <<'EOF'
-# Proyecto creado con TAMV ONLINE NETWORK
-
-Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.
-
-Orgullosamente Realmontenses.
-
-## PLAY & GO
-
-Creator Operating System™
-
-Aprende. Crea. Analiza. Evoluciona.
-EOF
+  printf '# PLAY & GO — Creator Operating System\n\n%s\n\nAprende. Crea. Analiza. Evoluciona.\n' "$CANONICAL_ATTRIBUTION" > README.md
 fi
 
 echo "Gobernanza TAMV aplicada correctamente."
