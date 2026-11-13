@@ -46,16 +46,16 @@
       "src/routes/api.tamv.status.ts": "sha256:c32a767d3e4753a7c15c0e40b7899378a2a90db017beb265b884ec314764d363",
       "src/routes/api.generation.ts": "sha256:9912afaf6aac51ab5f05c2829fc7a3173d2b8cfe60f2b167510abb6b053c7b31",
       "src/routes/api.voice.generate.ts": "sha256:403cf2c9fb5f183fb5c624530c7796f84c2dc82955f0deb7f9c44ceb324eea71",
-      "src/routes/api.audiocore.advanced.ts": "sha256:f243cb7ce503c099479b787bb561f76d6f198c73e3585d0aab9443349abe9778",
-      "src/routes/api.agent.ts": "sha256:bf45bce01dca3d73c998a78cd92605ec7daea16799e3c480e38012e78fc3f03a",
-      "scripts/tamv-certification.mjs": "sha256:6442602b2813db69e5fd255cbac9d49e10a98d4ae745aa69e0fe63206a5e3d71",
-      "tamv-pack/core/tamv-sovereign-core.ts": "sha256:7d8c90df6e8086216ffae098e6cdab7282adba2420ba2f834ad4b4909acee443",
-      "src/lib/hypercore-turbo/policy.ts": "sha256:6de032fe230e3c944d85386245f4258b2bc88bb0e29c9d8c4504a6638be27848",
+      "src/routes/api.audiocore.advanced.ts": "sha256:e39d2c28826d5f16ca5ec7f2d07d415f1944e01788528cbaf6b65ee143618524",
+      "src/routes/api.agent.ts": "sha256:53af17d6c8c636b140ece37e9d6ff2ea7773e6a4e44946de68fa8eebb46ef427",
+      "scripts/tamv-certification.mjs": "sha256:47e3fb84ddd711fa42911780ddc3891e568c5b26e3cec9378bce5723833c14cd",
+      "tamv-pack/core/tamv-sovereign-core.ts": "sha256:edb10e15903e0fc34120a846df0bc878e198e16624725a8dc9b1e76ac147a5b4",
+      "src/lib/hypercore-turbo/policy.ts": "sha256:4344841322f9afc69c45fa3be479b3aea1f3d3bc53106663a5513463f88e2e1b",
       "src/lib/hypercore-turbo/velocity.ts": "sha256:648233ed05304cc0283025d3b18bac9c3e001c158d7f1ca92094b66bd23d6ce0",
       "hypercore/govern-core/policy.json": "sha256:4d72fef2f6ac0a3deaf750dddef64d0ace005ba58bf9e4861a45ae6e54e37775",
-      "hypercore/velocity-core/turbo-config.json": "sha256:1365185913e3d28212bd6aaed9793f3ec05d6ae00758c09110d5f2143da8e6ca",
+      "hypercore/velocity-core/turbo-config.json": "sha256:c3b789d7eabf70b4a5785c919e1340062aae044776e4958ddf894ada54ac5253",
       "src/routes/api.hypercore.audit.ts": "sha256:9779b85172b049edabd70e9c2ddd439d65ea7f1788d7300423800eb01c3958e6",
-      "src/routes/hypercore.tsx": "sha256:cf470d45e84a924df4a9bf2aa09a97915c2996de7d5275b2492e102131ab2301"
+      "src/routes/hypercore.tsx": "sha256:447cb422f81c588963c272aadc98ff027c69b150f9d34b626c81ef46b436da24"
     }
   },
   "governance": {
