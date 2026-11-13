@@ -16,6 +16,7 @@ Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE 
 - Instalador con consentimiento explícito, copias de seguridad y rechazo antes de escribir si el paquete no supera la validación.
 - Inventario de integridad Git para el paquete y certificación Ed25519 para las funciones de IA.
 - Endpoint público `GET /api/tamv/status` con estado y motivo de certificación.
+- Rutas protegidas `POST /api/generation`, `/api/voice/generate`, `/api/audiocore/advanced` y `/api/agent`.
 
 ## Desarrollo local
 
@@ -43,7 +44,8 @@ El runtime revalida los hashes desde fuentes incluidas en el build y verifica la
 
 - `GET /api/tamv/status` siempre responde `200` e informa `certified`, estado, motivo y si las funciones certificadas están habilitadas.
 - La revisión IA se bloquea antes de llamar al AI Gateway y rechaza solicitudes no certificadas con HTTP `403` y código `TAMV_ATTRIBUTION_INTEGRITY_FAILED`.
-- El borrador permanece en el formulario y no se envía al proveedor cuando el gate falla.
+- Las rutas `POST /api/generation`, `/api/voice/generate`, `/api/audiocore/advanced` y `/api/agent` también devuelven `403` sin certificación o si la capacidad no está autorizada. Si la distribución está certificada y la capacidad autorizada, responden `501 TAMV_CAPABILITY_NOT_IMPLEMENTED` hasta conectar el gateway real; no simulan resultados ni ejecutan servicios externos.
+- El borrador de Creator Review permanece en el formulario y no se envía al proveedor cuando el gate falla.
 
 ### Estado de la firma de este repositorio
 
@@ -73,7 +75,7 @@ Configura `TAMV_ATTRIBUTION_PUBLIC_KEY` en el entorno servidor. La clave públic
 
 - El inventario Git del paquete detecta divergencias pero no reemplaza una firma criptográfica independiente.
 - La firma Ed25519 autentica el manifest solo si la clave pública viene de un canal confiable y la privada permanece protegida.
-- El gate certifica la distribución y `creator.review`. Los endpoints de generación musical, voz y AudioCore no se declaran implementados porque no existen en este repositorio.
+- El gate certifica la distribución. `creator.review` es la única integración IA real; las demás rutas existen como guardas fail-closed y permanecen en `501` cuando la distribución está certificada y la capacidad autorizada, hasta conectar los gateways de música, voz, AudioCore y agente.
 - La certificación de distribución no constituye un sistema completo de licencias individuales ni reemplaza autenticación, cuotas o políticas RLS.
 - Una discrepancia detiene la operación afectada. No borra archivos del usuario ni ejecuta autodestrucción.
 - Si una credencial privada se expuso, revócala y genera otra; borrar el archivo en un commit posterior no elimina el historial anterior.

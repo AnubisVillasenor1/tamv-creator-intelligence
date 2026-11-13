@@ -7,6 +7,10 @@ import attributionComponentSource from "../components/branding/TamvAttribution.t
 import rootLayoutSource from "../routes/__root.tsx?raw";
 import reviewFunctionSource from "./content.functions.ts?raw";
 import statusRouteSource from "../routes/api.tamv.status.ts?raw";
+import generationRouteSource from "../routes/api.generation.ts?raw";
+import voiceRouteSource from "../routes/api.voice.generate.ts?raw";
+import audioCoreRouteSource from "../routes/api.audiocore.advanced.ts?raw";
+import agentRouteSource from "../routes/api.agent.ts?raw";
 import certificationRuntimeSource from "./tamv-certification.ts?raw";
 import certificationToolSource from "../../scripts/tamv-certification.mjs?raw";
 import sovereignCoreSource from "../../tamv-pack/core/tamv-sovereign-core.ts?raw";
@@ -24,6 +28,10 @@ export const TAMV_REQUIRED_FILES = [
   "src/lib/tamv-certification.ts",
   "src/lib/content.functions.ts",
   "src/routes/api.tamv.status.ts",
+  "src/routes/api.generation.ts",
+  "src/routes/api.voice.generate.ts",
+  "src/routes/api.audiocore.advanced.ts",
+  "src/routes/api.agent.ts",
   "scripts/tamv-certification.mjs",
   "tamv-pack/core/tamv-sovereign-core.ts",
 ] as const;
@@ -90,6 +98,10 @@ export const TAMV_CERTIFICATION_SOURCE_FILES: Record<string, string> = {
   "src/lib/tamv-certification.ts": certificationRuntimeSource,
   "src/lib/content.functions.ts": reviewFunctionSource,
   "src/routes/api.tamv.status.ts": statusRouteSource,
+  "src/routes/api.generation.ts": generationRouteSource,
+  "src/routes/api.voice.generate.ts": voiceRouteSource,
+  "src/routes/api.audiocore.advanced.ts": audioCoreRouteSource,
+  "src/routes/api.agent.ts": agentRouteSource,
   "scripts/tamv-certification.mjs": certificationToolSource,
   "tamv-pack/core/tamv-sovereign-core.ts": sovereignCoreSource,
 };
@@ -260,7 +272,11 @@ export async function verifyTamvCertification(
     !sourceFiles["src/components/branding/TamvAttribution.tsx"].includes("TAMV_CANONICAL_ATTRIBUTION") ||
     !sourceFiles["src/routes/__root.tsx"].includes("<TamvAttribution />") ||
     !sourceFiles["src/lib/content.functions.ts"].includes("requireTamvCertification") ||
-    !sourceFiles["src/routes/api.tamv.status.ts"].includes("getTamvCertification")
+    !sourceFiles["src/routes/api.tamv.status.ts"].includes("getTamvCertification") ||
+    !sourceFiles["src/routes/api.generation.ts"].includes('unavailableTamvCapabilityResponse("music.generation")') ||
+    !sourceFiles["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generate")') ||
+    !sourceFiles["src/routes/api.audiocore.advanced.ts"].includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
+    !sourceFiles["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.execute")')
   ) {
     return fail("attribution-modified", "La atribución visible o uno de sus puntos de control fue alterado.", checkedAt);
   }
@@ -345,6 +361,52 @@ export async function verifyTamvCertification(
 
 export async function getTamvCertification(): Promise<TamvCertification> {
   return verifyTamvCertification();
+}
+
+export function buildUnavailableCapabilityResponse(
+  feature: string,
+  certification: TamvCertification,
+  manifest: TamvAttributionManifest = TAMV_ATTRIBUTION_MANIFEST,
+): Response {
+  const headers = { "Cache-Control": "no-store, max-age=0" };
+  if (!certification.certified) {
+    return Response.json(
+      {
+        error: "Distribución TAMV no certificada",
+        code: "TAMV_ATTRIBUTION_INTEGRITY_FAILED",
+        status: certification.status,
+        reason: certification.reason,
+        feature,
+        action: "Restaura la distribución íntegra y firma el release con la clave oficial de TAMV.",
+      },
+      { status: 403, headers },
+    );
+  }
+
+  if (!manifest.license.features.includes(feature)) {
+    return Response.json(
+      {
+        error: "La capacidad no está habilitada en el manifest TAMV",
+        code: "TAMV_FEATURE_NOT_LICENSED",
+        feature,
+      },
+      { status: 403, headers },
+    );
+  }
+
+  return Response.json(
+    {
+      error: "La distribución está certificada, pero el gateway de esta capacidad todavía no está conectado.",
+      code: "TAMV_CAPABILITY_NOT_IMPLEMENTED",
+      feature,
+      action: "Conecta y prueba el gateway correspondiente antes de habilitar esta capacidad en un release.",
+    },
+    { status: 501, headers },
+  );
+}
+
+export async function unavailableTamvCapabilityResponse(feature: string): Promise<Response> {
+  return buildUnavailableCapabilityResponse(feature, await getTamvCertification());
 }
 
 export async function requireTamvCertification(feature: string): Promise<Response | null> {

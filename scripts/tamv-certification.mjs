@@ -18,6 +18,10 @@ const REQUIRED_FILES = [
   "src/lib/tamv-certification.ts",
   "src/lib/content.functions.ts",
   "src/routes/api.tamv.status.ts",
+  "src/routes/api.generation.ts",
+  "src/routes/api.voice.generate.ts",
+  "src/routes/api.audiocore.advanced.ts",
+  "src/routes/api.agent.ts",
   "scripts/tamv-certification.mjs",
   "tamv-pack/core/tamv-sovereign-core.ts",
 ];
@@ -90,7 +94,11 @@ async function loadRequiredSources() {
     !sources["src/components/branding/TamvAttribution.tsx"].includes("TAMV_CANONICAL_ATTRIBUTION") ||
     !sources["src/routes/__root.tsx"].includes("<TamvAttribution />") ||
     !sources["src/lib/content.functions.ts"].includes("requireTamvCertification") ||
-    !sources["src/routes/api.tamv.status.ts"].includes("getTamvCertification")
+    !sources["src/routes/api.tamv.status.ts"].includes("getTamvCertification") ||
+    !sources["src/routes/api.generation.ts"].includes('unavailableTamvCapabilityResponse("music.generation")') ||
+    !sources["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generate")') ||
+    !sources["src/routes/api.audiocore.advanced.ts"].includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
+    !sources["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.execute")')
   ) {
     throw new Error("La atribución visible o el punto de control del runtime fue alterado o desconectado.");
   }

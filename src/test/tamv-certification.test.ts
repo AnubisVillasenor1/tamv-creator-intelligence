@@ -2,6 +2,7 @@ import { webcrypto } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import {
   TAMV_ATTRIBUTION_MANIFEST,
+  buildUnavailableCapabilityResponse,
   TAMV_EXPECTED_ATTRIBUTION,
   TAMV_CERTIFICATION_SOURCE_FILES,
   canonicalizeTamvManifest,
@@ -127,5 +128,34 @@ describe("TAMV attribution certification runtime", () => {
     expect(response?.status).toBe(403);
     const body = await response?.json();
     expect(body.code).toBe("TAMV_ATTRIBUTION_INTEGRITY_FAILED");
+  });
+
+  it("returns 403 for uncertified capabilities and 501 only for certified, licensed but unwired gateways", async () => {
+    const unsignedCertification = await getTamvCertification();
+    const blocked = buildUnavailableCapabilityResponse("music.generation", unsignedCertification);
+    expect(blocked.status).toBe(403);
+    expect((await blocked.json()).code).toBe("TAMV_ATTRIBUTION_INTEGRITY_FAILED");
+
+    const certified = {
+      status: "certified" as const,
+      certified: true,
+      premiumFeaturesEnabled: true,
+      reason: "test signature",
+      checkedAt: new Date().toISOString(),
+    };
+    const licensedManifest = {
+      ...TAMV_ATTRIBUTION_MANIFEST,
+      license: {
+        ...TAMV_ATTRIBUTION_MANIFEST.license,
+        features: ["creator.review", "music.generation"],
+      },
+    };
+    const notImplemented = buildUnavailableCapabilityResponse(
+      "music.generation",
+      certified,
+      licensedManifest,
+    );
+    expect(notImplemented.status).toBe(501);
+    expect((await notImplemented.json()).code).toBe("TAMV_CAPABILITY_NOT_IMPLEMENTED");
   });
 });
