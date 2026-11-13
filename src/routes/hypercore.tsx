@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Activity, AlertTriangle, CheckCircle2, Clock3, Fingerprint, Gauge, RefreshCw, ShieldCheck, ShieldX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/hypercore")({
   component: HyperCorePage,
 });
 
-function StatusPill({ ok, children }: { ok: boolean; children: React.ReactNode }) {
+function StatusPill({ ok, children }: { ok: boolean; children: ReactNode }) {
   return <span className={ok
     ? "inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300"
     : "inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-800 dark:text-amber-200"}>
