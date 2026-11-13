@@ -23,7 +23,7 @@
     "scripts/apply-tamv-governance.sh": "e40091f33aa177619edf5661ab34672ac6223e11",
     "scripts/inject-attribution.sh": "b7940c40daa821e4d680d868c0cac5b6517f3fa9",
     "scripts/test-scripts.sh": "4d262b93860424ca2e57179c1591f8f32abb6176",
-    "scripts/validate-integrity.py": "c976ee572770b906e1f3c9a05c56968d86cc2807",
+    "scripts/validate-integrity.py": "c402928eafb4bdc1215b40de9bc644e5002b0443",
     "scripts/validate-manifest.py": "67bca2ef24f57ca7682569da77441b84f07fb092",
     "scripts/validate-pack.sh": "b7fe67d4cf12a76b08ec1856394dc86092f66d03",
     "SECURITY.md": "03007555669967f1f1dfa5a5312c4b0d2756d2ee",

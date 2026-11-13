@@ -34,7 +34,7 @@ def discover_files() -> dict[str, Path]:
 
 def git_blob_sha1(path: Path) -> str:
     content = path.read_bytes()
-    header = b"blob " + str(len(content)).encode("ascii") + b"\\0"
+    header = b"blob " + str(len(content)).encode("ascii") + bytes([0])
     return hashlib.sha1(header + content).hexdigest()
 
 
