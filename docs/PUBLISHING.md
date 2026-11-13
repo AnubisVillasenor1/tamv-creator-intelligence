@@ -14,6 +14,8 @@ comprar adopción. Lo que sigue es lo que está listo y lo que depende de la cue
 | Instalación en `.agents/skills/` | ✅ | `tamv-pack/install.sh` |
 | Licencia declarada por skill | ✅ | `license: AGPL-3.0-only` en el frontmatter |
 | Instalación reproducible por CLI | ✅ | `npx skills add . --list` → «Found 37 skills» (CLI 1.8.1, 2026-11-13) |
+| Descubrimiento desde el remoto público | ✅ | `npx skills add AnubisVillasenor1/tamv-creator-intelligence --list` clona el repo y encuentra 37 skills |
+| Página del pack en skills.sh | ⏳ | `https://skills.sh/anubisvillasenor1/tamv-creator-intelligence` → 404 el 2026-11-13; pendiente de indexación |
 
 ## Lo que depende de una cuenta (no ejecutado aquí)
 
@@ -31,7 +33,8 @@ comprar adopción. Lo que sigue es lo que está listo y lo que depende de la cue
    instalación; la página del pack y el badge
    `https://skills.sh/b/AnubisVillasenor1/tamv-creator-intelligence` existen
    cuando el directorio ha indexado el repositorio. No hay formulario de «pack»
-   que sustituya ese paso.
+   que sustituya ese paso. Al 2026-11-13 la página devuelve 404 y el badge
+   devuelve «resource not found»: no se añadió al README.
 5. **Badge (solo cuando la página exista).** Añadir al README:
 
    ```markdown

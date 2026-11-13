@@ -94,9 +94,17 @@ npx skills add . --list
 # → Found 37 skills
 ```
 
+También se verificó contra el remoto público:
+
+```bash
+npx skills add AnubisVillasenor1/tamv-creator-intelligence --list
+# → clona el repositorio y encuentra 37 skills
+```
+
 No se registró ninguna instalación en el repositorio: el comando solo enumera. La
 indexación del pack en skills.sh depende de la telemetría del directorio y de la
-cuenta del propietario; ver `docs/PUBLISHING.md`.
+cuenta del propietario; al 2026-11-13 la página devuelve 404. Ver
+`docs/PUBLISHING.md`.
 
 ## Evidencia que falta
 
