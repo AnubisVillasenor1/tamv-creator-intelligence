@@ -42,10 +42,9 @@ jobs:
       - name: Install locked dependencies
         run: bun install --frozen-lockfile
 
-      - name: Validate repository and 37-skill pack
+      - name: Validate pack structure before rehash
         run: |
           set -euo pipefail
-          bun run tamv:check
           python3 tamv-pack/scripts/validate-manifest.py
           python3 tamv-pack/scripts/validate-integrity.py
           bash tamv-pack/scripts/validate-pack.sh
@@ -63,6 +62,9 @@ jobs:
 
       - name: Recalculate source hashes and invalidate old signature
         run: bun run tamv:hash
+
+      - name: Validate updated source inventory and 37-skill pack
+        run: bun run tamv:check
 
       - name: Sign manifest with Ed25519
         env:
