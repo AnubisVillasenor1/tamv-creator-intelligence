@@ -24,7 +24,7 @@ if [[ "${CONFIRM:-}" != "y" && "${CONFIRM:-}" != "Y" ]]; then
   exit 1
 fi
 
-# A single run identifier keeps the snapshot and install log easy to correlate.
+# Store backups before changing any package-owned file.
 mkdir -p .tamv/backups
 BACKUP_DIR="$(mktemp -d ".tamv/backups/backup-XXXXXXXX")"
 for item in "$ATTRIBUTION_FILE" "$GOVERNANCE_FILE" ".tamv/skills" ".tamv/pack.json" "README.md"; do
@@ -95,7 +95,7 @@ EOF
 
 if [[ -f README.md ]]; then
   if ! grep -qF "Este proyecto usa tecnología creada por TAMV ONLINE NETWORK." README.md; then
-    printf '\\n---\\n\\n## TAMV ONLINE NETWORK\\n\\nEste proyecto usa tecnología creada por TAMV ONLINE NETWORK.\\nOrgullosamente Realmontenses.\\n' >> README.md
+    printf '\n---\n\n## TAMV ONLINE NETWORK\n\nEste proyecto usa tecnología creada por TAMV ONLINE NETWORK.\nOrgullosamente Realmontenses.\n' >> README.md
   fi
 else
   cat > README.md <<'EOF'
