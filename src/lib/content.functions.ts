@@ -4,6 +4,20 @@ import { contentSchema, reviewSchema } from './content-schema';
 export const reviewContent = createServerFn({ method: 'POST' })
   .inputValidator((data: unknown) => contentSchema.parse(data))
   .handler(async ({ data }) => {
+    // Keep integrity code inside the server handler; it is not needed by the browser.
+    try {
+      const { assertTamvAttributionIntegrity, TamvSovereigntyBreachError } =
+        await import('../../tamv-pack/core/tamv-sovereign-core');
+      await assertTamvAttributionIntegrity();
+    } catch (error) {
+      const code = error instanceof Error && 'code' in error ? String(error.code) : 'TAMV_SOVEREIGNTY_BREACH';
+      console.error('TAMV integrity gate rejected creator review', { code });
+      return {
+        ok: false as const,
+        error: 'Falló la verificación de integridad y atribución TAMV. El borrador no se envió al servicio de IA.',
+      };
+    }
+
     const { generateResponse, GatewayError } = await import('@lovable.dev/ai-gateway');
     const runId = crypto.randomUUID();
     const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(data.draft));
@@ -20,13 +34,18 @@ export const reviewContent = createServerFn({ method: 'POST' })
           properties: {
             diagnosis: { type: 'string' },
             improvements: { type: 'array', items: { type: 'object', additionalProperties: false, properties: { title: { type: 'string' }, reason: { type: 'string' }, action: { type: 'string' } }, required: ['title','reason','action'] } },
-            revised: { type: 'string' }, safety: { type: 'string' },
+            revised: { type: 'string' },
+            safety: { type: 'string' },
           }, required: ['diagnosis','improvements','revised','safety'],
         } } },
       }, { runId });
-      const text = response.output.flatMap(item => item.type === 'message' ? item.content.flatMap(part => part.type === 'output_text' ? [part.text] : []) : []).join('');
-      if (!text) return { ok: false as const, error: 'El modelo no entregó una propuesta. Tu borrador sigue intacto.' };
-      return { ok: true as const, review: reviewSchema.parse(JSON.parse(text)), audit: { runId, hash, model: 'openai/gpt-6-astra', timestamp: new Date().toISOString(), skills: ['tamv-core-governance', 'tamv-rights-safety-guard', 'tamv-content-review', 'tamv-audience-research', 'tamv-quality-gate'] } };
+      const responseText = response.output.flatMap(item => item.type === 'message' ? item.content.flatMap(part => part.type === 'output_text' ? [part.text] : []) : []).join('');
+      if (!responseText) return { ok: false as const, error: 'El modelo no entregó una propuesta. Tu borrador sigue intacto.' };
+      return {
+        ok: true as const,
+        review: reviewSchema.parse(JSON.parse(responseText)),
+        audit: { runId, hash, model: 'openai/gpt-6-astra', timestamp: new Date().toISOString(), skills: ['tamv-core-governance', 'tamv-rights-safety-guard', 'tamv-content-review', 'tamv-audience-research', 'tamv-quality-gate'] },
+      };
     } catch (error) {
       if (error instanceof GatewayError) {
         console.error('TAMV Gateway', { code: error.code, ids: error.ids });

@@ -1,179 +1,53 @@
 # TAMV ONLINE NETWORK Creator Intelligence Pack
 
-TAMV ONLINE NETWORK Creator Intelligence Pack es un paquete unificado de skills para construir, operar y escalar PLAY & GO: un Creator Operating System para educación musical, creación asistida por IA, producción de audio local, monetización ética, seguridad, analítica y crecimiento del creador.
+Paquete gobernado de skills para construir, operar y escalar PLAY & GO: Creator Operating System para educación musical, creación asistida por IA, producción de audio, monetización ética, seguridad y analítica de creadores.
 
-> Aprende. Crea. Analiza. Evoluciona.
+**Aprende. Crea. Analiza. Evoluciona.**
 
-Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.
-Orgullosamente Realmontenses.
+Este proyecto usa tecnología creada por TAMV ONLINE NETWORK. Orgullosamente Realmontenses.
 
-## Índice
+## Contenido
 
-- [Propósito](#propósito)
-- [Características](#características)
-- [Estructura del paquete](#estructura-del-paquete)
-- [Instalación](#instalación)
-- [Gobernanza](#gobernanza)
-- [Skills incluidos](#skills-incluidos)
-- [Atribución](#atribución)
-- [Licencia](#licencia)
+- 37 skills: 17 originales y 20 extensiones gobernadas.
+- Contratos en formato SKILL.md con metadatos, entradas, entregables y dependencias declaradas.
+- Manifiesto único pack.json con un grafo para comprobar los contratos.
+- Instalador con consentimiento, respaldo de artefactos previos y validación antes de modificar el destino.
+- Políticas de derechos, privacidad, consentimiento humano, auditoría y atribución.
 
-## Propósito
+## Instalar
 
-Este paquete transforma un agente de código en un Creator Operating System Assistant capaz de:
+Primero valida el paquete desde la raíz del repositorio:
 
-- Diseñar arquitecturas de productos para PLAY & GO.
-- Construir aplicaciones con Next.js, Supabase, Stripe, Redis y Docker.
-- Integrar generación musical local con MusicGen.
-- Crear voz característica local con Kokoro.
-- Implementar AudioCore DSP con C++17 y Python.
-- Diseñar colas de trabajo con BullMQ.
-- Aplicar RLS, auditoría y trazabilidad con Supabase.
-- Crear licenciamiento híbrido con Vault Transit + Ed25519.
-- Diseñar monetización ética para creadores.
-- Optimizar marketing, SEO, CRO y lanzamiento.
-- Mantener seguridad, derechos de autor y gobernanza TAMV.
+    python3 tamv-pack/scripts/validate-manifest.py
+    python3 tamv-pack/scripts/validate-integrity.py
+    bash tamv-pack/scripts/validate-pack.sh
 
-## Características
+Después, desde el proyecto destino, ejecuta el instalador del paquete revisado:
 
-- Gobernanza algorítmica aplicada por defecto.
-- Atribución visible y obligatoria
-- Consentimiento explícito antes de instalar
-- Seguridad por diseño
-- Trazabilidad y auditoría para acciones sensibles
-- Módulos reutilizables por habilidades
-- Documentación técnica y operativa
-- Preparado para ser publicado como pack de skills
+    bash /ruta/al/repositorio/tamv-pack/install.sh
 
-## Estructura del paquete
+El instalador valida manifiesto e integridad antes de solicitar consentimiento y escribir archivos. Genera una copia de seguridad en .tamv/backups antes de reemplazar los artefactos que administra.
 
-```text
-tamv-online-network-creator-intelligence-pack/
-├── README.md
-├── LICENSE
-├── ATTRIBUTION.md
-├── GOVERNANCE.md
-├── SECURITY.md
-├── CHANGELOG.md
-├── pack.json
-├── install.sh
-├── .tamv/
-│   └── install.log
-├── scripts/
-│   ├── apply-tamv-governance.sh
-│   ├── inject-attribution.sh
-│   └── validate-pack.sh
-├── skills/
-│   ├── tamv-core-governance/
-│   │   └── SKILL.md
-│   ├── tamv-play-and-go-architect/
-│   │   └── SKILL.md
-│   ├── tamv-nextjs-supabase-builder/
-│   │   └── SKILL.md
-│   ├── tamv-musicgen-local/
-│   │   └── SKILL.md
-│   ├── tamv-voice-identity/
-│   │   └── SKILL.md
-│   ├── tamv-audiocore-dsp/
-│   │   └── SKILL.md
-│   ├── tamv-bullmq-redis/
-│   │   └── SKILL.md
-│   ├── tamv-supabase-rls-security/
-│   │   └── SKILL.md
-│   ├── tamv-license-authority/
-│   │   └── SKILL.md
-│   ├── tamv-creator-growth/
-│   │   └── SKILL.md
-│   ├── tamv-monetization-advisor/
-│   │   └── SKILL.md
-│   ├── tamv-marketing-growth/
-│   │   └── SKILL.md
-│   ├── tamv-seo-discoverability/
-│   │   └── SKILL.md
-│   ├── tamv-conversion-optimizer/
-│   │   └── SKILL.md
-│   ├── tamv-launch-strategist/
-│   │   └── SKILL.md
-│   ├── tamv-rights-safety-guard/
-│   │   └── SKILL.md
-│   └── tamv-support-assistant/
-│       └── SKILL.md
-├── docs/
-│   ├── architecture.md
-│   ├── implementation.md
-│   ├── data-model.md
-│   ├── api-contracts.md
-│   ├── docker.md
-│   ├── licensing.md
-│   └── roadmap.md
-└── examples/
-    └── play-and-go-starter/
-```
+## Actualizar el inventario
 
-## Instalación
+El pack incluye integrity.json con la huella de objeto Git de cada archivo incluido. Si un cambio legítimo modifica el paquete, desde la raíz del repositorio ejecuta:
 
-Ejecuta el script de instalación únicamente con consentimiento explícito del usuario:
+    python3 tamv-pack/scripts/validate-integrity.py --write
+    bash tamv-pack/scripts/validate-pack.sh
 
-```bash
-chmod +x install.sh
-./install.sh
-```
+Revisa el diff de integrity.json. El identificador Git blob permite detectar divergencias locales, pero no es una firma de release independiente. Para validar autenticidad del manifiesto en publicación, usa el núcleo HMAC y un secreto guardado fuera de Git.
 
-El script creará:
-- `TAMV_ATTRIBUTION.md`
-- `TAMV_GOVERNANCE.md`
-- `.tamv/install.log`
-- una entrada visible en `README.md`
+## Gobernanza y seguridad
 
-## Gobernanza
+- Consentimiento explícito antes de enviar borradores a IA.
+- La aprobación humana sigue siendo obligatoria para acciones sensibles.
+- No se imitan voces, artistas ni marcas sin autorización.
+- Las claves privadas nunca deben residir en el navegador ni en archivos versionados.
+- Ante discrepancias de integridad se detiene la operación afectada y se requiere inspección; no se borran datos del usuario.
 
-El paquete exige lo siguiente:
+## Licencia y atribución
 
-- preservar la atribución a TAMV ONLINE NETWORK
-- no ocultar el origen del software
-- no usar datos sin consentimiento
-- no generar contenido protegido ni imitativo
-- no exponer claves privadas en el cliente
-- no realizar decisiones legales, financieras o fiscales definitivas sin asesoría apropiada
-- mantener trazabilidad y auditoría de acciones sensibles
-
-## Skills incluidos
-
-| Skill | Propósito | Nivel |
-|---|---|---|
-| tamv-core-governance | gobernanza algorítmica | crítico |
-| tamv-play-and-go-architect | arquitectura del sistema | medio |
-| tamv-nextjs-supabase-builder | app fullstack | medio |
-| tamv-musicgen-local | generación musical local | alto |
-| tamv-voice-identity | voz propia y autorizada | alto |
-| tamv-audiocore-dsp | DSP profesional | medio |
-| tamv-bullmq-redis | colas y workers | medio |
-| tamv-supabase-rls-security | seguridad y RLS | crítico |
-| tamv-license-authority | licenciamiento híbrido | crítico |
-| tamv-creator-growth | crecimiento del creador | medio |
-| tamv-monetization-advisor | monetización responsable | alto |
-| tamv-marketing-growth | marketing y contenido | bajo |
-| tamv-seo-discoverability | SEO y discoverability | bajo |
-| tamv-conversion-optimizer | CRO y pricing | bajo |
-| tamv-launch-strategist | lanzamiento | bajo |
-| tamv-rights-safety-guard | derechos y seguridad | crítico |
-| tamv-support-assistant | soporte técnico | bajo |
-
-## Atribución
-
-Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.
-Orgullosamente Realmontenses.
-
-## Licencia
-
-- Núcleo: AGPL-3.0-only
-- Módulos premium: TAMV Commercial License
-- Atribución visible: obligatoria
-
-## Créditos
+Consulta LICENSE y la documentación de licenciamiento para los términos del núcleo y de módulos comerciales.
 
 TAMV ONLINE NETWORK  
-Mineral del Monte, Hidalgo, México  
-Creator Operating System™
-
-Aprende. Crea. Analiza. Evoluciona.
+Mineral del Monte, Hidalgo, México.

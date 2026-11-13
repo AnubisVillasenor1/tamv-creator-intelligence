@@ -22,16 +22,24 @@ test -f .tamv/install.log
 test -f .tamv/pack.json
 test "$(find .tamv/skills -name SKILL.md | wc -l)" -eq 37
 grep -q 'Contenido propio' README.md
-grep -q 'version=1.1.0' .tamv/install.log
+grep -q 'version=1.2.0' .tamv/install.log
+
 printf 'y\n' | bash "$PACK_DIR/install.sh"
 test -d .tamv/backups
+find .tamv/backups -path '*/.tamv/skills/tamv-core-governance/SKILL.md' -print -quit | grep -q .
 bash "$SCRIPT_DIR/apply-tamv-governance.sh"
 bash "$SCRIPT_DIR/inject-attribution.sh"
 bash "$SCRIPT_DIR/inject-attribution.sh"
 test "$(grep -c 'Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.' README.md)" -eq 1
 
+# A modified distribution must be rejected before destination files are written.
+cp -R "$PACK_DIR" "$TEST_ROOT/tampered-pack"
+printf '\n# deliberate tamper-test\n' >> "$TEST_ROOT/tampered-pack/README.md"
 cd -- "$TEST_ROOT/missing"
-if bash "$SCRIPT_DIR/apply-tamv-governance.sh"; then
-  echo 'ERROR: debe exigir atribución.'; exit 1
+if printf 'y\n' | bash "$TEST_ROOT/tampered-pack/install.sh"; then
+  echo 'ERROR: la instalación debe rechazar un paquete alterado.'; exit 1
 fi
-echo 'Pruebas de scripts completadas en carpetas temporales.'
+test ! -e .tamv
+test ! -e TAMV_ATTRIBUTION.md
+
+echo 'Pruebas de instalación, consentimiento, respaldo e integridad completadas.'
