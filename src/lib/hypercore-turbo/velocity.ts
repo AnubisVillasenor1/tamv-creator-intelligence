@@ -64,12 +64,20 @@ export async function runTurboParallel<T>(
       const taskController = new AbortController();
       const abortTask = () => taskController.abort(controller.signal.reason);
       controller.signal.addEventListener("abort", abortTask, { once: true });
-      const timeout = setTimeout(() => {
-        taskController.abort(new Error(`Task timed out after ${timeoutMs}ms`));
-      }, timeoutMs);
+      let timeout: ReturnType<typeof setTimeout> | undefined;
 
       try {
-        const value = await task.run({ signal: taskController.signal });
+        const timeoutPromise = new Promise<never>((_, reject) => {
+          timeout = setTimeout(() => {
+            const timeoutError = new Error(`Task timed out after ${timeoutMs}ms`);
+            taskController.abort(timeoutError);
+            reject(timeoutError);
+          }, timeoutMs);
+        });
+        const value = await Promise.race([
+          Promise.resolve().then(() => task.run({ signal: taskController.signal })),
+          timeoutPromise,
+        ]);
         results[index] = {
           id: task.id,
           status: "fulfilled",
@@ -88,7 +96,7 @@ export async function runTurboParallel<T>(
           controller.abort(new Error(`Critical task failed: ${task.id}`));
         }
       } finally {
-        clearTimeout(timeout);
+        if (timeout) clearTimeout(timeout);
         controller.signal.removeEventListener("abort", abortTask);
       }
     }
