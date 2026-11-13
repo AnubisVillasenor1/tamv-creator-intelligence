@@ -142,12 +142,15 @@ bun run build
 | `bun run tamv:keygen` | Genera un par Ed25519 local. |
 | `bun run hooks:install` | Instala guardas Git locales sin sustituir una configuración de hooks existente. |
 | `bun run hooks:test` | Prueba los hooks y el escáner del índice Git. |
+| `bun run slsa:test` | Prueba los modos de verificación de atestaciones GitHub y procedencia SLSA offline. |
 
 Para instalar guardas locales opcionales en este checkout, ejecuta `bun run hooks:install`; valida su sintaxis, instalación y regresiones con `bun run hooks:test`. `pre-commit` inspecciona el índice Git y el árbol de trabajo, hashes de certificación, inventario del pack y sintaxis Bash. `pre-push` ejecuta lint, pruebas y build. No sustituyen CI: pueden omitirse deliberadamente y la protección autoritativa debe mantenerse en GitHub.
 
 Ejecuta también los validadores Python y Bash anteriores. Un comando aislado exitoso no acredita toda la cadena. Conserva SHA, logs y artefactos CI.
 
 ## Certificación y releases
+
+El script `scripts/verify-slsa.sh` ofrece dos modos: verificación en línea de atestaciones GitHub (repo, workflow firmante, tag y SHA fuente explícitos) y verificación de procedencia offline con `slsa-verifier`. El modo GitHub requiere `GH_TOKEN` y `TAMV_SOURCE_DIGEST`; nunca acepta éxito simulado si falta una de esas precondiciones.
 
 Cada mecanismo prueba algo diferente:
 

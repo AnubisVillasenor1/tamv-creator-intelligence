@@ -34,6 +34,9 @@ jobs:
       - name: Test hardened local hooks and staged-secret detection
         run: bun run hooks:test
 
+      - name: Test GitHub and offline SLSA verification modes
+        run: bun run slsa:test
+
       - name: Validate TAMV source hashes and release manifest
         run: node scripts/tamv-certification.mjs --check
 

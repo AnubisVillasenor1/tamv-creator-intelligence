@@ -141,18 +141,14 @@ jobs:
           subject-path: ${{ steps.bundle.outputs.archive }}
           sbom-path: release-artifacts/sbom.cdx.json
 
-      - name: Verify generated build provenance against repository, workflow and tag
+      - name: Verify generated build provenance against repository, workflow, tag and source SHA
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          TAMV_SOURCE_DIGEST: ${{ github.sha }}
         run: |
           set -euo pipefail
-          gh attestation verify "${{ steps.bundle.outputs.archive }}" \
-            --repo "$GITHUB_REPOSITORY" \
-            --predicate-type https://slsa.dev/provenance/v1 \
-            --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/release-sign.yml" \
-            --source-digest "$GITHUB_SHA" \
-            --source-ref "$GITHUB_REF"
+          bash scripts/verify-slsa.sh "${{ steps.bundle.outputs.archive }}" "$GITHUB_REPOSITORY" "$GITHUB_REF"
 
       - name: Verify generated CycloneDX SBOM attestation
         shell: bash
