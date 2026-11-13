@@ -24,26 +24,38 @@
     "src/routes/api.audiocore.advanced.ts",
     "src/routes/api.agent.ts",
     "scripts/tamv-certification.mjs",
-    "tamv-pack/core/tamv-sovereign-core.ts"
+    "tamv-pack/core/tamv-sovereign-core.ts",
+    "src/lib/hypercore-turbo/policy.ts",
+    "src/lib/hypercore-turbo/velocity.ts",
+    "hypercore/govern-core/policy.json",
+    "hypercore/velocity-core/turbo-config.json",
+    "src/routes/api.hypercore.audit.ts",
+    "src/routes/hypercore.tsx"
   ],
   "integrity": {
     "algorithm": "sha256",
     "canonicalTextSha256": "sha256:ae0ef2a55f14c869da77581f9e68f457d5ec73028d6146b516e6b873f46891c6",
     "files": {
       "ATTRIBUTION.md": "sha256:850af658102c7c350ae91cbb8a5799a4ffba50dd5533a073417b854a8f776385",
-      "README.md": "sha256:554a1af86d90bec6ce4547eac003dc4734293559545cf7980e36af103e5b8c2a",
+      "README.md": "sha256:b730157e4963642ca84b9f897f07c2f31f47425b0bd897bd8bf554f0dca1b9ff",
       "src/lib/tamv-attribution.ts": "sha256:c9721bd6fdc581804b4b3a4947aa1769a9af1435e1f9e272823e90cf8bbf5f24",
       "src/components/branding/TamvAttribution.tsx": "sha256:5d33b2e482d8df417e6fc51fc478d3264fde4a1e9e2f8ad130d231c3fb451332",
       "src/routes/__root.tsx": "sha256:f7f6c83c61abe3032a05e1b86d8dfc1622af05a22e0d478e8d70380e9f090849",
-      "src/lib/tamv-certification.ts": "sha256:b8e7f0394f639f652be5e90e67d692deae8e9bace14ebce464e67bf57b44fdf7",
+      "src/lib/tamv-certification.ts": "sha256:9babea38dd2d5ceb4e535453267eeca37b7b522f8a454b0cfd19f0fc84ac90a5",
       "src/lib/content.functions.ts": "sha256:cf0f5f74d4c28d7c21c008b592ca2d6b0fc9a9d8b95101a196b484e415086b19",
       "src/routes/api.tamv.status.ts": "sha256:c32a767d3e4753a7c15c0e40b7899378a2a90db017beb265b884ec314764d363",
       "src/routes/api.generation.ts": "sha256:9912afaf6aac51ab5f05c2829fc7a3173d2b8cfe60f2b167510abb6b053c7b31",
       "src/routes/api.voice.generate.ts": "sha256:403cf2c9fb5f183fb5c624530c7796f84c2dc82955f0deb7f9c44ceb324eea71",
-      "src/routes/api.audiocore.advanced.ts": "sha256:e39d2c28826d5f16ca5ec7f2d07d415f1944e01788528cbaf6b65ee143618524",
-      "src/routes/api.agent.ts": "sha256:53af17d6c8c636b140ece37e9d6ff2ea7773e6a4e44946de68fa8eebb46ef427",
-      "scripts/tamv-certification.mjs": "sha256:25201e7ad627788ed79eaf16dd9faf9a354c40c01575b4d79ffbb0ccd2b7cada",
-      "tamv-pack/core/tamv-sovereign-core.ts": "sha256:edb10e15903e0fc34120a846df0bc878e198e16624725a8dc9b1e76ac147a5b4"
+      "src/routes/api.audiocore.advanced.ts": "sha256:f243cb7ce503c099479b787bb561f76d6f198c73e3585d0aab9443349abe9778",
+      "src/routes/api.agent.ts": "sha256:bf45bce01dca3d73c998a78cd92605ec7daea16799e3c480e38012e78fc3f03a",
+      "scripts/tamv-certification.mjs": "sha256:6442602b2813db69e5fd255cbac9d49e10a98d4ae745aa69e0fe63206a5e3d71",
+      "tamv-pack/core/tamv-sovereign-core.ts": "sha256:7d8c90df6e8086216ffae098e6cdab7282adba2420ba2f834ad4b4909acee443",
+      "src/lib/hypercore-turbo/policy.ts": "sha256:6de032fe230e3c944d85386245f4258b2bc88bb0e29c9d8c4504a6638be27848",
+      "src/lib/hypercore-turbo/velocity.ts": "sha256:ed90eb688f5fcc0d8f0a6fadc20fdd1b39116cb0c77d45f42917dcb0f83c1d16",
+      "hypercore/govern-core/policy.json": "sha256:534f984282a909696ddc0f05b1f83fddc0f2c191af2dae9f5bdf0263a44f07ac",
+      "hypercore/velocity-core/turbo-config.json": "sha256:1365185913e3d28212bd6aaed9793f3ec05d6ae00758c09110d5f2143da8e6ca",
+      "src/routes/api.hypercore.audit.ts": "sha256:a547069077e9aabb13be1bfdad39c47d397a0d8fc79fa0be99dc0829c16c8767",
+      "src/routes/hypercore.tsx": "sha256:cf470d45e84a924df4a9bf2aa09a97915c2996de7d5275b2492e102131ab2301"
     }
   },
   "governance": {
