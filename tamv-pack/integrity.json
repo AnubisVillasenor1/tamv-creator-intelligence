@@ -22,7 +22,7 @@
     "README.md": "4d2fbe078f3cef53cb740c4dd2db6248b162f6ba",
     "scripts/apply-tamv-governance.sh": "e40091f33aa177619edf5661ab34672ac6223e11",
     "scripts/inject-attribution.sh": "49daca0beacfbe185914695214f2d9bd3a54ee76",
-    "scripts/test-scripts.sh": "1f022a5132857755d9ab612ac5b4a043e0ede60e",
+    "scripts/test-scripts.sh": "82e9df2c69a86df09ec46195dda748bf345151b8",
     "scripts/validate-integrity.py": "7bebc1a62bd85411efed809b044c84c77fecf8f8",
     "scripts/validate-manifest.py": "1230ee492a3712840fce29e9c10056f58742970a",
     "scripts/validate-pack.sh": "b7fe67d4cf12a76b08ec1856394dc86092f66d03",
