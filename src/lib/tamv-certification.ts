@@ -18,7 +18,9 @@ import hyperCorePolicySource from "./hypercore-turbo/policy.ts?raw";
 import hyperCoreVelocitySource from "./hypercore-turbo/velocity.ts?raw";
 import hyperCorePolicyJson from "../../hypercore/govern-core/policy.json?raw";
 import hyperCoreVelocityConfig from "../../hypercore/velocity-core/turbo-config.json?raw";
-import hyperCoreAuditRouteSource from "../routes/api.hypercore.audit.ts?raw";
+import hyperCoreAuditRouteSource from "../routes/api.tamv.hypercore.audit.ts?raw";
+import hyperCoreParallelRunnerSource from "./hypercore-turbo/parallel-runner.ts?raw";
+import verifySlsaScriptSource from "../../scripts/verify-slsa.sh?raw";
 import hyperCorePageSource from "../routes/hypercore.tsx?raw";
 import { TAMV_CANONICAL_ATTRIBUTION } from "./tamv-attribution";
 
@@ -44,8 +46,10 @@ export const TAMV_REQUIRED_FILES = [
   "src/lib/hypercore-turbo/velocity.ts",
   "hypercore/govern-core/policy.json",
   "hypercore/velocity-core/turbo-config.json",
-  "src/routes/api.hypercore.audit.ts",
+  "src/routes/api.tamv.hypercore.audit.ts",
   "src/routes/hypercore.tsx",
+  "src/lib/hypercore-turbo/parallel-runner.ts",
+  "scripts/verify-slsa.sh",
 ] as const;
 
 export type TamvCertificationStatus =
@@ -120,7 +124,9 @@ export const TAMV_CERTIFICATION_SOURCE_FILES: Record<string, string> = {
   "src/lib/hypercore-turbo/velocity.ts": hyperCoreVelocitySource,
   "hypercore/govern-core/policy.json": hyperCorePolicyJson,
   "hypercore/velocity-core/turbo-config.json": hyperCoreVelocityConfig,
-  "src/routes/api.hypercore.audit.ts": hyperCoreAuditRouteSource,
+  "src/routes/api.tamv.hypercore.audit.ts": hyperCoreAuditRouteSource,
+  "src/lib/hypercore-turbo/parallel-runner.ts": hyperCoreParallelRunnerSource,
+  "scripts/verify-slsa.sh": verifySlsaScriptSource,
   "src/routes/hypercore.tsx": hyperCorePageSource,
 };
 
@@ -299,7 +305,9 @@ export async function verifyTamvCertification(
     !sourceFiles["src/lib/hypercore-turbo/velocity.ts"].includes("runTurboParallel") ||
     !sourceFiles["hypercore/govern-core/policy.json"].includes("NIST-CSF-2.0") ||
     !sourceFiles["hypercore/velocity-core/turbo-config.json"].includes("maxConcurrency") ||
-    !sourceFiles["src/routes/api.hypercore.audit.ts"].includes('createFileRoute("/api/hypercore/audit")') ||
+    !sourceFiles["src/routes/api.tamv.hypercore.audit.ts"].includes('createFileRoute("/api/tamv/hypercore/audit")') ||
+    !sourceFiles["src/lib/hypercore-turbo/parallel-runner.ts"].includes("runTurboParallel") ||
+    !sourceFiles["scripts/verify-slsa.sh"].includes("slsa-verifier") ||
     !sourceFiles["src/routes/hypercore.tsx"].includes('createFileRoute("/hypercore")')
   ) {
     return fail("attribution-modified", "La atribución visible o uno de sus puntos de control fue alterado.", checkedAt);
