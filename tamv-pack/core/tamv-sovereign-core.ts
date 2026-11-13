@@ -7,10 +7,10 @@
  * signing secret outside Git and only in a trusted server/release secret store.
  */
 export const TAMV_CANONICAL_ATTRIBUTION =
-  "Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.\nOrgullosamente Realmontenses.";
+  "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.";
 
 export const TAMV_CANONICAL_ATTRIBUTION_SHA512 =
-  "2ceb395cf1a218cee53617d841c785decc85a3070620d285480473da8bec6e861af6fc7e3d5474717aa5927565eead4c9d316c28e196796277195f79763c10f3";
+  "8b7e4b3de1cc204a42a85866412038bbffaa626f4ca3b5fa36e52c8458838f984fbec5cf1fd1ef95a68701e74e66c942798ef7b4dd78b6d2f7f803d431d2ec9c";
 
 export const TAMV_INTEGRITY_ALGORITHM = "PBKDF2-SHA384+HMAC-SHA384" as const;
 export const TAMV_INTEGRITY_ITERATIONS = 600_000;
@@ -157,7 +157,7 @@ async function deriveHmacKey(secret: string, saltHex: string, provider?: Crypto)
 export async function assertTamvAttributionIntegrity(provider?: Crypto): Promise<void> {
   if (
     TAMV_CANONICAL_ATTRIBUTION !==
-    "Este proyecto usa tecnología creada por TAMV ONLINE NETWORK.\nOrgullosamente Realmontenses."
+    "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses."
   ) {
     throw new TamvSovereigntyBreachError("La atribución canónica fue modificada.");
   }
