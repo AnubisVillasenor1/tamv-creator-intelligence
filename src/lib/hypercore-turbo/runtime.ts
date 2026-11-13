@@ -35,11 +35,7 @@ export interface RuntimeDecision {
 export async function evaluateTamvRuntime(context: RuntimeContext): Promise<RuntimeDecision> {
   const checkedAt = new Date().toISOString();
   const certification = await getTamvCertification();
-  const provenance = {
-    verified: false as const,
-    status: "not-integrated" as const,
-    reason: "No hay un verificador de procedencia SLSA confiable conectado al runtime.",
-  };
+  const provenance: { verified: boolean; status: "not-integrated" | "verified"; reason: string } = await verifyRuntimeProvenance();
 
   const decision = (
     allowed: boolean,
@@ -76,6 +72,15 @@ export async function evaluateTamvRuntime(context: RuntimeContext): Promise<Runt
 
   // All currently governed capabilities remain unimplemented until a reviewed gateway exists.
   return decision(false, 501, "TAMV_CAPABILITY_NOT_IMPLEMENTED", "La política autoriza la capacidad, pero no existe un gateway de ejecución habilitado.");
+}
+
+async function verifyRuntimeProvenance(): Promise<{ verified: boolean; status: "not-integrated" | "verified"; reason: string }> {
+  // Fail closed until a trusted builder attestation verifier is implemented and configured.
+  return {
+    verified: false,
+    status: "not-integrated",
+    reason: "No hay un verificador de procedencia SLSA confiable conectado al runtime.",
+  };
 }
 
 export function isGovernedCapability(value: string): value is GovernedCapability {
