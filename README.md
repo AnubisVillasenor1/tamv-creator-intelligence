@@ -89,3 +89,17 @@ GitHub Actions ejecuta higiene del repositorio, revisión de hashes, validación
 Consulta `tamv-pack/LICENSE`, `tamv-pack/README.md` y la documentación de licencias. La certificación de distribución y el licenciamiento comercial por usuario son controles distintos.
 
 TAMV ONLINE NETWORK · Mineral del Monte, Hidalgo, México.
+
+
+## TAMV HyperCore Turbo
+
+La ruta `/hypercore` ofrece un panel de diagnóstico operativo y `GET /api/hypercore/audit` devuelve un informe sin caché de la política, el estado de certificación y la autoprueba de concurrencia. La navegación ya incluye un acceso directo al panel.
+
+- **Govern Core:** política versionada `tamv.govern.policy.v2`, validación fail-closed y funciones NIST CSF 2.0.
+- **Integrity Core:** los archivos de política, ejecutor paralelo, configuración y rutas del panel se incluyen en el conjunto de fuentes protegidas por el verificador de certificación.
+- **Velocity Core:** ejecutor asíncrono con concurrencia limitada, orden estable de resultados, timeout cooperativo y corte de nuevas tareas ante fallos críticos.
+- **Release:** el panel informa explícitamente si faltan firma, procedencia SLSA o almacenamiento de auditoría persistente. No marca la distribución como certificada por superar una autoprueba.
+
+### Límites actuales conocidos
+
+La firma oficial de esta rama continúa pendiente hasta que la persona autorizada firme el manifest. La procedencia SLSA y el ledger de auditoría/standby persistente no están configurados por estos cambios; por tanto, las capacidades certificadas deben permanecer bloqueadas. El ejecutor implementa concurrencia asíncrona en un proceso; no sustituye workers BullMQ/Redis ni representa paralelismo de CPU/GPU. Consulta `docs/HYPER-CORE-OMEGA.md` y `docs/AUDIT-TECHNICAL-2026-11-13.md` para el modelo y la hoja de ruta.
