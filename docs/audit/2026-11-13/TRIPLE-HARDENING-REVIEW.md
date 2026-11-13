@@ -68,3 +68,30 @@ A release is blocked if any required integrity hash differs, the manifest is mal
 ## Scope limitations
 
 This review combines source inspection with the repository's existing audit artifacts. It does not claim a fresh successful CI run, a live production test, an external penetration test, a legal opinion, an independent certification or validation of infrastructure secrets. Those require actual execution and external evidence.
+
+## Additional hardening pass — 2026-11-13
+
+### Implemented in the follow-up commit
+
+| Control | Change | Verification gate |
+|---|---|---|
+| Staged-secret detection | Repository hygiene now examines both the Git index (the exact content committed) and the working tree. Diagnostics identify the source but never echo credential values. Additional high-confidence patterns cover GitHub fine-grained tokens, Slack, OpenAI-style keys, Google API keys, PEM private keys, Supabase/Stripe credentials, AWS access-key IDs, and database URLs containing passwords. | scripts/test-repo-hygiene.py stages a synthetic GitHub credential, removes it only from the working file, and verifies that the index scanner still blocks it. It also tests rejection of a staged .env.production. |
+| Cron authentication | Requires a configured current secret of at least 32 non-whitespace characters; validates a configured rotation secret; rejects bearer values over 4,096 characters; treats the Bearer scheme case-insensitively; keeps digest-based constant-time comparisons; and adds no-store and nosniff response headers. | src/test/cron-auth.test.ts covers missing/weak configuration, malformed and oversized credentials, active and previous secrets, mismatches, rotation, and response headers. |
+| Local commit hooks | Added opt-in pre-commit and pre-push hooks. Pre-commit checks staged whitespace, secrets in index/worktree, source hash contract, pack integrity and shell syntax. Pre-push runs lint, unit/routing tests and production build. | scripts/test-git-hooks.sh checks syntax, expected gates, installation, executable permissions and refusal to overwrite an existing custom core.hooksPath. |
+| Hook installation safety | Added bun run hooks:install. The installer configures a repository-local absolute hook path, changes only hook file permissions, and refuses to replace a different existing core.hooksPath. Hooks are opt-in and remain bypassable by an explicit Git override or --no-verify; CI remains the authoritative gate. | Regression checks run through bun run hooks:test in the validation workflow. |
+| CI enforcement | The existing validation workflow runs hook and staged-secret regression tests in addition to the previous hash, pack, lint, unit/routing and build gates. | Required GitHub Actions validation run on this pull request. |
+
+### Operational notes
+
+- Install local hooks with bun run hooks:install; confirm them with bun run hooks:test. The commands require Git and Bash; validation also requires Python 3, Node.js, and Bun.
+- The secret scanner is a high-confidence pattern detector, not a replacement for a managed secret-scanning service. A scanner pass is not evidence that no credential has ever been exposed.
+- Cron authentication now rejects short or whitespace-bearing values. Configure a random secret of at least 32 characters in LOVABLE_CRON_SECRET; if rotation is used, configure LOVABLE_CRON_SECRET_PREVIOUS with a similarly strong value, then remove the previous value after the rotation window.
+
+### Still open — not certified closed
+
+- tamv-attribution.sig remains UNSIGNED_RELEASE_PENDING; no release signature was fabricated or emitted.
+- SLSA trusted provenance is still not verified by runtime.
+- Music, voice, AudioCore and agent gateways remain intentionally unavailable until real implementations and provider contracts are connected.
+- Durable, append-only audit persistence, production database migrations, verified multi-tenant RLS/negative isolation tests, SBOM/attestation, and load/failover tests still require implementation.
+- Local hooks are developer guardrails, not server-side policy. Required CI, branch protection and release authorization still need to be enforced in repository settings.
+

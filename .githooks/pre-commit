@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+echo "[TAMV] Checking staged whitespace and merge markers..."
+git diff --cached --check
+
+echo "[TAMV] Scanning both the Git index and working tree for leaked credentials..."
+python3 scripts/validate-repo-hygiene.py
+
+echo "[TAMV] Verifying source hashes and certification contract..."
+node scripts/tamv-certification.mjs --check
+
+echo "[TAMV] Validating the skill pack and its integrity inventory..."
+bash tamv-pack/scripts/validate-pack.sh
+
+echo "[TAMV] Checking shell syntax..."
+for script in scripts/*.sh tamv-pack/scripts/*.sh; do
+  [[ -f "$script" ]] || continue
+  bash -n "$script"
+done
+
+echo "[TAMV] Pre-commit gates passed."
