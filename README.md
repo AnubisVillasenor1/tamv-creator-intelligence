@@ -240,6 +240,8 @@ Las cuatro viven en `tamv-genesis/v3/skills/` y son las únicas que declara [ski
 
 El paquete se protege con un sello por skill y una raíz de paquete SHA-256 firmada con Ed25519. Quitar, editar, mover o añadir una skill rompe el sello y el runtime deniega la ejecución. **El sello actual no está firmado:** `UNSIGNED_RELEASE_PENDING` significa que las capacidades certificadas no se habilitan, no que exista una certificación. La política completa, el modelo de amenaza y la migración desde 1.2.1 están en [docs/SOVEREIGN-V3.md](docs/SOVEREIGN-V3.md).
 
+Publicar cuatro contratos no crea cuatro ejecutores: la única capacidad de inferencia implementada sigue siendo `creator.review`. El sello impide que una copia parcial o alterada pase como certificada; no vuelve “imposible de piratear” un texto que se distribuye en claro.
+
 Los patrones externos se absorben como capacidades abstractas; no autorizan copiar código, contratos ni marcas de terceros sin revisar sus licencias.
 
 ## HyperCore
@@ -613,6 +615,7 @@ Los borradores de revisión y el catálogo importado no se guardan de forma dura
 - [Remediación](docs/audit/2026-11-13/REMEDIATION.md).
 - [Protocolo de evaluación](docs/ACADEMIC-EVALUATION.md).
 - [Distribución y publicación](docs/PUBLISHING.md).
+- [Sello, firma y cifrado híbrido v3](docs/SOVEREIGN-V3.md).
 - [Inventario histórico de perfiles](docs/PROFILES.md).
 - [Catálogo agregado del corpus local](docs/CORPUS-CATALOG.md).
 - [Gobernanza](GOVERNANCE.md) y [seguridad](SECURITY.md).
@@ -623,7 +626,7 @@ Son materiales fechados, no garantías del estado presente. Las cifras de activi
 
 Prioridades que no se cierran reescribiendo documentación:
 
-1. Ejecutar y corregir las suites de la aplicación (Vitest), typecheck, lint, build y pruebas reales de interfaz; el kernel de Genesis ya se ejecutó (52/52).
+1. Ejecutar y corregir las suites de la aplicación (Vitest), typecheck, lint, build y pruebas reales de interfaz; el kernel de Genesis se ejecutó localmente (65/65), pero el resultado de CI para este commit debe confirmarse en GitHub Actions.
 2. Completar una firma Ed25519 real y verificar la distribución; cada edición posterior del README exige `tamv:hash`.
 3. Probar el flujo de sesión y revisión extremo a extremo, incluyendo la normalización de errores de autenticación y el acceso efectivo al modelo configurado.
 4. Conectar verificación de procedencia confiable al runtime/despliegue y unificar su aplicación a las capacidades que deban exigirla.
@@ -632,7 +635,7 @@ Prioridades que no se cierran reescribiendo documentación:
 7. Implementar persistencia, consentimiento durable, control de acceso, aislamiento de datos, respaldo y recuperación cuando el producto los requiera.
 8. Conectar y probar adaptadores reales antes de habilitar música, voz, DSP o agentes; los contratos por sí solos no los activan.
 9. Integrar observabilidad externa, análisis de vulnerabilidades y política de bloqueo por release.
-10. Implementar las cuatro skills coordinadoras solo como ampliación explícita del catálogo, con contratos y validación propios.
+10. Firmar el sello v3 con la clave Ed25519 de release y verificar `--require-signature`; mientras siga en `UNSIGNED_RELEASE_PENDING`, las capacidades certificadas permanecen deshabilitadas.
 
 Priorizar por riesgo y dependencia, no por número de commits ni porcentajes sin método reproducible.
 
@@ -662,6 +665,7 @@ No debe suponerse que existen términos comerciales completos para cualquier act
 - [ ] Tests, typecheck, lint y build aprobados para el commit de release.
 - [ ] Flujo real probado en navegador, con casos de rechazo y fallo.
 - [ ] Hashes finales y firma Ed25519 válidos; clave pública confiable configurada.
+- [ ] Sello v3 firmado y `v3-seal.mjs --verify --require-signature` en `TAMV_SEAL_VALID`.
 - [ ] Procedencia y SBOM verificables vinculados al artefacto correcto.
 - [ ] Autenticación, consentimiento, autorización, cuotas y límites probados.
 - [ ] Almacenamiento, aislamiento, recuperación y monitoreo demostrados donde apliquen.

@@ -929,12 +929,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:a89cbd1fd7e39d92de28068b4cda14b76a1c14f30357a1671a783a1c147ace4f",
-      "bytes": 50090
+      "sha256": "sha256:62c170c887d538d8e6a3db0c2b4c16da68bbc74e1544876b96c0b29083d57ffd",
+      "bytes": 50664
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:5d588e9ca3333335e6d08978ce373d039666898e0de9c9dc59f69fce24834cc5",
+      "sha256": "sha256:a5beb1915a8073a546e79c69aeb8c651f9cca9e098ae21b7a540daa897bfe8e2",
       "bytes": 4285
     },
     {
