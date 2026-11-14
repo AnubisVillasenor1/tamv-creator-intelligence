@@ -24,7 +24,8 @@ REQUIRED_SQL = {
 }
 REQUIRED_SCHEMA = (
     "tamvHypercoreAuditEvents",
-    'pgTable("tamv_hypercore_audit_events"',
+    'pgTable(',
+    '"tamv_hypercore_audit_events"',
     'index("tamv_hypercore_audit_trace_idx")',
     'index("tamv_hypercore_audit_time_idx")',
 )
