@@ -54,6 +54,9 @@ jobs:
       - name: Run Genesis evidence kernel tests
         run: node --experimental-strip-types --test tamv-genesis/tests/*.test.ts
 
+      - name: Verify v3 pack seal structure and content
+        run: node --experimental-strip-types tamv-genesis/cli/sovereign.mjs seal
+
       - name: Test installation and tamper rejection
         run: bash tamv-pack/scripts/test-scripts.sh
 

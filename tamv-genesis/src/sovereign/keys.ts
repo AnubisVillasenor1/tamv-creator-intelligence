@@ -6,7 +6,7 @@
  * half. Signatures are base64url over canonical UTF-8 bytes.
  */
 
-import { bytesToBase64Url, base64UrlToBytes, bytesToHex, sha256Hex } from "./digest.ts";
+import { bytesToBase64Url, base64UrlToBytes, bytesToHex, sha256Hex, type Sha256Digest } from "./digest.ts";
 
 export type TamvKeyAlgorithm = "Ed25519" | "X25519";
 
@@ -109,7 +109,7 @@ export async function generateX25519KeyPair(provider?: Crypto): Promise<CryptoKe
 }
 
 /** Stable key identifier: SHA-256 over the SPKI DER bytes. */
-export async function keyId(publicKey: CryptoKey, provider?: Crypto): Promise<string> {
+export async function keyId(publicKey: CryptoKey, provider?: Crypto): Promise<Sha256Digest> {
   const der = new Uint8Array(await subtle(provider).exportKey("spki", publicKey));
   return sha256Hex(der, provider);
 }

@@ -9,6 +9,7 @@
  *   report   write docs/audit/2026-11-13/GENERATED.md
  *   corpus   print local corpus aggregates (no paths)
  *   profiles print GitHub profile aggregates
+ *   seal     verify the v3 pack seal structure and content (signature state reported)
  *   build    write dist/genesis.json plus a SHA-256 manifest
  *   packet   build and print the external review artifact
  *
@@ -911,6 +912,7 @@ function buildReviewPacket(audit) {
       "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit",
       "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs verify",
       "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report",
+      "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs seal",
       "node --experimental-strip-types --test tamv-genesis/tests/*.test.ts",
       "node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify",
       "npx skills add AnubisVillasenor1/tamv-creator-intelligence --list",
@@ -1060,6 +1062,11 @@ if (command === "audit") {
     }
     console.log(`Validación: ${audit.profiles.problems.length === 0 ? "consistente" : audit.profiles.problems.map((problem) => problem.code).join(", ")}`);
   }
+} else if (command === "seal") {
+  const { seal } = runAudit();
+  console.log(`skills=${seal.skills} firma=${seal.signature}`);
+  console.log(seal.detail);
+  if (!seal.ok) process.exitCode = 1;
 } else if (command === "build" || command === "packet") {
   const bundle = buildBundle();
   if (command === "packet") {
@@ -1068,6 +1075,6 @@ if (command === "audit") {
     console.log(`${bundle.claims.length} claims, ${bundle.checks.length} chequeos, ${bundle.capabilities.length} capacidades.`);
   }
 } else {
-  console.error(`Comando desconocido: ${command}. Usa audit, verify, score, report, corpus, profiles, build o packet.`);
+  console.error(`Comando desconocido: ${command}. Usa audit, verify, score, report, corpus, profiles, seal, build o packet.`);
   process.exitCode = 2;
 }
