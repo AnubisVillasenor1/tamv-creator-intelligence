@@ -761,6 +761,12 @@
     "mismatches": [],
     "protectedFiles": 22
   },
+  "seal": {
+    "ok": true,
+    "skills": 4,
+    "signature": "unsigned",
+    "detail": "Raíz sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed)."
+  },
   "checks": [
     {
       "id": "K-01",
@@ -885,7 +891,14 @@
       "id": "K-18",
       "label": "Gobernanza de material sensible",
       "status": "pass",
-      "detail": "85 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "detail": "100 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "blocking": true
+    },
+    {
+      "id": "K-19",
+      "label": "Sello criptográfico del paquete v3",
+      "status": "pass",
+      "detail": "Raíz sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed).",
       "blocking": true
     }
   ],
@@ -895,6 +908,7 @@
     "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs verify",
     "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report",
     "node --experimental-strip-types --test tamv-genesis/tests/*.test.ts",
+    "node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify",
     "npx skills add AnubisVillasenor1/tamv-creator-intelligence --list"
   ],
   "artifacts": [
@@ -915,12 +929,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:158f4227764da72a8619ca446a551748bc5c8cdd372d91481f9df07c83e90125",
-      "bytes": 47702
+      "sha256": "sha256:a89cbd1fd7e39d92de28068b4cda14b76a1c14f30357a1671a783a1c147ace4f",
+      "bytes": 50090
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:d6a8868eba6ad6b449df434eb01e08ea6540b0286bac74004586aff970fa2f2c",
+      "sha256": "sha256:5d588e9ca3333335e6d08978ce373d039666898e0de9c9dc59f69fce24834cc5",
       "bytes": 4285
     },
     {
@@ -1007,10 +1021,92 @@
       "path": "docs/ACADEMIC-EVALUATION.md",
       "sha256": "sha256:bf1224fe06792aec7ead87637d1816f9e3f58e94663e3a8be95bb40b4860b6aa",
       "bytes": 8646
+    },
+    {
+      "path": "docs/SOVEREIGN-V3.md",
+      "sha256": "sha256:736ad2522a3127bb0a4819cf64bfe5765d5e999baca4d39784af9672f3eb0bec",
+      "bytes": 7415
+    },
+    {
+      "path": "skills.sh.json",
+      "sha256": "sha256:0956a6a7450a73fddfcb9a95b2c3a71b266a8751293534567ebd60e49f40eac9",
+      "bytes": 988
+    },
+    {
+      "path": "tamv-genesis/v3/pack.json",
+      "sha256": "sha256:d329255b987baceaa454f5bd70fa5b9304d24f13b0908305cf7c44100a3e0266",
+      "bytes": 8028
+    },
+    {
+      "path": "tamv-genesis/v3/seals/pack-seal.json",
+      "sha256": "sha256:5a1fdc3e891fe3ee373823e8ccd59e515b5720d6507f6185f99121414be0a2c2",
+      "bytes": 2803
+    },
+    {
+      "path": "tamv-genesis/v3/skills/tamv-creator-os/SKILL.md",
+      "sha256": "sha256:cdab00ad51745ad863e2399c744d805df3eae1d3520eac87137db279f6af7977",
+      "bytes": 2766
+    },
+    {
+      "path": "tamv-genesis/v3/skills/tamv-audio-intelligence/SKILL.md",
+      "sha256": "sha256:35a33a7097ed3105719fe65a5e5fe925e470ab2ad7d4d4c397007741c2b0e22e",
+      "bytes": 2676
+    },
+    {
+      "path": "tamv-genesis/v3/skills/tamv-growth-engine/SKILL.md",
+      "sha256": "sha256:6e2182cfe969f5783bc732fa767b906c8cfb853dc6b74df184293b70ef8263a9",
+      "bytes": 2558
+    },
+    {
+      "path": "tamv-genesis/v3/skills/tamv-sovereign-platform/SKILL.md",
+      "sha256": "sha256:835bd445a13064541ca32ed0fca15a83f61c2f9ea0ff2762cf69c7f5a5cd9462",
+      "bytes": 2824
+    },
+    {
+      "path": "tamv-genesis/src/sovereign/canonical.ts",
+      "sha256": "sha256:3eeb63b31e8d62a923efef909a46073cccdabcaf51be40c8a22241ace283921a",
+      "bytes": 2278
+    },
+    {
+      "path": "tamv-genesis/src/sovereign/digest.ts",
+      "sha256": "sha256:ce32605035647d67800bc020144807bf68ff16efa222558d7c30ee5a74f3fdf3",
+      "bytes": 3208
+    },
+    {
+      "path": "tamv-genesis/src/sovereign/keys.ts",
+      "sha256": "sha256:8ae44304c82530d667a7100ee2a34f9f54ba70a92bd695e675c89ac88778f83a",
+      "bytes": 5204
+    },
+    {
+      "path": "tamv-genesis/src/sovereign/hybrid.ts",
+      "sha256": "sha256:9d1be17e62bd1225a3b84b90bd64732529a970dac96cf36a71e29b5271a54937",
+      "bytes": 5648
+    },
+    {
+      "path": "tamv-genesis/src/sovereign/seal.ts",
+      "sha256": "sha256:3bb90662b940c9611b527a90dcdf9cad28be44d1ea4abe4ee7febb40440a92c0",
+      "bytes": 13568
+    },
+    {
+      "path": "tamv-genesis/scripts/v3-seal.mjs",
+      "sha256": "sha256:2097627e2334f681b7aebdb5cd2be525f127df01f8d7a5015aeb499750ace534",
+      "bytes": 6208
+    },
+    {
+      "path": "tamv-genesis/scripts/v3-hybrid.mjs",
+      "sha256": "sha256:a3ddab9651df6b2354cd9f7ecb6b0967bc08c293e2813c88b4ae0d350bd6a4fc",
+      "bytes": 2437
+    },
+    {
+      "path": "tamv-genesis/tests/sovereign.test.ts",
+      "sha256": "sha256:8789c727bfa2eb8dfeae40bfc0d5c6683f4f935c8d298513f2d2949effde7ced",
+      "bytes": 7466
     }
   ],
   "limitations": [
     "El release está sin firma Ed25519; las capacidades certificadas permanecen bloqueadas.",
+    "El sello v3 está sin firma (UNSIGNED_RELEASE_PENDING); sin TAMV_V3_PUBLIC_KEY solo se verifica su estructura, no su autoría.",
+    "Ningún software distribuido al cliente es 'imposible de piratear': el sello rechaza copias parciales o alteradas, no la copia completa del texto público.",
     "Las 24,000 horas son un claim autobiográfico no verificado, sin atestación independiente.",
     "No existe ledger durable append-only ni RLS multi-tenant implementada.",
     "No hay SBOM, attestation SLSA ni pruebas de carga y failover.",

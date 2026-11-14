@@ -5,6 +5,19 @@ import { reviewContent } from '@/lib/content.functions';
 
 vi.mock('@/lib/content.functions', () => ({ reviewContent: vi.fn() }));
 
+// The component resolves the server function through the router and checks the
+// session before invoking it. Both boundaries are stubbed so the tests exercise
+// the component's feedback logic instead of the real router or network.
+vi.mock('@tanstack/react-start', () => ({ useServerFn: (fn: unknown) => fn }));
+
+vi.mock('@/integrations/supabase/client', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn(async () => ({ data: { session: { access_token: 'test-session' } }, error: null })),
+    },
+  },
+}));
+
 const response = {
   ok: true as const,
   review: {

@@ -1,0 +1,102 @@
+{
+  "schema": "tamv.pack-seal.v1",
+  "pack": "tamv-creator-intelligence",
+  "version": "3.0.0",
+  "issuedAt": "2026-11-14T00:00:00.000Z",
+  "policy": {
+    "failClosed": true,
+    "hash": "SHA-256",
+    "signature": "Ed25519",
+    "unsignedBehavior": "deny"
+  },
+  "skills": [
+    {
+      "id": "tamv-audio-intelligence",
+      "path": "skills/tamv-audio-intelligence",
+      "requiresConsent": true,
+      "capabilities": [
+        "audio.mastering",
+        "audio.production",
+        "audio.visuals",
+        "audio.voice"
+      ],
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:35a33a7097ed3105719fe65a5e5fe925e470ab2ad7d4d4c397007741c2b0e22e",
+          "bytes": 2676
+        }
+      ],
+      "root": "sha256:569da64bd791ab7c11315596936758f8f4e50f65180c9f03ee42464297fbac89"
+    },
+    {
+      "id": "tamv-creator-os",
+      "path": "skills/tamv-creator-os",
+      "requiresConsent": false,
+      "capabilities": [
+        "creator.community",
+        "creator.content",
+        "creator.launch",
+        "creator.learning",
+        "creator.strategy"
+      ],
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:cdab00ad51745ad863e2399c744d805df3eae1d3520eac87137db279f6af7977",
+          "bytes": 2766
+        }
+      ],
+      "root": "sha256:31d8c70f4dd4931ffa5aa80e882e08ec28e6833327e9d96df68f9d869a8c68f3"
+    },
+    {
+      "id": "tamv-growth-engine",
+      "path": "skills/tamv-growth-engine",
+      "requiresConsent": false,
+      "capabilities": [
+        "growth.analytics",
+        "growth.content",
+        "growth.conversion",
+        "growth.pricing",
+        "growth.seo"
+      ],
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:6e2182cfe969f5783bc732fa767b906c8cfb853dc6b74df184293b70ef8263a9",
+          "bytes": 2558
+        }
+      ],
+      "root": "sha256:aaaefd5a5b5193aac310771c1563f9cb4f36086b6d8d8128102c0dd5b3688a92"
+    },
+    {
+      "id": "tamv-sovereign-platform",
+      "path": "skills/tamv-sovereign-platform",
+      "requiresConsent": false,
+      "capabilities": [
+        "platform.audit",
+        "platform.data",
+        "platform.frontend",
+        "platform.governance",
+        "platform.integrity"
+      ],
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:835bd445a13064541ca32ed0fca15a83f61c2f9ea0ff2762cf69c7f5a5cd9462",
+          "bytes": 2824
+        }
+      ],
+      "root": "sha256:6e2169b423f5ebad380c642a143b63fbc9ecf8b1ea2441f986ffa10dc8c2649a"
+    }
+  ],
+  "internalContracts": {
+    "path": "tamv-pack/skills",
+    "count": 37
+  },
+  "root": "sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc",
+  "signature": {
+    "alg": "Ed25519",
+    "state": "UNSIGNED_RELEASE_PENDING"
+  }
+}

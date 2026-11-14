@@ -15,7 +15,7 @@
  * Usage: node --experimental-strip-types tamv-genesis/cli/sovereign.mjs <command>
  */
 
-import { createHash } from "node:crypto";
+import { createHash, createPublicKey, verify as verifySignature } from "node:crypto";
 import { readFileSync, readdirSync, statSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -36,6 +36,7 @@ import {
   GENESIS_SCHEMA,
   GENESIS_VERSION,
 } from "../src/index.ts";
+import { canonicalJson } from "../src/sovereign/canonical.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = resolve(HERE, "..");
@@ -294,6 +295,7 @@ function checkSensitiveGovernance() {
     "tamv-genesis/data",
     "tamv-genesis/src",
     "tamv-genesis/scripts",
+    "tamv-genesis/v3",
     "tamv-pack/skills",
   ];
   const textExtensions = /\.(?:md|json|ts|tsx|mjs|js|ya?ml|txt|sh|ps1|toml)$/i;
@@ -328,6 +330,124 @@ function checkSensitiveGovernance() {
 }
 
 /* ------------------------------------------------------------------ */
+/* v3 seal                                                             */
+/* ------------------------------------------------------------------ */
+
+function listRegularFiles(root) {
+  const output = [];
+  const visit = (relative) => {
+    const absolute = resolve(root, relative);
+    if (!existsSync(absolute)) return;
+    for (const entry of readdirSync(absolute, { withFileTypes: true })) {
+      const next = relative ? `${relative}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) visit(next);
+      else if (entry.isFile()) output.push(next);
+    }
+  };
+  visit("");
+  return output.sort();
+}
+
+function checkV3Seal() {
+  const packPath = join(PACKAGE_ROOT, "v3", "pack.json");
+  const sealPath = join(PACKAGE_ROOT, "v3", "seals", "pack-seal.json");
+  if (!existsSync(packPath) || !existsSync(sealPath)) {
+    return { ok: false, skills: 0, signature: "missing", detail: "Falta pack.json o pack-seal.json de v3." };
+  }
+  const pack = JSON.parse(readFileSync(packPath, "utf8"));
+  const seal = JSON.parse(readFileSync(sealPath, "utf8"));
+  if (pack.schema !== "tamv.creator-intelligence.pack.v3" || seal.schema !== "tamv.pack-seal.v1") {
+    return { ok: false, skills: 0, signature: "invalid", detail: "El esquema de v3 no coincide." };
+  }
+  const declaredIds = pack.publicSkills.map((skill) => skill.id).sort();
+  const presentIds = readdirSync(join(PACKAGE_ROOT, "v3", "skills"), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+  if (declaredIds.length !== 4 || JSON.stringify(declaredIds) !== JSON.stringify(presentIds)) {
+    return {
+      ok: false,
+      skills: presentIds.length,
+      signature: "n/a",
+      detail: `Las cuatro skills públicas no coinciden: manifiesto=${declaredIds.join(",")} carpetas=${presentIds.join(",")}.`,
+    };
+  }
+
+  const computed = [];
+  for (const skill of pack.publicSkills) {
+    const root = join(PACKAGE_ROOT, "v3", skill.path);
+    const files = listRegularFiles(root);
+    if (!files.includes("SKILL.md") || files.some((path) => path.includes(".."))) {
+      return { ok: false, skills: declaredIds.length, signature: "n/a", detail: `La skill ${skill.id} no tiene SKILL.md válido.` };
+    }
+    const digests = files.map((path) => {
+      const content = readFileSync(join(root, path));
+      return { path, sha256: `sha256:${sha256(content)}`, bytes: content.byteLength };
+    });
+    const capabilities = [...skill.capabilities].sort();
+    const entry = {
+      id: skill.id,
+      path: skill.path,
+      requiresConsent: skill.requiresConsent === true,
+      capabilities,
+      files: digests,
+    };
+    computed.push({
+      id: skill.id,
+      path: skill.path,
+      root: `sha256:${sha256(canonicalJson(entry))}`,
+      files: digests,
+    });
+  }
+  computed.sort((left, right) => left.id.localeCompare(right.id));
+
+  for (const entry of computed) {
+    const sealed = seal.skills.find((skill) => skill.id === entry.id);
+    if (!sealed || sealed.root !== entry.root || sealed.path !== entry.path) {
+      return { ok: false, skills: computed.length, signature: "n/a", detail: `La raíz de ${entry.id} no coincide con el sello.` };
+    }
+  }
+  const computedRoot = `sha256:${sha256(canonicalJson({
+    schema: seal.schema,
+    pack: seal.pack,
+    version: seal.version,
+    issuedAt: seal.issuedAt,
+    skills: seal.skills.map(({ id, path, root }) => ({ id, path, root })),
+    internalContracts: seal.internalContracts ?? null,
+  }))}`;
+  if (computedRoot !== seal.root) {
+    return { ok: false, skills: computed.length, signature: "n/a", detail: "La raíz del paquete no coincide con el sello." };
+  }
+
+  const signature = seal.signature ?? {};
+  if (signature.state === "UNSIGNED_RELEASE_PENDING") {
+    return { ok: true, skills: computed.length, signature: "unsigned", detail: `Raíz ${seal.root}; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed).` };
+  }
+  const publicPem = (process.env.TAMV_V3_PUBLIC_KEY ?? "").replace(/\\n/g, "\n").trim();
+  if (!publicPem) {
+    return { ok: true, skills: computed.length, signature: "unverified", detail: `Raíz ${seal.root}; firma presente pero sin TAMV_V3_PUBLIC_KEY para verificarla.` };
+  }
+  try {
+    const payload = { ...seal };
+    delete payload.signature;
+    const valid = verifySignature(
+      null,
+      Buffer.from(canonicalJson(payload), "utf8"),
+      createPublicKey(publicPem),
+      Buffer.from(signature.value, "base64url"),
+    );
+    return {
+      ok: valid,
+      skills: computed.length,
+      signature: valid ? "verified" : "invalid",
+      detail: valid ? `Raíz ${seal.root}; firma Ed25519 verificada.` : "La firma Ed25519 no autentica el sello v3.",
+    };
+  } catch (error) {
+    return { ok: false, skills: computed.length, signature: "invalid", detail: `No se pudo verificar la firma: ${error.message}` };
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* audit                                                               */
 /* ------------------------------------------------------------------ */
 
@@ -346,6 +466,7 @@ function runAudit() {
   const profiles = checkProfiles();
   const corpus = checkLocalCorpus();
   const sensitive = checkSensitiveGovernance();
+  const v3Seal = checkV3Seal();
 
   const capabilityAssessments = capabilities.map((capability) =>
     assessCapability(capability, {
@@ -490,6 +611,13 @@ function runAudit() {
     `${sensitive.scanned} archivos escaneados; ${sensitive.leaks.length} patrones de secreto; restringidos excluidos=${sensitive.restrictedExcluded} (${sensitive.restricted}).${sensitive.leaks.length > 0 ? ` ${sensitive.leaks.map((leak) => `${leak.path}:${leak.line}:${leak.kind}`).join(", ")}` : ""}`,
     true,
   );
+  push(
+    "K-19",
+    "Sello criptográfico del paquete v3",
+    v3Seal.ok ? "pass" : "fail",
+    v3Seal.detail,
+    true,
+  );
 
   return {
     generatedAt: "2026-11-13T00:00:00Z",
@@ -508,6 +636,7 @@ function runAudit() {
     profiles,
     corpus,
     sensitive,
+    seal: v3Seal,
     capabilityAssessments,
     checks,
   };
@@ -699,6 +828,22 @@ function buildReviewPacket(audit) {
     "docs/CORPUS-CATALOG.md",
     "docs/PUBLISHING.md",
     "docs/ACADEMIC-EVALUATION.md",
+    "docs/SOVEREIGN-V3.md",
+    "skills.sh.json",
+    "tamv-genesis/v3/pack.json",
+    "tamv-genesis/v3/seals/pack-seal.json",
+    "tamv-genesis/v3/skills/tamv-creator-os/SKILL.md",
+    "tamv-genesis/v3/skills/tamv-audio-intelligence/SKILL.md",
+    "tamv-genesis/v3/skills/tamv-growth-engine/SKILL.md",
+    "tamv-genesis/v3/skills/tamv-sovereign-platform/SKILL.md",
+    "tamv-genesis/src/sovereign/canonical.ts",
+    "tamv-genesis/src/sovereign/digest.ts",
+    "tamv-genesis/src/sovereign/keys.ts",
+    "tamv-genesis/src/sovereign/hybrid.ts",
+    "tamv-genesis/src/sovereign/seal.ts",
+    "tamv-genesis/scripts/v3-seal.mjs",
+    "tamv-genesis/scripts/v3-hybrid.mjs",
+    "tamv-genesis/tests/sovereign.test.ts",
   ]
     .map((path) => {
       try {
@@ -759,6 +904,7 @@ function buildReviewPacket(audit) {
       : null,
     corpus: audit.corpus.summary,
     certification: audit.certification,
+    seal: audit.seal,
     checks: audit.checks,
     reproduction: [
       "node scripts/tamv-certification.mjs --check",
@@ -766,11 +912,14 @@ function buildReviewPacket(audit) {
       "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs verify",
       "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report",
       "node --experimental-strip-types --test tamv-genesis/tests/*.test.ts",
+      "node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify",
       "npx skills add AnubisVillasenor1/tamv-creator-intelligence --list",
     ],
     artifacts,
     limitations: [
       "El release está sin firma Ed25519; las capacidades certificadas permanecen bloqueadas.",
+      "El sello v3 está sin firma (UNSIGNED_RELEASE_PENDING); sin TAMV_V3_PUBLIC_KEY solo se verifica su estructura, no su autoría.",
+      "Ningún software distribuido al cliente es 'imposible de piratear': el sello rechaza copias parciales o alteradas, no la copia completa del texto público.",
       "Las 24,000 horas son un claim autobiográfico no verificado, sin atestación independiente.",
       "No existe ledger durable append-only ni RLS multi-tenant implementada.",
       "No hay SBOM, attestation SLSA ni pruebas de carga y failover.",

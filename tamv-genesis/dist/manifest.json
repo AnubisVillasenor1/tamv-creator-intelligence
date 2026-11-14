@@ -2,8 +2,8 @@
   "schema": "tamv.genesis.manifest.v1",
   "generatedAt": "2026-11-13T00:00:00Z",
   "files": {
-    "genesis.json": "sha256:8307575dd83bf2bb5c4e7671c66790e6b7f970aa2139d53cd60f610f78266978",
-    "public.json": "sha256:5f763dc7d5719504578b26ba385e2ca70e71b058cf1c60b72676e244caf4ca3a",
-    "review-packet.json": "sha256:b7e8c0d3e5be084e602761cb3219a24ecd5adcb115ee63288dd80b669d649a2b"
+    "genesis.json": "sha256:c4a7daa6f7a0a8587b6a634d9270eb27a95970ecb0c8f5a66cdf27288410986d",
+    "public.json": "sha256:363db22d783e8f3525e8d211e5dd7e9e9f044e3dd289bfba694f2235a1889f29",
+    "review-packet.json": "sha256:77303c402061c498ef2990ead291cdc69e902c538ca614c216a2a1e80d6a43dc"
   }
 }

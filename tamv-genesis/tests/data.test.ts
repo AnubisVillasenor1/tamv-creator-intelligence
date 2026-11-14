@@ -136,9 +136,25 @@ test("all 37 skills carry discoverable frontmatter", () => {
   }
 });
 
-test("skills.sh discovery is configured", () => {
+test("skills.sh publishes only the four v3 umbrellas", () => {
   const config = json("skills.sh.json");
-  assert.ok(config.paths.includes("./tamv-pack/skills"));
+  assert.deepEqual(config.paths, ["./tamv-genesis/v3/skills"]);
+  const publicPack = json("tamv-genesis/v3/pack.json");
+  assert.equal(publicPack.schema, "tamv.creator-intelligence.pack.v3");
+  assert.equal(publicPack.publicSkills.length, 4);
+  assert.equal(config.groupings.length, 4);
+  const grouped = config.groupings.flatMap((group: { skills: string[] }) => group.skills).sort();
+  const declared = publicPack.publicSkills.map((skill: { id: string }) => skill.id).sort();
+  assert.deepEqual(grouped, declared);
+  for (const skill of publicPack.publicSkills) {
+    assert.equal(skill.path, `skills/${skill.id}`);
+    assert.ok(
+      existsSync(new URL(`../../tamv-genesis/v3/${skill.path}/SKILL.md`, import.meta.url)),
+      skill.id,
+    );
+  }
+  assert.equal(publicPack.internalContracts.path, "tamv-pack/skills");
+  assert.equal(publicPack.internalContracts.count, pack.skills.length);
 });
 
 test("the registry quotes a real contract for every skill", () => {

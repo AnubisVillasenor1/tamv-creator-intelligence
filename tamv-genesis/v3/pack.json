@@ -1,0 +1,215 @@
+{
+  "schema": "tamv.creator-intelligence.pack.v3",
+  "issuer": "TAMV ONLINE NETWORK",
+  "product": "PLAY & GO",
+  "pack": "tamv-creator-intelligence",
+  "packVersion": "3.0.0",
+  "releaseChannel": "source-signed-on-release",
+  "publicSkills": [
+    {
+      "id": "tamv-creator-os",
+      "name": "TAMV Creator OS",
+      "version": "3.0.0",
+      "path": "skills/tamv-creator-os",
+      "requiresConsent": false,
+      "capabilities": [
+        "creator.community",
+        "creator.content",
+        "creator.launch",
+        "creator.learning",
+        "creator.strategy"
+      ],
+      "contracts": [
+        "tamv-audience-research",
+        "tamv-content-review",
+        "tamv-brand-voice",
+        "tamv-storytelling",
+        "tamv-editorial-calendar",
+        "tamv-channel-adaptation",
+        "tamv-community-care",
+        "tamv-experiment-design",
+        "tamv-retention-insights",
+        "tamv-campaign-measurement",
+        "tamv-learning-path",
+        "tamv-lesson-design",
+        "tamv-practice-coach",
+        "tamv-release-readiness"
+      ]
+    },
+    {
+      "id": "tamv-audio-intelligence",
+      "name": "TAMV Audio Intelligence",
+      "version": "3.0.0",
+      "path": "skills/tamv-audio-intelligence",
+      "requiresConsent": true,
+      "capabilities": [
+        "audio.mastering",
+        "audio.production",
+        "audio.visuals",
+        "audio.voice"
+      ],
+      "contracts": [
+        "tamv-musicgen-local",
+        "tamv-voice-identity",
+        "tamv-audiocore-dsp",
+        "tamv-rights-safety-guard",
+        "tamv-metadata-provenance",
+        "tamv-quality-gate"
+      ]
+    },
+    {
+      "id": "tamv-growth-engine",
+      "name": "TAMV Growth Engine",
+      "version": "3.0.0",
+      "path": "skills/tamv-growth-engine",
+      "requiresConsent": false,
+      "capabilities": [
+        "growth.analytics",
+        "growth.content",
+        "growth.conversion",
+        "growth.pricing",
+        "growth.seo"
+      ],
+      "contracts": [
+        "tamv-creator-growth",
+        "tamv-marketing-growth",
+        "tamv-seo-discoverability",
+        "tamv-conversion-optimizer",
+        "tamv-launch-strategist",
+        "tamv-monetization-advisor",
+        "tamv-experiment-design",
+        "tamv-campaign-measurement",
+        "tamv-retention-insights",
+        "tamv-accessibility-review"
+      ]
+    },
+    {
+      "id": "tamv-sovereign-platform",
+      "name": "TAMV Sovereign Platform",
+      "version": "3.0.0",
+      "path": "skills/tamv-sovereign-platform",
+      "requiresConsent": false,
+      "capabilities": [
+        "platform.audit",
+        "platform.data",
+        "platform.frontend",
+        "platform.governance",
+        "platform.integrity"
+      ],
+      "contracts": [
+        "tamv-core-governance",
+        "tamv-license-authority",
+        "tamv-consent-ledger",
+        "tamv-privacy-minimization",
+        "tamv-supabase-rls-security",
+        "tamv-nextjs-supabase-builder",
+        "tamv-bullmq-redis",
+        "tamv-workflow-orchestrator",
+        "tamv-quality-gate",
+        "tamv-metadata-provenance",
+        "tamv-play-and-go-architect"
+      ]
+    }
+  ],
+  "internalContracts": {
+    "path": "tamv-pack/skills",
+    "count": 37,
+    "public": false,
+    "note": "Biblioteca de contratos internos. No se publica como skills independientes en skills.sh; las cuatro skills públicas la referencian."
+  },
+  "fusion": [
+    {
+      "skill": "tamv-creator-os",
+      "absorbs": [
+        { "source": "swarm", "pattern": "procesamiento paralelo por lotes con reintento de filas fallidas" },
+        { "source": "youtube-seo", "pattern": "descubrimiento de video y metadatos" },
+        { "source": "content-strategy", "pattern": "planificación editorial" },
+        { "source": "social-content", "pattern": "adaptación por canal" },
+        { "source": "launch-strategy", "pattern": "secuencia de lanzamiento" },
+        { "source": "lead-magnets", "pattern": "recursos de captación" },
+        { "source": "email-sequence", "pattern": "secuencias de correo" },
+        { "source": "cold-email", "pattern": "primer contacto responsable" },
+        { "source": "churn-prevention", "pattern": "retención y recuperación" }
+      ]
+    },
+    {
+      "skill": "tamv-audio-intelligence",
+      "absorbs": [
+        { "source": "ffmpeg-skill", "pattern": "procesamiento de audio y video" },
+        { "source": "svg-character-animation", "pattern": "animación vectorial" },
+        { "source": "dimensional-drawing", "pattern": "composición visual" },
+        { "source": "ad-creative", "pattern": "brief de campaña" }
+      ]
+    },
+    {
+      "skill": "tamv-growth-engine",
+      "absorbs": [
+        { "source": "seo-audit", "pattern": "auditoría técnica y on-page" },
+        { "source": "ai-seo", "pattern": "respuestas generativas" },
+        { "source": "programmatic-seo", "pattern": "páginas a escala con control de calidad" },
+        { "source": "schema-markup", "pattern": "datos estructurados" },
+        { "source": "copywriting", "pattern": "mensaje y claridad" },
+        { "source": "marketing-psychology", "pattern": "sesgos explicados, sin manipulación" },
+        { "source": "page-cro", "pattern": "optimización de página" },
+        { "source": "paywall-upgrade-cro", "pattern": "monetización ética" },
+        { "source": "popup-cro", "pattern": "interrupciones consentidas" },
+        { "source": "pricing-strategy", "pattern": "planes y precios" },
+        { "source": "analytics-tracking", "pattern": "eventos y atribución" },
+        { "source": "competitor-alternatives", "pattern": "posicionamiento comparativo" }
+      ]
+    },
+    {
+      "skill": "tamv-sovereign-platform",
+      "absorbs": [
+        { "source": "tigris-sdk-guide", "pattern": "almacenamiento de objetos" },
+        { "source": "tigris-security-access-control", "pattern": "control de acceso" },
+        { "source": "tigris-static-assets", "pattern": "assets estáticos" },
+        { "source": "file-storage", "pattern": "ciclo de vida de archivos" },
+        { "source": "tigris-agent-kit", "pattern": "operación asistida" },
+        { "source": "postgresql-table-design", "pattern": "modelado relacional" },
+        { "source": "vue-testing-best-practices", "pattern": "pruebas de interfaz" },
+        { "source": "vue-options-api-best-practices", "pattern": "componentes" },
+        { "source": "vue-router-best-practices", "pattern": "rutas" },
+        { "source": "vue-jsx-best-practices", "pattern": "composición" },
+        { "source": "create-adaptable-composable", "pattern": "reutilización" },
+        { "source": "vue-debug-guides", "pattern": "diagnóstico" },
+        { "source": "sanity-best-practices", "pattern": "contenido estructurado" },
+        { "source": "sanity-migration", "pattern": "migración de contenido" },
+        { "source": "backtesting-frameworks", "pattern": "evaluación de estrategias" }
+      ]
+    }
+  ],
+  "hypercores": {
+    "version": "2.0.0",
+    "cores": ["govern-core", "integrity-core", "velocity-core"],
+    "executionModel": "parallel-verified",
+    "failClosed": true,
+    "telemetry": "privacy-preserving"
+  },
+  "integrity": {
+    "hash": "SHA-256",
+    "signature": "Ed25519",
+    "hybridEncryption": "X25519 + HKDF-SHA256 + AES-256-GCM",
+    "seal": "tamv-genesis/v3/seals/pack-seal.json",
+    "failClosed": true,
+    "unsignedBehavior": "deny",
+    "note": "La firma ausente bloquea las capacidades certificadas. La copia parcial de una skill rompe la raíz del paquete."
+  },
+  "governance": {
+    "policy": "tamv-algorithmic-governance-v3",
+    "framework": "NIST-CSF-2.0",
+    "functions": ["govern", "identify", "protect", "detect", "respond", "recover"],
+    "consentRequired": true,
+    "audit": true,
+    "rightsProtection": true,
+    "destructiveActions": false,
+    "humanOversight": true,
+    "transparency": true
+  },
+  "license": {
+    "core": "AGPL-3.0-only",
+    "utilities": "Apache-2.0",
+    "commercial": "TAMV-Commercial-1.0",
+    "attributionRequired": true
+  }
+}

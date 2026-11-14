@@ -4,13 +4,13 @@
 
 **PLAY & GO · Aprende. Crea. Analiza. Evoluciona.**
 
-“The Paradigm Killer” es la identidad editorial del paquete: no significa superioridad demostrada frente a otros sistemas, autonomía general ni certificación externa. El repositorio conserva el nombre **TAMV Creator Intelligence** y el identificador técnico `tamv-online-network-creator-intelligence-pack`, versión **1.2.1**.
+“The Paradigm Killer” es la identidad editorial del paquete: no significa superioridad demostrada frente a otros sistemas, autonomía general ni certificación externa. El repositorio conserva el nombre **TAMV Creator Intelligence** y el identificador técnico `tamv-online-network-creator-intelligence-pack`. El pack interno `tamv-pack` mantiene la versión **1.2.1**; la superficie pública **v3.0.0**, en `tamv-genesis/v3/`, agrupa cuatro skills paraguas sobre los 37 contratos internos.
 
 **Repositorio:** [AnubisVillasenor1/tamv-creator-intelligence](https://github.com/AnubisVillasenor1/tamv-creator-intelligence)
 
 **Atribución canónica:** Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.
 
-> **Estado documentado al 2026-11-13: desarrollo, no release certificado.** Hay 37 skills declaradas y una capacidad de inferencia implementada: `creator.review`. La firma local conserva `UNSIGNED_RELEASE_PENDING`. Este documento describe el código inspeccionado, incluidas mejoras locales; no acredita su publicación remota, un despliegue ni pruebas exitosas.
+> **Estado documentado al 2026-11-14: desarrollo, no release certificado.** Hay 37 contratos internos, cuatro skills públicas v3 y una capacidad de inferencia implementada: `creator.review`. Tanto la firma del manifiesto raíz como el sello del paquete v3 conservan `UNSIGNED_RELEASE_PENDING`. Este documento describe el código inspeccionado, incluidas mejoras locales; no acredita su publicación remota, un despliegue ni pruebas exitosas en CI.
 >
 > **Este README está protegido por el manifiesto de integridad.** Su reescritura deja desactualizado el hash registrado. Antes de distribuir una versión certificada, el responsable del release debe actualizar hashes, firmar y verificar el conjunto final. Esta actualización documental no modifica el manifiesto ni fabrica una firma.
 
@@ -21,7 +21,7 @@
 - [Revisión creativa](#revisión-creativa)
 - [Modelos y costes](#modelos-y-costes)
 - [Catálogo de skills](#catálogo-de-skills)
-- [Cuatro skills propuestas](#cuatro-skills-propuestas)
+- [Cuatro skills públicas v3](#cuatro-skills-públicas-v3)
 - [HyperCore](#hypercore)
 - [TAMV Genesis](#tamv-genesis)
 - [Interfaces y endpoints](#interfaces-y-endpoints)
@@ -62,7 +62,7 @@ La IA propone; la persona conserva el control creativo. El flujo implementado no
 | Perfiles y corpus | Inventario de 154 repositorios vía API pública y resumen agregado de 9,948 archivos locales | El conteo de repositorios no acredita autoría ni horas; el detalle con rutas no se distribuye. |
 | Música, voz, DSP y agentes | Contratos y rutas de rechazo explícito | Sin adaptadores de ejecución conectados en esas rutas. |
 | Release | Workflow con firma, build, SBOM y atestaciones configurados | No se verificó un run exitoso, artefacto publicado ni despliegue. |
-| Cuatro skills adicionales | Propuesta de ampliación | No integradas: el total sigue siendo 37, no 41. |
+| Cuatro skills públicas v3 | `tamv-genesis/v3/pack.json`, cuatro `SKILL.md`, sello SHA-256 y CLI de firma | Sello sin firma Ed25519; el runtime deniega capacidades certificadas. Los 37 contratos internos no se duplican. |
 
 **Declarado, implementado, probado, operado y auditado no son estados intercambiables.** Los indicadores de la interfaz y los documentos históricos deben contrastarse con el código, el artefacto y el entorno concretos.
 
@@ -225,20 +225,22 @@ node tamv-pack/scripts/generate-skill-registry.mjs --check
 
 Sin `--check`, los tres scripts Node pueden modificar archivos. El generador del registro completa entradas placeholder preservando datos curados: no debe presentarse como regeneración completa de toda la aplicación.
 
-## Cuatro skills propuestas
+## Cuatro skills públicas v3
 
-La ampliación propuesta conserva las 37 existentes y añadiría cuatro coordinadoras:
+La superficie pública v3.0.0 conserva las 37 skills internas y publica cuatro coordinadoras:
 
-| ID propuesto | Alcance previsto |
+| ID | Alcance |
 |---|---|
-| `tamv-creator-os` | Coordinar estrategia, calendario, contenido, comunidad y lanzamientos. |
-| `tamv-audio-intelligence` | Coordinar generación musical, voz y procesamiento de audio. |
-| `tamv-growth-engine` | Coordinar SEO, conversión, experimentación y medición. |
-| `tamv-sovereign-platform` | Coordinar gobernanza, integridad, datos, seguridad y pruebas. |
+| `tamv-creator-os` | Estrategia, calendario, contenido, comunidad, lanzamientos y aprendizaje. |
+| `tamv-audio-intelligence` | Música local, voz característica, DSP, video, visuales y masterización. |
+| `tamv-growth-engine` | SEO, contenido, conversión, monetización ética, analítica y experimentación. |
+| `tamv-sovereign-platform` | Gobernanza, integridad, datos, seguridad, frontend y pruebas. |
 
-**No están integradas en el manifiesto ni en el registro.** El total sería **41** solo después de implementarlas y validarlas. La propuesta no instala herramientas externas, no sustituye el pack por cuatro contratos ni cambia su versión a 3.0.0.
+Las cuatro viven en `tamv-genesis/v3/skills/` y son las únicas que declara [skills.sh.json](skills.sh.json). No duplican los 37 contratos: los referencian como biblioteca interna en `tamv-pack/skills/`. La matriz de fusión de patrones externos, sin copiar su texto ni su implementación, está en [tamv-genesis/v3/pack.json](tamv-genesis/v3/pack.json).
 
-Su implementación deberá reutilizar las capacidades existentes, definir entradas y salidas verificables, documentar dependencias y licencias y mantener las mismas guardas. Los patrones externos no autorizan copiar código o contratos sin revisar sus términos.
+El paquete se protege con un sello por skill y una raíz de paquete SHA-256 firmada con Ed25519. Quitar, editar, mover o añadir una skill rompe el sello y el runtime deniega la ejecución. **El sello actual no está firmado:** `UNSIGNED_RELEASE_PENDING` significa que las capacidades certificadas no se habilitan, no que exista una certificación. La política completa, el modelo de amenaza y la migración desde 1.2.1 están en [docs/SOVEREIGN-V3.md](docs/SOVEREIGN-V3.md).
+
+Los patrones externos se absorben como capacidades abstractas; no autorizan copiar código, contratos ni marcas de terceros sin revisar sus licencias.
 
 ## HyperCore
 
@@ -283,7 +285,7 @@ Genesis organiza claims, metadatos de evidencia, capacidades, scorecards, perfil
 
 [src/lib/genesis-bundle.ts](src/lib/genesis-bundle.ts) importa [tamv-genesis/dist/public.json](tamv-genesis/dist/public.json). Tanto `/sovereignty` como `/api/tamv/genesis` usan ese bundle: no recalculan la auditoría en cada visita.
 
-El snapshot regenerado en este commit muestra **58,6/100, grado D**, y **18 chequeos** alineados con el CLI. Generar el bundle no cambia el puntaje ni la firma: el release sigue sin firma Ed25519 y las capacidades premium siguen bloqueadas.
+El snapshot regenerado en este commit muestra **58,6/100, grado D**, y **19 chequeos** alineados con el CLI, incluido `K-19` para el sello v3. Generar el bundle no cambia el puntaje ni la firma: tanto el manifiesto raíz como el sello v3 siguen sin firma Ed25519 y las capacidades premium siguen bloqueadas.
 
 El score se calcula a partir de puntuaciones, pesos y compuertas introducidos en los datos del proyecto. Las compuertas no se derivan automáticamente de todos los chequeos actuales. El evaluador también contiene una fecha de evaluación fijada: regenerar archivos no garantiza por sí solo actualizar la referencia temporal.
 
@@ -308,6 +310,15 @@ node --experimental-strip-types --test tamv-genesis/tests/*.test.ts
 | `profiles` / `corpus` | Resumen inventarios locales existentes; no consultan GitHub ni reconstruyen el corpus. |
 | `report` | Sobrescribe el informe generado en `docs/audit/2026-11-13/GENERATED.md`. |
 | `build` / `packet` | Escriben bundle completo, proyección pública, paquete de revisión y manifiesto de hashes en `tamv-genesis/dist/`. |
+
+El sello público v3 tiene su propio CLI:
+
+```bash
+node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --write
+node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify
+```
+
+`--write` reconstruye `tamv-genesis/v3/seals/pack-seal.json` y deja la firma en `UNSIGNED_RELEASE_PENDING`. `--verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING` y código 1; con la clave pública exige `--require-signature` para aceptar solo un sello firmado. El sobre híbrido (X25519 + HKDF-SHA256 + AES-256-GCM) se opera con `tamv-genesis/scripts/v3-hybrid.mjs seal|open`.
 
 Todos los comandos reconocidos pasan por la evaluación local y dependen de sus archivos de entrada. `build` y `packet` pueden generar artefactos aunque existan fallos bloqueantes: **generar no significa aprobar**. Los inventariadores de perfiles y corpus son procesos separados; revisa sus rutas y tratamiento de datos antes de ejecutarlos.
 
@@ -535,6 +546,7 @@ Antes de publicar, comprobar en navegador el flujo satisfactorio y los casos de 
 | Inventario del pack `GIT-BLOB-SHA1` | Correspondencia de archivos con su inventario; rechaza enlaces simbólicos. | Identidad autenticada del distribuidor. |
 | Manifiesto SHA-256 | Correspondencia de 22 archivos obligatorios, incluido este README, con hashes registrados. | Firma del autor o ausencia de vulnerabilidades. |
 | Ed25519 | Firma del manifiesto JSON canonicalizado respecto de una clave pública confiable. | Calidad funcional, derechos de terceros o auditoría independiente. |
+| Sello v3 | Raíces SHA-256 por skill y raíz del paquete firmadas con Ed25519; `K-19` recalcula el contenido real. | Sin `TAMV_V3_PUBLIC_KEY` solo se comprueba estructura; no demuestra autoría ni imposibilita copiar el paquete completo. |
 | Procedencia SLSA / atestaciones | Evidencia verificable de origen y construcción, conforme a la política aplicada. | No se deduce de la firma Ed25519. |
 | SBOM CycloneDX | Inventario de componentes del artefacto. | Ausencia de CVE, cumplimiento legal o remediación. |
 | CI | Resultado de comprobaciones concretas para un commit y entorno. | Disponibilidad del servicio o certificación universal. |
@@ -552,6 +564,18 @@ bun run tamv:verify
 ```
 
 `tamv:hash` modifica el manifiesto e invalida la firma anterior. `tamv:sign` necesita la clave privada suministrada de forma segura; `tamv:verify` exige hashes y firma válidos con la clave pública correspondiente. `tamv:keygen` es una herramienta de generación de claves, no una autorización para sustituir la identidad de firma oficial.
+
+El sello v3 se actualiza después de revisar el contenido final:
+
+```bash
+node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --write
+TAMV_V3_PRIVATE_KEY="$(cat release.pem)" TAMV_V3_PUBLIC_KEY="$(cat release.pub.pem)" \
+  node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --write --sign
+TAMV_V3_PUBLIC_KEY="$(cat release.pub.pem)" \
+  node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify --require-signature
+```
+
+Reconstruir el sello sin `--sign` es un paso válido y deja el release explícitamente sin certificar. No se debe presentar ese estado como firmado.
 
 La comprobación ordinaria puede advertir sobre firma ausente y terminar correctamente si los hashes son válidos y no se exige modo estricto. **Por eso `tamv:check` no equivale a `tamv:verify`.** El runtime aplica sus propias guardas y no habilita una distribución sin certificar solo porque una comprobación no estricta termine con código cero.
 

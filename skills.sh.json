@@ -1,4 +1,27 @@
 {
   "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
-  "paths": ["./tamv-pack/skills"]
+  "paths": ["./tamv-genesis/v3/skills"],
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Creator OS",
+      "description": "Sistema operativo del creador: estrategia, contenido, lanzamientos, comunidad, educación y soporte.",
+      "skills": ["tamv-creator-os"]
+    },
+    {
+      "title": "Audio Intelligence",
+      "description": "Música local, voz característica, DSP, video, visuales, mezcla, masterización y lanzamientos.",
+      "skills": ["tamv-audio-intelligence"]
+    },
+    {
+      "title": "Growth Engine",
+      "description": "SEO, AI SEO, contenido, conversión, monetización ética, email, analítica y experimentación.",
+      "skills": ["tamv-growth-engine"]
+    },
+    {
+      "title": "Sovereign Platform",
+      "description": "Gobernanza, seguridad, integridad, SLSA, datos, frontend, testing y operación fail-closed.",
+      "skills": ["tamv-sovereign-platform"]
+    }
+  ]
 }

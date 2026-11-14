@@ -4623,7 +4623,14 @@
       "id": "K-18",
       "label": "Gobernanza de material sensible",
       "status": "pass",
-      "detail": "85 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "detail": "100 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "blocking": true
+    },
+    {
+      "id": "K-19",
+      "label": "Sello criptográfico del paquete v3",
+      "status": "pass",
+      "detail": "Raíz sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed).",
       "blocking": true
     }
   ],
