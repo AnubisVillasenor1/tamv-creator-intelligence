@@ -505,19 +505,117 @@ function buildBundle() {
   const publicSerialized = JSON.stringify(publicBundle, null, 2);
   writeFileSync(join(dist, "public.json"), publicSerialized, "utf8");
 
+  // Review packet: the artifact an external reviewer can hash-check without
+  // trusting this repository. It carries no private evidence, only pointers.
+  const packetSerialized = buildReviewPacket(audit);
+  writeFileSync(join(dist, "review-packet.json"), packetSerialized, "utf8");
+
   const manifest = {
     schema: "tamv.genesis.manifest.v1",
     generatedAt: audit.generatedAt,
     files: {
       "genesis.json": "sha256:" + sha256(serialized),
       "public.json": "sha256:" + sha256(publicSerialized),
+      "review-packet.json": "sha256:" + sha256(packetSerialized),
     },
   };
   writeFileSync(join(dist, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n", "utf8");
   console.log(`Bundle escrito en ${join(dist, "genesis.json")}`);
   console.log(`Proyección pública ${join(dist, "public.json")}`);
+  console.log(`Paquete de evaluación ${join(dist, "review-packet.json")}`);
   console.log(`SHA-256 ${manifest.files["genesis.json"]}`);
   return bundle;
+}
+
+function buildReviewPacket(audit) {
+  const artifacts = [
+    "LICENSE",
+    "NOTICE",
+    "LICENSE-MAP.md",
+    "README.md",
+    "tamv-attribution.json",
+    "tamv-attribution.sig",
+    "tamv-genesis/data/identity.json",
+    "tamv-genesis/data/claims.json",
+    "tamv-genesis/data/capabilities.json",
+    "tamv-genesis/data/work-ledger.json",
+    "tamv-genesis/data/scorecard.json",
+    "tamv-genesis/data/knowledge-sources.json",
+    "docs/audit/2026-11-13/EXECUTIVE-SUMMARY.md",
+    "docs/audit/2026-11-13/FINDINGS.md",
+    "docs/audit/2026-11-13/WORK-LEDGER.md",
+    "docs/audit/2026-11-13/EVIDENCE-INDEX.md",
+    "docs/PROFILES.md",
+    "docs/PUBLISHING.md",
+    "docs/ACADEMIC-EVALUATION.md",
+  ]
+    .map((path) => {
+      try {
+        const content = readRepo(path);
+        return { path, sha256: "sha256:" + sha256(content), bytes: Buffer.byteLength(content, "utf8") };
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
+
+  const independentHours = ledger.attestations
+    .filter((entry) => (entry.tier === "T3" || entry.tier === "T4") && entry.status === "verified")
+    .reduce((total, entry) => total + entry.hours, 0);
+
+  const packet = {
+    schema: "tamv.genesis.review-packet.v1",
+    version: GENESIS_VERSION,
+    generatedAt: audit.generatedAt,
+    purpose:
+      "Paquete de evaluación para revisión externa. No es una certificación, un dictamen legal ni una validación académica.",
+    subject: { identity: identity.subject, canonical: identity.canonical },
+    scorecard: audit.score.scorecard,
+    claims: audit.claims.assessments.map(({ claim, assessment }) => ({
+      id: claim.id,
+      statement: claim.statement,
+      status: claim.status,
+      effectiveStatus: assessment.effectiveStatus,
+      confidence: claim.confidence,
+      evidenceCount: assessment.evidenceCount,
+      independent: assessment.independent,
+      whatWouldChangeIt: claim.whatWouldChangeIt,
+    })),
+    claimSummary: audit.claims.summary,
+    capabilities: audit.capabilityAssessments,
+    workLedger: {
+      claim: ledger.claim,
+      independentHours,
+      chainHead: ledger.integrity.chainHead,
+      entries: ledger.integrity.entries,
+      findings: audit.ledger.findings,
+    },
+    knowledge: {
+      total: knowledgeDoc.sources.length,
+      excluded: audit.knowledge.excluded.length,
+      policy: knowledgeDoc.policy,
+    },
+    certification: audit.certification,
+    checks: audit.checks,
+    reproduction: [
+      "node scripts/tamv-certification.mjs --check",
+      "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit",
+      "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs verify",
+      "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report",
+      "node --experimental-strip-types --test tamv-genesis/tests/*.test.ts",
+      "npx skills add AnubisVillasenor1/tamv-creator-intelligence --list",
+    ],
+    artifacts,
+    limitations: [
+      "El release está sin firma Ed25519; las capacidades certificadas permanecen bloqueadas.",
+      "Las 24,000 horas son un claim autobiográfico no verificado, sin atestación independiente.",
+      "No existe ledger durable append-only ni RLS multi-tenant implementada.",
+      "No hay SBOM, attestation SLSA ni pruebas de carga y failover.",
+      "La adopción en skills.sh no constituye validación académica ni revisión por pares.",
+      "El corpus externo no se distribuye; se referencia por hash y conserva sus licencias.",
+    ],
+  };
+  return JSON.stringify(packet, null, 2);
 }
 
 /* ------------------------------------------------------------------ */
@@ -586,9 +684,14 @@ if (command === "audit") {
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, lines.join("\n") + "\n", "utf8");
   console.log(`Informe escrito en ${out}`);
-} else if (command === "build") {
-  buildBundle();
+} else if (command === "build" || command === "packet") {
+  const bundle = buildBundle();
+  if (command === "packet") {
+    console.log("");
+    console.log("Paquete de evaluación listo: tamv-genesis/dist/review-packet.json");
+    console.log(`${bundle.claims.length} claims, ${bundle.checks.length} chequeos, ${bundle.capabilities.length} capacidades.`);
+  }
 } else {
-  console.error(`Comando desconocido: ${command}. Usa audit, verify, score o build.`);
+  console.error(`Comando desconocido: ${command}. Usa audit, verify, score, report, build o packet.`);
   process.exitCode = 2;
 }

@@ -12,12 +12,26 @@ metadata:
 
 Aplicar RLS, auditoría y trazabilidad.
 
+## Entradas requeridas
+
+- tablas y columnas
+- roles y reglas de negocio
+- datos sensibles
+- requisitos de auditoría
+
 ## Reglas
 
 - RLS activado por defecto
 - Políticas por propietario
 - Roles en tabla separada
 - Tabla de auditoría para acciones sensibles
+
+## Contrato de salida
+
+- políticas RLS por tabla
+- pruebas de acceso permitido y denegado
+- registro de auditoría
+- riesgos residuales
 
 ## Atribución
 

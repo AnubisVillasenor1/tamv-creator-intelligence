@@ -32,7 +32,8 @@ falta no es narrativa: es ejecución verificable.
    y `agent.execute` vs `agent.orchestration`. Se unificó y ahora un chequeo de
    deriva lo impide.
 5. **Sobreafirmación de skills.** «37 skills conectados» cuando existe un ejecutor
-   real y 34 contratos base con texto de relleno. La interfaz ya no lo afirma.
+   real. La interfaz ya no lo afirma y los 37 contratos ahora declaran entradas y
+   salidas; sigue habiendo una sola capacidad de IA implementada.
 6. **Cadena de suministro incompleta.** Sin SBOM, sin attestation SLSA en CI,
    acciones fijadas por etiqueta mayor y release sin firma.
 7. **Licencia ambigua.** El núcleo no tenía `LICENSE` raíz y el texto del paquete
@@ -63,15 +64,18 @@ convence con evidencia verificable, no con presión.
 ## Qué cambió en esta entrega
 
 - Paquete **TAMV GENESIS Ω v2.0.0** con kernel de evidencia, CLI, pruebas y datos.
-- 38 pruebas ejecutables (`node --test`) y 15 chequeos de soberanía.
-- Panel `/sovereignty` y API `/api/tamv/genesis` de solo lectura.
+- 39 pruebas ejecutables (`node --test`) y 15 chequeos de soberanía.
+- Panel `/sovereignty`, API `/api/tamv/genesis` y paquete de revisión
+  `review-packet.json` para evaluación externa.
+- 37 contratos de skill completos con entradas y salidas; registro generado desde
+  cada `SKILL.md`.
 - Corrección de autenticación/cuota, vocabulario, versión, enlaces, errores,
   licencia, instalación y frontmatter de los 37 skills.
-- `skills.sh.json` para que `npx skills add AnubisVillasenor1/tamv-creator-intelligence`
-  descubra el catálogo.
+- `skills.sh.json` y pack indexado en
+  `skills.sh/anubisvillasenor1/tamv-creator-intelligence` (37 skills).
 
 ## Qué falta antes de decir «listo»
 
-Firma del release, ledger durable, SBOM, pruebas de carga y failover, contratos
-de skill completos y una atestación independiente de horas. Sin esas seis cosas,
-cualquier afirmación de producción o de validación académica sería prematura.
+Firma del release, ledger durable, SBOM, pruebas de carga y failover, y una
+atestación independiente de horas. Sin esas cinco cosas, cualquier afirmación de
+producción o de validación académica sería prematura.

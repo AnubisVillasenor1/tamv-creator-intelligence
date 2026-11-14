@@ -12,11 +12,25 @@ metadata:
 
 Optimizar SEO y descubrimiento.
 
+## Entradas requeridas
+
+- URLs y contenido propio
+- intención de búsqueda
+- restricciones técnicas
+- competencia relevante
+
 ## Reglas
 
 - Metadatos únicos por página
 - Contenido original
 - Sitemap y robots correctos
+
+## Contrato de salida
+
+- mapa de metadatos por página
+- estructura y enlaces internos
+- contenido prioritario
+- medición y seguimiento
 
 ## Atribución
 

@@ -11,8 +11,8 @@ Cada fila es una afirmación que aparece en más de una superficie. La columna
 | Licencia del corpus | Documentos locales: CC BY 4.0 + Apache 2.0 | Núcleo: AGPL-3.0-only | Contaminación si se importa | Corpus excluido del árbol distribuible |
 | Capacidad de voz | Política: `voice.generation` | Ruta: `voice.generate` | Una allowlist que no cubre al emisor | `voice.generation` en política, ruta y certificación |
 | Capacidad de agentes | Política: `agent.orchestration` | Ruta: `agent.execute` | Id fuera de allowlist | `agent.orchestration` en todas las superficies |
-| Skills | UI: «37 skills conectados» | Código: 1 ejecutor | Sobreafirmación | «37 contratos declarados»; estado por capacidad |
-| Contratos de skill | `pack.json`: 37 ids | 34 campos «Consultar contrato del skill» | Inventario sin contrato | Reconocido como deuda; prueba bloquea frontmatter inválido |
+| Skills | UI: «37 skills conectados» | Código: 1 ejecutor | Sobreafirmación | «37 contratos completos»; estado por capacidad |
+| Contratos de skill | `pack.json`: 37 ids | 34 campos «Consultar contrato del skill» | Inventario sin contrato | 37/37 completos; el registro se genera desde cada `SKILL.md` |
 | Descubrimiento | `install.sh`: `.tamv/skills` | Skills CLI: `.agents/skills`, `skills/`… | Ruta invisible | Default `.agents/skills` + `skills.sh.json` |
 | Frontmatter | 20 skills con YAML | 17 sin YAML | Catálogo incompleto | 37/37 normalizados |
 | Organización | `TAMV ONLINE NETWORK` | `metaversotamvonline-3484s-projects` | Autoridad de firma ambigua | Emisor único declarado; cuenta técnica documentada |

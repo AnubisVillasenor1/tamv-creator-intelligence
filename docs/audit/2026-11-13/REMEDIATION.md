@@ -41,7 +41,7 @@ se pide validación antes de tener evidencia.
 | G8b failover | Proveedor alterno y degradación declarada | Caída simulada produce error claro, no 500 genérico |
 | G6 atestación | Bitácora de horas + atestador T3 | Al menos 90 días de horas con método verificable |
 | G10 descubrimiento | Instalación en `.agents/skills` y `skills.sh.json` | `npx skills add` descubre 37 skills |
-| G13 contratos | Completar entradas/salidas de 37 skills | Cero campos «Consultar contrato del skill» |
+| G13 contratos | Completar entradas/salidas de 37 skills | Cero campos «Consultar contrato del skill» → **hecho** (37/37) |
 
 ## Fase 4 — Evaluación externa (sin fecha artificial)
 
@@ -67,7 +67,7 @@ se pide validación antes de tener evidencia.
 |---|---|---|
 | Compuertas bloqueantes en verde | 1/4 | 4/4 |
 | Capacidades ejecutables | 1 | 3 |
-| Skills con contrato completo | 3 | 37 |
+| Skills con contrato completo | 37 | 37 |
 | Horas con atestación independiente | 0 | ≥ 500 |
 | Claims `verified` | 0 | ≥ 3 |
 | Scorecard | 58.6 | ≥ 80 |

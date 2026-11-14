@@ -12,11 +12,25 @@ metadata:
 
 Planear lanzamientos.
 
+## Entradas requeridas
+
+- producto y propuesta
+- fecha e hitos
+- audiencia y canales
+- dependencias y riesgos
+
 ## Reglas
 
 - Checklist de lanzamiento
 - Revisión de derechos antes de publicar
 - Plan de comunicación
+
+## Contrato de salida
+
+- plan de lanzamiento por fases
+- checklist y responsables
+- métricas de éxito
+- plan de reversión
 
 ## Atribución
 

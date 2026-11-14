@@ -12,11 +12,25 @@ metadata:
 
 Diseñar monetización ética para creadores.
 
+## Entradas requeridas
+
+- propuesta de valor
+- costos y márgenes
+- segmentos de audiencia
+- restricciones legales y de plataforma
+
 ## Reglas
 
 - Precios transparentes
 - Sin patrones oscuros
 - No sustituye asesoría fiscal o financiera
+
+## Contrato de salida
+
+- modelo de precios y planes
+- escenarios de ingreso
+- riesgos y supuestos
+- política de transparencia
 
 ## Atribución
 

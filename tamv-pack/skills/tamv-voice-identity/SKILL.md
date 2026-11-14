@@ -12,6 +12,13 @@ metadata:
 
 Crear perfiles de voz propios y autorizados.
 
+## Entradas requeridas
+
+- consentimiento escrito del titular
+- muestras de voz autorizadas
+- alcance, canal y vigencia del uso
+- mecanismo de revocación
+
 ## Reglas
 
 - Requerir consentimiento explícito
@@ -19,6 +26,13 @@ Crear perfiles de voz propios y autorizados.
 - Almacenar audios privados
 - Registrar hashes
 - Analizar con DSP y trazabilidad
+
+## Contrato de salida
+
+- perfil de voz autorizado
+- matriz de permisos por uso
+- restricciones y bloqueos
+- registro de consentimiento y revocación
 
 ## Atribución
 

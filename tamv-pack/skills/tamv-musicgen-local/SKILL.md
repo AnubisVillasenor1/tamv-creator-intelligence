@@ -12,6 +12,13 @@ metadata:
 
 Integrar generación musical local con MusicGen / AudioCraft.
 
+## Entradas requeridas
+
+- descripción y estilo musical
+- licencia del modelo y de las muestras
+- hardware y límites de cómputo
+- uso previsto de la salida
+
 ## Reglas
 
 - Ejecutar inferencia fuera del frontend
@@ -20,6 +27,13 @@ Integrar generación musical local con MusicGen / AudioCraft.
 - Registrar modelo, semilla y configuración
 - No usar samples sin permiso
 - No imitar artistas específicos
+
+## Contrato de salida
+
+- pipeline de inferencia local
+- parámetros y semillas reproducibles
+- licencias y atribuciones
+- salvaguardas de uso
 
 ## Atribución
 

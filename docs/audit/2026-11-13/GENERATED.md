@@ -11,7 +11,7 @@ Generado: 2026-11-13T00:00:00Z. No editar a mano: `node --experimental-strip-typ
 | K-03 | Vocabulario de capacidades | pass | política=6 rutas=4 rutas-fuera-de-política=ninguna política-ausente-del-catálogo=ninguna |
 | K-04 | Catálogo genesis vs política | warn | capacidades adicionales fuera de la allowlist=tamv.certification,hypercore.audit,sovereignty.dashboard,skills.install |
 | K-05 | Inventario de skills | pass | manifiesto=37 carpetas=37 registro=37 duplicados=0 |
-| K-06 | Contratos de skill completos | warn | 34 campos usan «Consultar contrato del skill». |
+| K-06 | Contratos de skill completos | pass | 0 campos usan «Consultar contrato del skill». |
 | K-07 | Versión y enlaces canónicos | pass | UI=1.2.1 manifiesto=1.2.1 enlaces=3 |
 | K-08 | Claims sin sobreafirmación | pass | 19 claims; 0 verificados; 6 contradichos. |
 | K-09 | Cadena del work ledger | pass | 7 entradas verificadas. |

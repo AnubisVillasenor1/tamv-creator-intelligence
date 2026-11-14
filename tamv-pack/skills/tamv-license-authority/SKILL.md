@@ -12,12 +12,26 @@ metadata:
 
 Licenciamiento híbrido con Vault Transit + Ed25519.
 
+## Entradas requeridas
+
+- titular y alcance de derechos
+- producto y funcionalidades licenciadas
+- vigencia y canal de emisión
+- política de revocación
+
 ## Reglas
 
 - Firmar licencias en servidor
 - Verificar firma antes de habilitar premium
 - Rotación de llaves
 - Registro de emisión y revocación
+
+## Contrato de salida
+
+- esquema de licencia
+- firma y verificación en servidor
+- registro de emisiones
+- procedimiento de revocación
 
 ## Atribución
 

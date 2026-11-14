@@ -12,12 +12,26 @@ metadata:
 
 Diseñar colas de trabajo y workers para tareas pesadas.
 
+## Entradas requeridas
+
+- tipo y volumen de tareas
+- latencia objetivo
+- política de reintentos
+- capacidad de Redis
+
 ## Reglas
 
 - Reintentos con backoff
 - Idempotencia por job id
 - Métricas con prom-client
 - Colas separadas por tipo de carga
+
+## Contrato de salida
+
+- diseño de colas y workers
+- política de backoff e idempotencia
+- métricas y alertas
+- plan de recuperación
 
 ## Atribución
 

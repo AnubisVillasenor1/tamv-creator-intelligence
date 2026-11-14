@@ -12,11 +12,25 @@ metadata:
 
 Marketing y contenido para creadores.
 
+## Entradas requeridas
+
+- propuesta de valor
+- audiencia y segmentos
+- canales disponibles
+- presupuesto y periodo
+
 ## Reglas
 
 - Mensajes honestos
 - Respetar marcas de terceros
 - Medir resultados
+
+## Contrato de salida
+
+- mensajes y ángulos
+- calendario por canal
+- métricas y atribución
+- límites y salvaguardas
 
 ## Atribución
 

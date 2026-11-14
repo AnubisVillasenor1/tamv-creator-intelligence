@@ -19,6 +19,13 @@ Proteger derechos de autor, identidad vocal, privacidad y uso responsable de IA.
 - antes de uso de samples
 - antes de cualquier recomendación comercial
 
+## Entradas requeridas
+
+- obra o material a evaluar
+- titularidad y permisos
+- uso previsto y canal
+- país o jurisdicción relevante
+
 ## Bloqueos obligatorios
 
 - voz de terceros sin autorización

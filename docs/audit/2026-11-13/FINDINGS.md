@@ -20,7 +20,7 @@ evidencia. Estado al cerrar esta auditoría: `corregido`, `mitigado`, `abierto`,
 
 | ID | Hallazgo | Evidencia | Estado |
 |---|---|---|---|
-| F-07 | «37 skills conectados» en la UI y metadatos: solo `creator.review` tiene ejecutor; 34 campos del registro usan «Consultar contrato del skill». | `index.tsx`, `skill-registry.ts` | mitigado (UI corregida; contratos abiertos) |
+| F-07 | «37 skills conectados» en la UI y metadatos: solo `creator.review` tiene ejecutor; 34 campos del registro usaban «Consultar contrato del skill». | `index.tsx`, `skill-registry.ts` | corregido (UI corregida y 37 contratos completos; sigue habiendo 1 ejecutor real) |
 | F-08 | 17 de 37 `SKILL.md` no tenían frontmatter YAML; skills.sh no los descubre y el catálogo queda incompleto. | `tamv-pack/skills/*/SKILL.md` | corregido |
 | F-09 | `install.sh` copiaba a `.tamv/skills`, una ruta que ningún agente escanea por defecto. | `tamv-pack/install.sh` | corregido (`.agents/skills`, override por env) |
 | F-10 | Un único `lastCapturedError` global con TTL de 5 s se consumía entre peticiones concurrentes: la pila podía pertenecer a otra solicitud. | `src/lib/error-capture.ts`, `src/server.ts` | corregido (AsyncLocalStorage) |
@@ -38,7 +38,7 @@ evidencia. Estado al cerrar esta auditoría: `corregido`, `mitigado`, `abierto`,
 
 | ID | Hallazgo | Evidencia | Estado |
 |---|---|---|---|
-| F-20 | El número de contratos se presenta como número de ejecutores; no hay métrica separada de «skill operativa». | `pack.json`, `skill-registry.ts` | mitigado |
+| F-20 | El número de contratos se presenta como número de ejecutores; no hay métrica separada de «skill operativa». | `pack.json`, `skill-registry.ts` | corregido (contratos completos y estado por capacidad; 1 ejecutor declarado) |
 | F-21 | Se afirma aislamiento multi-tenant con RLS; no hay migraciones ni políticas en el repositorio. | `drizzle/schema.ts`, skill RLS | abierto |
 | F-22 | Observabilidad sin trazas, métricas agregadas ni alertas; solo logs y un panel de diagnóstico. | `hypercore.tsx`, `metrics.ts` | abierto |
 | F-23 | Sin pruebas de carga, caos ni failover; el runner paralelo es en proceso, sin cola durable. | `parallel-runner.ts`, `turbo-config.json` | abierto |

@@ -7,6 +7,8 @@
 [![Licencia AGPL-3.0-only](https://img.shields.io/badge/licencia-AGPL--3.0--only-blue.svg)](LICENSE)
 [![Release sin firma](https://img.shields.io/badge/release-UNSIGNED__RELEASE__PENDING-orange.svg)](tamv-attribution.sig)
 [![Catálogo 37 skills](https://img.shields.io/badge/skills-37%20contratos-64748b.svg)](tamv-pack/pack.json)
+[![skills.sh 37 skills](https://img.shields.io/badge/skills.sh-37%20skills-0a0a0a.svg)](https://skills.sh/anubisvillasenor1/tamv-creator-intelligence)
+[![Scorecard 58.6 · D](https://img.shields.io/badge/scorecard-58.6%2F100%20%C2%B7%20D-yellow.svg)](docs/audit/2026-11-13/EXECUTIVE-SUMMARY.md)
 [![Auditoría](https://img.shields.io/badge/auditor%C3%ADa-hallazgos%20y%20evidencia-64748b.svg)](docs/audit/2026-11-13/README.md)
 
 > **Estado: release sin certificar.** `tamv-attribution.sig` conserva `UNSIGNED_RELEASE_PENDING`. La existencia de controles, políticas, skills o documentación no demuestra certificación, disponibilidad productiva, conformidad legal ni validación académica. Las capacidades que requieren certificación o procedencia verificadas deben permanecer bloqueadas.
@@ -25,6 +27,7 @@
 - [Triple hardening](#triple-hardening)
 - [Gobernanza de IA y derechos](#gobernanza-de-ia-y-derechos)
 - [Auditoría y evidencia](#auditoría-y-evidencia)
+- [Perfiles, horas y validación académica](#perfiles-horas-y-validación-académica)
 - [Deuda técnica](#deuda-técnica)
 - [Contribuciones y seguridad](#contribuciones-y-seguridad)
 - [Licencias](#licencias)
@@ -90,6 +93,13 @@ El inventario está en [`tamv-pack/pack.json`](tamv-pack/pack.json). Abarca gobe
 
 La validación debe comprobar 37 IDs únicos coincidentes con carpetas y archivos `SKILL.md`, títulos y atribución, frontmatter coherente cuando exista, dependencias válidas, ausencia de ciclos y controles de gobernanza obligatorios. Un skill puede estar contratado sin tener ejecutor; la UI debe mostrar el estado real por capacidad.
 
+Estado actual: **37/37 contratos completos**. Cada `SKILL.md` declara entradas
+requeridas, reglas, contrato de salida y atribución; `src/lib/skill-registry.ts` se
+genera desde esos archivos con
+`node tamv-pack/scripts/generate-skill-registry.mjs --check`, así que el marcador
+«Consultar contrato del skill» ya no existe. Contrato completo no significa
+ejecutor: sigue habiendo **una** capacidad de IA implementada (`creator.review`).
+
 ## Instalación
 
 Requisitos: Git, Bun compatible con el lockfile, Node.js compatible con Vite/TanStack Start, Python 3 y OpenSSL para generación local de claves.
@@ -99,6 +109,13 @@ Requisitos: Git, Bun compatible con el lockfile, Node.js compatible con Vite/Tan
 ```bash
 npx skills add AnubisVillasenor1/tamv-creator-intelligence
 ```
+
+`skills.sh.json` declara `./tamv-pack/skills` como ruta de descubrimiento; el CLI
+instala en `.agents/skills/` del proyecto destino. El pack está indexado en
+[`skills.sh/anubisvillasenor1/tamv-creator-intelligence`](https://skills.sh/anubisvillasenor1/tamv-creator-intelligence)
+(37 skills, 0 instalaciones verificadas al 2026-11-13). La página la genera la
+indexación: no se compra ni se infla. Estado y límites en
+[`docs/PUBLISHING.md`](docs/PUBLISHING.md).
 
 ### Validación manual
 
@@ -222,9 +239,42 @@ Madurez por capacidad: `M0-declared → M1-contracted → M2-implemented → M3-
 ```bash
 node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit
 node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report
+node --experimental-strip-types tamv-genesis/cli/sovereign.mjs packet
+node --experimental-strip-types --test tamv-genesis/tests/*.test.ts
 ```
 
+`packet` escribe `tamv-genesis/dist/review-packet.json`: scorecard, 19 claims con
+qué los refutaría, 10 capacidades, ledger, 15 chequeos, hashes de los artefactos y
+limitaciones explícitas. Está pensado para que un revisor externo verifique sin
+confiar en la narrativa del autor; el protocolo y las preguntas difíciles están en
+[`docs/ACADEMIC-EVALUATION.md`](docs/ACADEMIC-EVALUATION.md). La suite del kernel
+son 39 pruebas en Node; el scorecard (58.6/100, grado D) se recomputa, no se
+escribe a mano.
+
 Verifica la versión de Node.js y archiva la salida con el SHA auditado.
+
+## Perfiles, horas y validación académica
+
+| Superficie | Rol declarado | Evidencia |
+|---|---|---|
+| [github.com/OsoPanda1](https://github.com/OsoPanda1) | TAMV ONLINE ENTERPRISE · CEO fundador Edwin O. Castillo Trejo | 144 repos públicos (foto 2026-11-13) |
+| [github.com/AnubisVillasenor1](https://github.com/AnubisVillasenor1) | Arquitecto de sistemas y full-stack · ORCID `0009-0008-5050-1539` | 10 repos públicos |
+
+Los perfiles son **autopublicados**: acreditan actividad y existencia, no calidad,
+adopción ni horas. El inventario con límites está en [`docs/PROFILES.md`](docs/PROFILES.md).
+
+Las **24,000 horas** se registran como claim autobiográfico `unverified`, no como
+hecho. La procedencia es 19,000 h (2025-10-07) → >23,000 h → 24,000 h
+(2026-11-13); el salto implica 12.4 h/día y no existe bitácora ni atestación
+independiente. El ledger encadenado permite que la cifra suba de nivel cuando
+exista evidencia T3/T4, sin reescribir la historia: hoy registra **0 horas
+atestiguadas**.
+
+La adopción, la popularidad y la infraestructura abierta **no obligan** a ninguna
+institución a validar nada. Lo que este repositorio hace es **bajar el costo de
+evaluar**: claims falsables, datos reproducibles, límites declarados, paquete
+instalable e historial íntegro. Cualquier texto que convierta la adopción en
+validación académica —incluido un ranking— es marketing, no evaluación.
 
 ## Deuda técnica
 
@@ -237,7 +287,7 @@ La auditoría identifica tareas que no se cierran solo con documentación:
 5. Migraciones, políticas RLS y pruebas de aislamiento multi-tenant.
 6. Cuotas distribuidas si hay múltiples instancias.
 7. Gateways reales para capacidades no implementadas, con contratos y pruebas.
-8. Sustituir texto genérico de skills por procedimientos verificables.
+8. Los 37 contratos ya declaran entradas y salidas; falta que cada skill tenga procedimiento verificable y ejecutor cuando aplique.
 9. Pruebas de carga, timeout, degradación, recuperación y failover.
 10. Evidencia independiente para claims externos de autoría, actividad o impacto.
 

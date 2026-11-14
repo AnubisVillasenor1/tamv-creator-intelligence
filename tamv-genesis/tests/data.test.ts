@@ -138,3 +138,15 @@ test("skills.sh discovery is configured", () => {
   const config = json("skills.sh.json");
   assert.ok(config.paths.includes("./tamv-pack/skills"));
 });
+
+test("the registry quotes a real contract for every skill", () => {
+  const registry = read("src/lib/skill-registry.ts");
+  assert.equal((registry.match(/Consultar contrato del skill/g) ?? []).length, 0);
+  const ids = [...registry.matchAll(/"id":\s*"([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(ids.length, pack.skills.length);
+  assert.equal(new Set(ids).size, ids.length);
+  for (const match of registry.matchAll(/"inputs":\s*"([^"]*)"[\s\S]*?"outputs":\s*"([^"]*)"/g)) {
+    assert.ok(match[1].length > 8, `inputs demasiado cortos: ${match[1]}`);
+    assert.ok(match[2].length > 8, `outputs demasiado cortos: ${match[2]}`);
+  }
+});

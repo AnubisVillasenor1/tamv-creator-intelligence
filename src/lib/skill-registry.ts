@@ -3,186 +3,186 @@ export const skillRegistry = [
     "id": "tamv-core-governance",
     "name": "Core Governance",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Aplicar gobernanza algorítmica TAMV a cualquier solución generada con este paquete.",
     "dependencies": [],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "tipo de proyecto",
+    "outputs": "diagnóstico"
   },
   {
     "id": "tamv-play-and-go-architect",
     "name": "Play And Go Architect",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Diseñar arquitectura completa de PLAY & GO como Creator Operating System.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "objetivos del producto y alcance del MVP",
+    "outputs": "arquitectura por módulos"
   },
   {
     "id": "tamv-nextjs-supabase-builder",
     "name": "Nextjs Supabase Builder",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Construir apps fullstack con Next.js, TypeScript, Tailwind y Supabase.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "requisitos funcionales",
+    "outputs": "esquema de base de datos"
   },
   {
     "id": "tamv-musicgen-local",
     "name": "Musicgen Local",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Integrar generación musical local con MusicGen / AudioCraft.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "descripción y estilo musical",
+    "outputs": "pipeline de inferencia local"
   },
   {
     "id": "tamv-voice-identity",
     "name": "Voice Identity",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Crear perfiles de voz propios y autorizados.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "consentimiento escrito del titular",
+    "outputs": "perfil de voz autorizado"
   },
   {
     "id": "tamv-audiocore-dsp",
     "name": "Audiocore Dsp",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Análisis y procesamiento de audio con C++17 y Python.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "archivos de audio autorizados",
+    "outputs": "mediciones de LUFS, picos y espectro"
   },
   {
     "id": "tamv-bullmq-redis",
     "name": "Bullmq Redis",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Diseñar colas de trabajo y workers para tareas pesadas.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "tipo y volumen de tareas",
+    "outputs": "diseño de colas y workers"
   },
   {
     "id": "tamv-supabase-rls-security",
     "name": "Supabase Rls Security",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Aplicar RLS, auditoría y trazabilidad.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "tablas y columnas",
+    "outputs": "políticas RLS por tabla"
   },
   {
     "id": "tamv-license-authority",
     "name": "License Authority",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Licenciamiento híbrido con Vault Transit + Ed25519.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "titular y alcance de derechos",
+    "outputs": "esquema de licencia"
   },
   {
     "id": "tamv-creator-growth",
     "name": "Creator Growth",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Acompañar el crecimiento del creador.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "audiencia propia y canales",
+    "outputs": "plan de crecimiento por etapas"
   },
   {
     "id": "tamv-monetization-advisor",
     "name": "Monetization Advisor",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Diseñar monetización ética para creadores.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "propuesta de valor",
+    "outputs": "modelo de precios y planes"
   },
   {
     "id": "tamv-marketing-growth",
     "name": "Marketing Growth",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Marketing y contenido para creadores.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "propuesta de valor",
+    "outputs": "mensajes y ángulos"
   },
   {
     "id": "tamv-seo-discoverability",
     "name": "Seo Discoverability",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Optimizar SEO y descubrimiento.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "URLs y contenido propio",
+    "outputs": "mapa de metadatos por página"
   },
   {
     "id": "tamv-conversion-optimizer",
     "name": "Conversion Optimizer",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "CRO y estrategia de precios.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "embudo y pasos actuales",
+    "outputs": "hipótesis priorizadas"
   },
   {
     "id": "tamv-launch-strategist",
     "name": "Launch Strategist",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Planear lanzamientos.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "producto y propuesta",
+    "outputs": "plan de lanzamiento por fases"
   },
   {
     "id": "tamv-rights-safety-guard",
     "name": "Rights Safety Guard",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Proteger derechos de autor, identidad vocal, privacidad y uso responsable de IA.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "obra o material a evaluar",
+    "outputs": "nivel de riesgo"
   },
   {
     "id": "tamv-support-assistant",
     "name": "Support Assistant",
     "category": "Base",
-    "description": "Skill original del Creator Intelligence Pack.",
+    "description": "Soporte técnico al creador.",
     "dependencies": [
       "tamv-core-governance"
     ],
-    "inputs": "Consultar contrato del skill",
-    "outputs": "Consultar contrato del skill"
+    "inputs": "descripción del incidente",
+    "outputs": "diagnóstico"
   },
   {
     "id": "tamv-audience-research",

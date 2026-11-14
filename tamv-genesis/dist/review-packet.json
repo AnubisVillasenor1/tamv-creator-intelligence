@@ -1,0 +1,775 @@
+{
+  "schema": "tamv.genesis.review-packet.v1",
+  "version": "2.0.0",
+  "generatedAt": "2026-11-13T00:00:00Z",
+  "purpose": "Paquete de evaluación para revisión externa. No es una certificación, un dictamen legal ni una validación académica.",
+  "subject": {
+    "identity": {
+      "legalName": "Anubis Villaseñor",
+      "professionalName": "Anubis Villaseñor",
+      "handles": [
+        "OsoPanda1",
+        "AnubisVillasenor1"
+      ],
+      "organization": "TAMV ONLINE NETWORK",
+      "origin": "Real del Monte, Hidalgo, México",
+      "declaredStart": "2020",
+      "statement": "Arquitecto del ecosistema TAMV y de Isabella AI; autor del corpus fundacional y del Creator Intelligence Pack."
+    },
+    "canonical": {
+      "attribution": "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.",
+      "product": "PLAY & GO",
+      "tagline": "Aprende. Crea. Analiza. Evoluciona.",
+      "repository": "https://github.com/AnubisVillasenor1/tamv-creator-intelligence",
+      "issuer": "TAMV ONLINE NETWORK"
+    }
+  },
+  "scorecard": {
+    "schema": "tamv.scorecard.v1",
+    "subject": "TAMV Creator Intelligence — tamv-genesis v2.0.0",
+    "generatedAt": "2026-11-13",
+    "scale": "0-100",
+    "weightedScore": 58.6,
+    "rawWeightedScore": 58.6,
+    "gateCapApplied": false,
+    "grade": "D",
+    "verdict": "Integridad de origen verificable y ejecución incompleta. El sistema es honesto sobre lo que no hace, pero todavía no es un release de producción: falta firma, almacén durable, SBOM y un ejecutor real por cada contrato anunciado.",
+    "dimensions": [
+      {
+        "id": "D1-attribution",
+        "label": "Integridad de atribución",
+        "weight": 10,
+        "score": 88,
+        "evidence": "22 archivos con SHA-256, texto canónico verificado y runtime fail-closed.",
+        "nextPoint": "Firmar el manifiesto y publicar la clave pública en el canal de release."
+      },
+      {
+        "id": "D2-supply-chain",
+        "label": "Cadena de suministro",
+        "weight": 12,
+        "score": 30,
+        "evidence": "Release sin firma, sin SBOM, sin attestation SLSA en CI y acciones fijadas por etiqueta mayor.",
+        "nextPoint": "Fijar acciones por SHA, generar SBOM CycloneDX y verificar procedencia en cada build."
+      },
+      {
+        "id": "D3-authorization",
+        "label": "Autorización y abuso",
+        "weight": 12,
+        "score": 72,
+        "evidence": "Revisión con autenticación Supabase, cuota por usuario, concurrencia máxima y timeout de respuesta.",
+        "nextPoint": "Mover la cuota a un almacén durable y probarla con concurrencia entre instancias."
+      },
+      {
+        "id": "D4-durability",
+        "label": "Persistencia y recuperación",
+        "weight": 10,
+        "score": 15,
+        "evidence": "drizzle/schema.ts vacío; no hay ledger durable, respaldo probado ni standby.",
+        "nextPoint": "Diseñar el ledger append-only con encadenamiento y una prueba de restauración documentada."
+      },
+      {
+        "id": "D5-observability",
+        "label": "Observabilidad",
+        "weight": 10,
+        "score": 68,
+        "evidence": "Correlación por petición con AsyncLocalStorage; sin trazas, métricas agregadas ni alertas.",
+        "nextPoint": "Exportar trazas con identificador de petición y alertar sobre denegaciones y fallos de integridad."
+      },
+      {
+        "id": "D6-documentation",
+        "label": "Consistencia documental",
+        "weight": 10,
+        "score": 72,
+        "evidence": "Versión y URL corregidas; contratos de skill base siguen con marcadores de posición.",
+        "nextPoint": "Generar el registro de skills desde los SKILL.md y eliminar textos de relleno."
+      },
+      {
+        "id": "D7-capability-honesty",
+        "label": "Honestidad de capacidades",
+        "weight": 12,
+        "score": 82,
+        "evidence": "Las rutas sin gateway devuelven 501; el vocabulario de capacidades quedó unificado.",
+        "nextPoint": "Rebajar a M1 las capacidades declaradas por encima de su evidencia y publicar el catálogo."
+      },
+      {
+        "id": "D8-skills",
+        "label": "Operabilidad de skills",
+        "weight": 8,
+        "score": 30,
+        "evidence": "37 contratos declarados, un ejecutor real y entradas/salidas genéricas en la base.",
+        "nextPoint": "Definir contrato verificable por skill y conectar al menos un ejecutor por categoría."
+      },
+      {
+        "id": "D9-licensing",
+        "label": "Claridad de licencia",
+        "weight": 8,
+        "score": 78,
+        "evidence": "NOTICE raíz, LICENSE completo y mapa por zona; el corpus externo con otras licencias queda excluido.",
+        "nextPoint": "Añadir cabeceras SPDX a los archivos del núcleo y validarlo en CI."
+      },
+      {
+        "id": "D10-work-evidence",
+        "label": "Evidencia de trayectoria",
+        "weight": 8,
+        "score": 45,
+        "evidence": "Cadena de procedencia documentada con tres cifras; cero horas con atestación independiente.",
+        "nextPoint": "Publicar bitácora por periodos y solicitar una atestación T3 sobre una muestra."
+      }
+    ],
+    "gates": [
+      {
+        "id": "G1-signed-release",
+        "label": "Release firmado (Ed25519)",
+        "passed": false,
+        "blocking": true,
+        "detail": "tamv-attribution.sig contiene UNSIGNED_RELEASE_PENDING; toda capacidad premium queda bloqueada."
+      },
+      {
+        "id": "G2-server-side-authorization",
+        "label": "Autorización de servidor en revisión creativa",
+        "passed": true,
+        "blocking": true,
+        "detail": "requireSupabaseAuth aplicado a reviewContent, con cuota y timeout."
+      },
+      {
+        "id": "G3-durable-audit-ledger",
+        "label": "Ledger durable append-only",
+        "passed": false,
+        "blocking": true,
+        "detail": "La política lo exige; no existe almacén ni tabla."
+      },
+      {
+        "id": "G4-license-consistency",
+        "label": "Licencia única y mapeada",
+        "passed": true,
+        "blocking": false,
+        "detail": "NOTICE + LICENSE raíz + LICENSE-MAP; AGPL-3.0-only."
+      },
+      {
+        "id": "G5-sbom",
+        "label": "SBOM y auditoría de dependencias",
+        "passed": false,
+        "blocking": true,
+        "detail": "No hay SBOM ni paso de auditoría de dependencias en CI."
+      },
+      {
+        "id": "G6-hours-attestation",
+        "label": "Atestación independiente de horas",
+        "passed": false,
+        "blocking": false,
+        "detail": "24,000 h siguen en estado unverified; bloquea el claim, no el producto."
+      },
+      {
+        "id": "G7-capability-vocabulary",
+        "label": "Vocabulario único de capacidades",
+        "passed": true,
+        "blocking": false,
+        "detail": "Verificado por el chequeo de deriva del CLI."
+      },
+      {
+        "id": "G8-load-and-failover",
+        "label": "Carga y failover probados",
+        "passed": false,
+        "blocking": false,
+        "detail": "No hay pruebas de carga, caos ni proveedor alterno."
+      },
+      {
+        "id": "G9-error-correlation",
+        "label": "Correlación de errores por petición",
+        "passed": true,
+        "blocking": false,
+        "detail": "AsyncLocalStorage por fetch; estado global solo como respaldo."
+      },
+      {
+        "id": "G10-agent-discovery",
+        "label": "Ruta de descubrimiento para agentes",
+        "passed": false,
+        "blocking": false,
+        "detail": "install.sh copia a .tamv/skills; los agentes buscan .claude/skills u otra ruta declarada."
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "C-001",
+      "statement": "Anubis VillaseÃ±or acumula aproximadamente 24,000 horas de trabajo hacia TAMV al 13 de noviembre de 2026.",
+      "status": "unverified",
+      "effectiveStatus": "unverified",
+      "confidence": 0.55,
+      "evidenceCount": 3,
+      "independent": false,
+      "whatWouldChangeIt": "Una atestaciÃ³n T3 de un tercero con bitÃ¡cora de periodos, mÃ©todo de conteo y muestra verificable; o una reducciÃ³n de la cifra a las horas documentadas."
+    },
+    {
+      "id": "C-002",
+      "statement": "El paquete declara 37 contratos de skill y el manifiesto los enumera sin duplicados.",
+      "status": "corroborated",
+      "effectiveStatus": "corroborated",
+      "confidence": 0.95,
+      "evidenceCount": 1,
+      "independent": false,
+      "whatWouldChangeIt": "Que el manifiesto y las carpetas diverjan en nÃºmero o en ids, o que se elimine un contrato sin actualizar el paquete."
+    },
+    {
+      "id": "C-003",
+      "statement": "La interfaz presenta Â«37 skills conectadosÂ» y un ecosistema operativo de 37 especialidades.",
+      "status": "contradicted",
+      "effectiveStatus": "contradicted",
+      "confidence": 0.98,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Conectar y probar 37 ejecutores, o cambiar la interfaz para decir Â«37 contratos declarados, 1 ejecutorÂ»."
+    },
+    {
+      "id": "C-004",
+      "statement": "La distribuciÃ³n estÃ¡ certificada y el release estÃ¡ firmado.",
+      "status": "contradicted",
+      "effectiveStatus": "contradicted",
+      "confidence": 0.99,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Firmar el manifiesto con la clave Ed25519 oficial y publicar la clave pÃºblica en el canal de release."
+    },
+    {
+      "id": "C-005",
+      "statement": "El producto estÃ¡ listo para producciÃ³n y puede operar sin supervisiÃ³n.",
+      "status": "contradicted",
+      "effectiveStatus": "contradicted",
+      "confidence": 0.97,
+      "evidenceCount": 3,
+      "independent": false,
+      "whatWouldChangeIt": "Firma del release, gateways conectados, persistencia durable y una prueba de operaciÃ³n sostenida con incidentes registrados."
+    },
+    {
+      "id": "C-006",
+      "statement": "La auditorÃ­a es durable, append-only y encadenada por hash.",
+      "status": "contradicted",
+      "effectiveStatus": "contradicted",
+      "confidence": 0.96,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Un almacÃ©n append-only con encadenamiento verificable y una prueba de restauraciÃ³n."
+    },
+    {
+      "id": "C-007",
+      "statement": "La procedencia SLSA estÃ¡ verificada en cada release.",
+      "status": "contradicted",
+      "effectiveStatus": "contradicted",
+      "confidence": 0.9,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Ejecutar la verificaciÃ³n en CI sobre un artefacto firmado y adjuntar la attestation al release."
+    },
+    {
+      "id": "C-008",
+      "statement": "El sistema cumple NIST CSF 2.0.",
+      "status": "unverified",
+      "effectiveStatus": "unverified",
+      "confidence": 0.4,
+      "evidenceCount": 1,
+      "independent": false,
+      "whatWouldChangeIt": "Una evaluaciÃ³n independiente por funciÃ³n y categorÃ­a, con evidencias y hallazgos."
+    },
+    {
+      "id": "C-009",
+      "statement": "La automatizaciÃ³n opera con riesgo cero.",
+      "status": "unverified",
+      "effectiveStatus": "unverified",
+      "confidence": 0.1,
+      "evidenceCount": 1,
+      "independent": false,
+      "whatWouldChangeIt": "Ninguna evidencia puede probar riesgo cero. Sustituir por riesgo residual medido, con umbrales y revisiÃ³n."
+    },
+    {
+      "id": "C-010",
+      "statement": "El portafolio contiene 23 obras con DOI.",
+      "status": "unverified",
+      "effectiveStatus": "unverified",
+      "confidence": 0.35,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Un inventario con DOI resueltos, tÃ­tulos, fechas y deduplicaciÃ³n por contenido."
+    },
+    {
+      "id": "C-011",
+      "statement": "La arquitectura opera como siete federaciones y seis hypercores.",
+      "status": "declared",
+      "effectiveStatus": "declared",
+      "confidence": 0.3,
+      "evidenceCount": 1,
+      "independent": false,
+      "whatWouldChangeIt": "Despliegues separados, contratos entre federaciones y pruebas de aislamiento e interoperabilidad."
+    },
+    {
+      "id": "C-012",
+      "statement": "El aislamiento multi-tenant estÃ¡ implementado con RLS.",
+      "status": "unverified",
+      "effectiveStatus": "unverified",
+      "confidence": 0.25,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Migraciones con polÃ­ticas RLS, pruebas de acceso cruzado entre tenants y negaciÃ³n por defecto."
+    },
+    {
+      "id": "C-013",
+      "statement": "Las respuestas de sistemas de IA constituyen auditorÃ­as o reconocimientos independientes.",
+      "status": "contradicted",
+      "effectiveStatus": "contradicted",
+      "confidence": 0.92,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Un auditor humano identificable con alcance, mÃ©todo, artefactos examinados y criterios publicados."
+    },
+    {
+      "id": "C-014",
+      "statement": "La integridad de la atribuciÃ³n se verifica en tiempo de ejecuciÃ³n y falla cerrado.",
+      "status": "corroborated",
+      "effectiveStatus": "corroborated",
+      "confidence": 0.9,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Que un hash deje de coincidir o que la firma se valide contra una clave pÃºblica publicada."
+    },
+    {
+      "id": "C-015",
+      "statement": "Las rutas y la allowlist de polÃ­tica comparten un Ãºnico vocabulario de capacidades.",
+      "status": "corroborated",
+      "effectiveStatus": "corroborated",
+      "confidence": 0.85,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Que una ruta nueva emita un id fuera de la allowlist o que se renombre una capacidad sin migraciÃ³n."
+    },
+    {
+      "id": "C-016",
+      "statement": "El nÃºcleo del repositorio declara una sola licencia, AGPL-3.0-only.",
+      "status": "corroborated",
+      "effectiveStatus": "corroborated",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Que un archivo del nÃºcleo quede sin cobertura o que el NOTICE contradiga al manifiesto."
+    },
+    {
+      "id": "C-017",
+      "statement": "La revisiÃ³n creativa exige autenticaciÃ³n de servidor, cuota y tiempo mÃ¡ximo.",
+      "status": "corroborated",
+      "effectiveStatus": "corroborated",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Sustituir el contador en memoria por un almacÃ©n durable y probar el lÃ­mite con carga concurrente."
+    },
+    {
+      "id": "C-018",
+      "statement": "El error global de SSR se correlaciona con la peticiÃ³n que lo produjo.",
+      "status": "corroborated",
+      "effectiveStatus": "corroborated",
+      "confidence": 0.8,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Que una prueba concurrente devuelva la pila de otra peticiÃ³n."
+    },
+    {
+      "id": "C-019",
+      "statement": "El corpus local de TAMV se incorpora al paquete como evidencia de gobernanza, no como prueba de las horas.",
+      "status": "corroborated",
+      "effectiveStatus": "corroborated",
+      "confidence": 0.9,
+      "evidenceCount": 2,
+      "independent": false,
+      "whatWouldChangeIt": "Que el catÃ¡logo incluya material restringido como doctrina o producto."
+    }
+  ],
+  "claimSummary": {
+    "total": 19,
+    "byStatus": {
+      "declared": 1,
+      "unverified": 5,
+      "corroborated": 7,
+      "verified": 0,
+      "contradicted": 6,
+      "retracted": 0
+    },
+    "independentClaims": 0,
+    "claimsWithIssues": 6,
+    "staleClaims": 0,
+    "conflicts": 2,
+    "machineCheckableShare": 1
+  },
+  "capabilities": [
+    {
+      "id": "creator.review",
+      "declared": "M2-implemented",
+      "earned": "M2-implemented",
+      "evidenceCeiling": "M2-implemented",
+      "gaps": [
+        "no-operation-window",
+        "no-independent-audit",
+        "release-unsigned"
+      ],
+      "runnable": false
+    },
+    {
+      "id": "music.generation",
+      "declared": "M1-contracted",
+      "earned": "M1-contracted",
+      "evidenceCeiling": "M2-implemented",
+      "gaps": [
+        "no-reproducible-test",
+        "no-operation-window",
+        "no-independent-audit",
+        "release-unsigned"
+      ],
+      "runnable": false
+    },
+    {
+      "id": "voice.generation",
+      "declared": "M1-contracted",
+      "earned": "M1-contracted",
+      "evidenceCeiling": "M2-implemented",
+      "gaps": [
+        "no-reproducible-test",
+        "no-operation-window",
+        "no-independent-audit",
+        "release-unsigned"
+      ],
+      "runnable": false
+    },
+    {
+      "id": "audiocore.advanced",
+      "declared": "M1-contracted",
+      "earned": "M1-contracted",
+      "evidenceCeiling": "M2-implemented",
+      "gaps": [
+        "no-reproducible-test",
+        "no-operation-window",
+        "no-independent-audit",
+        "release-unsigned"
+      ],
+      "runnable": false
+    },
+    {
+      "id": "agent.orchestration",
+      "declared": "M1-contracted",
+      "earned": "M1-contracted",
+      "evidenceCeiling": "M2-implemented",
+      "gaps": [
+        "no-reproducible-test",
+        "no-operation-window",
+        "no-independent-audit",
+        "release-unsigned"
+      ],
+      "runnable": false
+    },
+    {
+      "id": "external.publishing",
+      "declared": "M0-declared",
+      "earned": "M0-declared",
+      "evidenceCeiling": "M1-contracted",
+      "gaps": [
+        "implementation-or-boundary-missing",
+        "no-reproducible-test",
+        "no-operation-window",
+        "no-independent-audit",
+        "release-unsigned"
+      ],
+      "runnable": false
+    },
+    {
+      "id": "tamv.certification",
+      "declared": "M3-tested",
+      "earned": "M3-tested",
+      "evidenceCeiling": "M3-tested",
+      "gaps": [
+        "no-operation-window",
+        "no-independent-audit"
+      ],
+      "runnable": true
+    },
+    {
+      "id": "hypercore.audit",
+      "declared": "M3-tested",
+      "earned": "M3-tested",
+      "evidenceCeiling": "M3-tested",
+      "gaps": [
+        "no-operation-window",
+        "no-independent-audit"
+      ],
+      "runnable": true
+    },
+    {
+      "id": "sovereignty.dashboard",
+      "declared": "M2-implemented",
+      "earned": "M2-implemented",
+      "evidenceCeiling": "M3-tested",
+      "gaps": [
+        "no-operation-window",
+        "no-independent-audit"
+      ],
+      "runnable": true
+    },
+    {
+      "id": "skills.install",
+      "declared": "M1-contracted",
+      "earned": "M1-contracted",
+      "evidenceCeiling": "M2-implemented",
+      "gaps": [
+        "no-reproducible-test",
+        "no-operation-window",
+        "no-independent-audit"
+      ],
+      "runnable": false
+    }
+  ],
+  "workLedger": {
+    "claim": {
+      "hours": 24000,
+      "asOf": "2026-11-13",
+      "status": "unverified",
+      "statement": "Aproximadamente 24,000 horas de trabajo acumuladas hacia el ecosistema TAMV.",
+      "attribution": "Declaración del autor. La cifra no cuenta con bitácora horaria ni atestación independiente."
+    },
+    "independentHours": 0,
+    "chainHead": "sha256:26b88c85a55f60f0ae59dfae6272bc8cc54b3d2fbe433f757136dd570dc5bdc1",
+    "entries": 7,
+    "findings": [
+      {
+        "code": "unattested-hours",
+        "detail": "24000h are declared with no independent attestation"
+      }
+    ]
+  },
+  "knowledge": {
+    "total": 12,
+    "excluded": 1,
+    "policy": "El catálogo registra, no publica. Ningún archivo restringido o confidencial entra al bundle distribuible."
+  },
+  "certification": {
+    "hashesValid": true,
+    "signatureState": "unsigned",
+    "signed": false,
+    "mismatches": [],
+    "protectedFiles": 22
+  },
+  "checks": [
+    {
+      "id": "K-01",
+      "label": "Integridad de los 22 archivos protegidos",
+      "status": "pass",
+      "detail": "22 archivos coinciden con el manifiesto.",
+      "blocking": true
+    },
+    {
+      "id": "K-02",
+      "label": "Firma del release",
+      "status": "fail",
+      "detail": "tamv-attribution.sig = UNSIGNED_RELEASE_PENDING. Honesto, pero bloquea toda capacidad premium.",
+      "blocking": true
+    },
+    {
+      "id": "K-03",
+      "label": "Vocabulario de capacidades",
+      "status": "pass",
+      "detail": "política=6 rutas=4 rutas-fuera-de-política=ninguna política-ausente-del-catálogo=ninguna",
+      "blocking": true
+    },
+    {
+      "id": "K-04",
+      "label": "Catálogo genesis vs política",
+      "status": "warn",
+      "detail": "capacidades adicionales fuera de la allowlist=tamv.certification,hypercore.audit,sovereignty.dashboard,skills.install",
+      "blocking": false
+    },
+    {
+      "id": "K-05",
+      "label": "Inventario de skills",
+      "status": "pass",
+      "detail": "manifiesto=37 carpetas=37 registro=37 duplicados=0",
+      "blocking": false
+    },
+    {
+      "id": "K-06",
+      "label": "Contratos de skill completos",
+      "status": "pass",
+      "detail": "0 campos usan «Consultar contrato del skill».",
+      "blocking": false
+    },
+    {
+      "id": "K-07",
+      "label": "Versión y enlaces canónicos",
+      "status": "pass",
+      "detail": "UI=1.2.1 manifiesto=1.2.1 enlaces=3",
+      "blocking": false
+    },
+    {
+      "id": "K-08",
+      "label": "Claims sin sobreafirmación",
+      "status": "pass",
+      "detail": "19 claims; 0 verificados; 6 contradichos.",
+      "blocking": true
+    },
+    {
+      "id": "K-09",
+      "label": "Cadena del work ledger",
+      "status": "pass",
+      "detail": "7 entradas verificadas.",
+      "blocking": true
+    },
+    {
+      "id": "K-10",
+      "label": "Consistencia del ledger",
+      "status": "warn",
+      "detail": "unattested-hours",
+      "blocking": false
+    },
+    {
+      "id": "K-11",
+      "label": "Scorecard reproducible",
+      "status": "pass",
+      "detail": "calculado=58.6 declarado=58.6",
+      "blocking": false
+    },
+    {
+      "id": "K-12",
+      "label": "Gobernanza del corpus",
+      "status": "pass",
+      "detail": "12 fuentes; 1 excluidas.",
+      "blocking": true
+    },
+    {
+      "id": "K-13",
+      "label": "Licencia única",
+      "status": "pass",
+      "detail": "NOTICE=true LICENSE=true MAP=true",
+      "blocking": false
+    },
+    {
+      "id": "K-14",
+      "label": "Revisión con autenticación y cuota",
+      "status": "pass",
+      "detail": "auth=true cert=true quota=true timeout=true",
+      "blocking": true
+    },
+    {
+      "id": "K-15",
+      "label": "Correlación de errores por petición",
+      "status": "pass",
+      "detail": "ALS=true scope=true",
+      "blocking": false
+    }
+  ],
+  "reproduction": [
+    "node scripts/tamv-certification.mjs --check",
+    "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit",
+    "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs verify",
+    "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report",
+    "node --experimental-strip-types --test tamv-genesis/tests/*.test.ts",
+    "npx skills add AnubisVillasenor1/tamv-creator-intelligence --list"
+  ],
+  "artifacts": [
+    {
+      "path": "LICENSE",
+      "sha256": "sha256:0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+      "bytes": 34523
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "sha256:be955638de320835f2ac8d10c1c58f418a5716da38297f793e4db8420f7c474f",
+      "bytes": 1666
+    },
+    {
+      "path": "LICENSE-MAP.md",
+      "sha256": "sha256:e16e9237aaaadb20caf9ecafa2581902756b5432280f7cbdb6e3a2cf780e058d",
+      "bytes": 2632
+    },
+    {
+      "path": "README.md",
+      "sha256": "sha256:a0b4f12e3a066850af1b4f4079d8a81790a3a22138fc01039e91b0e71882acd3",
+      "bytes": 21856
+    },
+    {
+      "path": "tamv-attribution.json",
+      "sha256": "sha256:37abd16a11a8ee2e82b14c83c4d1b3a342fbc16d1b24d123054ff127e02c1bff",
+      "bytes": 4285
+    },
+    {
+      "path": "tamv-attribution.sig",
+      "sha256": "sha256:26cee71e09aaa7cf3727a1075ba5a570876aebf5a8565040401ff63d9c0151d7",
+      "bytes": 25
+    },
+    {
+      "path": "tamv-genesis/data/identity.json",
+      "sha256": "sha256:3990d2396cca24990e17680e3381bc2377f0aadaf784cb4797a5647e3c3c40b6",
+      "bytes": 1934
+    },
+    {
+      "path": "tamv-genesis/data/claims.json",
+      "sha256": "sha256:57a1b980eae3291032d0fc43d1a66240e6e4a6fda37e44d48ed8719b8d5e74d1",
+      "bytes": 21799
+    },
+    {
+      "path": "tamv-genesis/data/capabilities.json",
+      "sha256": "sha256:77617544f4aecffbeed8997738016f27fef510a4825178b1e0bf79c5ba3887ab",
+      "bytes": 10068
+    },
+    {
+      "path": "tamv-genesis/data/work-ledger.json",
+      "sha256": "sha256:5c2ac9004189af8100d08f02239d7b2b9971f1f67bd018ce86f184a5f5c01af6",
+      "bytes": 5212
+    },
+    {
+      "path": "tamv-genesis/data/scorecard.json",
+      "sha256": "sha256:522ca913b13df0515a87470689f6135a17f41e8c5f946520cef77d41843e6ad8",
+      "bytes": 6235
+    },
+    {
+      "path": "tamv-genesis/data/knowledge-sources.json",
+      "sha256": "sha256:a40595e4638e5175e23cd1f1b9b8c12bae42f5f0748633b36e26b588ee12e274",
+      "bytes": 7579
+    },
+    {
+      "path": "docs/audit/2026-11-13/EXECUTIVE-SUMMARY.md",
+      "sha256": "sha256:c3bd9e8e90e36f65e6242480dceb3c02467d286abf07e47dbfea9988ca5d2b95",
+      "bytes": 4493
+    },
+    {
+      "path": "docs/audit/2026-11-13/FINDINGS.md",
+      "sha256": "sha256:05593397c52e7f773259bf8261cf0e91b4db6ff39ae36820f0014c87f2ce97d2",
+      "bytes": 5936
+    },
+    {
+      "path": "docs/audit/2026-11-13/WORK-LEDGER.md",
+      "sha256": "sha256:fb3aefc849fe4264bb39efd24013d2322ddb17e651525ee3225badbcacdfbd42",
+      "bytes": 3630
+    },
+    {
+      "path": "docs/audit/2026-11-13/EVIDENCE-INDEX.md",
+      "sha256": "sha256:1bdc46a0a504eeff2a442aed57477ae85dfa54ebf60c08110a95d0d48de6ce11",
+      "bytes": 4952
+    },
+    {
+      "path": "docs/PROFILES.md",
+      "sha256": "sha256:dd27a1a415cdf42f9422f3c40e254a4ea90b8c05250213bf2e6b7081da70fe4a",
+      "bytes": 4824
+    },
+    {
+      "path": "docs/PUBLISHING.md",
+      "sha256": "sha256:1f03e617ddff68714d1c39209bd4ef07451e974515eb65039da8e75a725d00fb",
+      "bytes": 3898
+    },
+    {
+      "path": "docs/ACADEMIC-EVALUATION.md",
+      "sha256": "sha256:78bb2934ee2d8e0f8ca1faa516a1135e063f41e142bad512ada08ecabe80e38e",
+      "bytes": 7560
+    }
+  ],
+  "limitations": [
+    "El release está sin firma Ed25519; las capacidades certificadas permanecen bloqueadas.",
+    "Las 24,000 horas son un claim autobiográfico no verificado, sin atestación independiente.",
+    "No existe ledger durable append-only ni RLS multi-tenant implementada.",
+    "No hay SBOM, attestation SLSA ni pruebas de carga y failover.",
+    "La adopción en skills.sh no constituye validación académica ni revisión por pares.",
+    "El corpus externo no se distribuye; se referencia por hash y conserva sus licencias."
+  ]
+}

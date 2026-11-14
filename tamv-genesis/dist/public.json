@@ -771,8 +771,8 @@
     {
       "id": "K-06",
       "label": "Contratos de skill completos",
-      "status": "warn",
-      "detail": "34 campos usan «Consultar contrato del skill».",
+      "status": "pass",
+      "detail": "0 campos usan «Consultar contrato del skill».",
       "blocking": false
     },
     {

@@ -16,6 +16,13 @@ Diseñar arquitectura completa de PLAY & GO como Creator Operating System.
 
 Cuando se quiere crear educación musical, auditoría, contenido AI, monetización o plataforma de creadores.
 
+## Entradas requeridas
+
+- objetivos del producto y alcance del MVP
+- usuarios y roles
+- restricciones de infraestructura y presupuesto
+- nivel de riesgo y datos tratados
+
 ## Reglas
 
 - Diseñar con Next.js, Supabase, Stripe, Redis y Docker

@@ -12,11 +12,25 @@ metadata:
 
 CRO y estrategia de precios.
 
+## Entradas requeridas
+
+- embudo y pasos actuales
+- métricas base y volumen
+- hipótesis de mejora
+- restricciones de tráfico
+
 ## Reglas
 
 - Pruebas A/B con hipótesis
 - Sin urgencia falsa
 - Métricas de conversión claras
+
+## Contrato de salida
+
+- hipótesis priorizadas
+- diseño de prueba y tamaño de muestra
+- criterio de decisión
+- lectura de resultados
 
 ## Atribución
 
