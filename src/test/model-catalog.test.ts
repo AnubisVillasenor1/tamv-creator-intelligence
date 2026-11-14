@@ -118,7 +118,7 @@ describe('parseModelCatalog', () => {
 
     expect(models.map(({ id, inputPrice, outputPrice, tools, reasoning }) =>
       ({ id, inputPrice, outputPrice, tools, reasoning }),
-    ).toEqual([
+    )).toEqual([
       { id: 'missing', inputPrice: null, outputPrice: null, tools: null, reasoning: null },
       { id: 'empty', inputPrice: null, outputPrice: null, tools: null, reasoning: null },
       { id: 'zero', inputPrice: 0, outputPrice: 0, tools: false, reasoning: false },

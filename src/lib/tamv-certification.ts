@@ -144,7 +144,7 @@ function asManifest(value: unknown): TamvAttributionManifest | null {
   const governance = value["governance"];
   const license = value["license"];
   if (
-    value["schema"] !== "tamv.attribution["manifest"].v1" ||
+    value["schema"] !== "tamv.attribution.manifest.v1" ||
     value["issuer"] !== "TAMV ONLINE NETWORK" ||
     value["product"] !== "PLAY & GO" ||
     value["pack"] !== "tamv-online-network-creator-intelligence-pack" ||
