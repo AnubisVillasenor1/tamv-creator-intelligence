@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowUpRight, Check, Copy, LoaderCircle, ShieldCheck, Sparkles } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { ArrowUpRight, Check, Copy, Download, LoaderCircle, ShieldCheck, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { contentSchema, type Review } from '@/lib/content-schema';
 import { reviewContent } from '@/lib/content.functions';
@@ -16,13 +16,16 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<Review>();
-  const [audit, setAudit] = useState<{ hash: string; runId: string; timestamp: string }>();
+  const [audit, setAudit] = useState<Extract<Awaited<ReturnType<typeof reviewContent>>, { ok: true }>['audit']>();
   const [copied, setCopied] = useState(false);
+  const submitting = useRef(false);
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (submitting.current) return;
     const parsed = contentSchema.safeParse({ draft, audience, goal, channel, consent });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? 'Revisa los campos.'); return; }
-    setBusy(true); setError(''); setResult(undefined); setAudit(undefined);
+    submitting.current = true;
+    setBusy(true); setError(''); setResult(undefined); setAudit(undefined); setCopied(false);
     try {
       const { data: sessionData } = await supabase.auth.getSession();
       if (!sessionData.session) {
@@ -34,17 +37,40 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
       else setError(response.error);
     } catch (caught) {
       if (caught instanceof Response) {
-        try {
-          const payload = await caught.clone().json() as { error?: string; reason?: string };
-          setError(payload.error ? `${payload.error}. ${payload.reason ?? "Revisa la certificación TAMV."}` : "La distribución TAMV no está certificada; la revisión se bloqueó antes de enviar el texto.");
-        } catch {
-          setError("La distribución TAMV no está certificada; la revisión se bloqueó antes de enviar el texto.");
+        if (caught.status === 401) {
+          setError('Necesitas una sesión válida para revisar contenido. Inicia sesión o renueva tu sesión; tu borrador sigue intacto.');
+        } else if (caught.status === 402) {
+          setError('No hay créditos disponibles para esta revisión. Tu borrador sigue intacto.');
+        } else if (caught.status === 429 || caught.status === 503) {
+          const seconds = Number(caught.headers.get('Retry-After'));
+          const wait = Number.isInteger(seconds) && seconds > 0 && seconds <= 86400 ? ` Espera ${seconds} segundos antes de volver a intentarlo.` : ' Intenta más tarde.';
+          setError(`Se alcanzó un límite de revisiones o la capacidad del servicio.${wait} Tu borrador sigue intacto; no se reintentará automáticamente.`);
+        } else if (caught.status === 403) {
+          const payload: unknown = await caught.clone().json().catch(() => null);
+          const code = payload && typeof payload === 'object' && 'code' in payload ? payload.code : undefined;
+          setError(code === 'TAMV_ATTRIBUTION_INTEGRITY_FAILED'
+            ? 'La distribución TAMV no está certificada; la revisión se bloqueó antes de enviar el texto.'
+            : code === 'TAMV_FEATURE_NOT_LICENSED'
+              ? 'La revisión no está habilitada en la licencia de esta distribución. Tu borrador sigue intacto.'
+              : 'La política de acceso no autoriza esta revisión. Tu borrador sigue intacto.');
+        } else {
+          setError('El servicio no pudo completar la revisión. Tu borrador sigue intacto; no se ha repetido el envío.');
         }
       } else {
         setError('No se pudo conectar con la revisión. Tu texto sigue intacto.');
       }
     }
-    finally { setBusy(false); }
+    finally { submitting.current = false; setBusy(false); }
+  }
+  function downloadReview() {
+    if (!result || !audit) return;
+    const blob = new Blob([JSON.stringify({ schema: 'tamv.review.export.v1', review: result, audit }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `tamv-review-${audit.runId}.json`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
   }
   return <section id="review" className="scroll-mt-8">
     <div className="section-heading"><div><span className="eyebrow">CREATOR INTELLIGENCE</span><h2>Tu próxima mejor versión.</h2></div><span className="quiet-label"><Sparkles size={14}/> AI Gateway</span></div>
@@ -65,7 +91,7 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
       </form>
       <div className="review-output" aria-live="polite">
         <div className="flex justify-between items-center"><h3 className="font-medium">Perspectiva creativa</h3><span className="text-xs text-muted-foreground">02 / PROPUESTA</span></div>
-        {result ? <div className="mt-6 space-y-6"><p className="text-sm leading-6">{result.diagnosis}</p>{result.improvements.map((r,i) => <div key={i} className="border-t border-border pt-4"><span className="eyebrow">0{i+1}</span><h4 className="font-medium mt-1">{r.title}</h4><p className="text-sm text-muted-foreground mt-2">{r.reason}</p><p className="text-sm mt-2">{r.action}</p></div>)}<div className="border-t border-border pt-5"><div className="flex justify-between items-center"><h4 className="font-medium">Borrador propuesto</h4><Button variant="ghost" size="icon" title="Copiar propuesta" aria-label="Copiar propuesta" onClick={async () => { try { await navigator.clipboard.writeText(result.revised); setCopied(true); } catch { setError('No pudimos copiar; selecciona el texto de la propuesta.'); } }}>{copied ? <Check/> : <Copy/>}</Button></div><p className="whitespace-pre-wrap text-sm leading-6 mt-3">{result.revised}</p></div><p className="text-xs text-muted-foreground flex gap-2"><ShieldCheck size={16} className="shrink-0"/>{result.safety}</p><details className="text-xs text-muted-foreground"><summary className="cursor-pointer">Trazabilidad de la revisión</summary><p className="break-all mt-3">SHA-256: {audit?.hash}</p><p className="mt-2">{audit?.timestamp} · {audit?.runId}</p></details></div> : <div className="empty-review"><div className="intelligence-symbol"><Sparkles size={30}/></div><h4>{busy ? 'Una nueva perspectiva en camino.' : 'Tu creatividad, con otra perspectiva.'}</h4><p>{busy ? 'Revisando audiencia, intención y contenido.' : 'Las propuestas de tu revisión aparecerán aquí.'}</p><div className="flex gap-2 flex-wrap justify-center mt-7"><span className="micro-tag">Audiencia</span><span className="micro-tag">Objetivos</span><span className="micro-tag">Tu identidad</span></div></div>}
+        {result ? <div className="mt-6 space-y-6"><p className="text-sm leading-6">{result.diagnosis}</p>{result.improvements.map((r,i) => <div key={i} className="border-t border-border pt-4"><span className="eyebrow">0{i+1}</span><h4 className="font-medium mt-1">{r.title}</h4><p className="text-sm text-muted-foreground mt-2">{r.reason}</p><p className="text-sm mt-2">{r.action}</p></div>)}<div className="border-t border-border pt-5"><div className="flex justify-between items-center"><h4 className="font-medium">Borrador propuesto</h4><Button variant="ghost" size="icon" title="Copiar propuesta" aria-label={copied ? 'Propuesta copiada' : 'Copiar propuesta'} onClick={async () => { try { await navigator.clipboard.writeText(result.revised); setCopied(true); } catch { setError('No pudimos copiar; selecciona el texto de la propuesta.'); } }}>{copied ? <Check/> : <Copy/>}</Button></div><p className="whitespace-pre-wrap text-sm leading-6 mt-3">{result.revised}</p></div><p className="text-xs text-muted-foreground flex gap-2"><ShieldCheck size={16} className="shrink-0"/>{result.safety}</p><details className="text-xs text-muted-foreground"><summary className="cursor-pointer">Trazabilidad de la revisión</summary><p className="break-all mt-3">SHA-256: {audit?.hash}</p><p className="mt-2">{audit?.timestamp} · {audit?.runId}</p><p className="mt-2">Modelo: {audit?.model}</p><p className="mt-2">Política: {audit?.governance.policyVersion} · {audit?.governance.decision}</p><p className="mt-2">Skills declaradas: {audit?.skills.join(', ')}</p><p className="mt-2">Metadatos de esta revisión, no un registro persistente ni una certificación firmada.</p></details><Button variant="outline" onClick={downloadReview}><Download size={16}/>Descargar revisión y trazabilidad</Button></div> : <div className="empty-review"><div className="intelligence-symbol"><Sparkles size={30}/></div><h4>{busy ? 'Una nueva perspectiva en camino.' : 'Tu creatividad, con otra perspectiva.'}</h4><p>{busy ? 'Revisando audiencia, intención y contenido.' : 'Las propuestas de tu revisión aparecerán aquí.'}</p><div className="flex gap-2 flex-wrap justify-center mt-7"><span className="micro-tag">Audiencia</span><span className="micro-tag">Objetivos</span><span className="micro-tag">Tu identidad</span></div></div>}
         <div className="text-xs text-muted-foreground mt-6 pt-4 border-t border-border flex gap-2"><ShieldCheck size={14}/>Tu criterio siempre tiene la última palabra.</div>
       </div>
     </div>
