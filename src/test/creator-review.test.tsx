@@ -93,6 +93,10 @@ describe('Creator review feedback and evidence', () => {
     const form = fillReview();
     fireEvent.submit(form);
     fireEvent.submit(form);
+    // The component awaits the session before invoking the server function,
+    // so the first call is observable only after that microtask resolves.
+    await waitFor(() => expect(reviewContent).toHaveBeenCalledTimes(1));
+    await act(async () => {});
     expect(reviewContent).toHaveBeenCalledTimes(1);
     await act(async () => { finish?.(response); });
     await waitFor(() => expect(onComplete).toHaveBeenCalledTimes(1));
