@@ -54,7 +54,7 @@ El paquete se rige por cinco estándares. La columna de estado distingue lo impl
 |---|---|---|
 | **Gobernanza** | Govern Core con denegación por defecto, consentimiento explícito, supervisión humana y alineación NIST CSF 2.0 | Política y guardas implementadas; consentimiento durable y RBAC completos pendientes |
 | **Observabilidad** | Métricas Prometheus autenticadas, auditoría HyperCore y evaluación Genesis con 19 chequeos | Local al proceso; sin agregación externa ni alertas conectadas |
-| **Transparencia** | Manifiesto de integridad SHA-256, sello v3 por skill, trazabilidad exportable y documentación de límites | Implementado; firmas Ed25519 pendientes en este release |
+| **Transparencia** | Manifiesto de integridad SHA-256, sello v3 por skill, log de transparencia append-only con pruebas de inclusión Merkle y documentación de límites | Implementado y probado; firmas Ed25519 del sello y del checkpoint pendientes en este release |
 | **Ética** | Prohibiciones explícitas, protección de derechos, monetización sin patrones oscuros y la IA propone / el humano decide | Contratos y guardas de revisión implementados |
 | **Protección** | Fail-closed ante integridad inválida, Ed25519, cifrado híbrido X25519 + AES-256-GCM, RLS y secretos solo en servidor | Implementado donde se declara; procedencia SLSA del runtime `not-integrated` |
 
@@ -71,7 +71,7 @@ El paquete se organiza en una superficie pública unificada de **cuatro skills c
 
 Las cuatro skills viven en `tamv-genesis/v3/skills/` y son las únicas publicadas en [skills.sh.json](skills.sh.json). No duplican los 37 contratos de `tamv-pack/skills/`: los referencian como biblioteca interna. La matriz de fusión de patrones externos — absorbidos como capacidades, sin copiar texto ni implementación de terceros — está en [tamv-genesis/v3/pack.json](tamv-genesis/v3/pack.json).
 
-El paquete v3 se protege con un sello de raíces SHA-256 por skill y por paquete, firmado con Ed25519 y verificado en fail-closed: quitar, editar, mover o añadir una skill rompe el sello y el runtime deniega la ejecución certificada. **El sello actual no está firmado** (`UNSIGNED_RELEASE_PENDING`). El modelo de amenaza, el cifrado híbrido X25519 + HKDF-SHA256 + AES-256-GCM y la migración desde 1.2.1 están en [docs/SOVEREIGN-V3.md](docs/SOVEREIGN-V3.md).
+El paquete v3 se protege con un sello de raíces SHA-256 por skill y por paquete, firmado con Ed25519 y verificado en fail-closed: quitar, editar, mover o añadir una skill rompe el sello y el runtime deniega la ejecución certificada. **El sello actual no está firmado** (`UNSIGNED_RELEASE_PENDING`). Sobre ese sello, un log de transparencia append-only encadena por hash cada raíz publicada y ofrece pruebas de inclusión Merkle verificables por terceros, con un checkpoint firmable que también está sin firmar en este release. El modelo de amenaza, el cifrado híbrido X25519 + HKDF-SHA256 + AES-256-GCM, el log de transparencia y la migración desde 1.2.1 están en [docs/SOVEREIGN-V3.md](docs/SOVEREIGN-V3.md).
 
 ## HyperCore Turbo
 
@@ -227,10 +227,11 @@ bun run tamv:check
 bun run build
 node --experimental-strip-types --test tamv-genesis/tests/*.test.ts
 node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify
+node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --verify
 bash scripts/verify-slsa.sh
 ```
 
-`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **65/65 pruebas aprobadas** localmente (Node v24.18.0), incluidas las 13 del núcleo soberano, y `sovereign.mjs seal` verificó la estructura y contenido del sello v3. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
+`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **77/77 pruebas aprobadas** localmente (Node v24.18.0), incluidas las del núcleo soberano y las 11 del log de transparencia, y se verificaron la estructura del sello v3 y la cadena del log de transparencia con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
 
 La firma y recertificación corresponden al responsable autorizado del release, con las claves suministradas de forma segura:
 

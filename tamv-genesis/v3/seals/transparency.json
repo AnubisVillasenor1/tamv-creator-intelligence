@@ -1,0 +1,14 @@
+{
+  "schema": "tamv.seal-transparency.v1",
+  "entries": [
+    {
+      "seq": 0,
+      "pack": "tamv-creator-intelligence",
+      "version": "3.0.0",
+      "sealRoot": "sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc",
+      "issuedAt": "2026-11-14T00:00:00.000Z",
+      "prevHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "entryHash": "sha256:b4bd9c3fbf3dae7b1f481b50212db29dead989c1b53ea5641e56c09d982671bd"
+    }
+  ]
+}

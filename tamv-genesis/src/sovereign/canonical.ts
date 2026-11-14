@@ -31,6 +31,12 @@ export function canonicalJson(value: unknown): string {
     return "[" + value.map((item) => canonicalJson(item)).join(",") + "]";
   }
   if (kind === "object") {
+    const prototype = Object.getPrototypeOf(value);
+    if (prototype !== Object.prototype && prototype !== null) {
+      throw new TamvCanonicalError(
+        "A canonical payload cannot contain a non-plain object (Date, Map, Set, RegExp or class instance); convert it to a plain structure first.",
+      );
+    }
     const record = value as Record<string, unknown>;
     const keys = Object.keys(record).sort();
     for (const key of keys) {

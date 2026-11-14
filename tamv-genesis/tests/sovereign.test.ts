@@ -61,6 +61,15 @@ test("canonical JSON sorts keys and rejects non-deterministic values", () => {
   assert.throws(() => canonicalJson({ a: Number.NaN }), /non-finite/);
 });
 
+test("canonical JSON refuses non-plain objects instead of silently emitting {}", () => {
+  assert.throws(() => canonicalJson({ when: new Date(0) }), /non-plain/);
+  assert.throws(() => canonicalJson(new Map([["a", 1]])), /non-plain/);
+  assert.throws(() => canonicalJson(new Set([1])), /non-plain/);
+  assert.throws(() => canonicalJson(/x/), /non-plain/);
+  assert.throws(() => canonicalJson(new (class Payload { a = 1; })()), /non-plain/);
+  assert.equal(canonicalJson(Object.assign(Object.create(null), { a: 1 })), '{"a":1}');
+});
+
 test("relative paths reject traversal and platform separators", () => {
   assert.doesNotThrow(() => assertSafeRelativePath("skills/tamv/SKILL.md"));
   assert.throws(() => assertSafeRelativePath("../secret.md"));

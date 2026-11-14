@@ -502,11 +502,11 @@ oficial Ed25519 del release. Instalar los contratos no habilita esa capacidad.
 
 ## Desarrollo y pruebas
 
-**Estado de esta actualización:** la suite de Genesis se ejecutó localmente (Node v24.18.0) con **65/65 pruebas aprobadas**, incluidas las 13 del núcleo soberano (`sovereign.test.ts`), y `sovereign.mjs seal` verificó la estructura y contenido del sello v3. No se ejecutaron Vitest, lint, typecheck, build ni validación de la interfaz en navegador; no se declara la suite de la aplicación “en verde”.
+**Estado de esta actualización:** la suite de Genesis se ejecutó localmente (Node v24.18.0) con **77/77 pruebas aprobadas**, incluidas las del núcleo soberano (`sovereign.test.ts`) y las 11 del log de transparencia (`transparency.test.ts`), y se verificaron la estructura del sello v3 y la cadena del log de transparencia con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación de la interfaz en navegador; no se declara la suite de la aplicación “en verde”.
 
 Las mejoras locales incluyen pruebas en [model-catalog.test.ts](../src/test/model-catalog.test.ts), [model-explorer.test.tsx](../src/test/model-explorer.test.tsx) y [creator-review.test.tsx](../src/test/creator-review.test.tsx): validación, datos desconocidos, costes, límites, importación local, filtros, comparación, carreras de lectura, errores, doble envío y exportación. Sus mocks no sustituyen una prueba real de autenticación o inferencia.
 
-Genesis contiene **65 pruebas en nueve archivos**: 52 del kernel, inventarios y datos, y 13 del núcleo soberano — canonicalización, digests, Ed25519, X25519, AES-GCM y sello fail-closed. Las 65 se ejecutaron localmente con `node --experimental-strip-types --test "tamv-genesis/tests/*.test.ts"` (**65 aprobadas**, Node v24.18.0). Eso cubre el kernel; no cubre la aplicación web, la autenticación real ni un despliegue. La cobertura de la app sigue pendiente de Vitest y del navegador.
+Genesis contiene **77 pruebas en diez archivos**: 52 del kernel, inventarios y datos, 14 del núcleo soberano — canonicalización, digests, Ed25519, X25519, AES-GCM, sello fail-closed y rechazo de objetos no planos — y 11 del log de transparencia (cadena encadenada por hash, raíz Merkle, pruebas de inclusión y checkpoints firmables). Las 77 se ejecutaron localmente con `node --experimental-strip-types --test "tamv-genesis/tests/*.test.ts"` (**77 aprobadas**, Node v24.18.0). Eso cubre el kernel; no cubre la aplicación web, la autenticación real ni un despliegue. La cobertura de la app sigue pendiente de Vitest y del navegador.
 
 Después de instalar dependencias, ejecutar desde la raíz:
 
@@ -621,7 +621,7 @@ Son materiales fechados, no garantías del estado presente. Las cifras de activi
 
 Prioridades que no se cierran reescribiendo documentación:
 
-1. Ejecutar y corregir las suites de la aplicación (Vitest), typecheck, lint, build y pruebas reales de interfaz; el kernel de Genesis ya se ejecutó localmente (65/65), pero el resultado de CI para este commit debe confirmarse en GitHub Actions.
+1. Ejecutar y corregir las suites de la aplicación (Vitest), typecheck, lint, build y pruebas reales de interfaz; el kernel de Genesis ya se ejecutó localmente (77/77), pero el resultado de CI para este commit debe confirmarse en GitHub Actions.
 2. Completar una firma Ed25519 real y verificar la distribución; cada edición posterior del README exige `tamv:hash`.
 3. Probar el flujo de sesión y revisión extremo a extremo, incluyendo la normalización de errores de autenticación y el acceso efectivo al modelo configurado.
 4. Conectar verificación de procedencia confiable al runtime/despliegue y unificar su aplicación a las capacidades que deban exigirla.

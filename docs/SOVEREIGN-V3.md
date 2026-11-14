@@ -17,9 +17,12 @@ declarar una versión certificada.
 | Skills públicas | `tamv-genesis/v3/skills/<id>/SKILL.md` | Contratos publicados en skills.sh. |
 | Sello del paquete | `tamv-genesis/v3/seals/pack-seal.json` | Raíces SHA-256 por skill, raíz del paquete y bloque de firma. |
 | Contratos internos | `tamv-pack/skills/` (37) | Biblioteca referenciada, no republicada como skills independientes. |
-| Núcleo criptográfico | `tamv-genesis/src/sovereign/` | Canonicalización, digests, Ed25519, X25519, AES-256-GCM y sello. |
+| Núcleo criptográfico | `tamv-genesis/src/sovereign/` | Canonicalización, digests, Ed25519, X25519, AES-256-GCM, sello y log de transparencia. |
 | CLI de sello | `tamv-genesis/scripts/v3-seal.mjs` | Construye, firma y verifica el sello. |
 | CLI híbrida | `tamv-genesis/scripts/v3-hybrid.mjs` | Sella y abre payloads protegidos. |
+| Log de transparencia | `tamv-genesis/v3/seals/transparency.json` | Registro append-only de raíces de sello encadenadas por hash. |
+| Checkpoint Merkle | `tamv-genesis/v3/seals/transparency-checkpoint.json` | Resumen firmable del log con raíz Merkle y cabeza de cadena. |
+| CLI de transparencia | `tamv-genesis/scripts/v3-transparency.mjs` | Añade entradas, verifica la cadena y construye/firma checkpoints. |
 
 ## 2. Cómo se calcula el sello
 
@@ -32,7 +35,10 @@ declarar una versión certificada.
 
 La serialización canónica ordena claves, rechaza `undefined`, rechaza números no
 finitos y rechaza rutas absolutas, retrocesos (`..`) y separadores de Windows.
-El mismo payload debe producir los mismos bytes en navegador, Node y CI.
+También rechaza objetos no planos (`Date`, `Map`, `Set`, `RegExp` o instancias de
+clase): antes se serializaban en silencio como `{}`, perdiendo datos y pudiendo
+producir colisiones de digest entre payloads distintos. Ahora fallan de forma
+explícita. El mismo payload debe producir los mismos bytes en navegador, Node y CI.
 
 ## 3. Comportamiento fail-closed
 
@@ -145,12 +151,77 @@ node --experimental-strip-types tamv-genesis/scripts/v3-hybrid.mjs seal \
 | Afirmación | Estado |
 |---|---|
 | Canonicalización determinista y rechazo de rutas inseguras | Probado por tests locales. |
-| SHA-256, Ed25519, X25519 y AES-GCM operan en Node 22.16 | Probado localmente. |
+| Canonicalización rechaza objetos no planos sin perder datos | Probado por tests locales. |
+| SHA-256, Ed25519, X25519 y AES-GCM operan en Node v24.18.0 | Probado localmente. |
 | Editar, quitar o añadir una skill rompe el sello | Probado por tests locales. |
+| El log de transparencia encadena entradas y detecta reescrituras | Probado por tests locales. |
+| Las pruebas de inclusión Merkle verifican cada entrada | Probado por tests locales (tamaños 1..7). |
+| El checkpoint actual está firmado | **No.** `UNSIGNED_RELEASE_PENDING`. |
 | El sello actual está firmado | **No.** `UNSIGNED_RELEASE_PENDING`. |
 | La auditoría K-19 verifica la firma sin clave externa | **No.** Solo estructura; la firma requiere clave. |
 | El paquete es “imposible de piratear” | **No.** Copia completa verificable; copia parcial/modificada rechazada. |
 | Los tests corrieron en CI para este commit | Solo si el run remoto lo confirma. |
+
+## 10. Log de transparencia de sellos
+
+El sello prueba que una copia concreta del paquete no fue alterada. No prueba,
+por sí solo, que el publicador no pueda reescribir en silencio una versión ya
+publicada. El log de transparencia cubre ese hueco: es un registro **append-only**
+donde cada release añade una entrada encadenada por hash a la anterior.
+
+### Cómo funciona
+
+1. Cada entrada registra `{seq, pack, version, sealRoot, issuedAt, prevHash}` y
+   su `entryHash = SHA-256(JSON canónico de esos campos)`.
+2. `prevHash` de la primera entrada es el génesis (`sha256:000…0`); el de cada
+   entrada siguiente es el `entryHash` de la anterior. Editar, borrar o reordenar
+   una entrada pasada rompe la cadena y `verifyChain()` lo denuncia.
+3. Un árbol Merkle (separación de dominio RFC 6962: hojas `0x00`, nodos `0x01`)
+   sobre los `entryHash` produce una raíz. Cualquier tercero puede verificar que
+   una raíz de sello pertenece al log publicado con una **prueba de inclusión**
+   corta, sin confiar en el publicador ni descargar el log completo.
+4. Un checkpoint resume `{size, rootHash, chainHead}` y es firmable con la misma
+   clave Ed25519 de release. Mientras no esté firmado, certificar el log se
+   deniega (fail-closed), igual que el sello.
+
+### Códigos de verificación
+
+| Situación | Código | Resultado |
+|---|---|---|
+| Cadena y checkpoint firmados coinciden | `TAMV_TRANSPARENCY_VALID` | Permitido. |
+| Entrada editada, borrada o reordenada | `TAMV_TRANSPARENCY_CHAIN_BROKEN` | Denegado. |
+| La raíz Merkle o el tamaño no coinciden con el log | `TAMV_TRANSPARENCY_ROOT_MISMATCH` | Denegado. |
+| Checkpoint sin firma (con `requireSignature`) | `TAMV_TRANSPARENCY_UNSIGNED` | Denegado. |
+| Sin clave pública configurada | `TAMV_TRANSPARENCY_KEY_MISSING` | Denegado. |
+| Firma de otra clave o inválida | `TAMV_TRANSPARENCY_SIGNATURE_INVALID` | Denegado. |
+| JSON malformado | `TAMV_TRANSPARENCY_MALFORMED` | Denegado. |
+
+### Operación
+
+```bash
+# 1. Registrar la raíz del sello actual (idempotente: no duplica la misma raíz).
+node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --append
+
+# 2. Verificar la cadena y, si existe, el checkpoint almacenado.
+node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --verify
+
+# 3. Construir un checkpoint (queda UNSIGNED_RELEASE_PENDING).
+node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --checkpoint
+
+# 4. Firmar el checkpoint con la clave de release fuera de Git.
+TAMV_V3_PRIVATE_KEY="$(cat /ruta/segura/release.pem)" \
+TAMV_V3_PUBLIC_KEY="$(cat /ruta/segura/release.pub.pem)" \
+node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --checkpoint --sign
+```
+
+### Límites
+
+- Es una traza de auditoría **pública**, no cifrado: todos sus valores son
+  visibles. No oculta raíces ni versiones.
+- Un publicador que controle la clave de release puede firmar un checkpoint
+  nuevo; la cadena hace visible cualquier reescritura, no la impide por sí sola.
+- El log semilla de este release contiene una entrada (la raíz del sello actual)
+  y su checkpoint está **sin firmar**. No se fabrica ni simula una firma.
 
 ## Atribución
 
