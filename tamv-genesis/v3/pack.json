@@ -1,7 +1,10 @@
 {
   "schema": "tamv.creator-intelligence.pack.v3",
   "issuer": "TAMV ONLINE NETWORK",
-  "product": "PLAY & GO",
+  "product": "TAMV Creator Intelligence",
+  "appliesTo": "any project using AI, regardless of domain or stack",
+  "excellenceStandards": ["governance", "observability", "transparency", "ethics", "protection"],
+  "originProject": "PLAY & GO",
   "pack": "tamv-creator-intelligence",
   "packVersion": "3.0.0",
   "releaseChannel": "source-signed-on-release",
