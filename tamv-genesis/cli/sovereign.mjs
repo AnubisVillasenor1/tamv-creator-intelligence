@@ -6,7 +6,11 @@
  *   audit    run every check and print a report (exit 1 on failed blocking check)
  *   verify   re-derive the work-ledger chain and manifest hashes
  *   score    print the scorecard computed from the dimensions
+ *   report   write docs/audit/2026-11-13/GENERATED.md
+ *   corpus   print local corpus aggregates (no paths)
+ *   profiles print GitHub profile aggregates
  *   build    write dist/genesis.json plus a SHA-256 manifest
+ *   packet   build and print the external review artifact
  *
  * Usage: node --experimental-strip-types tamv-genesis/cli/sovereign.mjs <command>
  */
@@ -21,10 +25,12 @@ import {
   assessClaim,
   auditKnowledgeSources,
   auditLedger,
+  auditProfiles,
   compileScorecard,
   detectCapabilityDrift,
   findConflicts,
   formatScorecard,
+  sensitivePolicyHolds,
   summarizeClaims,
   verifyLedger,
   GENESIS_SCHEMA,
@@ -224,6 +230,103 @@ function checkErrorCorrelation() {
   };
 }
 
+const DIGEST = /^sha256:[a-f0-9]{64}$/;
+
+function readData(name) {
+  const path = join(DATA, name);
+  if (!existsSync(path)) return null;
+  return JSON.parse(readFileSync(path, "utf8").replace(/^\uFEFF/, ""));
+}
+
+function checkProfiles() {
+  const doc = readData("github-profiles.json");
+  if (!doc) {
+    return { doc: null, problems: [{ login: "*", code: "count-mismatch", detail: "github-profiles.json ausente" }] };
+  }
+  return { doc, problems: auditProfiles(doc, new Date("2026-11-13T23:59:59Z")) };
+}
+
+function checkLocalCorpus() {
+  const summary = readData("local-corpus-summary.json");
+  if (!summary) return { summary: null, problems: ["local-corpus-summary.json ausente"] };
+  const problems = [];
+  if (summary.schema !== "tamv.corpus.summary.v1") problems.push(`schema=${summary.schema}`);
+  if (!Number.isInteger(summary.files) || summary.files <= 0) problems.push("files inválido");
+  if (!Number.isInteger(summary.bytes) || summary.bytes <= 0) problems.push("bytes inválido");
+
+  const content = summary.content ?? {};
+  const counted =
+    (content.extracted ?? 0) + (content.withheld ?? 0) + (content.binary ?? 0) + (content.failed ?? 0) + (content.empty ?? 0);
+  if (counted !== summary.files) problems.push(`contenido=${counted}≠${summary.files}`);
+
+  const kinds = Object.values(summary.byKind ?? {}).reduce((total, value) => total + value, 0);
+  if (kinds !== summary.files) problems.push(`tipos=${kinds}≠${summary.files}`);
+  const sensitivity = Object.values(summary.bySensitivity ?? {}).reduce((total, value) => total + value, 0);
+  if (sensitivity !== summary.files) problems.push(`sensibilidad=${sensitivity}≠${summary.files}`);
+
+  if (!sensitivePolicyHolds(summary)) problems.push("P0/P1 con contenido extraído");
+  if (!DIGEST.test(summary.hashes?.inventory ?? "")) problems.push("hash de inventario inválido");
+  if (!DIGEST.test(summary.hashes?.textIndex ?? "")) problems.push("hash de índice de texto inválido");
+  if (!Array.isArray(summary.exclusions) || !summary.exclusions.includes("node_modules") || !summary.exclusions.includes("_audit-tci")) {
+    problems.push("exclusiones mínimas ausentes");
+  }
+  return { summary, problems };
+}
+
+const SECRET_PATTERNS = [
+  ["github-token", /gh[pousr]_[A-Za-z0-9]{36,}/],
+  ["github-fine-grained", /github_pat_[A-Za-z0-9_]{50,}/],
+  ["openai-key", /\bsk-[A-Za-z0-9]{32,}\b/],
+  ["slack-token", /xox[baprs]-[A-Za-z0-9-]{10,}/],
+  ["aws-key", /\bAKIA[0-9A-Z]{16}\b/],
+  ["private-key", /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/],
+  ["assigned-secret", /(?:password|passwd|contrase[nñ]a|api[_-]?key|secret|token)\s*[:=]\s*["'][^"'\s]{16,}["']/i],
+];
+
+function checkSensitiveGovernance() {
+  const leaks = [];
+  let scanned = 0;
+  const roots = [
+    "README.md",
+    "AGENTS.md",
+    "skills.sh.json",
+    "docs",
+    "tamv-genesis/data",
+    "tamv-genesis/src",
+    "tamv-genesis/scripts",
+    "tamv-pack/skills",
+  ];
+  const textExtensions = /\.(?:md|json|ts|tsx|mjs|js|ya?ml|txt|sh|ps1|toml)$/i;
+  const skipDirs = new Set(["node_modules", ".git", "dist", ".corpus"]);
+  const visit = (relativePath) => {
+    const absolute = join(REPO_ROOT, relativePath);
+    if (!existsSync(absolute)) return;
+    const stats = statSync(absolute);
+    if (stats.isDirectory()) {
+      for (const entry of readdirSync(absolute)) {
+        if (skipDirs.has(entry)) continue;
+        visit(join(relativePath, entry));
+      }
+      return;
+    }
+    if (!textExtensions.test(relativePath) || stats.size > 512 * 1024) return;
+    // The detector itself contains the patterns; it is not a leak.
+    if (relativePath === join("tamv-genesis", "cli", "sovereign.mjs")) return;
+    scanned += 1;
+    const lines = readRepo(relativePath).split(/\r?\n/);
+    for (let index = 0; index < lines.length; index += 1) {
+      for (const [kind, pattern] of SECRET_PATTERNS) {
+        if (pattern.test(lines[index])) leaks.push({ path: relativePath, line: index + 1, kind });
+      }
+    }
+  };
+  for (const root of roots) visit(root);
+
+  const restricted = knowledgeDoc.sources.filter((source) => source.sensitivity === "restricted");
+  const restrictedExcluded = restricted.every((source) => source.use === "excluded");
+  return { leaks, scanned, restricted: restricted.length, restrictedExcluded };
+}
+
 /* ------------------------------------------------------------------ */
 /* audit                                                               */
 /* ------------------------------------------------------------------ */
@@ -240,6 +343,9 @@ function runAudit() {
   const licensing = checkLicensing();
   const review = checkReviewGuard();
   const errors = checkErrorCorrelation();
+  const profiles = checkProfiles();
+  const corpus = checkLocalCorpus();
+  const sensitive = checkSensitiveGovernance();
 
   const capabilityAssessments = capabilities.map((capability) =>
     assessCapability(capability, {
@@ -360,6 +466,30 @@ function runAudit() {
     errors.asyncLocalStorage && errors.requestScope ? "pass" : "fail",
     `ALS=${errors.asyncLocalStorage} scope=${errors.requestScope}`,
   );
+  push(
+    "K-16",
+    "Inventario de perfiles GitHub",
+    profiles.problems.length === 0 ? "pass" : "fail",
+    profiles.problems.length === 0
+      ? `${profiles.doc.profiles.length} perfiles; ${profiles.doc.profiles.reduce((total, profile) => total + profile.summary.total, 0)} repos; ${profiles.doc.profiles.reduce((total, profile) => total + profile.summary.forks, 0)} forks; ${profiles.doc.profiles.reduce((total, profile) => total + profile.summary.zeroStarOriginals, 0)} originales con 0 estrellas.`
+      : profiles.problems.map((problem) => `${problem.login}:${problem.code}(${problem.detail})`).join("; "),
+  );
+  push(
+    "K-17",
+    "Inventario del corpus local",
+    corpus.problems.length === 0 ? "pass" : "fail",
+    corpus.problems.length === 0
+      ? `${corpus.summary.files} archivos; ${corpus.summary.sensitive.withheld} retenidos (P0=${corpus.summary.sensitive.p0}, P1=${corpus.summary.sensitive.p1}); extraídos=${corpus.summary.sensitive.extracted}.`
+      : corpus.problems.join("; "),
+    true,
+  );
+  push(
+    "K-18",
+    "Gobernanza de material sensible",
+    sensitive.leaks.length === 0 && sensitive.restrictedExcluded ? "pass" : "fail",
+    `${sensitive.scanned} archivos escaneados; ${sensitive.leaks.length} patrones de secreto; restringidos excluidos=${sensitive.restrictedExcluded} (${sensitive.restricted}).${sensitive.leaks.length > 0 ? ` ${sensitive.leaks.map((leak) => `${leak.path}:${leak.line}:${leak.kind}`).join(", ")}` : ""}`,
+    true,
+  );
 
   return {
     generatedAt: "2026-11-13T00:00:00Z",
@@ -375,6 +505,9 @@ function runAudit() {
     licensing,
     review,
     errors,
+    profiles,
+    corpus,
+    sensitive,
     capabilityAssessments,
     checks,
   };
@@ -427,6 +560,8 @@ function buildBundle() {
       sources: knowledgeDoc.sources,
       excluded: audit.knowledge.excluded.map((source) => source.id),
     },
+    profiles: audit.profiles.doc,
+    corpus: audit.corpus.summary,
     checks: audit.checks,
     certification: audit.certification,
   };
@@ -499,6 +634,19 @@ function buildBundle() {
       ).length,
       policy: knowledgeDoc.policy,
     },
+    profiles: audit.profiles.doc
+      ? {
+          schema: audit.profiles.doc.schema,
+          capturedAt: audit.profiles.doc.capturedAt,
+          method: audit.profiles.doc.method,
+          policy: audit.profiles.doc.policy,
+          profiles: audit.profiles.doc.profiles.map((profile) => {
+            const { repos, ...rest } = profile;
+            return { ...rest, repoCount: repos.length };
+          }),
+        }
+      : null,
+    corpus: audit.corpus.summary,
     certification: audit.certification,
     checks: audit.checks,
   };
@@ -541,11 +689,14 @@ function buildReviewPacket(audit) {
     "tamv-genesis/data/work-ledger.json",
     "tamv-genesis/data/scorecard.json",
     "tamv-genesis/data/knowledge-sources.json",
+    "tamv-genesis/data/github-profiles.json",
+    "tamv-genesis/data/local-corpus-summary.json",
     "docs/audit/2026-11-13/EXECUTIVE-SUMMARY.md",
     "docs/audit/2026-11-13/FINDINGS.md",
     "docs/audit/2026-11-13/WORK-LEDGER.md",
     "docs/audit/2026-11-13/EVIDENCE-INDEX.md",
     "docs/PROFILES.md",
+    "docs/CORPUS-CATALOG.md",
     "docs/PUBLISHING.md",
     "docs/ACADEMIC-EVALUATION.md",
   ]
@@ -595,6 +746,18 @@ function buildReviewPacket(audit) {
       excluded: audit.knowledge.excluded.length,
       policy: knowledgeDoc.policy,
     },
+    profiles: audit.profiles.doc
+      ? {
+          capturedAt: audit.profiles.doc.capturedAt,
+          policy: audit.profiles.doc.policy,
+          profiles: audit.profiles.doc.profiles.map((profile) => ({
+            login: profile.login,
+            htmlUrl: profile.htmlUrl,
+            summary: profile.summary,
+          })),
+        }
+      : null,
+    corpus: audit.corpus.summary,
     certification: audit.certification,
     checks: audit.checks,
     reproduction: [
@@ -614,6 +777,8 @@ function buildReviewPacket(audit) {
       "La adopción en skills.sh no constituye validación académica ni revisión por pares.",
       "El marco de evaluación (pesos, tiers y umbrales) lo define el proyecto; la auditoría interna no es independiente ni puede validarse a sí misma.",
       "El corpus externo no se distribuye; se referencia por hash y conserva sus licencias.",
+      "El inventario local es un agregado dependiente del árbol del autor; el detalle con rutas queda fuera de Git y no es evidencia portable de terceros.",
+      "Los perfiles de GitHub se capturan por API pública: los forks no son autoría y las estrellas no son revisión, adopción ni horas.",
     ],
   };
   return JSON.stringify(packet, null, 2);
@@ -672,6 +837,37 @@ if (command === "audit") {
     );
   }
   lines.push("");
+  lines.push("## Perfiles GitHub");
+  lines.push("");
+  if (audit.profiles.doc) {
+    lines.push("| Perfil | Repos | Originales | Forks | Estrellas (orig.) | Originales con 0 estrellas |");
+    lines.push("|---|---:|---:|---:|---:|---:|");
+    for (const profile of audit.profiles.doc.profiles) {
+      const summary = profile.summary;
+      lines.push(
+        `| ${profile.login} | ${summary.total} | ${summary.originals} | ${summary.forks} | ${summary.originalStars} | ${summary.zeroStarOriginals} |`,
+      );
+    }
+  } else {
+    lines.push("Sin inventario de perfiles.");
+  }
+  lines.push("");
+  lines.push("## Corpus local");
+  lines.push("");
+  if (audit.corpus.summary) {
+    const corpus = audit.corpus.summary;
+    lines.push("| Métrica | Valor |");
+    lines.push("|---|---:|");
+    lines.push(`| Archivos | ${corpus.files} |`);
+    lines.push(`| Bytes | ${corpus.bytes} |`);
+    lines.push(`| Extraídos | ${corpus.content.extracted} |`);
+    lines.push(`| Retenidos P0/P1 | ${corpus.sensitive.withheld} |`);
+    lines.push(`| Duplicados (grupos) | ${corpus.duplicates.groups} |`);
+    lines.push(`| Caracteres extraídos | ${corpus.content.extractedChars} |`);
+  } else {
+    lines.push("Sin resumen de corpus.");
+  }
+  lines.push("");
   lines.push(formatScorecard(audit.score.scorecard));
   lines.push("");
   lines.push("## Ledger de trabajo");
@@ -685,6 +881,36 @@ if (command === "audit") {
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, lines.join("\n") + "\n", "utf8");
   console.log(`Informe escrito en ${out}`);
+} else if (command === "corpus") {
+  const audit = runAudit();
+  const summary = audit.corpus.summary;
+  if (!summary) {
+    console.error("Sin data/local-corpus-summary.json. Ejecuta tamv-genesis/scripts/corpus-inventory.mjs.");
+    process.exitCode = 1;
+  } else {
+    console.log("Corpus local — agregados (sin rutas)");
+    console.log(`  archivos      ${summary.files}`);
+    console.log(`  bytes         ${summary.bytes}`);
+    console.log(`  extraídos     ${summary.content.extracted} (${summary.content.extractedChars} caracteres)`);
+    console.log(`  retenidos     ${summary.sensitive.withheld} (P0=${summary.sensitive.p0}, P1=${summary.sensitive.p1})`);
+    console.log(`  duplicados    ${summary.duplicates.groups} grupos / ${summary.duplicates.redundantBytes} bytes`);
+    console.log(`  política      ${audit.corpus.problems.length === 0 ? "válida" : audit.corpus.problems.join("; ")}`);
+    console.log("  temas         " + Object.entries(summary.topics).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([topic, count]) => `${topic}=${count}`).join(", "));
+  }
+} else if (command === "profiles") {
+  const audit = runAudit();
+  if (!audit.profiles.doc) {
+    console.error("Sin data/github-profiles.json. Ejecuta tamv-genesis/scripts/profile-inventory.mjs.");
+    process.exitCode = 1;
+  } else {
+    for (const profile of audit.profiles.doc.profiles) {
+      const summary = profile.summary;
+      console.log(
+        `${profile.login}: ${summary.total} repos (${summary.originals} originales, ${summary.forks} forks), ${summary.originalStars} estrellas de originales, ${summary.zeroStarOriginals} con 0 estrellas.`,
+      );
+    }
+    console.log(`Validación: ${audit.profiles.problems.length === 0 ? "consistente" : audit.profiles.problems.map((problem) => problem.code).join(", ")}`);
+  }
 } else if (command === "build" || command === "packet") {
   const bundle = buildBundle();
   if (command === "packet") {
@@ -693,6 +919,6 @@ if (command === "audit") {
     console.log(`${bundle.claims.length} claims, ${bundle.checks.length} chequeos, ${bundle.capabilities.length} capacidades.`);
   }
 } else {
-  console.error(`Comando desconocido: ${command}. Usa audit, verify, score, report, build o packet.`);
+  console.error(`Comando desconocido: ${command}. Usa audit, verify, score, report, corpus, profiles, build o packet.`);
   process.exitCode = 2;
 }

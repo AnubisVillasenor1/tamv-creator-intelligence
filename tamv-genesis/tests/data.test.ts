@@ -9,6 +9,8 @@ import { assessCapability, detectCapabilityDrift } from "../src/capabilities.ts"
 import { auditKnowledgeSources } from "../src/knowledge.ts";
 import { compileScorecard } from "../src/scorecard.ts";
 import { auditLedger, verifyLedger } from "../src/workledger.ts";
+import { auditProfiles } from "../src/profiles.ts";
+import { sensitivePolicyHolds } from "../src/corpus.ts";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 const read = (path: string) => readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -149,4 +151,38 @@ test("the registry quotes a real contract for every skill", () => {
     assert.ok(match[1].length > 8, `inputs demasiado cortos: ${match[1]}`);
     assert.ok(match[2].length > 8, `outputs demasiado cortos: ${match[2]}`);
   }
+});
+
+test("the committed GitHub profile inventory is internally consistent", () => {
+  const profiles = json("tamv-genesis/data/github-profiles.json");
+  assert.equal(profiles.schema, "tamv.profiles.v1");
+  const problems = auditProfiles(profiles, new Date("2026-11-13T23:59:59Z"));
+  assert.deepEqual(problems, []);
+  const logins = profiles.profiles.map((profile: { login: string }) => profile.login).sort();
+  assert.deepEqual(logins, ["AnubisVillasenor1", "OsoPanda1"]);
+  for (const profile of profiles.profiles) {
+    assert.equal(profile.summary.total, profile.repos.length, profile.login);
+    assert.equal(
+      profile.summary.originals + profile.summary.forks,
+      profile.summary.total,
+      profile.login,
+    );
+    assert.ok(profile.summary.forks > 0, profile.login);
+  }
+});
+
+test("the committed corpus summary respects the withholding policy", () => {
+  const summary = json("tamv-genesis/data/local-corpus-summary.json");
+  assert.equal(summary.schema, "tamv.corpus.summary.v1");
+  assert.ok(summary.files > 0);
+  assert.equal(sensitivePolicyHolds(summary), true);
+  assert.equal(summary.sensitive.extracted, 0);
+  assert.equal(summary.sensitive.withheld, summary.sensitive.p0 + summary.sensitive.p1);
+  assert.match(summary.hashes.inventory, /^sha256:[a-f0-9]{64}$/);
+  assert.match(summary.hashes.textIndex, /^sha256:[a-f0-9]{64}$/);
+  const content =
+    summary.content.extracted + summary.content.withheld + summary.content.binary + summary.content.failed + summary.content.empty;
+  assert.equal(content, summary.files);
+  assert.ok(summary.exclusions.includes("node_modules"));
+  assert.ok(summary.exclusions.includes("_audit-tci"));
 });

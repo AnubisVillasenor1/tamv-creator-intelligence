@@ -32,6 +32,11 @@ dist-ssr
 !tamv-genesis/dist/
 !tamv-genesis/dist/**
 
+# Local corpus detail (paths, text extracts, per-file hashes). Only aggregates
+# are committed under tamv-genesis/data/ and docs/CORPUS-CATALOG.md.
+.corpus/
+tamv-genesis/.corpus/
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

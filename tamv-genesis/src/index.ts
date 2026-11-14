@@ -14,6 +14,8 @@ export * from "./workledger.ts";
 export * from "./scorecard.ts";
 export * from "./knowledge.ts";
 export * from "./policy.ts";
+export * from "./corpus.ts";
+export * from "./profiles.ts";
 
 export const GENESIS_VERSION = "2.0.0";
 export const GENESIS_SCHEMA = "tamv.genesis.bundle.v1";

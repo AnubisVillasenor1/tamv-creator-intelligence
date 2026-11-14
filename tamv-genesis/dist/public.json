@@ -725,6 +725,243 @@
     "sensitive": 3,
     "policy": "El catálogo registra, no publica. Ningún archivo restringido o confidencial entra al bundle distribuible."
   },
+  "profiles": {
+    "schema": "tamv.profiles.v1",
+    "capturedAt": "2026-11-13",
+    "method": "GitHub REST API: GET /users/{login} and GET /users/{login}/repos?per_page=100 (authenticated, paginated). Normalized by tamv-genesis/src/profiles.ts.",
+    "policy": "Metadatos públicos únicamente. Los forks se registran como forks y no se presentan como autoría. El contenido de los repositorios no se descarga ni se redistribuye. La vertical restringida se inventaría sin clonar.",
+    "profiles": [
+      {
+        "login": "AnubisVillasenor1",
+        "htmlUrl": "https://github.com/AnubisVillasenor1",
+        "user": {
+          "name": "Edwin Oswaldo Castillo Trejo",
+          "bio": "Arquitecto de Sistemas & Full-Stack. Liderando METAVERSO TAMV y arquitecturas de soberanía digital. ORCID: 0009-0008-5050-1539",
+          "company": "TAMV ONLINE NETWORK",
+          "location": "Mineral del Monte",
+          "blog": "https://portafolio-edwin.lovable.app/",
+          "publicRepos": 10,
+          "followers": 0,
+          "following": 0,
+          "createdAt": "2026-10-16"
+        },
+        "capturedAt": "2026-11-13",
+        "summary": {
+          "total": 10,
+          "originals": 9,
+          "forks": 1,
+          "stars": 0,
+          "forksReceived": 0,
+          "archived": 0,
+          "withDescription": 5,
+          "zeroStarOriginals": 9,
+          "originalStars": 0,
+          "originalForksReceived": 0,
+          "firstCreated": "2026-10-23",
+          "lastPushed": "2026-11-14",
+          "byDomain": {
+            "restricted-vertical": 1,
+            "bots-scraping": 0,
+            "tamv-isabella": 7,
+            "education-music": 2,
+            "territory-tourism": 0,
+            "web-infrastructure": 0,
+            "other": 0
+          },
+          "originalByDomain": {
+            "restricted-vertical": 1,
+            "bots-scraping": 0,
+            "tamv-isabella": 6,
+            "education-music": 2,
+            "territory-tourism": 0,
+            "web-infrastructure": 0,
+            "other": 0
+          },
+          "byLanguage": {
+            "sin lenguaje": 2,
+            "HTML": 1,
+            "TypeScript": 6
+          },
+          "createdByYear": {
+            "2026": 9
+          },
+          "licenses": {
+            "declared": 2,
+            "none": 7,
+            "spdx": {
+              "AGPL-3.0": 2
+            }
+          }
+        },
+        "repoCount": 10
+      },
+      {
+        "login": "OsoPanda1",
+        "htmlUrl": "https://github.com/OsoPanda1",
+        "user": {
+          "name": "TAMV ONLINE ENTERPRISE",
+          "bio": "TAMV ONLINE NETWORK. Pioneros en tecnologia Latinoamericana. Orgullosamente Mexicanos. CEO Fundador Edwin O. Castillo Trejo",
+          "company": "TAMV Enterprise",
+          "location": "Pachuca Hidalgo",
+          "blog": "https://tamvonline-oficial.odoo.com",
+          "publicRepos": 144,
+          "followers": 2,
+          "following": 22,
+          "createdAt": "2022-12-10"
+        },
+        "capturedAt": "2026-11-13",
+        "summary": {
+          "total": 144,
+          "originals": 104,
+          "forks": 40,
+          "stars": 24,
+          "forksReceived": 9,
+          "archived": 0,
+          "withDescription": 82,
+          "zeroStarOriginals": 100,
+          "originalStars": 4,
+          "originalForksReceived": 9,
+          "firstCreated": "2022-12-10",
+          "lastPushed": "2026-11-12",
+          "byDomain": {
+            "restricted-vertical": 0,
+            "bots-scraping": 36,
+            "tamv-isabella": 48,
+            "education-music": 2,
+            "territory-tourism": 15,
+            "web-infrastructure": 7,
+            "other": 36
+          },
+          "originalByDomain": {
+            "restricted-vertical": 0,
+            "bots-scraping": 10,
+            "tamv-isabella": 48,
+            "education-music": 2,
+            "territory-tourism": 15,
+            "web-infrastructure": 4,
+            "other": 25
+          },
+          "byLanguage": {
+            "TypeScript": 76,
+            "sin lenguaje": 9,
+            "Python": 10,
+            "JavaScript": 3,
+            "HTML": 4,
+            "Shell": 2
+          },
+          "createdByYear": {
+            "2022": 2,
+            "2024": 9,
+            "2025": 21,
+            "2026": 72
+          },
+          "licenses": {
+            "declared": 19,
+            "none": 85,
+            "spdx": {
+              "Other": 5,
+              "AGPL-3.0": 2,
+              "GPL-3.0": 5,
+              "MIT": 5,
+              "CC0-1.0": 1,
+              "Apache-2.0": 1
+            }
+          }
+        },
+        "repoCount": 144
+      }
+    ]
+  },
+  "corpus": {
+    "schema": "tamv.corpus.summary.v1",
+    "generatedAt": "2026-11-13T00:00:00Z",
+    "rootLabel": "corpus local del autor (Downloads)",
+    "files": 9948,
+    "bytes": 4241742190,
+    "byKind": {
+      "document": 528,
+      "text": 696,
+      "code": 7406,
+      "archive": 12,
+      "image": 274,
+      "audio": 17,
+      "video": 43,
+      "other": 972
+    },
+    "bySensitivity": {
+      "P0-credential": 119,
+      "P1-restricted": 10,
+      "P2-media": 329,
+      "P3-normal": 9490
+    },
+    "content": {
+      "extracted": 8818,
+      "withheld": 129,
+      "binary": 947,
+      "failed": 7,
+      "empty": 47,
+      "extractedChars": 100091333
+    },
+    "duplicates": {
+      "groups": 2358,
+      "redundantBytes": 159786215
+    },
+    "sensitive": {
+      "p0": 119,
+      "p1": 10,
+      "withheld": 129,
+      "extracted": 0
+    },
+    "topics": {
+      "tamv": 14591,
+      "anubis": 849,
+      "isabella": 26110,
+      "play & go": 51,
+      "musicgen": 72,
+      "audiocore": 24,
+      "supabase": 5016,
+      "rls": 926,
+      "ed25519": 1443,
+      "orcid": 1032,
+      "licencia": 1456,
+      "derechos": 639,
+      "privacidad": 1164,
+      "gobernanza": 2223,
+      "real del monte": 905
+    },
+    "exclusions": [
+      ".git",
+      ".hg",
+      ".svn",
+      "node_modules",
+      ".venv",
+      "venv",
+      "env",
+      "__pycache__",
+      ".pytest_cache",
+      ".mypy_cache",
+      ".ruff_cache",
+      "dist",
+      "build",
+      "out",
+      ".next",
+      ".nuxt",
+      ".output",
+      ".cache",
+      ".turbo",
+      ".parcel-cache",
+      "coverage",
+      "vendor",
+      "Pods",
+      "target",
+      ".corpus",
+      "_audit-tci"
+    ],
+    "hashes": {
+      "inventory": "sha256:265491fc598595b37c2240249c58f4e783068534052b18b070ee338f36fa3e06",
+      "textIndex": "sha256:ebd5d273621d17fde51f18647f70c3c381076ad4d4e92e542ed77d75e191162b"
+    }
+  },
   "certification": {
     "hashesValid": true,
     "signatureState": "unsigned",
@@ -837,6 +1074,27 @@
       "status": "pass",
       "detail": "ALS=true scope=true",
       "blocking": false
+    },
+    {
+      "id": "K-16",
+      "label": "Inventario de perfiles GitHub",
+      "status": "pass",
+      "detail": "2 perfiles; 154 repos; 41 forks; 109 originales con 0 estrellas.",
+      "blocking": false
+    },
+    {
+      "id": "K-17",
+      "label": "Inventario del corpus local",
+      "status": "pass",
+      "detail": "9948 archivos; 129 retenidos (P0=119, P1=10); extraídos=0.",
+      "blocking": true
+    },
+    {
+      "id": "K-18",
+      "label": "Gobernanza de material sensible",
+      "status": "pass",
+      "detail": "85 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "blocking": true
     }
   ]
 }

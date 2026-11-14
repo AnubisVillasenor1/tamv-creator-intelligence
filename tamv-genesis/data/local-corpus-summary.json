@@ -1,0 +1,90 @@
+{
+  "schema": "tamv.corpus.summary.v1",
+  "generatedAt": "2026-11-13T00:00:00Z",
+  "rootLabel": "corpus local del autor (Downloads)",
+  "files": 9948,
+  "bytes": 4241742190,
+  "byKind": {
+    "document": 528,
+    "text": 696,
+    "code": 7406,
+    "archive": 12,
+    "image": 274,
+    "audio": 17,
+    "video": 43,
+    "other": 972
+  },
+  "bySensitivity": {
+    "P0-credential": 119,
+    "P1-restricted": 10,
+    "P2-media": 329,
+    "P3-normal": 9490
+  },
+  "content": {
+    "extracted": 8818,
+    "withheld": 129,
+    "binary": 947,
+    "failed": 7,
+    "empty": 47,
+    "extractedChars": 100091333
+  },
+  "duplicates": {
+    "groups": 2358,
+    "redundantBytes": 159786215
+  },
+  "sensitive": {
+    "p0": 119,
+    "p1": 10,
+    "withheld": 129,
+    "extracted": 0
+  },
+  "topics": {
+    "tamv": 14591,
+    "anubis": 849,
+    "isabella": 26110,
+    "play & go": 51,
+    "musicgen": 72,
+    "audiocore": 24,
+    "supabase": 5016,
+    "rls": 926,
+    "ed25519": 1443,
+    "orcid": 1032,
+    "licencia": 1456,
+    "derechos": 639,
+    "privacidad": 1164,
+    "gobernanza": 2223,
+    "real del monte": 905
+  },
+  "exclusions": [
+    ".git",
+    ".hg",
+    ".svn",
+    "node_modules",
+    ".venv",
+    "venv",
+    "env",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "dist",
+    "build",
+    "out",
+    ".next",
+    ".nuxt",
+    ".output",
+    ".cache",
+    ".turbo",
+    ".parcel-cache",
+    "coverage",
+    "vendor",
+    "Pods",
+    "target",
+    ".corpus",
+    "_audit-tci"
+  ],
+  "hashes": {
+    "inventory": "sha256:265491fc598595b37c2240249c58f4e783068534052b18b070ee338f36fa3e06",
+    "textIndex": "sha256:ebd5d273621d17fde51f18647f70c3c381076ad4d4e92e542ed77d75e191162b"
+  }
+}
