@@ -152,7 +152,7 @@ export interface GovernedAuthorizationDecision {
 export function authorizeGovernedCapability(
   input: GovernedAuthorizationInput,
 ): GovernedAuthorizationDecision {
-  if (!(input.capability in CAPABILITY_POLICY)) {
+  if (!Object.prototype.hasOwnProperty.call(CAPABILITY_POLICY, input.capability)) {
     return { allowed: false, policyVersion: GOVERN_CORE_POLICY.version, reasonCode: "CAPABILITY_NOT_ALLOWLISTED" };
   }
   if (!input.certificationValid) {

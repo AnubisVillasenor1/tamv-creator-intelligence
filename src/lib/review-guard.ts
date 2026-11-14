@@ -97,11 +97,17 @@ export function currentInFlight(): number {
 /** Race the gateway against a hard deadline. The response is bounded, not cancelled. */
 export async function withReviewTimeout<T>(work: Promise<T>, timeoutMs = REVIEW_TIMEOUT_MS): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
+  // This promise always fulfills, even if the provider rejects, and lets the
+  // caller keep its in-flight slot occupied until upstream work has ended.
+  const workSettled = work.then(
+    () => undefined,
+    () => undefined,
+  );
   try {
     return await Promise.race([
       work,
       new Promise<never>((_, reject) => {
-        timer = setTimeout(() => reject(new ReviewTimeoutError(timeoutMs)), timeoutMs);
+        timer = setTimeout(() => reject(new ReviewTimeoutError(timeoutMs, workSettled)), timeoutMs);
       }),
     ]);
   } finally {
@@ -111,10 +117,21 @@ export async function withReviewTimeout<T>(work: Promise<T>, timeoutMs = REVIEW_
 
 export class ReviewTimeoutError extends Error {
   readonly code = "TAMV_REVIEW_TIMEOUT";
-  constructor(timeoutMs: number) {
+  readonly workSettled: Promise<void>;
+  constructor(timeoutMs: number, workSettled: Promise<void>) {
     super(`La revisión excedió ${Math.round(timeoutMs / 1000)} s.`);
     this.name = "ReviewTimeoutError";
+    this.workSettled = workSettled;
   }
+}
+
+/**
+ * Keep the process-local concurrency slot reserved after a response timeout
+ * until the original upstream operation settles. The promise is expected to
+ * be a settlement signal that always fulfills.
+ */
+export function endReviewWhenSettled(workSettled: Promise<void>): void {
+  void workSettled.then(() => endReview());
 }
 
 function prune(now: number): void {

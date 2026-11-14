@@ -17,12 +17,33 @@ interface MetricState {
   values: Map<string, { labels: Labels; value: number; buckets?: number[]; count?: number; sum?: number }>;
 }
 const metrics = new Map<string, MetricState>();
+const MAX_SERIES_PER_METRIC = 256;
 
 function keyFor(labels: Labels): string {
-  return Object.keys(labels).sort().map((key) => key + "=" + labels[key]).join(",");
+  return JSON.stringify(Object.keys(labels).sort().map((key) => [key, labels[key]])) ?? "[]";
 }
+function replaceUnsupportedControlCharacters(value: string): string {
+  let sanitized = "";
+  for (const character of value) {
+    const codePoint = character.codePointAt(0) ?? 0;
+    const unsupported =
+      (codePoint >= 0 && codePoint <= 8) ||
+      codePoint === 11 ||
+      codePoint === 12 ||
+      (codePoint >= 14 && codePoint <= 31) ||
+      codePoint === 127;
+    sanitized += unsupported ? "�" : character;
+  }
+  return sanitized;
+}
+
 function escapeLabel(value: string): string {
-  return value.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/"/g, '\\"');
+  return replaceUnsupportedControlCharacters(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/\r/g, "\\r")
+    .replace(/\n/g, "\\n")
+    .replace(/\t/g, "\\t")
+    .replace(/"/g, '\\"');
 }
 function state(definition: MetricDefinition): MetricState {
   const existing = metrics.get(definition.name);
@@ -40,10 +61,23 @@ function labelsFor(definition: MetricDefinition, labels: Labels): Labels {
   return result;
 }
 function entry(definition: MetricDefinition, labels: Labels) {
-  const normalized = labelsFor(definition, labels);
-  const key = keyFor(normalized);
   const metric = state(definition);
+  let normalized = labelsFor(definition, labels);
+  let key = keyFor(normalized);
   let value = metric.values.get(key);
+
+  // Reserve the final series slot for all overflowed label combinations. This
+  // keeps process memory bounded even when upstream labels are untrusted.
+  if (
+    !value &&
+    definition.labelNames.length > 0 &&
+    metric.values.size >= MAX_SERIES_PER_METRIC - 1
+  ) {
+    normalized = Object.fromEntries(definition.labelNames.map((name) => [name, "overflow"]));
+    key = keyFor(normalized);
+    value = metric.values.get(key);
+  }
+
   if (!value) {
     value = definition.kind === "histogram"
       ? { labels: normalized, value: 0, buckets: (definition.buckets ?? []).map(() => 0), count: 0, sum: 0 }

@@ -7,6 +7,7 @@ import {
   beginReview,
   checkReviewQuota,
   endReview,
+  endReviewWhenSettled,
   ReviewTimeoutError,
   withReviewTimeout,
 } from './review-guard';
@@ -72,13 +73,15 @@ export const reviewContent = createServerFn({ method: 'POST' })
       throw jsonError(503, { ok: false, error: 'Capacidad de revisión saturada. Intenta de nuevo.', reason: 'server-busy' }, { 'Retry-After': '5' });
     }
 
+    // A timed-out upstream promise retains its concurrency slot until it actually settles.
+    let releaseReviewSlotOnSettlement = false;
     try {
       const { generateResponse, GatewayError } = await import('@lovable.dev/ai-gateway');
       const runId = crypto.randomUUID();
       const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(data.draft));
       const hash = Array.from(new Uint8Array(hashBuffer), b => b.toString(16).padStart(2, '0')).join('');
       try {
-        const response = await withReviewTimeout(generateResponse({
+        const gatewayWork = generateResponse({
           model: 'openai/gpt-6-astra',
           reasoning: { effort: 'low' },
           max_output_tokens: 2400,
@@ -93,7 +96,8 @@ export const reviewContent = createServerFn({ method: 'POST' })
               safety: { type: 'string' },
             }, required: ['diagnosis','improvements','revised','safety'],
           } } },
-        }, { runId }));
+        }, { runId });
+        const response = await withReviewTimeout(gatewayWork);
         const responseText = response.output.flatMap(item => item.type === 'message' ? item.content.flatMap(part => part.type === 'output_text' ? [part.text] : []) : []).join('');
         if (!responseText) return { ok: false as const, error: 'El modelo no entregó una propuesta. Tu borrador sigue intacto.' };
         return {
@@ -103,6 +107,8 @@ export const reviewContent = createServerFn({ method: 'POST' })
         };
       } catch (error) {
         if (error instanceof ReviewTimeoutError) {
+          releaseReviewSlotOnSettlement = true;
+          endReviewWhenSettled(error.workSettled);
           console.error('TAMV Review timeout', { runId, hash });
           return { ok: false as const, error: 'La revisión excedió el tiempo máximo. Tu borrador se conserva; no se ha repetido el envío.' };
         }
@@ -113,6 +119,6 @@ export const reviewContent = createServerFn({ method: 'POST' })
         return { ok: false as const, error: 'No pudimos validar la propuesta del modelo. Tu borrador se conserva.' };
       }
     } finally {
-      endReview();
+      if (!releaseReviewSlotOnSettlement) endReview();
     }
   });

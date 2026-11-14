@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+command -v bun >/dev/null 2>&1 || {
+  echo "[TAMV] Bun is required for the pre-push verification gate." >&2
+  exit 127
+}
+
+echo "[TAMV] Running application lint..."
+bun run lint
+
+echo "[TAMV] Running unit and routing tests..."
+bun run test
+
+echo "[TAMV] Running the certified-source check and production build..."
+bun run build
+
+echo "[TAMV] Pre-push gates passed."

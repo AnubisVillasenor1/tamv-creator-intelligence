@@ -21,7 +21,7 @@ test -f TAMV_ATTRIBUTION.md
 test -f TAMV_GOVERNANCE.md
 test -f .tamv/install.log
 test -f .tamv/pack.json
-test "$(find .tamv/skills -name SKILL.md | wc -l)" -eq 37
+test "$(find .agents/skills -name SKILL.md | wc -l)" -eq 37
 grep -q 'Contenido propio' README.md
 grep -q 'version=1.2.1' .tamv/install.log
 grep -qF "$CANONICAL_ATTRIBUTION" TAMV_ATTRIBUTION.md
@@ -29,7 +29,7 @@ grep -qF "$CANONICAL_ATTRIBUTION" README.md
 
 printf 'y\n' | bash "$PACK_DIR/install.sh"
 test -d .tamv/backups
-find .tamv/backups -path '*/.tamv/skills/tamv-core-governance/SKILL.md' -print -quit | grep -q .
+find .tamv/backups -path '*/.agents/skills/tamv-core-governance/SKILL.md' -print -quit | grep -q .
 bash "$SCRIPT_DIR/apply-tamv-governance.sh"
 bash "$SCRIPT_DIR/inject-attribution.sh"
 bash "$SCRIPT_DIR/inject-attribution.sh"
