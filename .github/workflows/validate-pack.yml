@@ -36,6 +36,9 @@ jobs:
       - name: Check repository hygiene
         run: python3 scripts/validate-repo-hygiene.py
 
+      - name: Validate Hyper-Core audit migration safeguards
+        run: python3 scripts/validate-audit-migration.py
+
       - name: Test hardened local hooks and staged-secret detection
         run: bun run hooks:test
 
