@@ -55,11 +55,13 @@ la firme, la cifra pueda subir de nivel sin reescribir la historia.
 ## Sobre la validación académica
 
 La adopción y la infraestructura abierta **no obligan** a una institución a
-validar nada: la validación se otorga con método, evidencia y revisión. Lo que sí
-se puede hacer —y se hizo— es reducir el costo de evaluar: claims falsables,
-datos reproducibles, límites declarados, paquete instalable y una cadena de
-evidencia que un revisor puede recomputar en minutos. La autoridad académica se
-convence con evidencia verificable, no con presión.
+validar nada: la validación se otorga con método, evidencia y revisión. Lo único
+que el proyecto puede hacer —y hace— es reducir el costo de evaluar: condiciones
+de refutación escritas, datos reproducibles, límites declarados, paquete
+instalable y una cadena de evidencia recomputable en minutos. Eso **no vuelve
+falsable al sistema**: el marco, los pesos y los tiers son del propio proyecto, y
+una auditoría interna no puede certificarse a sí misma. La autoridad académica no
+se convence con presión ni con adopción; la ejerce quien evalúa.
 
 ## Qué cambió en esta entrega
 

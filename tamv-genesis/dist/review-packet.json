@@ -685,12 +685,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:f46f4a73ae196bb01801e719cdaac52de92aed2c44ec2d64edcc236b443e3885",
-      "bytes": 21942
+      "sha256": "sha256:13e72a50c3f6578adb7c0854ea91843074a8a60fe5d44d87094ca4dd2564bc7e",
+      "bytes": 22324
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:316c212f637d7c91b2f6b2f76503ef9c062ad2f8f31de583f9c3920263691cdd",
+      "sha256": "sha256:822d37914fc8c4f58d182fcf8b3d998f31cf4049942e7f71a3ac9173f1935763",
       "bytes": 4285
     },
     {
@@ -730,8 +730,8 @@
     },
     {
       "path": "docs/audit/2026-11-13/EXECUTIVE-SUMMARY.md",
-      "sha256": "sha256:c3bd9e8e90e36f65e6242480dceb3c02467d286abf07e47dbfea9988ca5d2b95",
-      "bytes": 4493
+      "sha256": "sha256:d52e28dcfbb7f089893a7eaae7c8d980c23de47834a4cc17a2656bca711b380b",
+      "bytes": 4673
     },
     {
       "path": "docs/audit/2026-11-13/FINDINGS.md",
@@ -760,8 +760,8 @@
     },
     {
       "path": "docs/ACADEMIC-EVALUATION.md",
-      "sha256": "sha256:0c5eeb40d51f7cc8ca41632258eade25585da39e962f9efd818ef617f1f2fd74",
-      "bytes": 7791
+      "sha256": "sha256:bf1224fe06792aec7ead87637d1816f9e3f58e94663e3a8be95bb40b4860b6aa",
+      "bytes": 8646
     }
   ],
   "limitations": [
@@ -770,6 +770,7 @@
     "No existe ledger durable append-only ni RLS multi-tenant implementada.",
     "No hay SBOM, attestation SLSA ni pruebas de carga y failover.",
     "La adopción en skills.sh no constituye validación académica ni revisión por pares.",
+    "El marco de evaluación (pesos, tiers y umbrales) lo define el proyecto; la auditoría interna no es independiente ni puede validarse a sí misma.",
     "El corpus externo no se distribuye; se referencia por hash y conserva sus licencias."
   ]
 }

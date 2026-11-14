@@ -19,7 +19,8 @@ la presume.
 | «Este repositorio es evaluable de forma reproducible» | **Cierto.** Scorecard, claims y hashes se recomputan. |
 | «La adopción en skills.sh demuestra mérito académico» | **Falso.** La adopción mide uso, no corrección. |
 | «El autor declara 24,000 horas de trabajo» | **Cierto como declaración**, `unverified`. |
-| «Un tercero puede refutar cada claim» | **Cierto.** Cada claim declara qué lo refutaría. |
+| «Un tercero puede refutar cada claim» | **Cierto solo como condición.** Cada claim escribe qué lo refutaría; que la refutación cuente exige un verificador fuera del proyecto. |
+| «El sistema completo es falsable» | **Falso.** El marco, los pesos y los tiers los define el autor; una auditoría interna no puede certificarse a sí misma. |
 
 Cualquier texto que convierta la primera fila en cierta —incluido este documento—
 debe tratarse como error.
@@ -80,7 +81,7 @@ forma visible, no defender el resultado.
 | Dimensión | Pregunta | Evidencia disponible |
 |---|---|---|
 | Coherencia | ¿Lo declarado coincide con lo ejecutable? | 10 capacidades, 3 ejecutables, 7 bloqueadas |
-| Falsabilidad | ¿Cada claim dice qué lo refutaría? | 19/19 claims con `whatWouldChangeIt` |
+| Refutabilidad externa | ¿La condición de refutación se comprueba sin adoptar el marco del proyecto? | 19/19 claims apuntan a archivos, comandos, hashes o atestaciones T3/T4 |
 | Reproducibilidad | ¿Los números se recomputan? | Scorecard 58.6/D recalculado por CLI |
 | Integridad | ¿Se detecta una alteración? | 22 hashes; prueba de manipulación del ledger |
 | Gobernanza | ¿La política se aplica en runtime? | Allowlist, consentimiento, `501` en lugar de simulación |
@@ -89,7 +90,9 @@ forma visible, no defender el resultado.
 | Originalidad | ¿Qué es aporte propio y qué es dependencia? | `LICENSE-MAP`, perfiles y catálogo por hash |
 
 **No se pide** que el revisor acepte la cosmovisión del autor, el marco «TAMV» ni
-la cifra de horas. Se le pide evaluar los artefactos.
+la cifra de horas. Se le pide evaluar los artefactos —y, si hace falta, rechazar
+los criterios de este documento. Un kit que exigiera aceptar su propio marco no
+sería un instrumento de evaluación: sería una adhesión.
 
 ---
 
@@ -101,6 +104,7 @@ la cifra de horas. Se le pide evaluar los artefactos.
 | ¿Funcionan las 37 skills? | Son 37 contratos; una capacidad de IA está implementada. |
 | ¿De dónde salen las 24,000 horas? | Declaración del autor, sin bitácora ni atestación. |
 | ¿Hay auditoría independiente? | No. Hay auditoría adversarial interna reproducible. |
+| ¿Es falsable el sistema completo? | No. El marco, los pesos y los tiers los define el proyecto. Solo los claims individuales se contrastan contra artefactos externos. |
 | ¿Qué pasa si un claim es falso? | Se marca `contradicted` y se conserva el historial. |
 | ¿Se puede usar comercialmente? | AGPL-3.0-only; módulos marcados requieren acuerdo aparte. |
 | ¿Hay datos personales? | El catálogo excluye material restringido y no distribuye corpus. |
@@ -163,6 +167,9 @@ haya validado.
 - No incluye datos privados, contratos ni bitácoras horarias.
 - No certifica seguridad, cumplimiento legal ni calidad del modelo.
 - No garantiza que el revisor llegue a una conclusión favorable.
+- **No demuestra que sus propios criterios sean correctos**: pesos, tiers y
+  umbrales son del proyecto. Un revisor puede rechazarlos y el kit no puede
+  refutarlo desde dentro.
 - Su valor es hacer que la evaluación sea barata, no obligatoria.
 
 **Atribución:** Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.

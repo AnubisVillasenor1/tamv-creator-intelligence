@@ -612,6 +612,7 @@ function buildReviewPacket(audit) {
       "No existe ledger durable append-only ni RLS multi-tenant implementada.",
       "No hay SBOM, attestation SLSA ni pruebas de carga y failover.",
       "La adopción en skills.sh no constituye validación académica ni revisión por pares.",
+      "El marco de evaluación (pesos, tiers y umbrales) lo define el proyecto; la auditoría interna no es independiente ni puede validarse a sí misma.",
       "El corpus externo no se distribuye; se referencia por hash y conserva sus licencias.",
     ],
   };

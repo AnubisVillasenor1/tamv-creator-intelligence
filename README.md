@@ -273,8 +273,14 @@ atestiguadas**.
 
 La adopción, la popularidad y la infraestructura abierta **no obligan** a ninguna
 institución a validar nada. Lo que este repositorio hace es **bajar el costo de
-evaluar**: claims falsables, datos reproducibles, límites declarados, paquete
-instalable e historial íntegro. Cualquier texto que convierta la adopción en
+evaluar**: condiciones de refutación escritas, datos reproducibles, límites
+declarados, paquete instalable e historial íntegro.
+
+Eso **no vuelve falsable al sistema**. El marco, los pesos del scorecard y los
+tiers los define este proyecto, y una auditoría interna no puede certificarse a sí
+misma: mientras el criterio y la evidencia los administre el autor, el circuito
+sigue cerrado. La refutación solo cuenta cuando la comprueba alguien fuera de él;
+adoptar el marco no es evaluarlo. Cualquier texto que convierta la adopción en
 validación académica —incluido un ranking— es marketing, no evaluación.
 
 ## Deuda técnica
