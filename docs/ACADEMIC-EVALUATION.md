@@ -49,6 +49,10 @@ Genera `tamv-genesis/dist/review-packet.json`, que contiene:
 El paquete **no incluye** el corpus externo, borradores, credenciales ni datos
 personales. Los artefactos se referencian por ruta y SHA-256.
 
+Orden de regeneración: primero `node scripts/tamv-certification.mjs
+--update-hashes`, después `packet`. Si se invierte, el paquete conserva hashes de
+la versión anterior del manifiesto y la comprobación falla (correctamente).
+
 ---
 
 ## 3. Protocolo de evaluación (menos de una hora)
