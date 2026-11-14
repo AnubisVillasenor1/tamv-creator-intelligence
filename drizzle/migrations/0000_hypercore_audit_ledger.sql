@@ -1,4 +1,6 @@
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE SCHEMA IF NOT EXISTS extensions;
+--> statement-breakpoint
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS tamv_hypercore_audit_events (
   sequence_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -25,7 +27,7 @@ CREATE OR REPLACE FUNCTION tamv_hypercore_audit_chain_insert()
 RETURNS trigger
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = pg_catalog, public
+SET search_path = pg_catalog, public, extensions
 AS $$
 DECLARE
   last_hash text;
