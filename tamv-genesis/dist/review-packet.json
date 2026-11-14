@@ -545,6 +545,215 @@
     "excluded": 1,
     "policy": "El catálogo registra, no publica. Ningún archivo restringido o confidencial entra al bundle distribuible."
   },
+  "profiles": {
+    "capturedAt": "2026-11-13",
+    "policy": "Metadatos públicos únicamente. Los forks se registran como forks y no se presentan como autoría. El contenido de los repositorios no se descarga ni se redistribuye. La vertical restringida se inventaría sin clonar.",
+    "profiles": [
+      {
+        "login": "AnubisVillasenor1",
+        "htmlUrl": "https://github.com/AnubisVillasenor1",
+        "summary": {
+          "total": 10,
+          "originals": 9,
+          "forks": 1,
+          "stars": 0,
+          "forksReceived": 0,
+          "archived": 0,
+          "withDescription": 5,
+          "zeroStarOriginals": 9,
+          "originalStars": 0,
+          "originalForksReceived": 0,
+          "firstCreated": "2026-10-23",
+          "lastPushed": "2026-11-14",
+          "byDomain": {
+            "restricted-vertical": 1,
+            "bots-scraping": 0,
+            "tamv-isabella": 7,
+            "education-music": 2,
+            "territory-tourism": 0,
+            "web-infrastructure": 0,
+            "other": 0
+          },
+          "originalByDomain": {
+            "restricted-vertical": 1,
+            "bots-scraping": 0,
+            "tamv-isabella": 6,
+            "education-music": 2,
+            "territory-tourism": 0,
+            "web-infrastructure": 0,
+            "other": 0
+          },
+          "byLanguage": {
+            "sin lenguaje": 2,
+            "HTML": 1,
+            "TypeScript": 6
+          },
+          "createdByYear": {
+            "2026": 9
+          },
+          "licenses": {
+            "declared": 2,
+            "none": 7,
+            "spdx": {
+              "AGPL-3.0": 2
+            }
+          }
+        }
+      },
+      {
+        "login": "OsoPanda1",
+        "htmlUrl": "https://github.com/OsoPanda1",
+        "summary": {
+          "total": 144,
+          "originals": 104,
+          "forks": 40,
+          "stars": 24,
+          "forksReceived": 9,
+          "archived": 0,
+          "withDescription": 82,
+          "zeroStarOriginals": 100,
+          "originalStars": 4,
+          "originalForksReceived": 9,
+          "firstCreated": "2022-12-10",
+          "lastPushed": "2026-11-12",
+          "byDomain": {
+            "restricted-vertical": 0,
+            "bots-scraping": 36,
+            "tamv-isabella": 48,
+            "education-music": 2,
+            "territory-tourism": 15,
+            "web-infrastructure": 7,
+            "other": 36
+          },
+          "originalByDomain": {
+            "restricted-vertical": 0,
+            "bots-scraping": 10,
+            "tamv-isabella": 48,
+            "education-music": 2,
+            "territory-tourism": 15,
+            "web-infrastructure": 4,
+            "other": 25
+          },
+          "byLanguage": {
+            "TypeScript": 76,
+            "sin lenguaje": 9,
+            "Python": 10,
+            "JavaScript": 3,
+            "HTML": 4,
+            "Shell": 2
+          },
+          "createdByYear": {
+            "2022": 2,
+            "2024": 9,
+            "2025": 21,
+            "2026": 72
+          },
+          "licenses": {
+            "declared": 19,
+            "none": 85,
+            "spdx": {
+              "Other": 5,
+              "AGPL-3.0": 2,
+              "GPL-3.0": 5,
+              "MIT": 5,
+              "CC0-1.0": 1,
+              "Apache-2.0": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  "corpus": {
+    "schema": "tamv.corpus.summary.v1",
+    "generatedAt": "2026-11-13T00:00:00Z",
+    "rootLabel": "corpus local del autor (Downloads)",
+    "files": 9948,
+    "bytes": 4241742190,
+    "byKind": {
+      "document": 528,
+      "text": 696,
+      "code": 7406,
+      "archive": 12,
+      "image": 274,
+      "audio": 17,
+      "video": 43,
+      "other": 972
+    },
+    "bySensitivity": {
+      "P0-credential": 119,
+      "P1-restricted": 10,
+      "P2-media": 329,
+      "P3-normal": 9490
+    },
+    "content": {
+      "extracted": 8818,
+      "withheld": 129,
+      "binary": 947,
+      "failed": 7,
+      "empty": 47,
+      "extractedChars": 100091333
+    },
+    "duplicates": {
+      "groups": 2358,
+      "redundantBytes": 159786215
+    },
+    "sensitive": {
+      "p0": 119,
+      "p1": 10,
+      "withheld": 129,
+      "extracted": 0
+    },
+    "topics": {
+      "tamv": 14591,
+      "anubis": 849,
+      "isabella": 26110,
+      "play & go": 51,
+      "musicgen": 72,
+      "audiocore": 24,
+      "supabase": 5016,
+      "rls": 926,
+      "ed25519": 1443,
+      "orcid": 1032,
+      "licencia": 1456,
+      "derechos": 639,
+      "privacidad": 1164,
+      "gobernanza": 2223,
+      "real del monte": 905
+    },
+    "exclusions": [
+      ".git",
+      ".hg",
+      ".svn",
+      "node_modules",
+      ".venv",
+      "venv",
+      "env",
+      "__pycache__",
+      ".pytest_cache",
+      ".mypy_cache",
+      ".ruff_cache",
+      "dist",
+      "build",
+      "out",
+      ".next",
+      ".nuxt",
+      ".output",
+      ".cache",
+      ".turbo",
+      ".parcel-cache",
+      "coverage",
+      "vendor",
+      "Pods",
+      "target",
+      ".corpus",
+      "_audit-tci"
+    ],
+    "hashes": {
+      "inventory": "sha256:265491fc598595b37c2240249c58f4e783068534052b18b070ee338f36fa3e06",
+      "textIndex": "sha256:ebd5d273621d17fde51f18647f70c3c381076ad4d4e92e542ed77d75e191162b"
+    }
+  },
   "certification": {
     "hashesValid": true,
     "signatureState": "unsigned",
@@ -657,6 +866,27 @@
       "status": "pass",
       "detail": "ALS=true scope=true",
       "blocking": false
+    },
+    {
+      "id": "K-16",
+      "label": "Inventario de perfiles GitHub",
+      "status": "pass",
+      "detail": "2 perfiles; 154 repos; 41 forks; 109 originales con 0 estrellas.",
+      "blocking": false
+    },
+    {
+      "id": "K-17",
+      "label": "Inventario del corpus local",
+      "status": "pass",
+      "detail": "9948 archivos; 129 retenidos (P0=119, P1=10); extraídos=0.",
+      "blocking": true
+    },
+    {
+      "id": "K-18",
+      "label": "Gobernanza de material sensible",
+      "status": "pass",
+      "detail": "85 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "blocking": true
     }
   ],
   "reproduction": [
@@ -685,12 +915,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:43b65cc515d32ef3d9ddc6a165b6cbaba84eadd3dda00881b53dc42fd4022c25",
-      "bytes": 24942
+      "sha256": "sha256:158f4227764da72a8619ca446a551748bc5c8cdd372d91481f9df07c83e90125",
+      "bytes": 47702
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:0b65529ad14798c26b3c782ee135ffbc5cee5f5648952848cc2a995d713cfe0f",
+      "sha256": "sha256:76fc26b5bac4bb1d57789fabbb6ac6d41fe9add21d2853a81eece9595826842c",
       "bytes": 4285
     },
     {
@@ -729,6 +959,16 @@
       "bytes": 7579
     },
     {
+      "path": "tamv-genesis/data/github-profiles.json",
+      "sha256": "sha256:4068b0746dbbb56a7270b429b0bff4b9600f4a289066eec70107c1d8e07e25ef",
+      "bytes": 77870
+    },
+    {
+      "path": "tamv-genesis/data/local-corpus-summary.json",
+      "sha256": "sha256:071c212028aa014c0d3d902a00bcb788c98911e2a2d4f9c3ba5acec5c28559fe",
+      "bytes": 1718
+    },
+    {
       "path": "docs/audit/2026-11-13/EXECUTIVE-SUMMARY.md",
       "sha256": "sha256:d52e28dcfbb7f089893a7eaae7c8d980c23de47834a4cc17a2656bca711b380b",
       "bytes": 4673
@@ -750,8 +990,13 @@
     },
     {
       "path": "docs/PROFILES.md",
-      "sha256": "sha256:dd27a1a415cdf42f9422f3c40e254a4ea90b8c05250213bf2e6b7081da70fe4a",
-      "bytes": 4824
+      "sha256": "sha256:3421aa0bf460a7ffe0d3e99dc0d61e22b352018223e870d1015163b16c308046",
+      "bytes": 6506
+    },
+    {
+      "path": "docs/CORPUS-CATALOG.md",
+      "sha256": "sha256:42d4e785406fa2748150f99045eec23313611cbe67920c51ea78a50cc77b3811",
+      "bytes": 2487
     },
     {
       "path": "docs/PUBLISHING.md",
@@ -771,6 +1016,8 @@
     "No hay SBOM, attestation SLSA ni pruebas de carga y failover.",
     "La adopción en skills.sh no constituye validación académica ni revisión por pares.",
     "El marco de evaluación (pesos, tiers y umbrales) lo define el proyecto; la auditoría interna no es independiente ni puede validarse a sí misma.",
-    "El corpus externo no se distribuye; se referencia por hash y conserva sus licencias."
+    "El corpus externo no se distribuye; se referencia por hash y conserva sus licencias.",
+    "El inventario local es un agregado dependiente del árbol del autor; el detalle con rutas queda fuera de Git y no es evidencia portable de terceros.",
+    "Los perfiles de GitHub se capturan por API pública: los forks no son autoría y las estrellas no son revisión, adopción ni horas."
   ]
 }
