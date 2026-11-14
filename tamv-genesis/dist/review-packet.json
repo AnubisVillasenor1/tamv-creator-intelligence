@@ -546,23 +546,18 @@
     "policy": "El catálogo registra, no publica. Ningún archivo restringido o confidencial entra al bundle distribuible."
   },
   "certification": {
-    "hashesValid": false,
+    "hashesValid": true,
     "signatureState": "unsigned",
     "signed": false,
-    "mismatches": [
-      {
-        "path": "README.md",
-        "problem": "mismatch"
-      }
-    ],
+    "mismatches": [],
     "protectedFiles": 22
   },
   "checks": [
     {
       "id": "K-01",
       "label": "Integridad de los 22 archivos protegidos",
-      "status": "fail",
-      "detail": "1 archivos no coinciden: README.md",
+      "status": "pass",
+      "detail": "22 archivos coinciden con el manifiesto.",
       "blocking": true
     },
     {
@@ -695,7 +690,7 @@
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:37abd16a11a8ee2e82b14c83c4d1b3a342fbc16d1b24d123054ff127e02c1bff",
+      "sha256": "sha256:316c212f637d7c91b2f6b2f76503ef9c062ad2f8f31de583f9c3920263691cdd",
       "bytes": 4285
     },
     {
