@@ -1876,8 +1876,8 @@
     {
       "id": "K-01",
       "label": "Integridad de los 22 archivos protegidos",
-      "status": "pass",
-      "detail": "22 archivos coinciden con el manifiesto.",
+      "status": "fail",
+      "detail": "1 archivos no coinciden: README.md",
       "blocking": true
     },
     {
@@ -1980,10 +1980,15 @@
     }
   ],
   "certification": {
-    "hashesValid": true,
+    "hashesValid": false,
     "signatureState": "unsigned",
     "signed": false,
-    "mismatches": [],
+    "mismatches": [
+      {
+        "path": "README.md",
+        "problem": "mismatch"
+      }
+    ],
     "protectedFiles": 22
   }
 }

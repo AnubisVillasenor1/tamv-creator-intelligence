@@ -546,18 +546,23 @@
     "policy": "El catálogo registra, no publica. Ningún archivo restringido o confidencial entra al bundle distribuible."
   },
   "certification": {
-    "hashesValid": true,
+    "hashesValid": false,
     "signatureState": "unsigned",
     "signed": false,
-    "mismatches": [],
+    "mismatches": [
+      {
+        "path": "README.md",
+        "problem": "mismatch"
+      }
+    ],
     "protectedFiles": 22
   },
   "checks": [
     {
       "id": "K-01",
       "label": "Integridad de los 22 archivos protegidos",
-      "status": "pass",
-      "detail": "22 archivos coinciden con el manifiesto.",
+      "status": "fail",
+      "detail": "1 archivos no coinciden: README.md",
       "blocking": true
     },
     {
@@ -685,8 +690,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:a0b4f12e3a066850af1b4f4079d8a81790a3a22138fc01039e91b0e71882acd3",
-      "bytes": 21856
+      "sha256": "sha256:f46f4a73ae196bb01801e719cdaac52de92aed2c44ec2d64edcc236b443e3885",
+      "bytes": 21942
     },
     {
       "path": "tamv-attribution.json",
@@ -745,8 +750,8 @@
     },
     {
       "path": "docs/audit/2026-11-13/EVIDENCE-INDEX.md",
-      "sha256": "sha256:1bdc46a0a504eeff2a442aed57477ae85dfa54ebf60c08110a95d0d48de6ce11",
-      "bytes": 4952
+      "sha256": "sha256:95195024a2b7cdfed517c19dd0ba5fc311d576aa3dd512d7ccef613fd6c9b42b",
+      "bytes": 5047
     },
     {
       "path": "docs/PROFILES.md",
@@ -755,8 +760,8 @@
     },
     {
       "path": "docs/PUBLISHING.md",
-      "sha256": "sha256:1f03e617ddff68714d1c39209bd4ef07451e974515eb65039da8e75a725d00fb",
-      "bytes": 3898
+      "sha256": "sha256:37395930ae626248f5fba265a5675893cd2cd5339f6cfc3d0371c29f07fd615c",
+      "bytes": 4097
     },
     {
       "path": "docs/ACADEMIC-EVALUATION.md",

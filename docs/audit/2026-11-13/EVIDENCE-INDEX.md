@@ -109,9 +109,11 @@ npx skills add AnubisVillasenor1/tamv-creator-intelligence \
 # → 37 carpetas en .agents/skills/ y skills-lock.json
 ```
 
-No se registró ninguna instalación en el repositorio. La página del pack ya está
-indexada: `https://skills.sh/anubisvillasenor1/tamv-creator-intelligence` (200, 37
-skills, 0 instalaciones al 2026-11-13). Ver `docs/PUBLISHING.md`.
+La prueba de instalación se ejecutó en un directorio temporal, no en el
+repositorio. La página del pack está indexada:
+`https://skills.sh/anubisvillasenor1/tamv-creator-intelligence` (200, 37 skills y
+37 instalaciones de skill al 2026-11-13, todas procedentes de esa única
+instalación de prueba). Ver `docs/PUBLISHING.md`.
 
 ## Evidencia que falta
 

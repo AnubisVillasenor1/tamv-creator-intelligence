@@ -113,7 +113,8 @@ npx skills add AnubisVillasenor1/tamv-creator-intelligence
 `skills.sh.json` declara `./tamv-pack/skills` como ruta de descubrimiento; el CLI
 instala en `.agents/skills/` del proyecto destino. El pack está indexado en
 [`skills.sh/anubisvillasenor1/tamv-creator-intelligence`](https://skills.sh/anubisvillasenor1/tamv-creator-intelligence)
-(37 skills, 0 instalaciones verificadas al 2026-11-13). La página la genera la
+(37 skills; 37 instalaciones de skill al 2026-11-13, procedentes de **una sola**
+instalación de prueba de los 37 skills, no de 37 usuarios). La página la genera la
 indexación: no se compra ni se infla. Estado y límites en
 [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
 

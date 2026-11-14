@@ -16,7 +16,7 @@ comprar adopción. Lo que sigue es lo que está listo y lo que depende de la cue
 | Instalación reproducible por CLI | ✅ | `npx skills add . --list` → «Found 37 skills» (CLI 1.8.1, 2026-11-13) |
 | Descubrimiento desde el remoto público | ✅ | `npx skills add AnubisVillasenor1/tamv-creator-intelligence --list` clona el repo y encuentra 37 skills |
 | Instalación real en un proyecto | ✅ | 37 carpetas en `.agents/skills/` + `skills-lock.json` (prueba funcional en un directorio temporal, 2026-11-13) |
-| Página del pack en skills.sh | ✅ | [`skills.sh/anubisvillasenor1/tamv-creator-intelligence`](https://skills.sh/anubisvillasenor1/tamv-creator-intelligence) → 200, 37 skills, 0 instalaciones (2026-11-13) |
+| Página del pack en skills.sh | ✅ | [`skills.sh/anubisvillasenor1/tamv-creator-intelligence`](https://skills.sh/anubisvillasenor1/tamv-creator-intelligence) → 200, 37 skills, 37 instalaciones de skill (2026-11-13; una sola instalación de prueba completa, no 37 usuarios) |
 | Badge `skills.sh/b/...` | ⚠️ | Devuelve «resource not found»; por eso el README usa un badge estático con enlace a la página |
 
 ## Lo que depende de una cuenta (no ejecutado aquí)
@@ -37,7 +37,9 @@ comprar adopción. Lo que sigue es lo que está listo y lo que depende de la cue
    de seguridad de skills.sh.
 4. **Indexación (hecha).** La página
    [`skills.sh/anubisvillasenor1/tamv-creator-intelligence`](https://skills.sh/anubisvillasenor1/tamv-creator-intelligence)
-   responde 200 con 37 skills y 0 instalaciones al 2026-11-13. El badge
+   responde 200 con 37 skills y 37 instalaciones de skill al 2026-11-13; esas
+instalaciones proceden de una única prueba de instalación completa de los 37
+skills, no de 37 usuarios distintos. El badge
    `https://skills.sh/b/AnubisVillasenor1/tamv-creator-intelligence` sigue
    devolviendo «resource not found», así que el README usa un badge estático que
    enlaza a la página en lugar de una imagen rota.

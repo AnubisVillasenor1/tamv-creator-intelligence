@@ -726,18 +726,23 @@
     "policy": "El catálogo registra, no publica. Ningún archivo restringido o confidencial entra al bundle distribuible."
   },
   "certification": {
-    "hashesValid": true,
+    "hashesValid": false,
     "signatureState": "unsigned",
     "signed": false,
-    "mismatches": [],
+    "mismatches": [
+      {
+        "path": "README.md",
+        "problem": "mismatch"
+      }
+    ],
     "protectedFiles": 22
   },
   "checks": [
     {
       "id": "K-01",
       "label": "Integridad de los 22 archivos protegidos",
-      "status": "pass",
-      "detail": "22 archivos coinciden con el manifiesto.",
+      "status": "fail",
+      "detail": "1 archivos no coinciden: README.md",
       "blocking": true
     },
     {
