@@ -10,33 +10,167 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HypercoreRouteImport } from './routes/hypercore'
+import { Route as SovereigntyRouteImport } from './routes/sovereignty'
+import { Route as ApiAgentRouteImport } from './routes/api.agent'
+import { Route as ApiGenerationRouteImport } from './routes/api.generation'
+import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
+import { Route as ApiTamvGenesisRouteImport } from './routes/api.tamv.genesis'
+import { Route as ApiTamvStatusRouteImport } from './routes/api.tamv.status'
+import { Route as ApiVoiceGenerateRouteImport } from './routes/api.voice.generate'
+import { Route as ApiTamvHypercoreAuditRouteImport } from './routes/api.tamv.hypercore.audit'
+import { Route as ApiTamvHypercoreMetricsRouteImport } from './routes/api.tamv.hypercore.metrics'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HypercoreRoute = HypercoreRouteImport.update({
+  id: '/hypercore',
+  path: '/hypercore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SovereigntyRoute = SovereigntyRouteImport.update({
+  id: '/sovereignty',
+  path: '/sovereignty',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgentRoute = ApiAgentRouteImport.update({
+  id: '/api/agent',
+  path: '/api/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGenerationRoute = ApiGenerationRouteImport.update({
+  id: '/api/generation',
+  path: '/api/generation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAudiocoreAdvancedRoute = ApiAudiocoreAdvancedRouteImport.update({
+  id: '/api/audiocore/advanced',
+  path: '/api/audiocore/advanced',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTamvGenesisRoute = ApiTamvGenesisRouteImport.update({
+  id: '/api/tamv/genesis',
+  path: '/api/tamv/genesis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTamvStatusRoute = ApiTamvStatusRouteImport.update({
+  id: '/api/tamv/status',
+  path: '/api/tamv/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiVoiceGenerateRoute = ApiVoiceGenerateRouteImport.update({
+  id: '/api/voice/generate',
+  path: '/api/voice/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTamvHypercoreAuditRoute = ApiTamvHypercoreAuditRouteImport.update({
+  id: '/api/tamv/hypercore/audit',
+  path: '/api/tamv/hypercore/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTamvHypercoreMetricsRoute = ApiTamvHypercoreMetricsRouteImport.update({
+  id: '/api/tamv/hypercore/metrics',
+  path: '/api/tamv/hypercore/metrics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/hypercore': typeof HypercoreRoute
+  '/sovereignty': typeof SovereigntyRoute
+  '/api/agent': typeof ApiAgentRoute
+  '/api/generation': typeof ApiGenerationRoute
+  '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/tamv/genesis': typeof ApiTamvGenesisRoute
+  '/api/tamv/status': typeof ApiTamvStatusRoute
+  '/api/voice/generate': typeof ApiVoiceGenerateRoute
+  '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
+  '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/hypercore': typeof HypercoreRoute
+  '/sovereignty': typeof SovereigntyRoute
+  '/api/agent': typeof ApiAgentRoute
+  '/api/generation': typeof ApiGenerationRoute
+  '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/tamv/genesis': typeof ApiTamvGenesisRoute
+  '/api/tamv/status': typeof ApiTamvStatusRoute
+  '/api/voice/generate': typeof ApiVoiceGenerateRoute
+  '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
+  '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/hypercore': typeof HypercoreRoute
+  '/sovereignty': typeof SovereigntyRoute
+  '/api/agent': typeof ApiAgentRoute
+  '/api/generation': typeof ApiGenerationRoute
+  '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/tamv/genesis': typeof ApiTamvGenesisRoute
+  '/api/tamv/status': typeof ApiTamvStatusRoute
+  '/api/voice/generate': typeof ApiVoiceGenerateRoute
+  '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
+  '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/hypercore'
+    | '/sovereignty'
+    | '/api/agent'
+    | '/api/generation'
+    | '/api/audiocore/advanced'
+    | '/api/tamv/genesis'
+    | '/api/tamv/status'
+    | '/api/voice/generate'
+    | '/api/tamv/hypercore/audit'
+    | '/api/tamv/hypercore/metrics'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/hypercore'
+    | '/sovereignty'
+    | '/api/agent'
+    | '/api/generation'
+    | '/api/audiocore/advanced'
+    | '/api/tamv/genesis'
+    | '/api/tamv/status'
+    | '/api/voice/generate'
+    | '/api/tamv/hypercore/audit'
+    | '/api/tamv/hypercore/metrics'
+  id:
+    | '__root__'
+    | '/'
+    | '/hypercore'
+    | '/sovereignty'
+    | '/api/agent'
+    | '/api/generation'
+    | '/api/audiocore/advanced'
+    | '/api/tamv/genesis'
+    | '/api/tamv/status'
+    | '/api/voice/generate'
+    | '/api/tamv/hypercore/audit'
+    | '/api/tamv/hypercore/metrics'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HypercoreRoute: typeof HypercoreRoute
+  SovereigntyRoute: typeof SovereigntyRoute
+  ApiAgentRoute: typeof ApiAgentRoute
+  ApiGenerationRoute: typeof ApiGenerationRoute
+  ApiAudiocoreAdvancedRoute: typeof ApiAudiocoreAdvancedRoute
+  ApiTamvGenesisRoute: typeof ApiTamvGenesisRoute
+  ApiTamvStatusRoute: typeof ApiTamvStatusRoute
+  ApiVoiceGenerateRoute: typeof ApiVoiceGenerateRoute
+  ApiTamvHypercoreAuditRoute: typeof ApiTamvHypercoreAuditRoute
+  ApiTamvHypercoreMetricsRoute: typeof ApiTamvHypercoreMetricsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +182,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hypercore': {
+      id: '/hypercore'
+      path: '/hypercore'
+      fullPath: '/hypercore'
+      preLoaderRoute: typeof HypercoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sovereignty': {
+      id: '/sovereignty'
+      path: '/sovereignty'
+      fullPath: '/sovereignty'
+      preLoaderRoute: typeof SovereigntyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agent': {
+      id: '/api/agent'
+      path: '/api/agent'
+      fullPath: '/api/agent'
+      preLoaderRoute: typeof ApiAgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/generation': {
+      id: '/api/generation'
+      path: '/api/generation'
+      fullPath: '/api/generation'
+      preLoaderRoute: typeof ApiGenerationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/audiocore/advanced': {
+      id: '/api/audiocore/advanced'
+      path: '/api/audiocore/advanced'
+      fullPath: '/api/audiocore/advanced'
+      preLoaderRoute: typeof ApiAudiocoreAdvancedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tamv/genesis': {
+      id: '/api/tamv/genesis'
+      path: '/api/tamv/genesis'
+      fullPath: '/api/tamv/genesis'
+      preLoaderRoute: typeof ApiTamvGenesisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tamv/status': {
+      id: '/api/tamv/status'
+      path: '/api/tamv/status'
+      fullPath: '/api/tamv/status'
+      preLoaderRoute: typeof ApiTamvStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/voice/generate': {
+      id: '/api/voice/generate'
+      path: '/api/voice/generate'
+      fullPath: '/api/voice/generate'
+      preLoaderRoute: typeof ApiVoiceGenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tamv/hypercore/audit': {
+      id: '/api/tamv/hypercore/audit'
+      path: '/api/tamv/hypercore/audit'
+      fullPath: '/api/tamv/hypercore/audit'
+      preLoaderRoute: typeof ApiTamvHypercoreAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tamv/hypercore/metrics': {
+      id: '/api/tamv/hypercore/metrics'
+      path: '/api/tamv/hypercore/metrics'
+      fullPath: '/api/tamv/hypercore/metrics'
+      preLoaderRoute: typeof ApiTamvHypercoreMetricsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HypercoreRoute: HypercoreRoute,
+  SovereigntyRoute: SovereigntyRoute,
+  ApiAgentRoute: ApiAgentRoute,
+  ApiGenerationRoute: ApiGenerationRoute,
+  ApiAudiocoreAdvancedRoute: ApiAudiocoreAdvancedRoute,
+  ApiTamvGenesisRoute: ApiTamvGenesisRoute,
+  ApiTamvStatusRoute: ApiTamvStatusRoute,
+  ApiVoiceGenerateRoute: ApiVoiceGenerateRoute,
+  ApiTamvHypercoreAuditRoute: ApiTamvHypercoreAuditRoute,
+  ApiTamvHypercoreMetricsRoute: ApiTamvHypercoreMetricsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

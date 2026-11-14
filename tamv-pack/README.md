@@ -45,6 +45,15 @@ npx skills add AnubisVillasenor1/tamv-creator-intelligence
 
 ## Actualizar el inventario del paquete
 
+Para **actualizar una instalación** (no el inventario de desarrollo), descarga una
+copia nueva fuera del proyecto destino, valida estructura y scripts, compara tus
+skills personalizados y ejecuta otra vez `install.sh` desde el destino. Conserva
+`TAMV_SKILLS_DIR` si elegiste otra ruta. Cada instalación respalda los archivos
+previos en `.tamv/backups`; consulta `backup=` en `.tamv/install.log` para restaurar
+solo los archivos afectados. Los skills retirados no se eliminan automáticamente.
+Las instrucciones completas están en el README raíz, sección «Actualizar y
+revertir una instalación existente». En Windows usa Git Bash o WSL.
+
 Después de un cambio legítimo en los archivos del pack, actualiza el inventario Git blob y revisa el diff:
 
 ```bash

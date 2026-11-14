@@ -55,7 +55,7 @@ describe("TAMV attribution certification runtime", () => {
       publicKeyPem: signed.publicPem,
       sourceFiles: {
         ...TAMV_CERTIFICATION_SOURCE_FILES,
-        "README.md": TAMV_CERTIFICATION_SOURCE_FILES["README.md"].replaceAll(
+        "README.md": (TAMV_CERTIFICATION_SOURCE_FILES["README.md"] ?? "").replaceAll(
           TAMV_EXPECTED_ATTRIBUTION,
           "Atribución retirada",
         ),

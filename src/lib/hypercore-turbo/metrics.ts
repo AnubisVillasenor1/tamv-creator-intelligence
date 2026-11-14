@@ -87,7 +87,7 @@ function entry(definition: MetricDefinition, labels: Labels) {
   return value;
 }
 function define(name: string, help: string, kind: MetricKind, labelNames: readonly string[], buckets?: readonly number[]) {
-  return { name, help, kind, labelNames, buckets } satisfies MetricDefinition;
+  return { name, help, kind, labelNames, ...(buckets === undefined ? {} : { buckets }) } satisfies MetricDefinition;
 }
 const queuedDef = define("tamv_velocity_jobs_queued_total", "Total de trabajos encolados", "counter", ["capability", "queue", "federation"]);
 const startedDef = define("tamv_velocity_jobs_started_total", "Total de trabajos iniciados", "counter", ["capability", "queue", "federation"]);

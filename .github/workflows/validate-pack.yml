@@ -25,6 +25,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set up Node for Web Crypto and Genesis tests
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22.16.0"
+
       - name: Set up Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
 
@@ -42,6 +47,12 @@ jobs:
 
       - name: Validate TAMV package
         run: bash tamv-pack/scripts/validate-pack.sh
+
+      - name: Verify generated skill registry matches contracts
+        run: node tamv-pack/scripts/generate-skill-registry.mjs --check
+
+      - name: Run Genesis evidence kernel tests
+        run: node --experimental-strip-types --test tamv-genesis/tests/*.test.ts
 
       - name: Test installation and tamper rejection
         run: bash tamv-pack/scripts/test-scripts.sh

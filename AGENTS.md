@@ -35,3 +35,6 @@ use the editor.
 - Treat the package manifest as the skill inventory and validate the dashboard registry against it; this prevents drift between the app and the distributable package.
 - Keep review drafts and results in session React state and return audit metadata with each result; no storage or publication is implied by submitting a review.
 - Run package installers only from the destination project and preserve package-owned files in backups before replacement; this protects existing installations.
+- Compare upstream archives without importing repository metadata or managed files; this preserves local work and the platform's Git history.
+- Return ArrayBuffer-backed typed arrays to Web Crypto and omit absent optional fields; this preserves strict typing without weakening verification.
+- Validate the generated skill registry and the independent Genesis test suite in CI; this keeps dashboard contracts and evidence checks aligned with the package.

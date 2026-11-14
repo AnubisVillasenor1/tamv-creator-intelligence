@@ -685,12 +685,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:13e72a50c3f6578adb7c0854ea91843074a8a60fe5d44d87094ca4dd2564bc7e",
-      "bytes": 22324
+      "sha256": "sha256:43b65cc515d32ef3d9ddc6a165b6cbaba84eadd3dda00881b53dc42fd4022c25",
+      "bytes": 24942
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:822d37914fc8c4f58d182fcf8b3d998f31cf4049942e7f71a3ac9173f1935763",
+      "sha256": "sha256:0b65529ad14798c26b3c782ee135ffbc5cee5f5648952848cc2a995d713cfe0f",
       "bytes": 4285
     },
     {

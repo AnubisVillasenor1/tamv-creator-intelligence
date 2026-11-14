@@ -139,38 +139,38 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function asManifest(value: unknown): TamvAttributionManifest | null {
   if (!isRecord(value)) return null;
-  const attribution = value.attribution;
-  const integrity = value.integrity;
-  const governance = value.governance;
-  const license = value.license;
+  const attribution = value["attribution"];
+  const integrity = value["integrity"];
+  const governance = value["governance"];
+  const license = value["license"];
   if (
-    value.schema !== "tamv.attribution.manifest.v1" ||
-    value.issuer !== "TAMV ONLINE NETWORK" ||
-    value.product !== "PLAY & GO" ||
-    value.pack !== "tamv-online-network-creator-intelligence-pack" ||
-    typeof value.packVersion !== "string" ||
+    value["schema"] !== "tamv.attribution["manifest"].v1" ||
+    value["issuer"] !== "TAMV ONLINE NETWORK" ||
+    value["product"] !== "PLAY & GO" ||
+    value["pack"] !== "tamv-online-network-creator-intelligence-pack" ||
+    typeof value["packVersion"] !== "string" ||
     !isRecord(attribution) ||
-    typeof attribution.canonicalText !== "string" ||
-    attribution.required !== true ||
-    attribution.visibility !== "public" ||
-    attribution.enforcement !== "fail-closed-premium" ||
-    !Array.isArray(value.requiredFiles) ||
-    !value.requiredFiles.every((entry) => typeof entry === "string") ||
+    typeof attribution["canonicalText"] !== "string" ||
+    attribution["required"] !== true ||
+    attribution["visibility"] !== "public" ||
+    attribution["enforcement"] !== "fail-closed-premium" ||
+    !Array.isArray(value["requiredFiles"]) ||
+    !value["requiredFiles"].every((entry) => typeof entry === "string") ||
     !isRecord(integrity) ||
-    integrity.algorithm !== "sha256" ||
-    typeof integrity.canonicalTextSha256 !== "string" ||
-    !isRecord(integrity.files) ||
-    !Object.values(integrity.files).every((entry) => typeof entry === "string") ||
+    integrity["algorithm"] !== "sha256" ||
+    typeof integrity["canonicalTextSha256"] !== "string" ||
+    !isRecord(integrity["files"]) ||
+    !Object.values(integrity["files"]).every((entry) => typeof entry === "string") ||
     !isRecord(governance) ||
-    governance.policy !== "tamv-algorithmic-governance-v1" ||
-    governance.consentRequired !== true ||
-    governance.audit !== true ||
-    governance.rightsProtection !== true ||
+    governance["policy"] !== "tamv-algorithmic-governance-v1" ||
+    governance["consentRequired"] !== true ||
+    governance["audit"] !== true ||
+    governance["rightsProtection"] !== true ||
     !isRecord(license) ||
-    license.core !== "AGPL-3.0-only" ||
-    license.commercial !== "TAMV-Commercial-1.0" ||
-    !Array.isArray(license.features) ||
-    !license.features.every((entry) => typeof entry === "string")
+    license["core"] !== "AGPL-3.0-only" ||
+    license["commercial"] !== "TAMV-Commercial-1.0" ||
+    !Array.isArray(license["features"]) ||
+    !license["features"].every((entry) => typeof entry === "string")
   ) {
     return null;
   }
@@ -207,7 +207,7 @@ function bytesToHex(bytes: Uint8Array): string {
   return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-function decodeBase64Url(value: string): Uint8Array {
+function decodeBase64Url(value: string): Uint8Array<ArrayBuffer> {
   if (!/^[A-Za-z0-9_-]+$/.test(value) || value.length % 4 === 1) {
     throw new Error("Codificación base64url inválida.");
   }
@@ -217,11 +217,13 @@ function decodeBase64Url(value: string): Uint8Array {
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
-function decodePublicKeyPem(pem: string): Uint8Array {
+function decodePublicKeyPem(pem: string): Uint8Array<ArrayBuffer> {
   const normalized = pem.replace(/\\n/g, "\n").trim();
   const match = normalized.match(/-----BEGIN PUBLIC KEY-----([\s\S]+?)-----END PUBLIC KEY-----/);
   if (!match) throw new Error("TAMV_ATTRIBUTION_PUBLIC_KEY debe ser una clave pública PEM SPKI.");
-  const base64 = match[1].replace(/\s/g, "");
+  const content = match[1];
+  if (!content) throw new Error("La clave pública PEM está vacía.");
+  const base64 = content.replace(/\s/g, "");
   const binary = atob(base64);
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
@@ -349,7 +351,7 @@ export async function verifyTamvCertification(
 
   const publicKeyPem = (
     options.publicKeyPem ??
-    (typeof process !== "undefined" ? process.env?.TAMV_ATTRIBUTION_PUBLIC_KEY : undefined) ??
+    (typeof process !== "undefined" ? process.env?.["TAMV_ATTRIBUTION_PUBLIC_KEY"] : undefined) ??
     import.meta.env?.VITE_TAMV_ATTRIBUTION_PUBLIC_KEY ??
     ""
   ).replace(/\\n/g, "\n").trim();

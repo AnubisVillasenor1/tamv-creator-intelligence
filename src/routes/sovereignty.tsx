@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AlertTriangle, CheckCircle2, CircleSlash, FileCheck2, GitBranch, Scale, ShieldCheck } from "lucide-react";
 
 import { GENESIS, STATUS_TONE, type GenesisClaim } from "@/lib/genesis-bundle";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/sovereignty")({
   head: () => ({
@@ -12,6 +13,10 @@ export const Route = createFileRoute("/sovereignty")({
         name: "description",
         content: "Panel de solo lectura: scorecard, claims, capacidades y ledger de trabajo de TAMV Creator Intelligence.",
       },
+      { property: "og:title", content: "TAMV Soberanía — evidencia, claims y madurez" },
+      { property: "og:description", content: "Evidencia disponible, capacidades y límites del proyecto TAMV Creator Intelligence." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: SovereigntyPage,
@@ -147,7 +152,8 @@ function SovereigntyPage() {
             </div>
             <div className="flex flex-wrap gap-1">
               {STATUS_FILTERS.map((status) => (
-                <button
+                <Button
+                  variant="ghost"
                   key={status}
                   type="button"
                   onClick={() => setFilter(status)}
@@ -156,7 +162,7 @@ function SovereigntyPage() {
                   }`}
                 >
                   {status}
-                </button>
+                </Button>
               ))}
             </div>
           </div>

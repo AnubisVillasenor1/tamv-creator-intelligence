@@ -27,7 +27,7 @@ describe("Velocity Core bounded async runner", () => {
     const results = await runTurboParallel([
       { id: "critical", critical: true, run: async () => { started.push("critical"); throw new Error("fail"); } },
       { id: "pending", run: async () => { started.push("pending"); return true; } },
-    ], { maxConcurrency: 1, failFastOnCritical: true });
+    ], { maxConcurrency: 1, failFast: true });
     expect(results[0]?.status).toBe("rejected");
     expect(results[1]?.status).toBe("skipped");
     expect(started).toEqual(["critical"]);

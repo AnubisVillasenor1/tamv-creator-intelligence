@@ -137,6 +137,52 @@ bash /ruta/al/repositorio/tamv-pack/install.sh
 
 El instalador debe solicitar consentimiento, validar antes de escribir, respaldar archivos reemplazados y registrar el resultado. El destino por defecto es `.agents/skills/`; puede cambiarse mediante `TAMV_SKILLS_DIR`. Revisa el diff después de instalar.
 
+### Instalar desde un repositorio existente sin reemplazarlo
+
+Usa una copia del paquete **fuera del proyecto destino**. No copies su `.git`,
+`package.json`, `.env` ni configuración de la aplicación a tu proyecto.
+Guarda primero tus cambios locales. Con Git Bash o Bash/WSL:
+
+```bash
+git clone https://github.com/AnubisVillasenor1/tamv-creator-intelligence.git /tmp/tamv-source
+bash /tmp/tamv-source/tamv-pack/scripts/validate-pack.sh
+bash /tmp/tamv-source/tamv-pack/scripts/test-scripts.sh
+# En otra terminal, abierta en la raíz de TU proyecto existente:
+bash /tmp/tamv-source/tamv-pack/install.sh
+git diff -- README.md TAMV_ATTRIBUTION.md TAMV_GOVERNANCE.md
+git status --short
+```
+
+Acepta únicamente después de revisar los contratos y scripts. Se instalan
+`.agents/skills/`, `.tamv/pack.json`, atribución y gobernanza; el README del destino
+solo recibe la atribución si no existe. Los archivos previos se respaldan en
+`.tamv/backups/backup-XXXXXXXX`; el resultado queda en `.tamv/install.log`.
+No se activa automáticamente ningún skill de Lovable ni se aprovisionan servicios.
+
+### Actualizar y revertir una instalación existente
+
+1. Guarda o confirma los cambios del **proyecto destino**, especialmente tus skills
+   personalizados. No actualices mientras tengas modificaciones sin respaldo.
+2. Obtén una copia nueva del repositorio del paquete en una carpeta separada; usa
+   un tag o SHA revisado para fijar la versión. No hagas un pull del paquete dentro
+   de un repositorio de otra aplicación.
+3. Ejecuta `validate-pack.sh` y `test-scripts.sh` en esa copia; compara sus contratos
+   con los instalados y revisa licencias y dependencias.
+4. Desde el proyecto destino, ejecuta el instalador nuevo y acepta. Conserva la
+   misma variable `TAMV_SKILLS_DIR` si elegiste una ruta distinta en la instalación
+   original. El instalador crea un respaldo nuevo antes de reemplazar archivos.
+5. Revisa el diff y prueba tu aplicación antes de confirmar cambios. Los skills
+   retirados del nuevo catálogo no se borran automáticamente: revísalos aparte.
+
+Para revertir, consulta la ruta `backup=` de la última instalación en
+`.tamv/install.log`. Compara y restaura solo los archivos reemplazados desde ese
+respaldo; los archivos creados por primera vez no tienen una copia anterior.
+No restaures todo el repositorio ni elimines skills de terceros. En Windows,
+ejecuta el instalador con Git Bash o WSL; PowerShell no ejecuta Bash directamente.
+
+La revisión con IA permanece bloqueada si falta una sesión válida o la firma
+oficial Ed25519 del release. Instalar los contratos no habilita esa capacidad.
+
 ## Desarrollo y pruebas
 
 ```bash

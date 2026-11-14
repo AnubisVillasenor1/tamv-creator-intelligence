@@ -4,6 +4,6 @@
   "files": {
     "genesis.json": "sha256:a68f79535fe0d523e8fcdca4561ae794cf74e6f01031f84f7c2f8498e48282a6",
     "public.json": "sha256:40fe324e49a333f7aa793513e6ded10fd4e13c24f80d03214f9d1418a1a7241a",
-    "review-packet.json": "sha256:811a0e7d14753201244143f9435e44f773b158e048ebca21e06c9725d0a5b156"
+    "review-packet.json": "sha256:a4a458369faa574052738cd5f7cd964c41dc94489850d20f50e5a4688a9336c2"
   }
 }

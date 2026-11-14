@@ -24,7 +24,7 @@ export interface RuntimeDecision {
   capability: string;
   checkedAt: string;
   certificationStatus: string;
-  provenance: { verified: false; status: "not-integrated"; reason: string };
+  provenance: { verified: boolean; status: "not-integrated" | "verified"; reason: string };
 }
 
 /**

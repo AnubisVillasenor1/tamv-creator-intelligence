@@ -26,6 +26,10 @@ export const Route = createFileRoute("/hypercore")({
     meta: [
       { title: "TAMV HyperCore Turbo — Auditoría" },
       { name: "description", content: "Panel de verificación de gobernanza, integridad y concurrencia de TAMV HyperCore Turbo." },
+      { property: "og:title", content: "TAMV HyperCore Turbo — Auditoría" },
+      { property: "og:description", content: "Estado verificable de gobernanza, integridad y concurrencia de TAMV." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: HyperCorePage,
@@ -67,7 +71,7 @@ function HyperCorePage() {
       subtitle: "Política, consentimiento y control humano",
       icon: ShieldCheck,
       status: report?.cores.governCore.status,
-      ok: report?.checks.governCore === true,
+      ok: report?.checks['governCore'] === true,
       detail: report?.cores.governCore.checks?.valid
         ? "Política estructural válida; el endpoint no sustituye la autorización de cada capacidad."
         : "La política no superó la validación o la comprobación no terminó.",
@@ -77,7 +81,7 @@ function HyperCorePage() {
       subtitle: "Manifiesto, firma y certificación runtime",
       icon: Fingerprint,
       status: report?.cores.integrityCore.status,
-      ok: report?.checks.integrityCore === true,
+      ok: report?.checks['integrityCore'] === true,
       detail: report?.cores.integrityCore.certification?.reason
         ?? "No se recibió resultado de certificación.",
     },
@@ -86,7 +90,7 @@ function HyperCorePage() {
       subtitle: "Concurrencia acotada y resultados trazables",
       icon: Gauge,
       status: report?.cores.velocityCore.status,
-      ok: report?.checks.velocityCore === true,
+      ok: report?.checks['velocityCore'] === true,
       detail: report?.cores.velocityCore.probe
         ? "Probe de concurrencia: " + report.cores.velocityCore.probe.completed + "/" + report.cores.velocityCore.probe.total + " tareas completadas."
         : "El probe de concurrencia no terminó.",

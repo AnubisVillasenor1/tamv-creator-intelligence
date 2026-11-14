@@ -3,8 +3,11 @@ import { ArrowUpRight, Check, Copy, LoaderCircle, ShieldCheck, Sparkles } from '
 import { Button } from '@/components/ui/button';
 import { contentSchema, type Review } from '@/lib/content-schema';
 import { reviewContent } from '@/lib/content.functions';
+import { useServerFn } from '@tanstack/react-start';
+import { supabase } from '@/integrations/supabase/client';
 
 export function CreatorReview({ onComplete }: { onComplete: () => void }) {
+  const runReview = useServerFn(reviewContent);
   const [draft, setDraft] = useState('');
   const [audience, setAudience] = useState('');
   const [goal, setGoal] = useState('');
@@ -21,7 +24,12 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? 'Revisa los campos.'); return; }
     setBusy(true); setError(''); setResult(undefined); setAudit(undefined);
     try {
-      const response = await reviewContent({ data: parsed.data });
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        setError('Necesitas una sesión iniciada para solicitar una revisión. Tu borrador se conserva.');
+        return;
+      }
+      const response = await runReview({ data: parsed.data });
       if (response.ok) { setResult(response.review); setAudit(response.audit); onComplete(); }
       else setError(response.error);
     } catch (caught) {
