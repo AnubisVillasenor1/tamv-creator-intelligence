@@ -4,6 +4,7 @@ import {
   isDeclaredContentLengthWithinLimit,
   isJsonContentType,
   readBoundedRequestBody,
+  readBoundedResponseText,
 } from "./governance-request-guards";
 
 describe("governance API request boundary guards", () => {
@@ -112,5 +113,35 @@ describe("bounded request body reader", () => {
     });
     await expect(readBoundedRequestBody(new Request("https://example.test"), 0))
       .resolves.toEqual({ ok: false, reason: "unreadable" });
+  });
+});
+
+
+describe("bounded remote response reader", () => {
+  it("accepts a response at the exact byte limit", async () => {
+    await expect(readBoundedResponseText(new Response("12345678"), 8)).resolves.toBe("12345678");
+  });
+
+  it("rejects an oversized response without parsing the full body", async () => {
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new Uint8Array(9));
+        controller.close();
+      },
+    });
+    await expect(readBoundedResponseText(new Response(body), 8))
+      .rejects.toThrow("Response body exceeds configured size limit");
+  });
+
+  it("rejects invalid UTF-8 and invalid response limits", async () => {
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new Uint8Array([0xff]));
+        controller.close();
+      },
+    });
+    await expect(readBoundedResponseText(new Response(body), 8)).rejects.toThrow();
+    await expect(readBoundedResponseText(new Response("x"), 0))
+      .rejects.toThrow("Invalid response size limit");
   });
 });
