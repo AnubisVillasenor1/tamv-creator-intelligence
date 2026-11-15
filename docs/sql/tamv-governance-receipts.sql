@@ -66,6 +66,14 @@ begin
     raise exception 'immutable governance operation binding changed' using errcode = '23514';
   end if;
 
+  if (new.receipt ->> 'recordedAt')::timestamptz < (old.receipt ->> 'recordedAt')::timestamptz then
+    raise exception 'governance receipt timestamp cannot move backwards' using errcode = '23514';
+  end if;
+
+  if not ((new.receipt -> 'evidence') @> (old.receipt -> 'evidence')) then
+    raise exception 'governance receipt evidence cannot be removed' using errcode = '23514';
+  end if;
+
   if not (
     (old.status = 'pending' and new.status in ('running','blocked','failed'))
     or (old.status = 'running' and new.status in ('succeeded','failed','blocked','recovery_required'))
