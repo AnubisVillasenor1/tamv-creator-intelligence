@@ -146,6 +146,29 @@ function isConfigured(config: DistributedReviewQuotaConfig): boolean {
 }
 
 /**
+ * Local quota is a developer convenience, never a platform fallback.
+ * An explicit local/test classification is required and must agree with the
+ * absence of Vercel deployment markers. NODE_ENV by itself is not sufficient
+ * to authorize an in-memory quota.
+ */
+function permitsLocalQuotaFallback(
+  env: Record<string, string | undefined> | undefined,
+): boolean {
+  if (!env) return false;
+
+  const nodeEnv = (env["NODE_ENV"] ?? "").trim().toLowerCase();
+  const deploymentEnv = (env["TAMV_DEPLOYMENT_ENV"] ?? "").trim().toLowerCase();
+  const hasVercelMarker = Boolean((env["VERCEL"] ?? "").trim())
+    || Boolean((env["VERCEL_ENV"] ?? "").trim())
+    || Boolean((env["VERCEL_URL"] ?? "").trim());
+
+  if (hasVercelMarker || nodeEnv === "production") return false;
+
+  const classification = deploymentEnv || nodeEnv;
+  return ["local", "development", "test"].includes(classification);
+}
+
+/**
  * Atomic, cross-instance creator-review quota using Upstash-compatible Redis REST.
  * In production, missing configuration or backend failure denies the request.
  * Process-local fallback is allowed only in non-production environments with no
@@ -167,7 +190,12 @@ export async function checkDistributedReviewQuota(
   };
 
   if (!isConfigured(config)) {
-    if (env?.["NODE_ENV"] !== "production" && !config.redisRestUrl && !config.redisRestToken && !config.keySalt) {
+    if (
+      permitsLocalQuotaFallback(env)
+      && !config.redisRestUrl
+      && !config.redisRestToken
+      && !config.keySalt
+    ) {
       return { ...checkLocalReviewQuota(userId, config.now?.() ?? Date.now()), source: "local-development" };
     }
     return denied();
