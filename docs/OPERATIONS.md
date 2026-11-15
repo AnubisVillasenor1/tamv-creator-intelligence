@@ -37,6 +37,21 @@ El proyecto reúne cuatro superficies con responsabilidades diferentes:
 
 La IA propone; la persona conserva el control creativo. El flujo implementado no publica contenido, no ejecuta campañas ni toma decisiones legales o financieras definitivas.
 
+## Actualización de hardening — 2026-11-15
+
+Se añadieron pruebas automatizadas para el guard de revisión creativa y un límite de memoria para sus buckets locales:
+
+- El mapa de cuotas tiene un máximo explícito de 5.000 identificadores en cada proceso.
+- Cuando se alcanza ese límite y no se pueden eliminar entradas obsoletas, los nuevos identificadores reciben una denegación temporal `server-busy` en lugar de ampliar el mapa indefinidamente.
+- Las pruebas cubren ráfaga, recuperación de tokens, límite diario, límite de memoria, concurrencia local y liberación del slot tras timeout.
+
+**Límite:** estas cuotas continúan siendo locales al proceso. No coordinan múltiples instancias/serverless isolates y no reemplazan un límite distribuido en Postgres/Redis. El límite diario depende de que la instancia mantenga estado durante el día. No presentar este control como cuota global de producción hasta integrar un backend compartido.
+
+**Ledger Hyper-Core:** sigue bloqueado para producción. La auditoría detectó que el orden de asignación de `sequence_id` puede diferir del orden en que se adquiere el advisory lock, por lo que la cadena puede no coincidir con el orden ascendente de la secuencia. Además, `AGENTS.md` establece que los cambios de esquema deben pasar por Lovable; los archivos SQL actuales requieren resolución con el propietario de esquema. Detalles y criterios de aceptación en [HYPERCORE-AUDIT-LEDGER.md](HYPERCORE-AUDIT-LEDGER.md).
+
+**CI:** la incorporación de pruebas a Vitest no equivale a que estas hayan pasado en un runner. Verificar el resultado del workflow de la rama antes de considerar aceptada esta mejora.
+
+
 ## Estado documentado
 
 | Superficie | Evidencia presente | Límite actual |
