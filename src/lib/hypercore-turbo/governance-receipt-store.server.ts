@@ -54,6 +54,42 @@ export interface GovernanceReceiptStore {
 }
 
 const TABLE_PATTERN = /^[a-z][a-z0-9_]{0,62}$/;
+const MAX_SUCCESS_RESPONSE_BYTES = 1024 * 1024;
+const MAX_ERROR_RESPONSE_BYTES = 4096;
+
+async function readBoundedResponseText(response: Response, maxBytes: number): Promise<string> {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) {
+    throw new Error("Invalid response size limit");
+  }
+  if (!response.body) return "";
+
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel("Backend response exceeds configured size limit").catch(() => undefined);
+        throw new Error("Backend response exceeds configured size limit");
+      }
+      chunks.push(value);
+    }
+
+    const bytes = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } finally {
+    reader.releaseLock();
+  }
+}
 
 function assertValidReceipt(receipt: GovernanceOperationReceipt): void {
   const validation = validateGovernanceReceipt(receipt);
@@ -134,7 +170,7 @@ export function createGovernanceReceiptStore(
     }
 
     if (!response.ok) {
-      const detail = (await response.text()).slice(0, 500);
+      const detail = await readBoundedResponseText(response, MAX_ERROR_RESPONSE_BYTES)\n        .then((text) => text.slice(0, 500))\n        .catch(() => "[response body omitted]");
       if (response.status === 409 || response.status === 412) {
         throw new GovernanceReceiptStoreError("Concurrent receipt update rejected", "STATE_CONFLICT");
       }
