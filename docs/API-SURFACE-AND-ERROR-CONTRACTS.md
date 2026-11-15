@@ -2,7 +2,7 @@
 
 **Revisión del código:** 2026-11-15  
 **Repositorio:** `AnubisVillasenor1/tamv-creator-intelligence`  
-**Commit base inspeccionado:** `bca64dc8d2e33bc04b3ff6cec38d79dac791cdf2`  
+**Commit base de la auditoría profunda:** `e3c13d7ab06e203dadd42e054cccbbca3c4641c1`  
 **Naturaleza:** inventario derivado de las rutas actuales. No representa un OpenAPI certificado ni una prueba de disponibilidad del proveedor o de producción.
 
 ## 1. Reglas de lectura
