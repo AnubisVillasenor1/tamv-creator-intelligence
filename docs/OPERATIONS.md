@@ -688,3 +688,6 @@ Si un control crítico no puede verificarse, mantener deshabilitada la capacidad
 **TAMV ONLINE NETWORK · PLAY & GO**
 
 Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.
+## Pruebas de gobernanza y orquestación — 2026-11-15
+
+Se añadieron suites Vitest para la política de autorización Hyper-Core y el ejecutor de tareas paralelas. Cubren autorización deny-by-default, consentimiento, certificación inválida, validación de IDs, límite de concurrencia, reintentos exclusivamente idempotentes, fail-fast y timeout. Estas suites están versionadas, pero deben ejecutarse en CI; no se declara aprobación hasta revisar los resultados del runner para el commit exacto.
