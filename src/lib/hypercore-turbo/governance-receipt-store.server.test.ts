@@ -64,6 +64,47 @@ describe("Supabase governance receipt store", () => {
     expect(new Headers(fetcher.mock.calls[0]?.[1]?.headers).get("Prefer")).toBe("resolution=ignore-duplicates,return=representation");
   });
 
+  it("returns the existing receipt for an exact idempotent retry", async () => {
+    const fetcher = vi.fn()
+      .mockResolvedValueOnce(response([]))
+      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]));
+    const store = createGovernanceReceiptStore(
+      { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
+      async () => false,
+      fetcher,
+    );
+    await expect(store.create(base)).resolves.toEqual(base);
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+
+  it("rejects reuse of an idempotency key for a different target", async () => {
+    const fetcher = vi.fn()
+      .mockResolvedValueOnce(response([]))
+      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]));
+    const store = createGovernanceReceiptStore(
+      { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
+      async () => false,
+      fetcher,
+    );
+    await expect(store.create({ ...base, targetRef: "target-opaque-002" }))
+      .rejects.toMatchObject({ code: "IDEMPOTENCY_CONFLICT" });
+  });
+
+  it("rejects a compare-and-set update when another request changed the state", async () => {
+    const fetcher = vi.fn()
+      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]))
+      .mockResolvedValueOnce(response([]));
+    const store = createGovernanceReceiptStore(
+      { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
+      async () => true,
+      fetcher,
+    );
+    const running = { ...base, status: "running" as const, phase: "execution",
+      recordedAt: "2026-11-15T12:00:02Z" };
+    await expect(store.transition(base.receiptId, "pending", running))
+      .rejects.toMatchObject({ code: "STATE_CONFLICT" });
+  });
+
   it("rejects success transitions unless independent evidence verification succeeds", async () => {
     const running = { ...base, status: "running" as const, phase: "execution",
       recordedAt: "2026-11-15T12:00:02Z" };
