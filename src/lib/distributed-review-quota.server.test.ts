@@ -11,6 +11,10 @@ const config = {
 describe("distributed creator-review quota", () => {
   beforeEach(() => {
     vi.stubEnv("NODE_ENV", "test");
+    vi.stubEnv("TAMV_DEPLOYMENT_ENV", "");
+    vi.stubEnv("VERCEL", "");
+    vi.stubEnv("VERCEL_ENV", "");
+    vi.stubEnv("VERCEL_URL", "");
     vi.stubEnv("UPSTASH_REDIS_REST_URL", "");
     vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "");
     vi.stubEnv("TAMV_REVIEW_QUOTA_KEY_SALT", "");
@@ -60,13 +64,61 @@ describe("distributed creator-review quota", () => {
     });
   });
 
-  it("allows process-local fallback only outside production when Redis is not configured", async () => {
+  it("allows process-local fallback only for explicitly classified local development", async () => {
     vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("TAMV_DEPLOYMENT_ENV", "local");
 
     const result = await checkDistributedReviewQuota("dev-user", { now: config.now });
 
     expect(result.allowed).toBe(true);
     expect(result.source).toBe("local-development");
+  });
+
+  it("fails closed in a Vercel production runtime even if NODE_ENV is misclassified", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("VERCEL", "1");
+    vi.stubEnv("VERCEL_ENV", "production");
+    vi.stubEnv("TAMV_DEPLOYMENT_ENV", "local");
+
+    await expect(checkDistributedReviewQuota("prod-user")).resolves.toMatchObject({
+      allowed: false,
+      reason: "server-busy",
+      source: "fail-closed",
+    });
+  });
+
+  it("fails closed in Vercel Preview when Redis is unavailable", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("VERCEL", "1");
+    vi.stubEnv("VERCEL_ENV", "preview");
+
+    await expect(checkDistributedReviewQuota("preview-user")).resolves.toMatchObject({
+      allowed: false,
+      reason: "server-busy",
+      source: "fail-closed",
+    });
+  });
+
+  it("fails closed if Vercel markers exist but the deployment target is unknown", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("VERCEL", "1");
+
+    await expect(checkDistributedReviewQuota("unknown-vercel-user")).resolves.toMatchObject({
+      allowed: false,
+      reason: "server-busy",
+      source: "fail-closed",
+    });
+  });
+
+  it("fails closed for an explicit staging classification without Redis", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("TAMV_DEPLOYMENT_ENV", "staging");
+
+    await expect(checkDistributedReviewQuota("staging-user")).resolves.toMatchObject({
+      allowed: false,
+      reason: "server-busy",
+      source: "fail-closed",
+    });
   });
 
   it("fails closed when Redis transport throws", async () => {

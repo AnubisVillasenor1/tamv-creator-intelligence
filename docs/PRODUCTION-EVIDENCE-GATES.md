@@ -39,7 +39,7 @@ The existence of the ledger table or the health route is not proof that protecte
 
 ## 3. Distributed rate limiting
 
-The creator-review path now calls `checkDistributedReviewQuota` before the model gateway. The implementation uses an atomic Redis Lua token-bucket + UTC daily-cap decision and hashes the actor identifier before constructing the Redis key. Process-local fallback is explicitly labeled `local-development` and is permitted only outside production when Redis configuration is absent. Production fails closed when configuration is absent or the Redis service errors.
+The creator-review path now calls `checkDistributedReviewQuota` before the model gateway. The in-memory fallback is now limited to an explicit local classification (`TAMV_DEPLOYMENT_ENV=local`, `development`, or `test`) and is denied whenever `VERCEL`, `VERCEL_ENV`, or `VERCEL_URL` indicate a Vercel runtime. `NODE_ENV` alone does not authorize fallback. The implementation uses an atomic Redis Lua token-bucket + UTC daily-cap decision and hashes the actor identifier before constructing the Redis key. Process-local fallback is explicitly labeled `local-development` and is permitted only outside production when Redis configuration is absent. Production fails closed when configuration is absent or the Redis service errors.
 
 Required server-side environment variables (configure in the deployment secret manager; never commit values):
 
