@@ -135,9 +135,6 @@ export function createGovernanceReceiptStore(
 
     if (!response.ok) {
       const detail = (await response.text()).slice(0, 500);
-      if (response.status === 404) {
-        throw new GovernanceReceiptStoreError("Receipt does not exist", "NOT_FOUND");
-      }
       if (response.status === 409 || response.status === 412) {
         throw new GovernanceReceiptStoreError("Concurrent receipt update rejected", "STATE_CONFLICT");
       }
