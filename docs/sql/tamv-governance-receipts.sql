@@ -53,6 +53,8 @@ as $$
 begin
   if new.receipt_id <> old.receipt_id
     or new.operation_id <> old.operation_id
+    or new.receipt ->> 'schema' <> old.receipt ->> 'schema'
+    or new.receipt ->> 'operation' <> old.receipt ->> 'operation'
     or new.idempotency_key <> old.idempotency_key
     or new.receipt ->> 'actorRef' <> old.receipt ->> 'actorRef'
     or new.receipt ->> 'targetRef' <> old.receipt ->> 'targetRef'
