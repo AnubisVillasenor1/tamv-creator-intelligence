@@ -1,6 +1,7 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { GOVERN_CORE_POLICY, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
+import { isBearerTokenWithinLimit, isJsonContentType } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   createGovernanceReceiptStoreFromEnv,
   GovernanceReceiptStoreError,
@@ -38,7 +39,7 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
     return jsonError("Governance authentication is not configured", 503);
   }
   if (!token) return jsonError("Authentication required", 401);
-  if (token.length > 8192) return jsonError("Authentication token exceeds the accepted size", 401);
+  if (!isBearerTokenWithinLimit(token)) return jsonError("Authentication token exceeds the accepted size", 401);
 
   let authResponse: Response;
   try {
@@ -97,9 +98,8 @@ export const Route = createFileRoute("/api/governance/receipts")({
         const identity = await authenticate(request);
         if (identity instanceof Response) return identity;
 
-        const contentType = request.headers.get("content-type") ?? "";
-        const mediaType = contentType.split(";", 1)[0].trim().toLowerCase();
-        if (mediaType !== "application/json") {
+        const contentType = request.headers.get("content-type");
+        if (!isJsonContentType(contentType)) {
           return jsonError("Content-Type must be application/json", 415);
         }
         const declaredLength = Number(request.headers.get("content-length") ?? "0");
