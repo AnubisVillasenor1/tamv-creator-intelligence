@@ -5,6 +5,9 @@ Configure provider credentials in the target deployment secret manager, never in
 ## Required runtime settings
 
 | Group | Variable | Validation |
+| Runtime environment | NODE_ENV | Literal production for strict release preflight |
+| Runtime environment | TAMV_DEPLOYMENT_ENV | Literal production; rejected if VERCEL_ENV identifies Preview/development |
+
 |---|---|---|
 | Supabase | SUPABASE_URL | HTTPS URL |
 | Supabase | SUPABASE_PUBLISHABLE_KEY | Present |
@@ -17,7 +20,7 @@ Configure provider credentials in the target deployment secret manager, never in
 | Release verification | TAMV_ATTRIBUTION_PUBLIC_KEY | Ed25519 public key in PEM format |
 | Release verification | TAMV_CERTIFICATION_REQUIRED | Literal string true for a production release |
 
-The preflight checks presence and basic shape only. It does not contact providers, prove credentials work, or prove that database tables and RLS are deployed.
+The preflight checks presence and basic shape only. It does not contact providers, prove credentials work, or prove that database tables and RLS are deployed. Strict mode is production-only: both `NODE_ENV` and `TAMV_DEPLOYMENT_ENV` must be `production`, and when Vercel supplies `VERCEL_ENV` it must also be `production`. Local work may set `TAMV_DEPLOYMENT_ENV=local`; this value must never be carried over as the production setting.
 
 ## Commands
 
@@ -27,7 +30,7 @@ bun run ops:preflight:strict
 bun run ops:preflight:test
 ```
 
-The advisory command is safe for local development and CI without production secrets. Strict mode is intended for a protected release job. The regression test verifies missing configuration, a complete shape-only configuration, HTTPS validation, and that secret values are never printed.
+The advisory command is safe for local development and CI without production secrets. Strict mode is intended for a protected release job. Regression tests cover missing configuration, a complete shape-only production configuration, HTTPS validation, Preview/staging rejection, and secret-value non-disclosure.
 
 ## Separate production acceptance gates
 
