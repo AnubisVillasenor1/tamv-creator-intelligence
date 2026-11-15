@@ -39,14 +39,26 @@ The existence of the ledger table or the health route is not proof that protecte
 
 ## 3. Distributed rate limiting
 
-A process-local map or token bucket is not a distributed control on serverless deployments. Before treating a quota as production enforcement:
+The creator-review path now calls `checkDistributedReviewQuota` before the model gateway. The implementation uses an atomic Redis Lua token-bucket + UTC daily-cap decision and hashes the actor identifier before constructing the Redis key. Process-local fallback is explicitly labeled `local-development` and is permitted only outside production when Redis configuration is absent. Production fails closed when configuration is absent or the Redis service errors.
 
-- [ ] Use a shared atomic store or database-backed primitive with an explicit window/algorithm and key scope.
-- [ ] Apply limits at the server boundary, after trusted identity resolution and before expensive provider calls.
-- [ ] Bound key cardinality, TTL, payload size, and failure behavior; avoid raw IP/user identifiers in logs.
-- [ ] Test parallel requests across independent processes/instances, expiry boundaries, store timeout, and store outage.
-- [ ] Choose and document fail-closed versus bounded fail-open behavior per operation risk; destructive or costly side effects must fail closed.
-- [ ] Return `429` and a bounded `Retry-After` only when the retry interval is known.
+Required server-side environment variables (configure in the deployment secret manager; never commit values):
+
+- `UPSTASH_REDIS_REST_URL` — HTTPS Upstash-compatible Redis REST endpoint.
+- `UPSTASH_REDIS_REST_TOKEN` — secret REST token.
+- `TAMV_REVIEW_QUOTA_KEY_SALT` — random secret of at least 32 characters, stable across instances; rotate deliberately because rotation creates a new quota namespace.
+
+Implemented controls:
+- Atomic Redis script for token bucket and daily cap in one operation.
+- Two-second request timeout, bounded 4 KiB response streaming, response schema validation, hashed actor key, TTL.
+- Fail-closed behavior in production for missing configuration, timeout, malformed response, HTTP error, or transport failure.
+- Unit tests for allow, local-development-only fallback, production missing config, HTTP failure, malformed/oversized response, and transport failure.
+
+Still required before calling this production-verified:
+- [ ] Run unit tests and CI against the exact PR head SHA.
+- [ ] Verify quota consistency using concurrent calls from independent server processes against a real disposable Redis/Upstash instance.
+- [ ] Test expiry and UTC-day boundaries, Redis outage, and credential rotation.
+- [ ] Verify deployment environment variables exist without exposing their values.
+- [ ] Keep the per-process in-flight ceiling as a separate local capacity guard; it is not a global concurrency limit.
 
 Do not label a local in-memory limiter as distributed, globally consistent, or production-safe.
 
