@@ -1093,7 +1093,7 @@
       "id": "K-18",
       "label": "Gobernanza de material sensible",
       "status": "pass",
-      "detail": "112 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "detail": "121 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
       "blocking": true
     },
     {
@@ -1107,7 +1107,7 @@
       "id": "K-20",
       "label": "Registro de cierre de skills, módulos y capacidades",
       "status": "pass",
-      "detail": "13 módulos; 19 capacidades y 4 skills cubiertas; sin módulos closed sin pruebas.",
+      "detail": "23 módulos; 19 capacidades y 4 skills cubiertas; sin módulos closed sin pruebas.",
       "blocking": true
     }
   ]

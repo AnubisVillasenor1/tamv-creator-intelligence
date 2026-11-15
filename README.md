@@ -135,16 +135,18 @@ El diseño previsto contempla:
 
 Mientras no exista implementación verificada, estas funciones no deben presentarse como operativas.
 
-### Contrato de orquestación de audio (sin proveedor conectado)
+### Pipeline de audio (in-process, sin infraestructura desplegada)
 
-Existe un contrato ejecutable y probado para validar, autorizar y encolar trabajo de audio:
+Existe un pipeline ejecutable y probado para validar, autorizar, encolar, generar, almacenar y analizar audio:
 
 - Valida peticiones estrictas y rechaza campos desconocidos, derechos inválidos o falta de consentimiento.
 - Autoriza mediante el sello v3 y exige consentimiento cuando la skill lo declara.
-- Devuelve únicamente `status: "queued"`; nunca declara que la generación terminó.
+- Máquina de estados explícita (`queued → running → succeeded | failed | cancelled`) con reintentos y backoff determinista.
+- Valida el artefacto (formato, frecuencia, duración, tamaño), exige un SHA-256 de almacenamiento y audita cada transición.
 - No inventa DSP: `truePeakDb`, `integratedLufs` y `chroma` permanecen `null` si el proveedor no los entrega.
+- Expone métricas Prometheus solo de eventos observados, sin gauges de loudness ficticios.
 
-No hay proveedor, worker, Redis, BullMQ, base de datos, bucket MinIO ni Docker Compose de audio conectados. El detalle y la ruta honesta hacia esa infraestructura están en [docs/AUDIO-ORCHESTRATION.md](docs/AUDIO-ORCHESTRATION.md).
+El worker es in-process (`runOnce()`), no un daemon. No hay proveedor real, Redis, BullMQ, Postgres, bucket MinIO ni Docker Compose de audio conectados; los adaptadores por defecto viven en memoria y no son producción. El detalle está en [docs/AUDIO-PIPELINE.md](docs/AUDIO-PIPELINE.md) y la ruta de integración en [docs/AUDIO-ORCHESTRATION.md](docs/AUDIO-ORCHESTRATION.md).
 
 ## Seguridad e integridad
 
@@ -155,7 +157,7 @@ TAMV Creator Intelligence implementa una arquitectura de verificación continua:
 - Sello v3 fail-closed: sin firma válida, las capacidades certificadas se deniegan.
 - Vinculación del manifiesto v3, separación de dominio de firmas y puerta de capacidad con consentimiento.
 - Registro de cierre `K-20`: ninguna módulo `closed` puede carecer de evidencia o pruebas existentes.
-- Contrato de audio sin métricas inventadas: `truePeakDb` y `chroma` quedan `null` si el proveedor no los entrega.
+- Pipeline de audio con artefacto verificado por SHA-256, reintentos acotados y métricas sin valores inventados: `truePeakDb` y `chroma` quedan `null` si el proveedor no los entrega.
 - Procedencia SLSA para artefactos publicados y SBOM para visibilidad de componentes, configurados en el workflow de release.
 - Políticas fail-closed ante fallos de integridad.
 - RLS obligatoria en Supabase como regla de diseño; los cambios de esquema se gestionan mediante Lovable.
@@ -250,7 +252,7 @@ node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --verif
 bash scripts/verify-slsa.sh
 ```
 
-`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. La auditoría devuelve 20 chequeos; `K-02` falla a propósito mientras el release siga sin firma y `K-20` valida el registro de cierre. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **93/93 pruebas aprobadas** localmente (Node v26.13.0), incluidas 19 del núcleo soberano, 11 del log de transparencia y 11 del contrato de audio, y se verificaron la estructura del sello v3, la vinculación del manifiesto, la cadena del log de transparencia y el registro de cierre con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
+`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. La auditoría devuelve 20 chequeos; `K-02` falla a propósito mientras el release siga sin firma y `K-20` valida el registro de cierre. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **105/105 pruebas aprobadas** localmente (Node v26.13.0), incluidas 19 del núcleo soberano, 11 del log de transparencia, 11 del contrato de audio y 12 del pipeline (ciclo de vida, reintentos, artefacto, métricas, idempotencia y cancelación), y se verificaron la estructura del sello v3, la vinculación del manifiesto, la cadena del log de transparencia y el registro de cierre con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
 
 La firma y recertificación corresponden al responsable autorizado del release, con las claves suministradas de forma segura:
 
@@ -268,7 +270,9 @@ No desactives verificaciones para conseguir un build ni sustituyas `UNSIGNED_REL
 
 - [Referencia operativa verificada](docs/OPERATIONS.md) — revisión, cuotas, catálogo de 37 contratos, Genesis, endpoints, instalación y certificación.
 - [Sello, firma y cifrado híbrido v3](docs/SOVEREIGN-V3.md).
-- [Contrato de orquestación de audio](docs/AUDIO-ORCHESTRATION.md).
+- [Pipeline de audio implementado](docs/AUDIO-PIPELINE.md) y [contrato de orquestación](docs/AUDIO-ORCHESTRATION.md).
+- [Posicionamiento TAMV Online / PLAY & GO](docs/PRODUCT-POSITIONING.md).
+- [Matriz de implementación de `paquetefinal.md`](docs/IMPLEMENTATION-MATRIX.md).
 - [Registro de cierre de módulos y capacidades](tamv-genesis/v3/closure.json).
 - [Huella pública y límites de corroboración](docs/PUBLIC-FOOTPRINT.md).
 - [Distribución y publicación](docs/PUBLISHING.md).

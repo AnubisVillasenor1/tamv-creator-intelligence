@@ -136,7 +136,53 @@
         "docs/AUDIO-ORCHESTRATION.md"
       ],
       "tests": ["tamv-genesis/tests/audio-gateway.test.ts"],
-      "note": "Valida, exige consentimiento/derechos, autoriza por sello y encola. No hay proveedor, worker, base de datos ni Redis conectados; truePeakDb y chroma permanecen null si el proveedor no los devuelve."
+      "note": "Valida, exige consentimiento/derechos, autoriza por sello y encola. No hay proveedor real ni cola durable; el worker in-process vive en audio.pipeline.contract. truePeakDb y chroma permanecen null si el proveedor no los devuelve."
+    },
+    {
+      "id": "audio.lifecycle",
+      "title": "Ciclo de vida de trabajos de audio y reintentos",
+      "status": "closed",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.production"],
+      "evidence": ["tamv-genesis/src/audio/lifecycle.ts", "docs/AUDIO-PIPELINE.md"],
+      "tests": ["tamv-genesis/tests/audio-pipeline.test.ts"],
+      "note": "Máquina de estados pura con transiciones explícitas, códigos de fallo y backoff determinista; no depende de Redis ni de un proveedor."
+    },
+    {
+      "id": "audio.pipeline.contract",
+      "title": "Pipeline in-process con worker y adaptadores en memoria",
+      "status": "contract",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.mastering", "audio.production"],
+      "evidence": [
+        "tamv-genesis/src/audio/pipeline.ts",
+        "tamv-genesis/src/audio/worker.ts",
+        "tamv-genesis/src/audio/ports.ts",
+        "tamv-genesis/src/audio/memory.ts",
+        "docs/AUDIO-PIPELINE.md"
+      ],
+      "tests": ["tamv-genesis/tests/audio-pipeline.test.ts"],
+      "note": "Genera, valida artefacto, guarda con SHA-256, analiza si hay puerto y aplica reintentos. No hay proveedor real, cola durable, Postgres, MinIO ni daemon; los adaptadores en memoria no son producción."
+    },
+    {
+      "id": "audio.metrics.prometheus",
+      "title": "Exposición Prometheus sin dependencias",
+      "status": "contract",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": [],
+      "evidence": ["tamv-genesis/src/audio/metrics.ts", "docs/AUDIO-PIPELINE.md"],
+      "tests": ["tamv-genesis/tests/audio-pipeline.test.ts"],
+      "note": "Renderiza solo eventos observados. No hay endpoint de scrape conectado ni gauges de loudness inventados."
+    },
+    {
+      "id": "product.positioning",
+      "title": "Posicionamiento TAMV Online / PLAY & GO",
+      "status": "documented",
+      "publicSkills": [],
+      "capabilities": [],
+      "evidence": ["docs/PRODUCT-POSITIONING.md", "src/routes/index.tsx"],
+      "tests": [],
+      "note": "Fija el copy aprobado y separa la arquitectura de marca de las secciones aún no implementadas; no crea Academy, Studio, AI Lab ni Creator Hub."
     },
     {
       "id": "distribution.public-surface",
@@ -166,6 +212,66 @@
       "evidence": ["docs/PUBLIC-FOOTPRINT.md", "docs/PROFILES.md", "tamv-genesis/data/github-profiles.json"],
       "tests": [],
       "note": "Registra fuentes públicas de identidad y actividad; no eleva C-001 a verificado ni convierte presencia web en horas."
+    },
+    {
+      "id": "audio.dsp.analysis",
+      "title": "Análisis DSP real (true peak, LUFS, chroma)",
+      "status": "open",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.mastering"],
+      "evidence": ["docs/AUDIO-PIPELINE.md"],
+      "tests": [],
+      "note": "No hay motor nativo ni vectores de referencia. El pipeline deja truePeakDb, integratedLufs y chroma en null; no se estiman."
+    },
+    {
+      "id": "audio.queue.durable",
+      "title": "Cola durable (Redis/BullMQ u otra)",
+      "status": "blocked",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.production"],
+      "evidence": ["tamv-genesis/src/audio/ports.ts", "docs/AUDIO-PIPELINE.md"],
+      "tests": [],
+      "note": "El puerto AudioWorkQueue está probado con un adaptador en memoria. Falta un servicio durable y sus credenciales; no se declara Redis conectado."
+    },
+    {
+      "id": "audio.storage.durable",
+      "title": "Almacenamiento durable de artefactos (S3/MinIO)",
+      "status": "blocked",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.production"],
+      "evidence": ["tamv-genesis/src/audio/ports.ts", "docs/AUDIO-PIPELINE.md"],
+      "tests": [],
+      "note": "El puerto AudioStoragePort exige SHA-256 y está probado en memoria. No hay bucket ni credenciales; no se declara MinIO conectado."
+    },
+    {
+      "id": "audio.database.schema",
+      "title": "Esquema Drizzle/Postgres de AudioCore",
+      "status": "blocked",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.production"],
+      "evidence": ["AGENTS.md", "docs/AUDIO-PIPELINE.md"],
+      "tests": [],
+      "note": "AGENTS.md prohíbe editar drizzle/ y supabase/migrations/; el esquema debe gestionarse en Lovable. No se creó una migración paralela."
+    },
+    {
+      "id": "audio.frontend.client",
+      "title": "Cliente frontend del pipeline de audio",
+      "status": "open",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.production"],
+      "evidence": ["src/routes/api.audiocore.advanced.ts", "docs/IMPLEMENTATION-MATRIX.md"],
+      "tests": [],
+      "note": "La ruta existente responde como capacidad no disponible; la UI no consume el pipeline ni simula generación."
+    },
+    {
+      "id": "planning.implementation-matrix",
+      "title": "Matriz de implementación de paquetefinal.md",
+      "status": "documented",
+      "publicSkills": [],
+      "capabilities": [],
+      "evidence": ["docs/IMPLEMENTATION-MATRIX.md"],
+      "tests": [],
+      "note": "Mapea cada propuesta a implemented, contract, documented, blocked, not-applicable u open; no convierte documentación en ejecución."
     },
     {
       "id": "release.signing",

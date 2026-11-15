@@ -936,6 +936,9 @@ function buildReviewPacket(audit) {
     "docs/ACADEMIC-EVALUATION.md",
     "docs/SOVEREIGN-V3.md",
     "docs/AUDIO-ORCHESTRATION.md",
+    "docs/AUDIO-PIPELINE.md",
+    "docs/PRODUCT-POSITIONING.md",
+    "docs/IMPLEMENTATION-MATRIX.md",
     "docs/PUBLIC-FOOTPRINT.md",
     "skills.sh.json",
     "tamv-genesis/v3/pack.json",
@@ -956,11 +959,18 @@ function buildReviewPacket(audit) {
     "tamv-genesis/src/audio/contracts.ts",
     "tamv-genesis/src/audio/gateway.ts",
     "tamv-genesis/src/audio/index.ts",
+    "tamv-genesis/src/audio/lifecycle.ts",
+    "tamv-genesis/src/audio/memory.ts",
+    "tamv-genesis/src/audio/metrics.ts",
+    "tamv-genesis/src/audio/pipeline.ts",
+    "tamv-genesis/src/audio/ports.ts",
+    "tamv-genesis/src/audio/worker.ts",
     "tamv-genesis/scripts/v3-seal.mjs",
     "tamv-genesis/scripts/v3-hybrid.mjs",
     "tamv-genesis/scripts/v3-transparency.mjs",
     "tamv-genesis/tests/sovereign.test.ts",
     "tamv-genesis/tests/audio-gateway.test.ts",
+    "tamv-genesis/tests/audio-pipeline.test.ts",
   ]
     .map((path) => {
       try {

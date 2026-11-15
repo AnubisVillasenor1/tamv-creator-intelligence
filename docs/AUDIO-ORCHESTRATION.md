@@ -13,9 +13,15 @@ falsa.
 |---|---|---|
 | Validación estricta de peticiones | `tamv-genesis/src/audio/contracts.ts` | Implementada y probada. |
 | Gateway de orquestación | `tamv-genesis/src/audio/gateway.ts` | Implementado y probado con puertos inyectados. |
+| Ciclo de vida, worker y reintentos | `tamv-genesis/src/audio/{lifecycle,worker}.ts` | Implementados y probados en proceso. |
+| Métricas Prometheus | `tamv-genesis/src/audio/metrics.ts` | Implementadas y probadas sin dependencias. |
 | Normalización DSP honesta | `tamv-genesis/src/audio/contracts.ts` | Implementada y probada. |
 | Pruebas | `tamv-genesis/tests/audio-gateway.test.ts` | 11 pruebas locales. |
-| Registro de cierre | `tamv-genesis/v3/closure.json` | Módulo `audio.gateway.contract` = `contract`. |
+| Pruebas del pipeline | `tamv-genesis/tests/audio-pipeline.test.ts` | 12 pruebas locales. |
+| Registro de cierre | `tamv-genesis/v3/closure.json` | Módulos `audio.gateway.contract` y `audio.pipeline.contract` = `contract`. |
+
+La referencia completa del pipeline está en
+[`docs/AUDIO-PIPELINE.md`](AUDIO-PIPELINE.md).
 
 Lo que el gateway hace, en orden:
 
@@ -32,9 +38,11 @@ Lo que el gateway hace, en orden:
 ## 2. Qué no está implementado
 
 - No hay proveedor de generación musical conectado.
-- No hay worker, cola durable, Redis ni BullMQ.
+- No hay worker persistente ni daemon; existe un worker in-process invocado por
+  `runOnce()`, sin Redis ni BullMQ.
+- No hay cola durable: el adaptador por defecto vive en memoria.
 - No hay tablas Drizzle/Postgres nuevas ni migraciones.
-- No hay bucket MinIO ni almacenamiento de audio.
+- No hay bucket MinIO ni almacenamiento duradero de audio.
 - No hay Docker Compose de audio.
 - No hay cálculo real de true peak, LUFS ni chroma.
 

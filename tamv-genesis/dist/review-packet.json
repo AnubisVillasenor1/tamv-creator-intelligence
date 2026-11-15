@@ -891,7 +891,7 @@
       "id": "K-18",
       "label": "Gobernanza de material sensible",
       "status": "pass",
-      "detail": "112 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "detail": "121 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
       "blocking": true
     },
     {
@@ -905,7 +905,7 @@
       "id": "K-20",
       "label": "Registro de cierre de skills, módulos y capacidades",
       "status": "pass",
-      "detail": "13 módulos; 19 capacidades y 4 skills cubiertas; sin módulos closed sin pruebas.",
+      "detail": "23 módulos; 19 capacidades y 4 skills cubiertas; sin módulos closed sin pruebas.",
       "blocking": true
     }
   ],
@@ -937,12 +937,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:947fb0f5f9b88d0b7c7f43b69bb2df2b3682ecfa85c571ed8d4d8c14b153240a",
-      "bytes": 19673
+      "sha256": "sha256:01a51a479556e3f84c3b4fdc750b19478cdeda4ea2358e98b26a79978ec8d099",
+      "bytes": 20475
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:114608c014f0be2e52140f402500e5aab082714ed5d31b72b8422105b21d8abe",
+      "sha256": "sha256:30610e187755cc55e3f8eef349eec94826201b6754780dec4e281f800726bf10",
       "bytes": 4285
     },
     {
@@ -1037,8 +1037,23 @@
     },
     {
       "path": "docs/AUDIO-ORCHESTRATION.md",
-      "sha256": "sha256:d3894bd0f63df3ecdb9944d20dcf9fd0432d8be07c3cfaa74b2c10c9ebe18677",
-      "bytes": 5114
+      "sha256": "sha256:0bdd567bd9aba1825ed4cd6847529acdfdb9875297bc9bf609cee1c7997af3b5",
+      "bytes": 5706
+    },
+    {
+      "path": "docs/AUDIO-PIPELINE.md",
+      "sha256": "sha256:356ae9dba27c2e49ddcd47e9633ad54952013915ac01a75a3b1d45c0484c7e07",
+      "bytes": 7649
+    },
+    {
+      "path": "docs/PRODUCT-POSITIONING.md",
+      "sha256": "sha256:96eeb7a713bc480cc1e2e4191b7c85f5539a973d04df21e2ee7cbc449cf6b09d",
+      "bytes": 4309
+    },
+    {
+      "path": "docs/IMPLEMENTATION-MATRIX.md",
+      "sha256": "sha256:0afe3b5cea80362f631ab338b41e28dd95c8d2c12515d91ae9262e39234ef3a8",
+      "bytes": 3954
     },
     {
       "path": "docs/PUBLIC-FOOTPRINT.md",
@@ -1057,8 +1072,8 @@
     },
     {
       "path": "tamv-genesis/v3/closure.json",
-      "sha256": "sha256:24e016b0d99c84bdd76ef883815bdddcbd57d1f7438c05a9770f7a423d750a2d",
-      "bytes": 8147
+      "sha256": "sha256:267c3da08b53d68e4e85894ecbae4703e3036d8e2e281e1175906f0446d38f24",
+      "bytes": 13167
     },
     {
       "path": "tamv-genesis/v3/seals/pack-seal.json",
@@ -1137,8 +1152,38 @@
     },
     {
       "path": "tamv-genesis/src/audio/index.ts",
-      "sha256": "sha256:5b62035819f5337f9908557276258dbd86b4b4c281586d26cf99013d3ac74f06",
-      "bytes": 257
+      "sha256": "sha256:c91f772f9959fb921aeebd39fb9eacff69710591b3b3d4c96819f2cbdcb2d25f",
+      "bytes": 486
+    },
+    {
+      "path": "tamv-genesis/src/audio/lifecycle.ts",
+      "sha256": "sha256:282ff41d9ce85dea956bc0c0ff9d599360242aebb2f08d1a0141876250614014",
+      "bytes": 5557
+    },
+    {
+      "path": "tamv-genesis/src/audio/memory.ts",
+      "sha256": "sha256:f3ec61cc660087b4066e2f9d61e6f29b6a162e8ea0cc4c727fcecda8f2fa2a93",
+      "bytes": 7529
+    },
+    {
+      "path": "tamv-genesis/src/audio/metrics.ts",
+      "sha256": "sha256:731ff61520134f5ed7744f0ae366d00ffce158f66c344bf541ac960b051d921c",
+      "bytes": 5699
+    },
+    {
+      "path": "tamv-genesis/src/audio/pipeline.ts",
+      "sha256": "sha256:b192d35a4b4d2e5f3ff47e19184090d8a96eacf306ccc74d65acfff1b2025e37",
+      "bytes": 3990
+    },
+    {
+      "path": "tamv-genesis/src/audio/ports.ts",
+      "sha256": "sha256:a47c18761434d9217d8dcc99e1fcd81d18ab66c80b2b224d60cb7823e6bb510b",
+      "bytes": 3051
+    },
+    {
+      "path": "tamv-genesis/src/audio/worker.ts",
+      "sha256": "sha256:4d276c93a44be7ca30e9f5828c4fa566288ac796e99ee1e2789902d69fa98d86",
+      "bytes": 14957
     },
     {
       "path": "tamv-genesis/scripts/v3-seal.mjs",
@@ -1164,6 +1209,11 @@
       "path": "tamv-genesis/tests/audio-gateway.test.ts",
       "sha256": "sha256:7deca185e7108a6a5b20a2f506feb251862c2b4223f3ab66137c5d3ba69da326",
       "bytes": 7523
+    },
+    {
+      "path": "tamv-genesis/tests/audio-pipeline.test.ts",
+      "sha256": "sha256:46ff4bbf64a7ac82d0a6ebd0514a5a42611e5438166b40c7c8c54c8088c93150",
+      "bytes": 14029
     }
   ],
   "limitations": [
