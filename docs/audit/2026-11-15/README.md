@@ -107,6 +107,26 @@ El PR #9 se encuentra fusionado en `main`. Los dos workflows reportados para el 
 
 **Criterio de cierre:** prueba de integración reproducible por servicio y evidencia del entorno de prueba.
 
+#### P1.5 — Orden cronológico de la cadena de auditoría bajo concurrencia no demostrado
+
+**Evidencia:** el ledger SQL utiliza una columna identity como orden de consulta y un trigger que serializa el cálculo del hash anterior. El repositorio no aporta una prueba de integración PostgreSQL concurrente que demuestre que el orden de asignación de identidad siempre coincide con el orden serializado de la cadena.
+
+**Riesgo:** una cadena puede parecer íntegra en pruebas secuenciales y no conservar el orden esperado en condiciones concurrentes. No debe tratarse como registro cronológico resistente a alteraciones hasta resolver y probar esta propiedad.
+
+**Acción requerida:** solicitar al responsable de esquema una corrección mediante el flujo de Lovable, sin editar manualmente `drizzle/` ni las migraciones administradas. El diseño debe asignar el orden canónico dentro de la sección crítica de serialización o usar un mecanismo equivalente probado; añadir pruebas concurrentes reales que verifiquen continuidad de hashes y orden canónico.
+
+**Criterio de cierre:** prueba de concurrencia contra PostgreSQL que demuestre cero bifurcaciones, cero enlaces fuera de orden y verificación completa de la cadena después de múltiples inserciones simultáneas.
+
+#### P1.6 — Puerto de auditoría del orquestador sin adaptador durable de producción acreditado
+
+**Evidencia:** `AuditPort.append` es una interfaz requerida por el orquestador, pero una interfaz y sus pruebas unitarias no demuestran que el flujo protegido esté conectado a un adaptador persistente y durable en el entorno de despliegue.
+
+**Riesgo:** una ruta de ejecución podría carecer de un registro duradero si se conecta un adaptador en memoria, se omite el wiring o se pierden eventos durante una caída.
+
+**Acción requerida:** localizar y verificar el punto de composición del runtime, implementar un adaptador server-only durable, fallar de forma cerrada ante error de escritura y vincular cada evento con trace, operación, commit y evidencia mínima sin almacenar contenido sensible.
+
+**Criterio de cierre:** prueba de extremo a extremo con fallo inducido del almacenamiento, reinicio del proceso y lectura posterior del registro; el evento no puede desaparecer silenciosamente ni declarar éxito sin persistencia.
+
 ### P2 — Deuda de producto, mantenibilidad y documentación
 
 #### P2.1 — Skills públicas con estado documental
