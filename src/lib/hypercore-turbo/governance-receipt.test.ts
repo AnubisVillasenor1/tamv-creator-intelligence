@@ -36,6 +36,8 @@ describe("governance operation receipts", () => {
       .toContain("RECEIPT_NOT_OBJECT");
     expect(validateGovernanceReceipt({ ...receipt, evidence: [null] as unknown as GovernanceOperationReceipt["evidence"] }).errors)
       .toContain("EVIDENCE_ITEM_INVALID");
+    expect(validateGovernanceReceipt({ ...receipt, actorRef: 12345678 as unknown as string }).errors)
+      .toContain("ACTOR_REF_NOT_OPAQUE");
   });
 
   it("rejects success without evidence", () => {
