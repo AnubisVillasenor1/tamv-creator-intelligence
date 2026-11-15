@@ -1,7 +1,7 @@
 {
   "schema": "tamv.genesis.review-packet.v1",
   "version": "2.0.0",
-  "generatedAt": "2026-11-13T00:00:00Z",
+  "generatedAt": "2026-11-15T00:00:00Z",
   "purpose": "Paquete de evaluación para revisión externa. No es una certificación, un dictamen legal ni una validación académica.",
   "subject": {
     "identity": {
@@ -27,7 +27,7 @@
   "scorecard": {
     "schema": "tamv.scorecard.v1",
     "subject": "TAMV Creator Intelligence — tamv-genesis v2.0.0",
-    "generatedAt": "2026-11-13",
+    "generatedAt": "2026-11-15",
     "scale": "0-100",
     "weightedScore": 58.6,
     "rawWeightedScore": 58.6,
@@ -80,8 +80,8 @@
         "label": "Consistencia documental",
         "weight": 10,
         "score": 72,
-        "evidence": "Versión y URL corregidas; contratos de skill base siguen con marcadores de posición.",
-        "nextPoint": "Generar el registro de skills desde los SKILL.md y eliminar textos de relleno."
+        "evidence": "Cuatro skills públicas agrupan los 37 contratos internos; el inventario y sus archivos SKILL.md se validan en CI.",
+        "nextPoint": "Mantener el índice público y los contratos internos sincronizados en CI."
       },
       {
         "id": "D7-capability-honesty",
@@ -183,9 +183,9 @@
       {
         "id": "G10-agent-discovery",
         "label": "Ruta de descubrimiento para agentes",
-        "passed": false,
+        "passed": true,
         "blocking": false,
-        "detail": "install.sh copia a .tamv/skills; los agentes buscan .claude/skills u otra ruta declarada."
+        "detail": "skills.sh.json publica cuatro skills v3; install.sh coloca los 37 contratos internos en .agents/skills y CI valida ambos inventarios."
       }
     ]
   },
@@ -891,7 +891,7 @@
       "id": "K-18",
       "label": "Gobernanza de material sensible",
       "status": "pass",
-      "detail": "121 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "detail": "128 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
       "blocking": true
     },
     {
@@ -942,7 +942,7 @@
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:30610e187755cc55e3f8eef349eec94826201b6754780dec4e281f800726bf10",
+      "sha256": "sha256:a3fa6345339dd8b37bbcd80ed57ac2cde41b308ad4ad2d19019b638c920390c6",
       "bytes": 4285
     },
     {
@@ -972,8 +972,8 @@
     },
     {
       "path": "tamv-genesis/data/scorecard.json",
-      "sha256": "sha256:522ca913b13df0515a87470689f6135a17f41e8c5f946520cef77d41843e6ad8",
-      "bytes": 6235
+      "sha256": "sha256:16c17acefb55a028a70bd3eb1d3ef04bc70cda789a1e7748a36dfef7895ae5eb",
+      "bytes": 6302
     },
     {
       "path": "tamv-genesis/data/knowledge-sources.json",

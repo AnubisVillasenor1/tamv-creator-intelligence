@@ -57,7 +57,7 @@
       "hypercore/govern-core/policy.json": "sha256:4d72fef2f6ac0a3deaf750dddef64d0ace005ba58bf9e4861a45ae6e54e37775",
       "hypercore/velocity-core/turbo-config.json": "sha256:c3b789d7eabf70b4a5785c919e1340062aae044776e4958ddf894ada54ac5253",
       "src/routes/api.tamv.hypercore.audit.ts": "sha256:4d900de4812ac2f066b3d0e37615854f70c76ef2b7fc197a9e3fdd31b1485776",
-      "src/routes/hypercore.tsx": "sha256:a2f03054c57b6befec97368f6683092a5242f3f9d13295863bde537961e2290a",
+      "src/routes/hypercore.tsx": "sha256:279f6e4c552e37ffc871fcdfa7427a0d63c0138fb8d9d667d1ff8e12a45f7552",
       "src/lib/hypercore-turbo/parallel-runner.ts": "sha256:4aae0f26df72ad6a60518a5bd2ee9131a747bd6735954cd929b23ad962901804",
       "scripts/verify-slsa.sh": "sha256:ce6270d7514e60aa6bfed0c62e9ee1a35f2b222b8468146e9d2e23a3f7705b68"
     }

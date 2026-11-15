@@ -1,7 +1,7 @@
 {
   "schema": "tamv.genesis.bundle.v1",
   "version": "2.0.0",
-  "generatedAt": "2026-11-13T00:00:00Z",
+  "generatedAt": "2026-11-15T00:00:00Z",
   "identity": {
     "schema": "tamv.identity.v1",
     "subject": {
@@ -1553,7 +1553,7 @@
   "scorecard": {
     "schema": "tamv.scorecard.v1",
     "subject": "TAMV Creator Intelligence — tamv-genesis v2.0.0",
-    "generatedAt": "2026-11-13",
+    "generatedAt": "2026-11-15",
     "scale": "0-100",
     "weightedScore": 58.6,
     "rawWeightedScore": 58.6,
@@ -1606,8 +1606,8 @@
         "label": "Consistencia documental",
         "weight": 10,
         "score": 72,
-        "evidence": "Versión y URL corregidas; contratos de skill base siguen con marcadores de posición.",
-        "nextPoint": "Generar el registro de skills desde los SKILL.md y eliminar textos de relleno."
+        "evidence": "Cuatro skills públicas agrupan los 37 contratos internos; el inventario y sus archivos SKILL.md se validan en CI.",
+        "nextPoint": "Mantener el índice público y los contratos internos sincronizados en CI."
       },
       {
         "id": "D7-capability-honesty",
@@ -1709,9 +1709,9 @@
       {
         "id": "G10-agent-discovery",
         "label": "Ruta de descubrimiento para agentes",
-        "passed": false,
+        "passed": true,
         "blocking": false,
-        "detail": "install.sh copia a .tamv/skills; los agentes buscan .claude/skills u otra ruta declarada."
+        "detail": "skills.sh.json publica cuatro skills v3; install.sh coloca los 37 contratos internos en .agents/skills y CI valida ambos inventarios."
       }
     ]
   },
@@ -4630,7 +4630,7 @@
       "id": "K-18",
       "label": "Gobernanza de material sensible",
       "status": "pass",
-      "detail": "121 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "detail": "128 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
       "blocking": true
     },
     {

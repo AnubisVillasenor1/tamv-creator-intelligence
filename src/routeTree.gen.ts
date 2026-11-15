@@ -15,6 +15,7 @@ import { Route as SovereigntyRouteImport } from './routes/sovereignty'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
+import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
 import { Route as ApiTamvGenesisRouteImport } from './routes/api.tamv.genesis'
 import { Route as ApiTamvStatusRouteImport } from './routes/api.tamv.status'
 import { Route as ApiVoiceGenerateRouteImport } from './routes/api.voice.generate'
@@ -51,6 +52,11 @@ const ApiAudiocoreAdvancedRoute = ApiAudiocoreAdvancedRouteImport.update({
   path: '/api/audiocore/advanced',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiGovernanceReceiptsRoute = ApiGovernanceReceiptsRouteImport.update({
+  id: '/api/governance/receipts',
+  path: '/api/governance/receipts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiTamvGenesisRoute = ApiTamvGenesisRouteImport.update({
   id: '/api/tamv/genesis',
   path: '/api/tamv/genesis',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
   '/api/voice/generate': typeof ApiVoiceGenerateRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
   '/api/voice/generate': typeof ApiVoiceGenerateRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
   '/api/voice/generate': typeof ApiVoiceGenerateRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/api/agent'
     | '/api/generation'
     | '/api/audiocore/advanced'
+    | '/api/governance/receipts'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
     | '/api/voice/generate'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/api/agent'
     | '/api/generation'
     | '/api/audiocore/advanced'
+    | '/api/governance/receipts'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
     | '/api/voice/generate'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/api/agent'
     | '/api/generation'
     | '/api/audiocore/advanced'
+    | '/api/governance/receipts'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
     | '/api/voice/generate'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   ApiAgentRoute: typeof ApiAgentRoute
   ApiGenerationRoute: typeof ApiGenerationRoute
   ApiAudiocoreAdvancedRoute: typeof ApiAudiocoreAdvancedRoute
+  ApiGovernanceReceiptsRoute: typeof ApiGovernanceReceiptsRoute
   ApiTamvGenesisRoute: typeof ApiTamvGenesisRoute
   ApiTamvStatusRoute: typeof ApiTamvStatusRoute
   ApiVoiceGenerateRoute: typeof ApiVoiceGenerateRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAudiocoreAdvancedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/governance/receipts': {
+      id: '/api/governance/receipts'
+      path: '/api/governance/receipts'
+      fullPath: '/api/governance/receipts'
+      preLoaderRoute: typeof ApiGovernanceReceiptsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/tamv/genesis': {
       id: '/api/tamv/genesis'
       path: '/api/tamv/genesis'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAgentRoute: ApiAgentRoute,
   ApiGenerationRoute: ApiGenerationRoute,
   ApiAudiocoreAdvancedRoute: ApiAudiocoreAdvancedRoute,
+  ApiGovernanceReceiptsRoute: ApiGovernanceReceiptsRoute,
   ApiTamvGenesisRoute: ApiTamvGenesisRoute,
   ApiTamvStatusRoute: ApiTamvStatusRoute,
   ApiVoiceGenerateRoute: ApiVoiceGenerateRoute,
