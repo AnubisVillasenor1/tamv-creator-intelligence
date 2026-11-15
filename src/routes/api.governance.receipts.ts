@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { GOVERN_CORE_POLICY, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
 import {
   isBearerTokenWithinLimit,
+  isDeclaredContentLengthWithinLimit,
   isJsonContentType,
   readBoundedRequestBody,
 } from "../lib/hypercore-turbo/governance-request-guards";
@@ -25,7 +26,10 @@ const OPERATIONS = new Set<GovernanceOperation>([
 ]);
 
 function noStoreHeaders(): HeadersInit {
-  return { "Cache-Control": "no-store, max-age=0", "X-Content-Type-Options": "nosniff" };
+  return {
+    "Cache-Control": "no-store, max-age=0",
+    "X-Content-Type-Options": "nosniff",
+  };
 }
 
 function jsonError(message: string, status: number): Response {
@@ -35,9 +39,9 @@ function jsonError(message: string, status: number): Response {
 async function authenticate(request: Request): Promise<{ actorRef: string } | Response> {
   const authorization = request.headers.get("authorization");
   const token = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
-  const url = process.env['SUPABASE_URL'];
-  const publishableKey = process.env['SUPABASE_PUBLISHABLE_KEY'];
-  const actorSalt = process.env['TAMV_GOVERNANCE_ACTOR_SALT'];
+  const url = process.env["SUPABASE_URL"];
+  const publishableKey = process.env["SUPABASE_PUBLISHABLE_KEY"];
+  const actorSalt = process.env["TAMV_GOVERNANCE_ACTOR_SALT"];
 
   if (!url || !publishableKey || !actorSalt || actorSalt.length < 32) {
     return jsonError("Governance authentication is not configured", 503);
@@ -51,6 +55,7 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
       method: "GET",
       headers: { apikey: publishableKey, Authorization: `Bearer ${token}` },
       cache: "no-store",
+      signal: AbortSignal.timeout(5_000),
     });
   } catch {
     return jsonError("Identity provider unavailable", 503);
@@ -63,6 +68,7 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
   } catch {
     return jsonError("Identity provider returned an invalid response", 503);
   }
+
   if (typeof user.id !== "string" || !/^[0-9a-f-]{20,64}$/i.test(user.id)) {
     return jsonError("Authenticated identity is invalid", 401);
   }
@@ -106,8 +112,10 @@ export const Route = createFileRoute("/api/governance/receipts")({
         if (!isJsonContentType(contentType)) {
           return jsonError("Content-Type must be application/json", 415);
         }
-        const declaredLength = Number(request.headers.get("content-length") ?? "0");
-        if (declaredLength > MAX_BODY_BYTES) return jsonError("Request body too large", 413);
+        const declaredLength = request.headers.get("content-length");
+        if (!isDeclaredContentLengthWithinLimit(declaredLength, MAX_BODY_BYTES)) {
+          return jsonError("Invalid or oversized Content-Length", declaredLength !== null && /^\d+$/.test(declaredLength) ? 413 : 400);
+        }
 
         const boundedBody = await readBoundedRequestBody(request, MAX_BODY_BYTES);
         if (!boundedBody.ok) {
@@ -148,7 +156,10 @@ export const Route = createFileRoute("/api/governance/receipts")({
 
         const now = new Date().toISOString();
         const operation = input.operation as GovernanceOperation;
+        // Persist only an actor-scoped digest. A globally unique database
+        // constraint must not let one actor reserve another actor's raw key.
         const binding = `${identity.actorRef}:${idempotencyKey}`;
+        const scopedIdempotencyKey = await stableId("idem", binding);
         const receipt: GovernanceOperationReceipt = {
           schema: "tamv.governance.receipt.v1",
           receiptId: await stableId("receipt", binding),
@@ -161,7 +172,7 @@ export const Route = createFileRoute("/api/governance/receipts")({
           sourceCommitSha: input.sourceCommitSha,
           artifactSha256: input.artifactSha256,
           policyVersion: GOVERN_CORE_POLICY.version,
-          idempotencyKey,
+          idempotencyKey: scopedIdempotencyKey,
           startedAt: now,
           recordedAt: now,
           evidence: [],
