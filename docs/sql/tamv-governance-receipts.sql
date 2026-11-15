@@ -50,7 +50,7 @@ create or replace function public.tamv_guard_governance_receipt_update()
 returns trigger
 language plpgsql
 security definer
-set search_path = public, pg_temp
+set search_path = pg_catalog, public, pg_temp
 as $$
 begin
   if new.receipt_id <> old.receipt_id
@@ -93,7 +93,7 @@ create or replace function public.tamv_append_governance_receipt_event()
 returns trigger
 language plpgsql
 security definer
-set search_path = public, pg_temp
+set search_path = pg_catalog, public, pg_temp
 as $$
 begin
   insert into public.tamv_governance_receipt_events (
