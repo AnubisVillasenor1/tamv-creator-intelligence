@@ -8,6 +8,8 @@ import { URL } from "node:url";
 
 const strict = process.argv.includes("--strict");
 const checks = [
+  { group: "Runtime environment", key: "NODE_ENV", required: true, validate: (v) => v === "production" },
+  { group: "Runtime environment", key: "TAMV_DEPLOYMENT_ENV", required: true, validate: (v) => v.trim().toLowerCase() === "production" && (!process.env.VERCEL_ENV || process.env.VERCEL_ENV.trim().toLowerCase() === "production") },
   { group: "Supabase identity and persistence", key: "SUPABASE_URL", required: true, validate: isHttpsUrl },
   { group: "Supabase identity and persistence", key: "SUPABASE_PUBLISHABLE_KEY", required: true },
   { group: "Supabase identity and persistence", key: "SUPABASE_SERVICE_ROLE_KEY", required: true },
