@@ -31,6 +31,13 @@ describe("governance operation receipts", () => {
     expect(validateGovernanceReceipt(receipt)).toEqual({ valid: true, errors: [] });
   });
 
+  it("rejects malformed runtime payloads without throwing", () => {
+    expect(validateGovernanceReceipt(null as unknown as GovernanceOperationReceipt).errors)
+      .toContain("RECEIPT_NOT_OBJECT");
+    expect(validateGovernanceReceipt({ ...receipt, evidence: [null] as unknown as GovernanceOperationReceipt["evidence"] }).errors)
+      .toContain("EVIDENCE_ITEM_INVALID");
+  });
+
   it("rejects success without evidence", () => {
     expect(validateGovernanceReceipt({ ...receipt, evidence: [] }).errors)
       .toContain("SUCCESS_WITHOUT_EVIDENCE");
