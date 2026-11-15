@@ -5,6 +5,8 @@
 **Rama de trabajo:** `audit/public-disclosure-hardening`  
 **Alcance:** revisión estática de documentación de arquitectura, inventario de cierre, políticas, scripts declarados, paquete y estado de CI disponible durante esta revisión. No equivale a una auditoría de penetración ni a una validación de la infraestructura externa.
 
+> Este informe conserva el contexto de la auditoría anterior. Para el corte operativo actual, las correcciones propuestas y los hallazgos adicionales detectados el 15 de noviembre, consulta la [auditoría profunda e implementación de correcciones](DEEP-AUDIT-IMPLEMENTATION-REPORT.md).
+
 ## 1. Dictamen ejecutivo
 
 El proyecto contiene código ejecutable, pruebas automatizadas y controles de integridad; sin embargo, el conjunto no puede declararse libre de deuda técnica ni certificado para producción. Hay dependencias externas pendientes, capacidades descritas como contratos, un release que declara firma pendiente y controles operativos que requieren pruebas en infraestructura real.

@@ -25,6 +25,7 @@
 ## Despliegue, hardening y recuperación
 
 - [Preparación de despliegue — 15 de noviembre de 2026](DEPLOYMENT-READINESS-2026-11-15.md).
+- [Solicitud de cambio de esquema — Hyper-Core](SCHEMA-CHANGE-REQUEST-HYPERCORE-LEDGER.md): especificación de remediación pendiente para el propietario de esquema; no es migración ejecutable.
 - [Aislamiento de entornos y gates de integraciones](DEPLOYMENT-ENVIRONMENT-ISOLATION.md): criterios separados para local, CI, Preview, staging y producción.
 - [ADR-003 — aislamiento y evidencia](adr/ADR-003-environment-isolation-and-evidence.md): política de clasificación de entorno y evidencia ligada al artefacto.
 - [Plan de hardening de producción](PRODUCTION-HARDENING-PLAN.md).
@@ -37,6 +38,7 @@
 
 - [Matriz de cobertura documental](DOCUMENTATION-COVERAGE-MATRIX.md): fuentes canónicas, vacíos, criterios de actualización y límites de inferencia.
 - [Auditoría técnica y registro de deuda — 15 de noviembre de 2026](audit/2026-11-15/README.md).
+- [Auditoría profunda e implementación de correcciones](audit/2026-11-15/DEEP-AUDIT-IMPLEMENTATION-REPORT.md): hallazgos reproducibles, cambios, validaciones y bloqueos externos.
 - [Auditoría del 13 de noviembre de 2026](audit/2026-11-13/README.md).
 - [Registro técnico de deuda](TECHNICAL-AUDIT-AND-DEBT-REGISTER.md).
 - [Evaluación académica](ACADEMIC-EVALUATION.md): alcance evaluativo y límites de las afirmaciones.

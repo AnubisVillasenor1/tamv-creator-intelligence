@@ -39,6 +39,24 @@ jobs:
       - name: Verify PostgreSQL ledger probe safety guards
         run: bun run test:ledger-guard
 
+      - name: Test static audit-ledger ordering detector
+        run: python3 scripts/test-audit-migration-validator.py
+
+      - name: Validate audit-ledger migration invariants (advisory)
+        run: python3 scripts/validate-audit-migration.py
+
+      - name: Validate governance receipt SQL invariants
+        run: node scripts/validate-governance-receipts-sql.mjs
+
+      - name: Validate capability closure inventory
+        run: node scripts/validate-closure-inventory.mjs
+
+      - name: Test documentation link validator
+        run: bun run docs:check:test
+
+      - name: Validate maintained documentation references
+        run: bun run docs:check
+
       - name: Test secret-safe production environment preflight
         run: bun run ops:preflight:test
 

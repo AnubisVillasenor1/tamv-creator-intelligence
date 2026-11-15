@@ -33,6 +33,7 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Operación general | [OPERATIONS.md](OPERATIONS.md) | [GOVERNANCE-RECEIPTS-OPERATIONS.md](GOVERNANCE-RECEIPTS-OPERATIONS.md) | Un procedimiento no prueba que el servicio esté conectado |
 | Despliegue | [DEPLOYMENT-READINESS-2026-11-15.md](DEPLOYMENT-READINESS-2026-11-15.md) | [PRODUCTION-EVIDENCE-GATES.md](PRODUCTION-EVIDENCE-GATES.md) | Un check de Vercel no acredita integridad de datos ni firma |
 | Aislamiento de entornos | [DEPLOYMENT-ENVIRONMENT-ISOLATION.md](DEPLOYMENT-ENVIRONMENT-ISOLATION.md) y [ADR-003](adr/ADR-003-environment-isolation-and-evidence.md) | RFC de entorno/operaciones de Isabella y ADR de Play & Go | No confirma que las variables o scopes reales de Vercel estén bien configurados |
+| Orden del Hyper-Core ledger | [Solicitud de cambio de esquema](SCHEMA-CHANGE-REQUEST-HYPERCORE-LEDGER.md), `scripts/validate-audit-migration.py`, `scripts/test-audit-migration-validator.py` | `drizzle/migrations/0000_hypercore_audit_ledger.sql`, [Issue #14](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/issues/14) | El cambio de esquema sólo puede aplicarse por Lovable; la prueba estática no reemplaza el probe PostgreSQL live |
 | Hardening | [PRODUCTION-HARDENING-PLAN.md](PRODUCTION-HARDENING-PLAN.md) | [TECHNICAL-AUDIT-AND-DEBT-REGISTER.md](TECHNICAL-AUDIT-AND-DEBT-REGISTER.md) | Una lista de tareas no demuestra remediación |
 | Auditoría técnica | [audit/2026-11-15/README.md](audit/2026-11-15/README.md) | [AUDIT-TECHNICAL-2026-11-13.md](AUDIT-TECHNICAL-2026-11-13.md) | Las conclusiones históricas no son un score actual |
 | Firma e integridad | [RELEASE-SIGNING.md](RELEASE-SIGNING.md) | `tamv-attribution.json`, `tamv-attribution.sig`, `scripts/tamv-certification.mjs` | Hashes sin firma válida no certifican el release |
@@ -44,6 +45,7 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Legal y derechos | [legal/AI-GOVERNANCE-POLICY.md](legal/AI-GOVERNANCE-POLICY.md) | [legal/DATA-PROTECTION-AND-CREATOR-RIGHTS.md](legal/DATA-PROTECTION-AND-CREATOR-RIGHTS.md), [legal/REGULATORY-MATRIX.md](legal/REGULATORY-MATRIX.md) | La documentación no sustituye revisión jurídica competente |
 | Seguridad | [SECURITY.md](../SECURITY.md) | [audit/2026-11-13/THREAT-MODEL.md](audit/2026-11-13/THREAT-MODEL.md) | Una política no equivale a una prueba de penetración |
 | Integridad de enlaces | `scripts/validate-documentation-links.mjs` | `scripts/test-documentation-links.mjs`, CI | Comprueba rutas/anclas Markdown de documentos mantenidos, no la veracidad semántica ni los enlaces externos |
+| Reproducibilidad de toolchain | `.github/workflows/ci.yml`, `.github/workflows/tamv-creator-intelligence-ci.yml`, `.github/workflows/validate-pack.yml` | SHA fijados de actions y Bun 1.3.5 | Requiere CI verde sobre el SHA exacto de esta rama y revisión de las reglas de branch protection |
 | Gobernanza del proyecto | [GOVERNANCE.md](../GOVERNANCE.md) | [PUBLIC-FOOTPRINT.md](PUBLIC-FOOTPRINT.md) | Una política propuesta no demuestra que exista un proceso institucional activo |
 
 ## 3. Vacíos identificados y tratamiento
@@ -58,14 +60,28 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Los cambios propuestos en PRs abiertos no forman parte de `main` hasta fusionarse | Se registra la separación de ramas y evidencia abajo | No anunciar esos gates como disponibles en `main` antes de merge + CI |
 | El registro de cierre no tiene el mismo significado que aceptación de producción | Se explicita en arquitectura y criterios de cierre | Mantener por separado estados de código, integración y entorno |
 
-## 4. Cambios recientes que aún no son parte de main
+## 4. Cambios integrados y gates pendientes — corte 2026-11-15
 
-En el momento de esta revisión, estos pull requests estaban abiertos y no fusionados:
+Los siguientes cambios se verificaron en el historial de GitHub y están integrados en `main`:
+- [PR #16 — preflight de entorno](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/16): comprobaciones de presencia/formato de variables y pruebas de no filtración.
+- [PR #17 — cierre de inventario de capacidades](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/17): validación de capacidades, estados y rutas de evidencia.
+- [PR #18 — documentación e integridad de enlaces](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/18): referencia de arquitectura, fuentes externas, runbook y validador documental.
+- [PR #19 — fallback de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/19), [PR #20 — target Vercel desconocido](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/20), [PR #21 — hardening adicional de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/21) y [PR #24 — clasificación explícita de entorno](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/24): controles fail-closed para cuotas y preflight estricto de producción.
 
-- [PR #16 — preflight de entorno de producción](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/16): validación de presencia/formato de variables y pruebas de no filtración. No valida conectividad real ni credenciales.
-- [PR #17 — validación de cierre de capacidades](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/17): consistencia de inventarios, estados, rutas de evidencia y cobertura. No ejecuta proveedores ni verifica pruebas citadas.
+Los PR #22 y #25 se cerraron como actualizaciones documentales obsoletas después de cambiar el estado de `main`; no se consideran cambios integrados.
 
-Esta nota es una instantánea de revisión; comprobar el estado actual de ambos PR antes de usarla como estado vigente. La documentación de un cambio no lo integra en la rama principal.
+### Gates externos aún pendientes
+
+| Gate | Estado verificado | Condición de cierre |
+|---|---|---|
+| PostgreSQL ledger | P0 bloqueado por diseño de secuencia/trigger | Esquema aprobado por Lovable, probe concurrente, cadena íntegra y pruebas de permisos/RLS en PostgreSQL desechable |
+| Redis/Upstash | Implementación y pruebas unitarias presentes; live no verificado | Cuota agregada desde procesos independientes, expiración, límite diario, outage y rotación |
+| AuditPort | No conectado a operación protegida con evidencia durable | Append durable integrado; fallo de append impide ejecutar la acción protegida |
+| Firma/procedencia de release | Sin evidencia de firma/atestación del artefacto vigente | Firma Ed25519, SBOM y atestación del digest exacto verificada en entorno limpio |
+| Vercel | Check falla con destino `upgradeToPro=build-rate-limit`; scope administrativo inaccesible por la integración conectada | Propietario confirma el límite/build plan, proyecto/repositorio/branch/SHA y reintenta deployment |
+| Capacidades no implementadas | Varias rutas devuelven 501 intencionalmente | Implementar proveedor/worker específico y pruebas reales; no declarar capacidades operativas desde contratos |
+
+Los checks de GitHub Actions y la configuración de Vercel son evidencias separadas. No convertir un workflow verde ni un deployment READY en afirmación de integración live, restauración, firma, autorización o persistencia.
 
 ## 5. Política de actualización documental
 
@@ -82,6 +98,8 @@ En cada PR que cambie comportamiento, contratos o despliegue:
 - [ ] Revisar enlaces internos y ejecutar los validadores disponibles.
 
 No usar porcentajes subjetivos de completitud. Si se necesita un score, publicar rúbrica, denominador, commit, evidencias y bloqueos excluidos.
+
+Para el análisis ejecutado y los límites actuales, consulta [la auditoría profunda](audit/2026-11-15/DEEP-AUDIT-IMPLEMENTATION-REPORT.md).
 
 ## Validación de documentación canónica
 

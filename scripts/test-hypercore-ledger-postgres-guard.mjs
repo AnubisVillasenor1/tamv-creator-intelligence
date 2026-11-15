@@ -37,6 +37,11 @@ const cases = [
     expected: "test database URL is invalid",
   },
   {
+    name: "rejects malformed percent-encoding in database name",
+    env: { TAMV_HYPERCORE_TEST_DATABASE_URL: "postgres://localhost:5432/tamv_%E0%A4%A_test" },
+    expected: "database name has malformed percent-encoding",
+  },
+  {
     name: "rejects non-PostgreSQL URL scheme",
     env: { TAMV_HYPERCORE_TEST_DATABASE_URL: "https://localhost/tamv_ledger_test" },
     expected: "must use postgres:// or postgresql://",

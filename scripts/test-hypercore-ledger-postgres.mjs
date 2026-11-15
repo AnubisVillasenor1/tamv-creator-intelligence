@@ -54,7 +54,13 @@ if (!isLoopback && process.env.TAMV_HYPERCORE_TEST_ALLOW_REMOTE !== "1") {
   process.exit(64);
 }
 
-const databaseName = decodeURIComponent(parsedUrl.pathname.replace(/^\//, ""));
+let databaseName;
+try {
+  databaseName = decodeURIComponent(parsedUrl.pathname.replace(/^\//, ""));
+} catch {
+  console.error("Refusing to run: database name has malformed percent-encoding.");
+  process.exit(64);
+}
 if (!/(^|[_-])(test|tests|testing|disposable|ci)([_-]|$)/i.test(databaseName)) {
   console.error("Refusing to run: database name must contain test, disposable, or ci.");
   process.exit(64);
@@ -89,6 +95,15 @@ try {
     process.exitCode = 1;
   } else {
     console.log(`Database: ${database.database_name}; role: ${database.database_user}`);
+    const existingRows = await sql`
+      select count(*)::bigint as row_count
+      from public.tamv_hypercore_audit_events
+    `;
+    if (BigInt(existingRows[0]?.row_count ?? 0) !== 0n) {
+      throw new Error(
+        "Refusing to run: the audit ledger must be empty. Use a freshly provisioned disposable database; the probe never deletes append-only events.",
+      );
+    }
     console.log(`Submitting ${CONCURRENCY} concurrent append attempts; test trace prefix: ${tracePrefix}`);
 
     const results = await Promise.allSettled(insertedTraceIds.map(async (traceId, index) => {
@@ -135,6 +150,13 @@ try {
     }
 
     let brokenLinks = 0;
+    if (
+      rows.length > 0
+      && String(rows[0].previous_hash).trim().toLowerCase() !== "0".repeat(64)
+    ) {
+      brokenLinks += 1;
+      console.error("Broken genesis anchor: the first row must reference the 64-zero genesis hash.");
+    }
     let malformedHashes = 0;
     let digestMismatches = 0;
     for (let index = 0; index < rows.length; index += 1) {
