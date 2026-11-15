@@ -31,7 +31,7 @@ const checks = [
   ["state transition guard", /invalid governance operation status transition/],
   ["transactional append-only event trigger", /create trigger tamv_governance_receipt_event after insert or update on public\.tamv_governance_receipts/],
   ["event insert is trigger-owned", /insert into public\.tamv_governance_receipt_events/],
-  ["security-definer trigger function has constrained search_path", /security definer set search_path = public, pg_temp/],
+  ["security-definer trigger function has constrained search_path", /security definer set search_path = pg_catalog, public, pg_temp/],
 ];
 
 let failures = 0;
