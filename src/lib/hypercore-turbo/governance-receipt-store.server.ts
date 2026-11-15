@@ -277,8 +277,8 @@ export function createGovernanceReceiptStoreFromEnv(
   fetcher: typeof fetch = fetch,
 ): GovernanceReceiptStore {
   const env = typeof process === "undefined" ? undefined : process.env;
-  const supabaseUrl = env?.SUPABASE_URL ?? env?.VITE_SUPABASE_URL;
-  const serviceRoleKey = env?.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseUrl = env?.['SUPABASE_URL'] ?? env?.['VITE_SUPABASE_URL'];
+  const serviceRoleKey = env?.['SUPABASE_SERVICE_ROLE_KEY'];
 
   if (!supabaseUrl || !serviceRoleKey) {
     throw new GovernanceReceiptStoreError(
