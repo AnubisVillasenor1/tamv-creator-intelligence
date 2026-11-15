@@ -1,6 +1,12 @@
 /* global process */
 import { createHash } from "node:crypto";
-import {\n  checkReviewQuota as checkLocalReviewQuota,\n  REVIEW_BURST,\n  REVIEW_DAILY_CAP,\n  REVIEW_REFILL_PER_HOUR,\n  type ReviewQuotaDecision,\n} from "./review-guard";
+import {
+  checkReviewQuota as checkLocalReviewQuota,
+  REVIEW_BURST,
+  REVIEW_DAILY_CAP,
+  REVIEW_REFILL_PER_HOUR,
+  type ReviewQuotaDecision,
+} from "./review-guard";
 
 const REDIS_TIMEOUT_MS = 2_000;
 const REDIS_KEY_TTL_MS = 172_800_000;
