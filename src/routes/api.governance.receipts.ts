@@ -120,9 +120,6 @@ export const Route = createFileRoute("/api/governance/receipts")({
           return jsonError("Invalid or oversized Content-Length", status);
         }
 
-        const identity = await authenticate(request);
-        if (identity instanceof Response) return identity;
-
         const boundedBody = await readBoundedRequestBody(request, MAX_BODY_BYTES);
         if (!boundedBody.ok) {
           return boundedBody.reason === "too-large"
@@ -139,6 +136,10 @@ export const Route = createFileRoute("/api/governance/receipts")({
         if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
           return jsonError("Request body must be an object", 400);
         }
+
+        // Bound and parse untrusted input before invoking the remote identity provider.
+        const identity = await authenticate(request);
+        if (identity instanceof Response) return identity;
 
         const input = raw as Record<string, unknown>;
         const idempotencyKey = request.headers.get("idempotency-key") ?? "";
