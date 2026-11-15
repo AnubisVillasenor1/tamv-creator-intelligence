@@ -17,6 +17,9 @@ assert.doesNotMatch(missing.stdout, /test-secret-do-not-print/);
 
 const configuredEnv = {
   ...baseEnv,
+  NODE_ENV: "production",
+  TAMV_DEPLOYMENT_ENV: "production",
+  VERCEL_ENV: "production",
   SUPABASE_URL: "https://example.supabase.co",
   SUPABASE_PUBLISHABLE_KEY: "test-publishable-key",
   SUPABASE_SERVICE_ROLE_KEY: "test-secret-do-not-print",
@@ -41,4 +44,16 @@ const invalidUrl = spawnSync(process.execPath, [checker, "--strict"], {
 assert.notEqual(invalidUrl.status, 0, "non-HTTPS Supabase URL must fail strict mode");
 assert.match(invalidUrl.stdout, /MISSING_OR_INVALID SUPABASE_URL/);
 
-console.log("Production environment preflight tests passed (3 scenarios).");
+const nonProductionTarget = spawnSync(process.execPath, [checker, "--strict"], {
+  cwd: root, encoding: "utf8", env: { ...configuredEnv, VERCEL_ENV: "preview" },
+});
+assert.notEqual(nonProductionTarget.status, 0, "Preview must not pass the production-only preflight");
+assert.match(nonProductionTarget.stdout, /MISSING_OR_INVALID TAMV_DEPLOYMENT_ENV/);
+
+const wrongExplicitTarget = spawnSync(process.execPath, [checker, "--strict"], {
+  cwd: root, encoding: "utf8", env: { ...configuredEnv, TAMV_DEPLOYMENT_ENV: "staging" },
+});
+assert.notEqual(wrongExplicitTarget.status, 0, "staging must not pass the production-only preflight");
+assert.match(wrongExplicitTarget.stdout, /MISSING_OR_INVALID TAMV_DEPLOYMENT_ENV/);
+
+console.log("Production environment preflight tests passed (5 scenarios).");
