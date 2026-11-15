@@ -67,6 +67,9 @@ async function collectFiles(directory) {
       if (entry.isSymbolicLink()) {
         warnings.push(`Symlink not followed: ${path.relative(ROOT, fullPath)}`);
       } else if (entry.isDirectory()) {
+        if (new Set([".git", "node_modules", "dist", "build", "coverage", ".output", ".tanstack"]).has(entry.name)) {
+          continue;
+        }
         await visit(fullPath);
       } else if (entry.isFile()) {
         files.push(path.relative(ROOT, fullPath).split(path.sep).join("/"));
