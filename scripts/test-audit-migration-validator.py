@@ -38,15 +38,31 @@ SAFE_TRIGGER_REASSIGNMENT = UNSAFE_IDENTITY_TRIGGER.replace(
 
 SAFE_APPEND_FUNCTION = UNSAFE_IDENTITY_TRIGGER + """
 CREATE OR REPLACE FUNCTION public.tamv_hypercore_audit_append()
-RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $
 BEGIN
   PERFORM pg_advisory_xact_lock(hashtext('tamv_hypercore_audit_events_chain'));
   INSERT INTO public.tamv_hypercore_audit_events DEFAULT VALUES;
 END;
-$$;
+$;
 REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;
 GRANT EXECUTE ON FUNCTION public.tamv_hypercore_audit_append() TO service_role;
 """
+
+UNQUALIFIED_DIGEST_DEFINER = """
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
+CREATE OR REPLACE FUNCTION public.tamv_hypercore_audit_chain_insert()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, extensions AS $$
+BEGIN
+  NEW.event_hash := encode(digest(convert_to(payload::text, 'UTF8'), 'sha256'), 'hex');
+  RETURN NEW;
+END;
+$$;
+"""
+
+QUALIFIED_DIGEST_DEFINER = UNQUALIFIED_DIGEST_DEFINER.replace(
+    "digest(",
+    "extensions.digest(",
+)
 
 
 class ChainOrderDetectorTests(unittest.TestCase):
@@ -118,6 +134,18 @@ class ChainOrderDetectorTests(unittest.TestCase):
             "REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated;",
         )
         self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+    def test_unqualified_pgcrypto_digest_in_definer_trigger_is_reported(self) -> None:
+        findings = MODULE.security_definer_findings(UNQUALIFIED_DIGEST_DEFINER)
+        self.assertEqual(len(findings), 1)
+        self.assertIn("extensions.digest", findings[0])
+
+    def test_schema_qualified_pgcrypto_digest_is_accepted(self) -> None:
+        self.assertEqual(MODULE.security_definer_findings(QUALIFIED_DIGEST_DEFINER), [])
+
+    def test_digest_warning_is_limited_to_security_definer_function(self) -> None:
+        unsafe = UNQUALIFIED_DIGEST_DEFINER.replace(" SECURITY DEFINER", "")
+        self.assertEqual(MODULE.security_definer_findings(unsafe), [])
 
 
 if __name__ == "__main__":

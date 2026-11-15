@@ -23,8 +23,11 @@ La revisión encontró defectos de ingeniería que eran corregibles desde el rep
 | AUD-005 | P1 | Los comandos de integridad documental existían pero no estaban conectados de forma consistente a CI en `main`. | Se conectan pruebas y verificación de enlaces en los workflows de CI. | CI debe pasar para el head exacto del PR. |
 | AUD-006 | P1 | La guía de variables de entorno contenía una tabla Markdown mal formada. | Se corrigió la estructura de cabecera/separador y se mantuvo la distinción entre forma de variables y conectividad real. | Validar links y Markdown mediante CI. |
 | AUD-007 | P1 | La matriz documental reflejaba estados de PR obsoletos y no separaba integración de GitHub de estado Vercel. | La matriz ahora diferencia los PR fusionados, los gates externos pendientes y el bloqueo Vercel. | La matriz actualizada se integra sólo tras revisar y fusionar este PR. |
+| AUD-008 | P1 | El trigger `SECURITY DEFINER` instala `pgcrypto` en `extensions`, ordena `public` antes de `extensions` en `search_path` y llama `digest()` sin calificar. | El siguiente hardening añade un detector estático para exigir `extensions.digest(...)` y una regresión para la variante calificada. | El esquema gestionado por Lovable sigue sin corregirse; la alerta es conservadora hasta comprobar grants `CREATE` y aplicar la corrección aprobada. |
 
 ## Estado de integración ya confirmado
+
+Actualización posterior al corte inicial: PR #27, #28 y #29 se fusionaron después de la primera versión de esta auditoría. PR #28 fortaleció las condiciones de aceptación del detector de orden (clave de lock coincidente, `SECURITY DEFINER`, `search_path`, permisos); PR #29 cerró los bypasses por reasignación de otra secuencia y por grants explícitos de INSERT/ALL. Los cambios del detector de resolución de extensión actualmente se proponen por separado y aún requieren CI/fusión. No se confunde este hardening estático con corrección de la migración real.
 
 - PR #16–#21 y PR #24 aparecen fusionados en `main`.
 - PR #22 y PR #25 estaban abiertos en versiones documentales obsoletas; se cerraron sin fusión.
@@ -40,6 +43,10 @@ La asignación de identidad ocurre antes del bloqueo del trigger. El nuevo valid
 ### P0 — Firma y procedencia
 
 El repositorio contiene scripts/workflows de firma, SBOM y attestations, pero eso no demuestra que haya artefacto firmado publicado ni que su digest esté verificado por una raíz de confianza independiente. No se inventaron llaves o firmas. El flujo de firma ahora se niega a avanzar mientras el orden del ledger no pase el gate estricto.
+
+### P1 — Resolución de funciones `SECURITY DEFINER`
+
+La migración actual usa `pgcrypto` desde `extensions`, pero la función de cadena se ejecuta con `search_path = pg_catalog, public, extensions` y llama a `digest()` sin schema. No se ha probado que el rol atacante pueda crear `public.digest`; aun así, la ruta debe eliminar la ambigüedad calificando `extensions.digest(...)`, reduciendo el `search_path` a schemas confiables y verificando permisos CREATE. El nuevo gate estático reporta esta condición por separado; no sustituye la revisión del propietario de schema ni una prueba en PostgreSQL.
 
 ### P1 — Redis/Upstash
 
