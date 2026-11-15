@@ -4,6 +4,8 @@
 **Repositorio:** `AnubisVillasenor1/tamv-creator-intelligence`  
 **Estado:** referencia documental derivada del código y de la documentación existente. No es una certificación ni una prueba de despliegue.
 
+Consulta también el [registro de adopción entre repositorios](CROSS-REPOSITORY-ADOPTION-REGISTER.md), que fija las fuentes externas y los patrones rechazados, y la [guía de aislamiento de entornos](DEPLOYMENT-ENVIRONMENT-ISOLATION.md), que separa evidencia de configuración de aceptación de integraciones live.
+
 ## 1. Propósito y límites
 
 TAMV Creator Intelligence combina una aplicación web de monitorización/revisión, un paquete de skills y contratos, controles de gobernanza, verificaciones de integridad y componentes de operación. El principio rector es **la IA propone; el humano decide**.
