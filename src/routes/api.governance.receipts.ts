@@ -22,6 +22,7 @@ const MAX_BODY_BYTES = 16 * 1024;
 const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/;
 const SHA256_PATTERN = /^[a-f0-9]{64}$/i;
 const COMMIT_PATTERN = /^[a-f0-9]{40}$/i;
+const SUPABASE_USER_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const OPERATIONS = new Set<GovernanceOperation>([
   "install", "resume", "update", "redeploy", "rollback",
 ]);
@@ -70,7 +71,7 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
     return jsonError("Identity provider returned an invalid response", 503);
   }
 
-  if (typeof user.id !== "string" || !/^[0-9a-f-]{20,64}$/i.test(user.id)) {
+  if (typeof user.id !== "string" || !SUPABASE_USER_ID_PATTERN.test(user.id)) {
     return jsonError("Authenticated identity is invalid", 401);
   }
 
