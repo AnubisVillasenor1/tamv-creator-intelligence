@@ -100,26 +100,49 @@ try {
     }
 
     const rows = await sql`
-      select sequence_id, trace_id, previous_hash, event_hash
+      select sequence_id, trace_id, event_id, occurred_at, core, event_name, phase,
+             lane, input_hash, details, previous_hash, event_hash,
+             encode(extensions.digest(convert_to(jsonb_build_object(
+               'event_id', event_id,
+               'trace_id', trace_id,
+               'occurred_at', occurred_at,
+               'core', core,
+               'event_name', event_name,
+               'phase', phase,
+               'lane', lane,
+               'input_hash', input_hash,
+               'details', details,
+               'previous_hash', previous_hash
+             )::text, 'UTF8'), 'sha256'), 'hex') as recomputed_event_hash
       from public.tamv_hypercore_audit_events
       order by sequence_id asc
     `;
-    if (rows.length < CONCURRENCY) {
-      fail(`Expected at least ${CONCURRENCY} ledger rows after inserts; found ${rows.length}.`);
+    const testRows = rows.filter((row) => insertedTraceIds.includes(String(row.trace_id)));
+    if (testRows.length !== CONCURRENCY) {
+      fail(`Expected exactly ${CONCURRENCY} test rows; found ${testRows.length}.`);
     }
 
     let brokenLinks = 0;
     let malformedHashes = 0;
+    let digestMismatches = 0;
     for (let index = 0; index < rows.length; index += 1) {
       const row = rows[index];
-      if (!/^[a-f0-9]{64}$/i.test(String(row.previous_hash)) ||
-          !/^[a-f0-9]{64}$/i.test(String(row.event_hash))) {
+      const previousHash = String(row.previous_hash).trim().toLowerCase();
+      const eventHash = String(row.event_hash).trim().toLowerCase();
+      const recomputedHash = String(row.recomputed_event_hash).trim().toLowerCase();
+      if (!/^[a-f0-9]{64}$/i.test(previousHash) || !/^[a-f0-9]{64}$/i.test(eventHash)) {
         malformedHashes += 1;
       }
-      if (index > 0 && String(row.previous_hash).toLowerCase() !== String(rows[index - 1].event_hash).toLowerCase()) {
+      if (!/^[a-f0-9]{64}$/i.test(recomputedHash) || recomputedHash !== eventHash) {
+        digestMismatches += 1;
+        if (digestMismatches <= 5) {
+          console.error(`Digest mismatch at sequence_id=${row.sequence_id}; stored event_hash differs from PostgreSQL recomputation.`);
+        }
+      }
+      if (index > 0 && previousHash !== String(rows[index - 1].event_hash).trim().toLowerCase()) {
         brokenLinks += 1;
         if (brokenLinks <= 5) {
-          console.error(`Broken chain link at sequence_id=${row.sequence_id}; previous_hash does not match prior event_hash.`);
+          console.error(`Broken chain link at sequence_id=${row.sequence_id}; previous_hash does not match prior event_hash ordered by sequence_id.`);
         }
       }
     }
@@ -131,10 +154,11 @@ try {
     `;
     if (brokenLinks > 0) fail(`Chain order/linkage check found ${brokenLinks} broken links across ${rows.length} rows ordered by sequence_id.`);
     if (malformedHashes > 0) fail(`Found ${malformedHashes} rows with malformed previous/event hash values.`);
+    if (digestMismatches > 0) fail(`Independent PostgreSQL digest recomputation found ${digestMismatches} mismatches across ${rows.length} rows.`);
     if (sequenceDuplicates.length > 0) fail("Duplicate sequence_id values detected.");
-    if (rejected.length === 0 && brokenLinks === 0 && malformedHashes === 0 && sequenceDuplicates.length === 0) {
-      console.log(`PASS: ${CONCURRENCY} concurrent appends accepted; ${rows.length} total rows; sequence-order chain links are continuous.`);
-      console.log("LIMITATION: this probe verifies chain linkage, not independent recomputation of the SQL JSONB digest.");
+    if (rejected.length === 0 && testRows.length === CONCURRENCY && brokenLinks === 0 && malformedHashes === 0 && digestMismatches === 0 && sequenceDuplicates.length === 0) {
+      console.log(`PASS: ${CONCURRENCY} concurrent appends accepted; ${rows.length} total rows; sequence-order links and PostgreSQL JSONB digest recomputation are valid.`);
+      console.log("LIMITATION: digest recomputation uses PostgreSQL's own JSONB text serialization; it is independent of the stored event_hash but not an external cross-language canonicalizer.");
       console.log("LIMITATION: this does not verify RLS/grants, UPDATE/DELETE/TRUNCATE protections, backup/restore, or application AuditPort wiring.");
       console.log("The test events are append-only and remain in this disposable database. Recreate the database before another clean run.");
     }
