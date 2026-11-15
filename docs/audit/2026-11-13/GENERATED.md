@@ -31,7 +31,7 @@ Generado: 2026-11-13T00:00:00Z. No editar a mano: `node --experimental-strip-typ
 
 | ID | Estado | Efectivo | Evidencias | Independiente | Dominio |
 |---|---|---|---:|---|---|
-| C-001 | unverified | unverified | 3 | no | biographical |
+| C-001 | unverified | unverified | 4 | no | biographical |
 | C-002 | corroborated | corroborated | 1 | no | technical |
 | C-003 | contradicted | contradicted | 2 | no | technical |
 | C-004 | contradicted | contradicted | 2 | no | technical |

@@ -27,6 +27,13 @@
           "note": "Primera cifra publicada: 19,000 horas."
         },
         {
+          "id": "EV-HOURS-FOOTPRINT",
+          "kind": "file",
+          "locator": "docs/PUBLIC-FOOTPRINT.md",
+          "capturedAt": "2026-11-14",
+          "note": "Huella pública (GitHub, ORCID, Zenodo, Figshare, DataCite, OSF, ResearchGate, blogs, Odoo, portafolio): corrobora identidad y actividad, no horas efectivas; C-001 sigue unverified."
+        },
+        {
           "id": "EV-HOURS-TRACE",
           "kind": "file",
           "locator": "corpus:compendio-trazabilidad.pdf",
