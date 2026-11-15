@@ -8,7 +8,7 @@ create table if not exists public.tamv_governance_receipts (
   operation_id text not null,
   idempotency_key text not null unique,
   status text not null check (status in ('pending','running','succeeded','failed','blocked','recovery_required')),
-  receipt jsonb not null,
+  receipt jsonb not null check (jsonb_typeof(receipt) = 'object'),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint tamv_governance_receipt_id_matches check (receipt ->> 'receiptId' = receipt_id),
@@ -23,12 +23,12 @@ create table if not exists public.tamv_governance_receipts (
 
 create table if not exists public.tamv_governance_receipt_events (
   event_id uuid primary key default gen_random_uuid(),
-  receipt_id text not null,
+  receipt_id text not null references public.tamv_governance_receipts(receipt_id) on delete restrict,
   operation_id text not null,
   event_type text not null check (event_type in ('intent_created','status_transition')),
   previous_status text,
   status text not null check (status in ('pending','running','succeeded','failed','blocked','recovery_required')),
-  receipt jsonb not null,
+  receipt jsonb not null check (jsonb_typeof(receipt) = 'object'),
   occurred_at timestamptz not null default now()
 );
 
