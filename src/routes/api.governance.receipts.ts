@@ -1,7 +1,11 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { GOVERN_CORE_POLICY, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
-import { isBearerTokenWithinLimit, isJsonContentType, readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
+import {
+  isBearerTokenWithinLimit,
+  isJsonContentType,
+  readBoundedRequestBody,
+} from "../lib/hypercore-turbo/governance-request-guards";
 import {
   createGovernanceReceiptStoreFromEnv,
   GovernanceReceiptStoreError,
