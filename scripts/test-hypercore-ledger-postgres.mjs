@@ -56,7 +56,7 @@ if (!isLoopback && process.env.TAMV_HYPERCORE_TEST_ALLOW_REMOTE !== "1") {
 
 let databaseName;
 try {
-  databaseName = decodeURIComponent(parsedUrl.pathname.replace(/^\\//, ""));
+  databaseName = decodeURIComponent(parsedUrl.pathname.replace(/^\//, ""));
 } catch {
   console.error("Refusing to run: database name has malformed percent-encoding.");
   process.exit(64);
