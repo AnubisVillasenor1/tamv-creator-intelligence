@@ -1,7 +1,7 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { GOVERN_CORE_POLICY, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
-import { isBearerTokenWithinLimit, isJsonContentType } from "../lib/hypercore-turbo/governance-request-guards";
+import { isBearerTokenWithinLimit, isJsonContentType, readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   createGovernanceReceiptStoreFromEnv,
   GovernanceReceiptStoreError,
@@ -105,13 +105,16 @@ export const Route = createFileRoute("/api/governance/receipts")({
         const declaredLength = Number(request.headers.get("content-length") ?? "0");
         if (declaredLength > MAX_BODY_BYTES) return jsonError("Request body too large", 413);
 
+        const boundedBody = await readBoundedRequestBody(request, MAX_BODY_BYTES);
+        if (!boundedBody.ok) {
+          return boundedBody.reason === "too-large"
+            ? jsonError("Request body too large", 413)
+            : jsonError("Unable to read request body", 400);
+        }
+
         let raw: unknown;
         try {
-          const body = await request.text();
-          if (new TextEncoder().encode(body).byteLength > MAX_BODY_BYTES) {
-            return jsonError("Request body too large", 413);
-          }
-          raw = JSON.parse(body);
+          raw = JSON.parse(boundedBody.text);
         } catch {
           return jsonError("Invalid JSON body", 400);
         }
