@@ -62,6 +62,15 @@ describe("creator review runtime guard", () => {
     expect(denied.retryAfterSeconds).toBe(60);
   });
 
+  it("reclaims stale quota buckets after the retention window", () => {
+    const now = Date.parse("2026-11-15T12:00:00.000Z");
+    for (let index = 0; index < REVIEW_MAX_TRACKED_USERS; index += 1) {
+      expect(checkReviewQuota(`user-${index}`, now).allowed).toBe(true);
+    }
+    const nextDay = now + 86_400_001;
+    expect(checkReviewQuota("next-day-user", nextDay).allowed).toBe(true);
+  });
+
   it("enforces the process concurrency ceiling and never underflows", () => {
     for (let index = 0; index < REVIEW_MAX_IN_FLIGHT; index += 1) expect(beginReview()).toBe(true);
     expect(beginReview()).toBe(false);
