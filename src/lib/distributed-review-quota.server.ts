@@ -164,8 +164,8 @@ function permitsLocalQuotaFallback(
 
   if (hasVercelMarker || nodeEnv === "production") return false;
 
-  const classification = deploymentEnv || nodeEnv;
-  return ["local", "development", "test"].includes(classification);
+  if (!deploymentEnv) return false;
+  return ["local", "development", "test"].includes(deploymentEnv);
 }
 
 /**
