@@ -19,6 +19,8 @@ const configuredEnv = {
   ...baseEnv,
   NODE_ENV: "production",
   TAMV_DEPLOYMENT_ENV: "production",
+  VERCEL: "1",
+  VERCEL_URL: "tamv-production.example.vercel.app",
   VERCEL_ENV: "production",
   SUPABASE_URL: "https://example.supabase.co",
   SUPABASE_PUBLISHABLE_KEY: "test-publishable-key",
@@ -56,4 +58,10 @@ const wrongExplicitTarget = spawnSync(process.execPath, [checker, "--strict"], {
 assert.notEqual(wrongExplicitTarget.status, 0, "staging must not pass the production-only preflight");
 assert.match(wrongExplicitTarget.stdout, /MISSING_OR_INVALID TAMV_DEPLOYMENT_ENV/);
 
-console.log("Production environment preflight tests passed (5 scenarios).");
+const unknownVercelTarget = spawnSync(process.execPath, [checker, "--strict"], {
+  cwd: root, encoding: "utf8", env: { ...configuredEnv, VERCEL_ENV: "" },
+});
+assert.notEqual(unknownVercelTarget.status, 0, "Vercel runtime with unknown target must not pass strict production preflight");
+assert.match(unknownVercelTarget.stdout, /MISSING_OR_INVALID TAMV_DEPLOYMENT_ENV/);
+
+console.log("Production environment preflight tests passed (6 scenarios).");
