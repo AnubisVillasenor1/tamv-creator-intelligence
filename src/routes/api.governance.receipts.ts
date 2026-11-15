@@ -38,6 +38,7 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
     return jsonError("Governance authentication is not configured", 503);
   }
   if (!token) return jsonError("Authentication required", 401);
+  if (token.length > 8192) return jsonError("Authentication token exceeds the accepted size", 401);
 
   let authResponse: Response;
   try {
@@ -97,7 +98,8 @@ export const Route = createFileRoute("/api/governance/receipts")({
         if (identity instanceof Response) return identity;
 
         const contentType = request.headers.get("content-type") ?? "";
-        if (!contentType.toLowerCase().includes("application/json")) {
+        const mediaType = contentType.split(";", 1)[0].trim().toLowerCase();
+        if (mediaType !== "application/json") {
           return jsonError("Content-Type must be application/json", 415);
         }
         const declaredLength = Number(request.headers.get("content-length") ?? "0");
