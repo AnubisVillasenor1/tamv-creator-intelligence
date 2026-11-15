@@ -31,7 +31,7 @@ This plan separates repository changes from external infrastructure actions. A s
 
 ## Validation sequence
 
-1. Run the new focused Vitest suite for `src/lib/review-guard.test.ts`.
+1. Run the focused Vitest suites for `src/lib/review-guard.test.ts`, `src/lib/hypercore-turbo/policy.test.ts` and `src/lib/hypercore-turbo/parallel-runner.test.ts`.
 2. Run full `bun run test`, `bun run lint`, `bun run tamv:check`, and `bun run build` in a clean checkout with the committed lockfile.
 3. Verify the GitHub Actions run for the exact commit and inspect each job result. Do not infer success from the workflow definition.
 4. Resolve the ledger schema through the approved Lovable workflow, then run PostgreSQL concurrency and mutation tests against a disposable database.
