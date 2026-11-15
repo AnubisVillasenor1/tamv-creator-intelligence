@@ -15,6 +15,8 @@ const normalized = sql.replace(/--[^\n]*/g, " ").replace(/\s+/g, " ").toLowerCas
 const checks = [
   ["current-state receipt table", /create table if not exists public\.tamv_governance_receipts\s*\(/],
   ["append-only event table", /create table if not exists public\.tamv_governance_receipt_events\s*\(/],
+  ["receipt payload constrained to JSON object", /receipt jsonb not null check \(jsonb_typeof\(receipt\) = 'object'\)/],
+  ["event ledger references parent receipt", /receipt_id text not null references public\.tamv_governance_receipts\(receipt_id\) on delete restrict/],
   ["unique idempotency key", /idempotency_key text not null unique/],
   ["receipt status constrained", /status text not null check \(status in \('pending','running','succeeded','failed','blocked','recovery_required'\)\)/],
   ["success requires evidence", /status <> 'succeeded' or jsonb_array_length\(receipt -> 'evidence'\) > 0/],
