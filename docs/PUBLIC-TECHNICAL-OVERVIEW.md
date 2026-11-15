@@ -16,7 +16,7 @@ El proyecto combina contratos y skills modulares, validaciones de entrada, contr
 ## 2. Autoría, origen y responsabilidad
 
 - **Iniciativa institucional:** TAMV ONLINE NETWORK.
-- **Dirección creativa pública del proyecto:** Anubis Villaseñor.
+- **Dirección creativa pública del proyecto:** Anubis Villaseñor, firma creativa de Edwin Oswaldo Castillo Trejo.
 - **Repositorio y código fuente:** https://github.com/AnubisVillasenor1/tamv-creator-intelligence
 - **Origen declarado en los materiales del proyecto:** Real del Monte, Hidalgo, México.
 - **Ecosistema de origen:** PLAY & GO, dentro del ecosistema TAMV.
