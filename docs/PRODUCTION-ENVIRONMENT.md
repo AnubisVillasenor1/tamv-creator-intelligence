@@ -5,20 +5,19 @@ Configure provider credentials in the target deployment secret manager, never in
 ## Required runtime settings
 
 | Group | Variable | Validation |
-| Runtime environment | NODE_ENV | Literal production for strict release preflight |
-| Runtime environment | TAMV_DEPLOYMENT_ENV | Literal production; rejected if VERCEL_ENV identifies Preview/development |
-
 |---|---|---|
-| Supabase | SUPABASE_URL | HTTPS URL |
-| Supabase | SUPABASE_PUBLISHABLE_KEY | Present |
-| Supabase | SUPABASE_SERVICE_ROLE_KEY | Present; server only |
-| Governance | TAMV_GOVERNANCE_ACTOR_SALT | At least 32 characters; stable across instances |
-| AI inference | LOVABLE_API_KEY | Present; server only |
-| Distributed review quota | UPSTASH_REDIS_REST_URL | HTTPS URL |
-| Distributed review quota | UPSTASH_REDIS_REST_TOKEN | Present; server only |
-| Distributed review quota | TAMV_REVIEW_QUOTA_KEY_SALT | At least 32 characters; stable across instances |
-| Release verification | TAMV_ATTRIBUTION_PUBLIC_KEY | Ed25519 public key in PEM format |
-| Release verification | TAMV_CERTIFICATION_REQUIRED | Literal string true for a production release |
+| Runtime environment | `NODE_ENV` | Literal `production` for strict release preflight |
+| Runtime environment | `TAMV_DEPLOYMENT_ENV` | Literal `production`; Vercel runtime additionally requires `VERCEL_ENV=production` |
+| Supabase | `SUPABASE_URL` | HTTPS URL |
+| Supabase | `SUPABASE_PUBLISHABLE_KEY` | Present |
+| Supabase | `SUPABASE_SERVICE_ROLE_KEY` | Present; server only |
+| Governance | `TAMV_GOVERNANCE_ACTOR_SALT` | At least 32 characters; stable across instances |
+| AI inference | `LOVABLE_API_KEY` | Present; server only |
+| Distributed review quota | `UPSTASH_REDIS_REST_URL` | HTTPS URL |
+| Distributed review quota | `UPSTASH_REDIS_REST_TOKEN` | Present; server only |
+| Distributed review quota | `TAMV_REVIEW_QUOTA_KEY_SALT` | At least 32 characters; stable across instances |
+| Release verification | `TAMV_ATTRIBUTION_PUBLIC_KEY` | Ed25519 public key in PEM format |
+| Release verification | `TAMV_CERTIFICATION_REQUIRED` | Literal string `true` for a production release |
 
 The preflight checks presence and basic shape only. It does not contact providers, prove credentials work, or prove that database tables and RLS are deployed. Strict mode is production-only: both `NODE_ENV` and `TAMV_DEPLOYMENT_ENV` must be `production`. If `VERCEL` or `VERCEL_URL` marks this as a Vercel runtime, `VERCEL_ENV` must be present and equal `production`; an unknown or Preview target is rejected. Local work may set `TAMV_DEPLOYMENT_ENV=local`; this value must never be carried over as the production setting.
 
@@ -42,4 +41,4 @@ The advisory command is safe for local development and CI without production sec
 - Connect and test the runtime audit append adapter on the actual protected execution path.
 - Sign the exact release manifest with Ed25519, verify the pinned public key, and produce trusted SBOM/build provenance.
 
-A green preflight is not a production certification. Do not enable protected capabilities merely because environment variables exist.
+A green preflight is not a production certification. Do not enable protected capabilities merely because environment variables exist. The signed-release workflow also runs the strict Hyper-Core ledger-order check; the current schema ordering defect intentionally blocks release signing until the approved schema change and disposable-PostgreSQL evidence are available.
