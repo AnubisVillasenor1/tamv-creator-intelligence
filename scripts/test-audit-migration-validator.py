@@ -17,8 +17,8 @@ UNSAFE_IDENTITY_TRIGGER = """
 CREATE TABLE public.tamv_hypercore_audit_events (
   sequence_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY
 );
-CREATE OR REPLACE FUNCTION tamv_hypercore_audit_chain_insert()
-RETURNS trigger LANGUAGE plpgsql AS $$
+CREATE OR REPLACE FUNCTION public.tamv_hypercore_audit_chain_insert()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, extensions AS $$
 BEGIN
   PERFORM pg_advisory_xact_lock(hashtext('tamv_hypercore_audit_events_chain'));
   SELECT event_hash INTO last_hash
@@ -28,7 +28,7 @@ END;
 $$;
 CREATE TRIGGER tamv_hypercore_audit_chain_before_insert
 BEFORE INSERT ON public.tamv_hypercore_audit_events
-FOR EACH ROW EXECUTE FUNCTION tamv_hypercore_audit_chain_insert();
+FOR EACH ROW EXECUTE FUNCTION public.tamv_hypercore_audit_chain_insert();
 """
 
 SAFE_TRIGGER_REASSIGNMENT = UNSAFE_IDENTITY_TRIGGER.replace(
@@ -54,13 +54,28 @@ class ChainOrderDetectorTests(unittest.TestCase):
         findings = MODULE.chain_order_findings(UNSAFE_IDENTITY_TRIGGER)
         self.assertEqual(len(findings), 1)
         self.assertIn("sequence_id", findings[0])
-        self.assertIn("concurrent inserts", findings[0])
+        self.assertIn("append boundary", findings[0])
 
-    def test_sequence_reassignment_after_lock_is_accepted(self) -> None:
+    def test_sequence_reassignment_after_same_lock_before_chain_read_is_accepted(self) -> None:
         self.assertEqual(MODULE.chain_order_findings(SAFE_TRIGGER_REASSIGNMENT), [])
 
     def test_serialized_append_function_requires_privilege_boundary(self) -> None:
         self.assertEqual(MODULE.chain_order_findings(SAFE_APPEND_FUNCTION), [])
+
+    def test_append_function_with_different_advisory_key_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(
+            "pg_advisory_xact_lock(hashtext('tamv_hypercore_audit_events_chain'));\n  INSERT",
+            "pg_advisory_xact_lock(hashtext('different-ledger-chain'));\n  INSERT",
+        )
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+    def test_append_function_without_security_definer_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(" LANGUAGE plpgsql SECURITY DEFINER SET search_path", " LANGUAGE plpgsql SET search_path")
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+    def test_append_function_without_fixed_search_path_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(" SECURITY DEFINER SET search_path = pg_catalog, public", " SECURITY DEFINER")
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
 
     def test_append_function_without_direct_insert_revocation_is_not_accepted(self) -> None:
         unsafe = SAFE_APPEND_FUNCTION.replace(
@@ -73,6 +88,13 @@ class ChainOrderDetectorTests(unittest.TestCase):
         unsafe = SAFE_APPEND_FUNCTION.replace(
             "GRANT EXECUTE ON FUNCTION public.tamv_hypercore_audit_append() TO service_role;",
             "",
+        )
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+    def test_partial_direct_insert_revocation_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(
+            "REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;",
+            "REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated;",
         )
         self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
 
