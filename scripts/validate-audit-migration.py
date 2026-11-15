@@ -136,7 +136,7 @@ def security_definer_findings(sql: str) -> list[str]:
     """
     findings: list[str] = []
     if not re.search(
-        r"CREATE\\s+EXTENSION(?:\\s+IF\\s+NOT\\s+EXISTS)?\\s+pgcrypto\\s+WITH\\s+SCHEMA\\s+extensions",
+        r"CREATE\s+EXTENSION(?:\s+IF\s+NOT\s+EXISTS)?\s+pgcrypto\s+WITH\s+SCHEMA\s+extensions",
         sql,
         re.IGNORECASE,
     ):
@@ -145,9 +145,9 @@ def security_definer_findings(sql: str) -> list[str]:
     for name, header, body in _function_definitions(sql):
         if not name.endswith("tamv_hypercore_audit_chain_insert"):
             continue
-        if not re.search(r"\\bSECURITY\\s+DEFINER\\b", header, re.IGNORECASE):
+        if not re.search(r"\bSECURITY\s+DEFINER\b", header, re.IGNORECASE):
             continue
-        if re.search(r"(?<![A-Za-z0-9_.])digest\\s*\\(", body, re.IGNORECASE):
+        if re.search(r"(?<![A-Za-z0-9_.])digest\s*\(", body, re.IGNORECASE):
             findings.append(
                 "P1 SECURITY DEFINER resolution risk: the ledger trigger calls digest() "
                 "without schema qualification even though pgcrypto is installed in "
@@ -155,7 +155,6 @@ def security_definer_findings(sql: str) -> list[str]:
                 "use extensions.digest(...) and validate CREATE privileges on every searched schema."
             )
     return findings
-
 
 def chain_order_findings(sql: str) -> list[str]:
     """Detect identity/trigger order races and weak append-function boundaries.
