@@ -82,6 +82,17 @@ jobs:
           TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
         run: bun run tamv:sign
 
+      - name: Sign v3 pack seal with Ed25519
+        env:
+          TAMV_V3_PRIVATE_KEY: ${{ secrets.TAMV_ATTRIBUTION_PRIVATE_KEY }}
+          TAMV_V3_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+        run: node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --write --sign
+
+      - name: Verify v3 pack seal fail-closed
+        env:
+          TAMV_V3_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+        run: node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify --require-signature
+
       - name: Verify signature and hashes fail-closed
         env:
           TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
