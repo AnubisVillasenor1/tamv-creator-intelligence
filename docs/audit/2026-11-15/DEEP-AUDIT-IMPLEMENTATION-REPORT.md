@@ -57,9 +57,15 @@ El check de Vercel para `main` informa `failure` con destino que contiene `upgra
 
 Varias rutas de generación/voz/audio/agentes devuelven 501 intencionalmente. No se reemplazaron por respuestas ficticias ni se conectaron a un proveedor no autorizado. Cada capacidad requiere modelo/worker, presupuesto, derechos/consentimiento, persistencia y pruebas antes de habilitarse.
 
-## Ramas obsoletas y límites de limpieza
+## Limpieza de ramas obsoletas — completada
 
-La auditoría identificó ramas de PR fusionados o seguimientos obsoletos. La integración de herramientas usada en este proceso no expone una operación directa de DELETE para refs de Git; la limpieza necesita una acción autorizada y acotada contra la API GitHub. Sólo deben eliminarse ramas con SHA coincidente, sin PR abierto y con el cambio ya integrado/sustituido; `main` y la rama de trabajo actual están excluidas. El procedimiento one-shot, si se ejecuta, debe registrar cada eliminación y saltar cualquier referencia que haya cambiado.
+La limpieza de refs se ejecutó mediante dos workflows temporales de una sola ejecución:
+- [Run #43759810431 — limpieza principal](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/actions/runs/43759810431) eliminó seis branches con SHA exacto, sin protección y sin PR abierto.
+- [Run #43759942522 — limpieza final](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/actions/runs/43759942522) eliminó el branch operativo restante tras corregir la huella SHA esperada y se eliminó a sí mismo.
+
+Los branches eliminados fueron `audit/comprehensive-hardening-2026-11-15`, `docs/completeness-and-operations-hardening-v2-2026-11`, `docs/refresh-integration-evidence-2026-11-15`, `docs/refresh-mainline-evidence-2026-11-15`, `hardening/explicit-local-quota-fallback-v2-2026-11`, `hardening/require-explicit-deployment-env-2026-11` y `ops/production-readiness-gates-2026-11`. GitHub confirmó después que la lista de ramas contiene únicamente `main` en el SHA `f16f80412da2e6c4e261b1724225f820fef08105`.
+
+La limpieza utilizó allowlist de ramas/SHA, verificación de ausencia de PRs abiertos, comprobación de protección y autoeliminación del branch temporal. Ningún branch protegido ni `main` fue candidato. Los workflows temporales no permanecen en la rama principal.
 
 ## Criterio final
 
