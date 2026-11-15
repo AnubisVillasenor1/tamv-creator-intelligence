@@ -26,6 +26,7 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Tema | Fuente canónica | Complemento | Lo que no debe inferirse |
 |---|---|---|---|
 | Orientación documental | [docs/README.md](README.md) | README raíz | El índice no certifica que los documentos estén sincronizados |
+| Superficie API y errores | [API-SURFACE-AND-ERROR-CONTRACTS.md](API-SURFACE-AND-ERROR-CONTRACTS.md) | `src/routes/`, `src/lib/content.functions.ts`, contratos de gobernanza | Los códigos y capacidades dependen de la implementación y del estado de certificación; no prueban operación live |
 | Arquitectura runtime | [ARCHITECTURE-REFERENCE.md](ARCHITECTURE-REFERENCE.md) | `AGENTS.md`, `src/routes/README.md`, módulos fuente | Un mapa no reemplaza la revisión de código |
 | Fuentes de ambos perfiles | [CROSS-REPOSITORY-ADOPTION-REGISTER.md](CROSS-REPOSITORY-ADOPTION-REGISTER.md) | ADR, RFC, amenazas y docs institucionales fijados por commit/blob SHA | Los patrones ajenos son referencia, no prueba ni implementación del destino |
 | Estado de implementación | [IMPLEMENTATION-MATRIX.md](IMPLEMENTATION-MATRIX.md) | `tamv-genesis/v3/closure.json`, `package.json` | El estado puede cambiar; requiere revisión de evidencia |
