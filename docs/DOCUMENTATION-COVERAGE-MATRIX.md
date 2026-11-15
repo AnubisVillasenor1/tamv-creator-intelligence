@@ -27,9 +27,11 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 |---|---|---|---|
 | Orientación documental | [docs/README.md](README.md) | README raíz | El índice no certifica que los documentos estén sincronizados |
 | Arquitectura runtime | [ARCHITECTURE-REFERENCE.md](ARCHITECTURE-REFERENCE.md) | `AGENTS.md`, `src/routes/README.md`, módulos fuente | Un mapa no reemplaza la revisión de código |
+| Fuentes de ambos perfiles | [CROSS-REPOSITORY-ADOPTION-REGISTER.md](CROSS-REPOSITORY-ADOPTION-REGISTER.md) | ADR, RFC, amenazas y docs institucionales fijados por commit/blob SHA | Los patrones ajenos son referencia, no prueba ni implementación del destino |
 | Estado de implementación | [IMPLEMENTATION-MATRIX.md](IMPLEMENTATION-MATRIX.md) | `tamv-genesis/v3/closure.json`, `package.json` | El estado puede cambiar; requiere revisión de evidencia |
 | Operación general | [OPERATIONS.md](OPERATIONS.md) | [GOVERNANCE-RECEIPTS-OPERATIONS.md](GOVERNANCE-RECEIPTS-OPERATIONS.md) | Un procedimiento no prueba que el servicio esté conectado |
 | Despliegue | [DEPLOYMENT-READINESS-2026-11-15.md](DEPLOYMENT-READINESS-2026-11-15.md) | [PRODUCTION-EVIDENCE-GATES.md](PRODUCTION-EVIDENCE-GATES.md) | Un check de Vercel no acredita integridad de datos ni firma |
+| Aislamiento de entornos | [DEPLOYMENT-ENVIRONMENT-ISOLATION.md](DEPLOYMENT-ENVIRONMENT-ISOLATION.md) y [ADR-003](adr/ADR-003-environment-isolation-and-evidence.md) | RFC de entorno/operaciones de Isabella y ADR de Play & Go | No confirma que las variables o scopes reales de Vercel estén bien configurados |
 | Hardening | [PRODUCTION-HARDENING-PLAN.md](PRODUCTION-HARDENING-PLAN.md) | [TECHNICAL-AUDIT-AND-DEBT-REGISTER.md](TECHNICAL-AUDIT-AND-DEBT-REGISTER.md) | Una lista de tareas no demuestra remediación |
 | Auditoría técnica | [audit/2026-11-15/README.md](audit/2026-11-15/README.md) | [AUDIT-TECHNICAL-2026-11-13.md](AUDIT-TECHNICAL-2026-11-13.md) | Las conclusiones históricas no son un score actual |
 | Firma e integridad | [RELEASE-SIGNING.md](RELEASE-SIGNING.md) | `tamv-attribution.json`, `tamv-attribution.sig`, `scripts/tamv-certification.mjs` | Hashes sin firma válida no certifican el release |
@@ -40,6 +42,7 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Publicación | [PUBLISHING.md](PUBLISHING.md) | [PUBLIC-PROJECT-DISCLOSURE.md](PUBLIC-PROJECT-DISCLOSURE.md) | Publicar un paquete no certifica seguridad |
 | Legal y derechos | [legal/AI-GOVERNANCE-POLICY.md](legal/AI-GOVERNANCE-POLICY.md) | [legal/DATA-PROTECTION-AND-CREATOR-RIGHTS.md](legal/DATA-PROTECTION-AND-CREATOR-RIGHTS.md), [legal/REGULATORY-MATRIX.md](legal/REGULATORY-MATRIX.md) | La documentación no sustituye revisión jurídica competente |
 | Seguridad | [SECURITY.md](../SECURITY.md) | [audit/2026-11-13/THREAT-MODEL.md](audit/2026-11-13/THREAT-MODEL.md) | Una política no equivale a una prueba de penetración |
+| Integridad de enlaces | `scripts/validate-documentation-links.mjs` | `scripts/test-documentation-links.mjs`, CI | Comprueba rutas/anclas Markdown de documentos mantenidos, no la veracidad semántica ni los enlaces externos |
 | Gobernanza del proyecto | [GOVERNANCE.md](../GOVERNANCE.md) | [PUBLIC-FOOTPRINT.md](PUBLIC-FOOTPRINT.md) | Una política propuesta no demuestra que exista un proceso institucional activo |
 
 ## 3. Vacíos identificados y tratamiento
@@ -47,6 +50,7 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Vacío o riesgo documental | Acción en esta entrega | Criterio de cierre |
 |---|---|---|
 | No había un único mapa corto entre rutas, servicios, skills y dependencias | Añadida [referencia de arquitectura](ARCHITECTURE-REFERENCE.md) | Revisar el mapa contra el árbol del código en cada cambio de arquitectura |
+| Fuentes relevantes estaban dispersas entre perfiles GitHub y proyectos de distinto runtime | Añadido [registro de adopción](CROSS-REPOSITORY-ADOPTION-REGISTER.md) con commit y SHA de blob | Revalidar la fuente al cambiar; no importar valores/configuración de otro proyecto |
 | Los documentos no estaban presentados como matriz de fuentes canónicas y límites inferenciales | Añadida esta matriz | Cada nueva guía se enlaza aquí o desde el índice |
 | Respuesta ante incidentes estaba distribuida entre seguridad, hardening y auditorías | Añadido [playbook de incidentes](SECURITY-OPERATIONS-AND-INCIDENT-PLAYBOOK.md) | Simular tabletop y asignar responsables reales antes de declarar operativo |
 | Las variables de entorno y preflight deben corresponder a los scripts reales | Referencias a `.env.example`, `AGENTS.md` y la guía de despliegue | Tras integrar un cambio de configuración, actualizar tabla y probar el validador |
@@ -77,3 +81,7 @@ En cada PR que cambie comportamiento, contratos o despliegue:
 - [ ] Revisar enlaces internos y ejecutar los validadores disponibles.
 
 No usar porcentajes subjetivos de completitud. Si se necesita un score, publicar rúbrica, denominador, commit, evidencias y bloqueos excluidos.
+
+## Validación de documentación canónica
+
+La CI ejecuta `bun run docs:check:test` y `bun run docs:check`. El validador comprueba destinos internos, anchors Markdown y escapes del root para los documentos mantenidos; ignora URLs externas y ejemplos dentro de bloques de código. No sustituye revisión semántica.
