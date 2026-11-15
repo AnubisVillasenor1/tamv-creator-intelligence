@@ -58,14 +58,25 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Los cambios propuestos en PRs abiertos no forman parte de `main` hasta fusionarse | Se registra la separación de ramas y evidencia abajo | No anunciar esos gates como disponibles en `main` antes de merge + CI |
 | El registro de cierre no tiene el mismo significado que aceptación de producción | Se explicita en arquitectura y criterios de cierre | Mantener por separado estados de código, integración y entorno |
 
-## 4. Cambios recientes que aún no son parte de main
+## 4. Estado de integración y cambios posteriores
 
-En el momento de esta revisión, estos pull requests estaban abiertos y no fusionados:
+Esta sección se actualizó contra el estado de GitHub del 15 de noviembre de 2026. Los PR #16, #17, #18, #19, #20 y #21 aparecen fusionados en `main`:
 
-- [PR #16 — preflight de entorno de producción](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/16): validación de presencia/formato de variables y pruebas de no filtración. No valida conectividad real ni credenciales.
-- [PR #17 — validación de cierre de capacidades](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/17): consistencia de inventarios, estados, rutas de evidencia y cobertura. No ejecuta proveedores ni verifica pruebas citadas.
+- [PR #16 — preflight de entorno](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/16): incorporó comprobaciones iniciales de presencia/formato de variables y pruebas de no filtración de secretos.
+- [PR #17 — cierre de inventario de capacidades](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/17): añadió validación de consistencia entre capacidades, estados, archivos y pruebas referenciadas.
+- [PR #18 — documentación y enlaces](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/18): incorporó referencia de arquitectura, matriz documental, playbook de incidentes, registro de fuentes de ambos perfiles y validador de enlaces internos.
+- [PR #19 — clasificación de cuota local](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/19): añadió guardas y pruebas para evitar que un runtime desplegado degrade a cuota por proceso.
+- [PR #20 — target Vercel en preflight estricto](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/20): hace fallar el preflight si un runtime Vercel tiene target desconocido o distinto de `production`.
+- [PR #21 — endurecimiento adicional de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/21): GitHub lo registra como fusionado; refuerza las pruebas del fallback local y su clasificación de entorno.
 
-Esta nota es una instantánea de revisión; comprobar el estado actual de ambos PR antes de usarla como estado vigente. La documentación de un cambio no lo integra en la rama principal.
+La fusión acredita que esos cambios están presentes en la rama principal, pero no demuestra conectividad externa ni aceptación de producción.
+
+**Pendiente de integración en esta revisión:**
+- [PR #24 — clasificación explícita obligatoria](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/24): exige que `TAMV_DEPLOYMENT_ENV` exista explícitamente antes de permitir cuota local; añade una prueba que rechaza el fallback si solo está definido `NODE_ENV=test`. En el momento de esta actualización, PR #24 sigue abierto y no se trata como parte de `main`.
+
+**Bloqueo de despliegue observado:** el check de Vercel para `main` reporta `failure` y enlaza a un destino con `upgradeToPro=build-rate-limit`. La causa exacta debe confirmarse desde el scope autorizado del proyecto; no debe confundirse con los resultados de GitHub Actions.
+
+Los estados de PR y las ramas son temporales. Verifica el SHA actual del head, el SHA integrado y el estado de los checks antes de usar esta nota como evidencia. Los workflows verdes no sustituyen pruebas live de Redis/PostgreSQL, el wiring de auditoría durable, la firma de release ni la procedencia SLSA.
 
 ## 5. Política de actualización documental
 
