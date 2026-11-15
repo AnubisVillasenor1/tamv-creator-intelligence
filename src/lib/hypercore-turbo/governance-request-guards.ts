@@ -77,3 +77,49 @@ export async function readBoundedRequestBody(
     reader.releaseLock();
   }
 }
+
+
+/**
+ * Reads a response body with a hard UTF-8 byte ceiling. Use for all remote
+ * providers, including identity and persistence services; Content-Length is
+ * advisory and never substitutes for counting streamed bytes.
+ */
+export async function readBoundedResponseText(
+  response: Response,
+  maxBytes: number,
+): Promise<string> {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) {
+    throw new Error("Invalid response size limit");
+  }
+  if (!response.body) return "";
+
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel("Response body exceeds configured size limit").catch(() => undefined);
+        throw new Error("Response body exceeds configured size limit");
+      }
+      chunks.push(value);
+    }
+
+    const bytes = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch (error) {
+    await reader.cancel().catch(() => undefined);
+    throw error;
+  } finally {
+    reader.releaseLock();
+  }
+}
