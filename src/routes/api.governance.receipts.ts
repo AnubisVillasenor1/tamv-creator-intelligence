@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { GOVERN_CORE_POLICY } from "../lib/hypercore-turbo/policy";
+import { GOVERN_CORE_POLICY, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
 import {
   createGovernanceReceiptStoreFromEnv,
   GovernanceReceiptStoreError,
@@ -132,6 +132,9 @@ export const Route = createFileRoute("/api/governance/receipts")({
           || !SHA256_PATTERN.test(input.artifactSha256)) {
           return jsonError("Target, source commit or artifact digest is invalid", 400);
         }
+
+        const policyValidation = validateGovernCorePolicy();
+        if (!policyValidation.valid) return jsonError("Governance policy validation failed", 503);
 
         const now = new Date().toISOString();
         const operation = input.operation as GovernanceOperation;
