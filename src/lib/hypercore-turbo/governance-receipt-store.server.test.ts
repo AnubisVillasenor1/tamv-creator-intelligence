@@ -105,6 +105,25 @@ describe("Supabase governance receipt store", () => {
       .rejects.toMatchObject({ code: "STATE_CONFLICT" });
   });
 
+  it("prevents removal of evidence from a later receipt state", async () => {
+    const evidence = [{ kind: "test" as const, sha256: digest, reference: "evidence-000001" }];
+    const running = { ...base, status: "running" as const, phase: "execution",
+      recordedAt: "2026-11-15T12:00:02Z", evidence };
+    const fetcher = vi.fn().mockResolvedValueOnce(
+      response([{ receipt_id: base.receiptId, status: "running", receipt: running }]),
+    );
+    const store = createGovernanceReceiptStore(
+      { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
+      async () => true,
+      fetcher,
+    );
+    const failed = { ...running, status: "failed" as const, phase: "postflight",
+      recordedAt: "2026-11-15T12:00:03Z", evidence: [] };
+    await expect(store.transition(base.receiptId, "running", failed))
+      .rejects.toMatchObject({ code: "RECEIPT_INVALID" });
+    expect(fetcher).toHaveBeenCalledOnce();
+  });
+
   it("rejects success transitions unless independent evidence verification succeeds", async () => {
     const running = { ...base, status: "running" as const, phase: "execution",
       recordedAt: "2026-11-15T12:00:02Z" };
