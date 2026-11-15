@@ -51,12 +51,12 @@ GRANT EXECUTE ON FUNCTION public.tamv_hypercore_audit_append() TO service_role;
 UNQUALIFIED_DIGEST_DEFINER = """
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
 CREATE OR REPLACE FUNCTION public.tamv_hypercore_audit_chain_insert()
-RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, extensions AS $
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, extensions AS $$
 BEGIN
   NEW.event_hash := encode(digest(convert_to(payload::text, 'UTF8'), 'sha256'), 'hex');
   RETURN NEW;
 END;
-$;
+$$;
 """
 
 QUALIFIED_DIGEST_DEFINER = UNQUALIFIED_DIGEST_DEFINER.replace(
