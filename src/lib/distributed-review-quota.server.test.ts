@@ -19,7 +19,7 @@ describe("distributed creator-review quota", () => {
   afterEach(() => vi.unstubAllEnvs());
 
   it("uses an atomic Redis EVAL request and returns the shared decision", async () => {
-    const fetcher = vi.fn(async () => new Response(JSON.stringify({
+    const fetcher = vi.fn(async (_input: RequestInfo | URL, _init?: RequestInit) => new Response(JSON.stringify({
       result: [1, "ok", 0, 39],
     }), { status: 200, headers: { "Content-Type": "application/json" } }));
 
@@ -33,7 +33,10 @@ describe("distributed creator-review quota", () => {
       source: "redis",
     });
     expect(fetcher).toHaveBeenCalledOnce();
-    const [url, init] = fetcher.mock.calls[0];
+    const call = fetcher.mock.calls[0];
+    expect(call).toBeDefined();
+    if (!call) throw new Error("Expected Redis fetch call");
+    const [url, init] = call;
     expect(url).toBe("https://redis.example.test");
     expect(init?.method).toBe("POST");
     expect(init?.signal).toBeDefined();
