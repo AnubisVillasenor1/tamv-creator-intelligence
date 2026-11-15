@@ -3,9 +3,9 @@ import { getRequest } from '@tanstack/react-start/server';
 import { contentSchema, reviewSchema } from './content-schema';
 import { authorizeGovernedCapability } from './hypercore-turbo/policy';
 import { requireSupabaseAuth } from '../integrations/supabase/auth-middleware';
+import { checkDistributedReviewQuota } from './distributed-review-quota.server';
 import {
   beginReview,
-  checkReviewQuota,
   endReview,
   endReviewWhenSettled,
   ReviewTimeoutError,
@@ -51,7 +51,7 @@ export const reviewContent = createServerFn({ method: 'POST' })
       throw jsonError(403, { error: "TAMV_GOVERNANCE_DENIED", reason: governance.reasonCode });
     }
 
-    const quota = checkReviewQuota(userId);
+    const quota = await checkDistributedReviewQuota(userId);
     if (!quota.allowed) {
       throw jsonError(
         429,
