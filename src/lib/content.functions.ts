@@ -51,26 +51,28 @@ export const reviewContent = createServerFn({ method: 'POST' })
       throw jsonError(403, { error: "TAMV_GOVERNANCE_DENIED", reason: governance.reasonCode });
     }
 
+    if (!beginReview()) {
+      throw jsonError(503, { ok: false, error: 'Capacidad de revisión saturada. Intenta de nuevo.', reason: 'server-busy' }, { 'Retry-After': '5' });
+    }
+
     const quota = await checkDistributedReviewQuota(userId);
     if (!quota.allowed) {
+      endReview();
       throw jsonError(
-        429,
+        quota.reason === 'server-busy' ? 503 : 429,
         {
           ok: false,
           error:
             quota.reason === 'daily-cap'
               ? 'Alcanzaste el límite diario de revisiones. Tu borrador sigue intacto.'
               : quota.reason === 'server-busy'
-                ? 'El servicio está atendiendo el máximo de revisiones simultáneas. Intenta en unos segundos.'
+                ? 'El servicio de cuotas no está disponible o la capacidad está saturada. Intenta en unos segundos.'
                 : 'Demasiadas revisiones en poco tiempo. Espera antes de reintentar.',
           reason: quota.reason,
           remainingToday: quota.remainingToday,
         },
         { 'Retry-After': String(quota.retryAfterSeconds) },
       );
-    }
-    if (!beginReview()) {
-      throw jsonError(503, { ok: false, error: 'Capacidad de revisión saturada. Intenta de nuevo.', reason: 'server-busy' }, { 'Retry-After': '5' });
     }
 
     // A timed-out upstream promise retains its concurrency slot until it actually settles.
