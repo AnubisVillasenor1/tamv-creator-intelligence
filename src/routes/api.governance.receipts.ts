@@ -105,17 +105,21 @@ export const Route = createFileRoute("/api/governance/receipts")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const identity = await authenticate(request);
-        if (identity instanceof Response) return identity;
-
+        // Reject malformed transport metadata before invoking the remote identity provider.
         const contentType = request.headers.get("content-type");
         if (!isJsonContentType(contentType)) {
           return jsonError("Content-Type must be application/json", 415);
         }
         const declaredLength = request.headers.get("content-length");
         if (!isDeclaredContentLengthWithinLimit(declaredLength, MAX_BODY_BYTES)) {
-          return jsonError("Invalid or oversized Content-Length", declaredLength !== null && /^\d+$/.test(declaredLength) ? 413 : 400);
+          const declaredAsDecimal = declaredLength !== null && /^(0|[1-9]\d*)$/.test(declaredLength);
+          const declaredBytes = declaredAsDecimal ? Number(declaredLength) : Number.NaN;
+          const status = Number.isSafeInteger(declaredBytes) && declaredBytes > MAX_BODY_BYTES ? 413 : 400;
+          return jsonError("Invalid or oversized Content-Length", status);
         }
+
+        const identity = await authenticate(request);
+        if (identity instanceof Response) return identity;
 
         const boundedBody = await readBoundedRequestBody(request, MAX_BODY_BYTES);
         if (!boundedBody.ok) {
