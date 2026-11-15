@@ -54,6 +54,9 @@ jobs:
       - name: Verify generated skill registry matches contracts
         run: node tamv-pack/scripts/generate-skill-registry.mjs --check
 
+      - name: Verify skills.sh discovery and groupings
+        run: node scripts/validate-skills-sh.mjs
+
       - name: Run Genesis evidence kernel tests
         run: node --experimental-strip-types --test tamv-genesis/tests/*.test.ts
 

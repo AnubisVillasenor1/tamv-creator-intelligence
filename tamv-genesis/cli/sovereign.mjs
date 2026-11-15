@@ -725,7 +725,7 @@ function runAudit() {
   );
 
   return {
-    generatedAt: "2026-11-13T00:00:00Z",
+    generatedAt: `${scorecardDoc.generatedAt}T00:00:00Z`,
     version: GENESIS_VERSION,
     certification,
     vocabulary,
