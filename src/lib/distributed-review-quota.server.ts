@@ -96,6 +96,39 @@ function parseDecision(value: unknown): ReviewQuotaDecision | null {
   };
 }
 
+
+async function readBoundedResponseText(response: Response, maxBytes: number): Promise<string> {
+  if (!response.body) return "";
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel("Quota response exceeds limit").catch(() => undefined);
+        throw new Error("Quota response exceeds limit");
+      }
+      chunks.push(value);
+    }
+    const bytes = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch (error) {
+    await reader.cancel().catch(() => undefined);
+    throw error;
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 function isConfigured(config: DistributedReviewQuotaConfig): boolean {
   try {
     return new URL(config.redisRestUrl).protocol === "https:"
@@ -174,8 +207,7 @@ export async function checkDistributedReviewQuota(
 
   let payload: unknown;
   try {
-    const text = await response.text();
-    if (new TextEncoder().encode(text).byteLength > 4096) return denied();
+    const text = await readBoundedResponseText(response, 4096);
     payload = JSON.parse(text);
   } catch {
     return denied();
