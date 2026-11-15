@@ -1,5 +1,8 @@
 # Auditoría profunda y ejecución de correcciones — TAMV Creator Intelligence
 
+
+> **Reconciliación posterior — 15 de noviembre de 2026:** PR #31 corrigió el fixture PL/pgSQL que provocaba el fallo de los tres workflows en el commit principal anterior. El fix quedó fusionado en `main` como `c56a2a6283ffb0d38a5e99d3f45b372ce27e09bd`. GitHub no reporta PRs abiertos; permanecen tres branches remotos no protegidos correspondientes a PRs fusionados y deben eliminarse mediante la operación administrativa de refs cuando esté disponible. Vercel sigue pendiente y el scope propietario no es accesible desde la conexión actual.
+
 **Corte:** 15 de noviembre de 2026  
 **Repositorio objetivo:** [AnubisVillasenor1/tamv-creator-intelligence](https://github.com/AnubisVillasenor1/tamv-creator-intelligence)  
 **Base de trabajo observada:** `e3c13d7ab06e203dadd42e054cccbbca3c4641c1`  

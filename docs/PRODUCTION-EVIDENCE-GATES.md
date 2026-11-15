@@ -55,7 +55,7 @@ Implemented controls:
 - Unit tests for allow, local-development-only fallback, production missing config, HTTP failure, malformed/oversized response, and transport failure.
 
 Still required before calling this production-verified:
-- [ ] Run unit tests and CI against the exact PR head SHA.
+- [x] Run unit tests and all three CI workflows against the exact PR #31 head SHA; all three completed successfully. The subsequent merge commit still needs fresh mainline checks.
 - [ ] Verify quota consistency using concurrent calls from independent server processes against a real disposable Redis/Upstash instance.
 - [ ] Test expiry and UTC-day boundaries, Redis outage, and credential rotation.
 - [ ] Verify deployment environment variables exist without exposing their values.

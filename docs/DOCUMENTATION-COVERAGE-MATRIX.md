@@ -61,28 +61,50 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Los cambios propuestos en PRs abiertos no forman parte de `main` hasta fusionarse | Se registra la separación de ramas y evidencia abajo | No anunciar esos gates como disponibles en `main` antes de merge + CI |
 | El registro de cierre no tiene el mismo significado que aceptación de producción | Se explicita en arquitectura y criterios de cierre | Mantener por separado estados de código, integración y entorno |
 
-## 4. Cambios integrados y gates pendientes — corte 2026-11-15
+## 4. Estado actual de integración y gates pendientes
 
-Los siguientes cambios se verificaron en el historial de GitHub y están integrados en `main`:
-- [PR #16 — preflight de entorno](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/16): comprobaciones de presencia/formato de variables y pruebas de no filtración.
-- [PR #17 — cierre de inventario de capacidades](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/17): validación de capacidades, estados y rutas de evidencia.
-- [PR #18 — documentación e integridad de enlaces](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/18): referencia de arquitectura, fuentes externas, runbook y validador documental.
-- [PR #19 — fallback de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/19), [PR #20 — target Vercel desconocido](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/20), [PR #21 — hardening adicional de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/21) y [PR #24 — clasificación explícita de entorno](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/24): controles fail-closed para cuotas y preflight estricto de producción.
+**Corte de GitHub:** 15 de noviembre de 2026.  
+**Commit principal:** `c56a2a6283ffb0d38a5e99d3f45b372ce27e09bd`.
 
-Los PR #22 y #25 se cerraron como actualizaciones documentales obsoletas después de cambiar el estado de `main`; no se consideran cambios integrados.
+### Integración de código
 
-### Gates externos aún pendientes
+Los PR recientes de hardening están integrados en `main`: #27, #28, #29, #30 y #31. El PR #31 corrigió el fixture PL/pgSQL sintético que hacía fallar los tres workflows en el commit principal anterior.
 
-| Gate | Estado verificado | Condición de cierre |
-|---|---|---|
-| PostgreSQL ledger | P0 bloqueado por diseño de secuencia/trigger | Esquema aprobado por Lovable, probe concurrente, cadena íntegra y pruebas de permisos/RLS en PostgreSQL desechable |
-| Redis/Upstash | Implementación y pruebas unitarias presentes; live no verificado | Cuota agregada desde procesos independientes, expiración, límite diario, outage y rotación |
-| AuditPort | No conectado a operación protegida con evidencia durable | Append durable integrado; fallo de append impide ejecutar la acción protegida |
-| Firma/procedencia de release | Sin evidencia de firma/atestación del artefacto vigente | Firma Ed25519, SBOM y atestación del digest exacto verificada en entorno limpio |
-| Vercel | Check falla con destino `upgradeToPro=build-rate-limit`; scope administrativo inaccesible por la integración conectada | Propietario confirma el límite/build plan, proyecto/repositorio/branch/SHA y reintenta deployment |
-| Capacidades no implementadas | Varias rutas devuelven 501 intencionalmente | Implementar proveedor/worker específico y pruebas reales; no declarar capacidades operativas desde contratos |
+GitHub no reporta PRs abiertos en este corte.
 
-Los checks de GitHub Actions y la configuración de Vercel son evidencias separadas. No convertir un workflow verde ni un deployment READY en afirmación de integración live, restauración, firma, autorización o persistencia.
+### Branches remotos que ya no tienen función
+
+Permanecen tres branches no protegidos asociados a PRs ya fusionados:
+
+- `fix/ledger-security-test-fixture-2026-11-15` — PR #31 fusionado.
+- `hardening/definer-extension-resolution-2026-11-15` — PR #30 fusionado.
+- `hardening/ledger-sequence-privilege-guard-2026-11-15` — PR #29 fusionado.
+
+Son candidatos de eliminación. La conexión GitHub disponible en esta sesión no expone una operación administrativa de borrado de refs, por lo que no se presenta una eliminación ficticia. Mientras tanto, no son ramas activas de desarrollo.
+
+### Evidencia de CI
+
+PR #31 se validó en su SHA exacto `97fe87b72e35db94a99e9aaf15321ba34c194475` con éxito en:
+- `ci.yml`
+- `tamv-creator-intelligence-ci.yml`
+- `validate-pack.yml`
+
+El merge produjo `c56a2a6283ffb0d38a5e99d3f45b372ce27e09bd`. Las ejecuciones antiguas sobre `6ab68b...` quedaron en `failure` por el fixture ya corregido; no deben seguir utilizándose como evidencia de un fallo del runtime actual.
+
+### Vercel
+
+El check de Vercel del commit principal aparece `pending` y apunta a un deployment en el scope `metaversotamvonline-3484s-projects`. La integración administrativa no tiene acceso a ese scope; por ello siguen sin verificarse el proyecto asociado, variables por target, artefacto desplegado, branch de producción y causa final de la aceptación de Vercel.
+
+### Gates de producción todavía abiertos
+
+- **P0 — Ledger:** el orden canónico de `sequence_id` sigue requiriendo corrección de esquema mediante el flujo administrado por Lovable.
+- **P0 — Release:** firma Ed25519 real y procedencia/attestation verificable siguen pendientes.
+- **P1 — PostgreSQL:** prueba concurrente live, RLS/grants, mutaciones negativas, reinicio y restauración siguen pendientes.
+- **P1 — AuditPort:** no existe evidencia live de que el camino protegido escriba en un ledger durable y falle cerrado cuando la auditoría requerida no está disponible.
+- **P1 — Redis/Upstash:** falta prueba multi-instancia, expiración, límites diarios y rotación/outage contra infraestructura real.
+- **P1 — Vercel:** falta acceso administrativo al scope propietario y aceptación del deployment.
+
+No se debe interpretar este estado como certificación de producción ni como deuda técnica cero.
 
 ## 5. Política de actualización documental
 

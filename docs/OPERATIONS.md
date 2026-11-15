@@ -37,6 +37,8 @@ El proyecto reúne cuatro superficies con responsabilidades diferentes:
 
 La IA propone; la persona conserva el control creativo. El flujo implementado no publica contenido, no ejecuta campañas ni toma decisiones legales o financieras definitivas.
 
+**Reconciliación de estado posterior:** el fixture del detector de ledger fue corregido en PR #31 y el fix se integró en `main` (`c56a2a6...`). Los tres workflows pasaron en el SHA del PR. Deben observarse las nuevas ejecuciones sobre el commit de merge antes de declarar CI del `main` completamente verde. Vercel permanece pendiente y su scope administrativo no está accesible desde la conexión actual.
+
 ## Actualización de hardening — 2026-11-15
 **Clasificación de entorno para cuotas (hardening adicional):** el fallback en memoria solo se permite en un runtime local sin marcadores de Vercel y con `TAMV_DEPLOYMENT_ENV=local`, `development` o `test`. El `.env.example` opta explícitamente por `local` para uso local. Si existen `VERCEL`, `VERCEL_ENV` o `VERCEL_URL`, la falta de Redis debe denegar la operación aunque `NODE_ENV` indique `development`; esto protege frente a una clasificación errónea y no convierte la cuota local en global.
 
