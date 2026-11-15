@@ -20,7 +20,7 @@ Configure provider credentials in the target deployment secret manager, never in
 | Release verification | TAMV_ATTRIBUTION_PUBLIC_KEY | Ed25519 public key in PEM format |
 | Release verification | TAMV_CERTIFICATION_REQUIRED | Literal string true for a production release |
 
-The preflight checks presence and basic shape only. It does not contact providers, prove credentials work, or prove that database tables and RLS are deployed. Strict mode is production-only: both `NODE_ENV` and `TAMV_DEPLOYMENT_ENV` must be `production`, and when Vercel supplies `VERCEL_ENV` it must also be `production`. Local work may set `TAMV_DEPLOYMENT_ENV=local`; this value must never be carried over as the production setting.
+The preflight checks presence and basic shape only. It does not contact providers, prove credentials work, or prove that database tables and RLS are deployed. Strict mode is production-only: both `NODE_ENV` and `TAMV_DEPLOYMENT_ENV` must be `production`. If `VERCEL` or `VERCEL_URL` marks this as a Vercel runtime, `VERCEL_ENV` must be present and equal `production`; an unknown or Preview target is rejected. Local work may set `TAMV_DEPLOYMENT_ENV=local`; this value must never be carried over as the production setting.
 
 ## Commands
 
