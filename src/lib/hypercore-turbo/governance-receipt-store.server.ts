@@ -1,4 +1,5 @@
 /* global process */
+import { readBoundedResponseText } from "./governance-request-guards";
 import {
   canTransitionOperation,
   validateGovernanceReceipt,
@@ -54,6 +55,9 @@ export interface GovernanceReceiptStore {
 }
 
 const TABLE_PATTERN = /^[a-z][a-z0-9_]{0,62}$/;
+const MAX_SUCCESS_RESPONSE_BYTES = 1024 * 1024;
+const MAX_ERROR_RESPONSE_BYTES = 4096;
+
 
 function assertValidReceipt(receipt: GovernanceOperationReceipt): void {
   const validation = validateGovernanceReceipt(receipt);
@@ -128,13 +132,16 @@ export function createGovernanceReceiptStore(
           ...(init.headers ?? {}),
         },
         cache: "no-store",
+        signal: init.signal ?? AbortSignal.timeout(10_000),
       });
     } catch (error) {
       throw new GovernanceReceiptStoreError("Receipt backend is unreachable", "BACKEND_ERROR", { cause: error });
     }
 
     if (!response.ok) {
-      const detail = (await response.text()).slice(0, 500);
+      const detail = await readBoundedResponseText(response, MAX_ERROR_RESPONSE_BYTES)
+        .then((text) => text.slice(0, 500))
+        .catch(() => "[response body omitted]");
       if (response.status === 409 || response.status === 412) {
         throw new GovernanceReceiptStoreError("Concurrent receipt update rejected", "STATE_CONFLICT");
       }
@@ -144,8 +151,17 @@ export function createGovernanceReceiptStore(
       );
     }
     if (response.status === 204) return undefined as T;
-    const text = await response.text();
-    return (text ? JSON.parse(text) : undefined) as T;
+    let text: string;
+    try {
+      text = await readBoundedResponseText(response, MAX_SUCCESS_RESPONSE_BYTES);
+    } catch (error) {
+      throw new GovernanceReceiptStoreError("Receipt backend returned an unreadable or oversized response", "BACKEND_ERROR", { cause: error });
+    }
+    try {
+      return (text ? JSON.parse(text) : undefined) as T;
+    } catch (error) {
+      throw new GovernanceReceiptStoreError("Receipt backend returned invalid JSON", "BACKEND_ERROR", { cause: error });
+    }
   }
 
   async function byIdempotencyKey(idempotencyKey: string): Promise<StoredReceipt | null> {

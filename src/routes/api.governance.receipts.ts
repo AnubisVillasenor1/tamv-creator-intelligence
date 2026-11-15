@@ -1,7 +1,14 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { GOVERN_CORE_POLICY, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
-import { isBearerTokenWithinLimit, isJsonContentType } from "../lib/hypercore-turbo/governance-request-guards";
+import {
+  isBearerTokenWithinLimit,
+  isDeclaredContentLengthWithinLimit,
+  isJsonContentType,
+  isValidSupabaseIdentityPayload,
+  readBoundedRequestBody,
+  readBoundedResponseText,
+} from "../lib/hypercore-turbo/governance-request-guards";
 import {
   createGovernanceReceiptStoreFromEnv,
   GovernanceReceiptStoreError,
@@ -21,7 +28,10 @@ const OPERATIONS = new Set<GovernanceOperation>([
 ]);
 
 function noStoreHeaders(): HeadersInit {
-  return { "Cache-Control": "no-store, max-age=0", "X-Content-Type-Options": "nosniff" };
+  return {
+    "Cache-Control": "no-store, max-age=0",
+    "X-Content-Type-Options": "nosniff",
+  };
 }
 
 function jsonError(message: string, status: number): Response {
@@ -31,9 +41,9 @@ function jsonError(message: string, status: number): Response {
 async function authenticate(request: Request): Promise<{ actorRef: string } | Response> {
   const authorization = request.headers.get("authorization");
   const token = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
-  const url = process.env['SUPABASE_URL'];
-  const publishableKey = process.env['SUPABASE_PUBLISHABLE_KEY'];
-  const actorSalt = process.env['TAMV_GOVERNANCE_ACTOR_SALT'];
+  const url = process.env["SUPABASE_URL"];
+  const publishableKey = process.env["SUPABASE_PUBLISHABLE_KEY"];
+  const actorSalt = process.env["TAMV_GOVERNANCE_ACTOR_SALT"];
 
   if (!url || !publishableKey || !actorSalt || actorSalt.length < 32) {
     return jsonError("Governance authentication is not configured", 503);
@@ -47,6 +57,7 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
       method: "GET",
       headers: { apikey: publishableKey, Authorization: `Bearer ${token}` },
       cache: "no-store",
+      signal: AbortSignal.timeout(5_000),
     });
   } catch {
     return jsonError("Identity provider unavailable", 503);
@@ -55,11 +66,12 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
 
   let user: { id?: unknown };
   try {
-    user = await authResponse.json() as { id?: unknown };
+    user = JSON.parse(await readBoundedResponseText(authResponse, 16 * 1024)) as { id?: unknown };
   } catch {
     return jsonError("Identity provider returned an invalid response", 503);
   }
-  if (typeof user.id !== "string" || !/^[0-9a-f-]{20,64}$/i.test(user.id)) {
+
+  if (!isValidSupabaseIdentityPayload(user)) {
     return jsonError("Authenticated identity is invalid", 401);
   }
 
@@ -95,29 +107,39 @@ export const Route = createFileRoute("/api/governance/receipts")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const identity = await authenticate(request);
-        if (identity instanceof Response) return identity;
-
+        // Reject malformed transport metadata before invoking the remote identity provider.
         const contentType = request.headers.get("content-type");
         if (!isJsonContentType(contentType)) {
           return jsonError("Content-Type must be application/json", 415);
         }
-        const declaredLength = Number(request.headers.get("content-length") ?? "0");
-        if (declaredLength > MAX_BODY_BYTES) return jsonError("Request body too large", 413);
+        const declaredLength = request.headers.get("content-length");
+        if (!isDeclaredContentLengthWithinLimit(declaredLength, MAX_BODY_BYTES)) {
+          const declaredAsDecimal = declaredLength !== null && /^(0|[1-9]\d*)$/.test(declaredLength);
+          const declaredBytes = declaredAsDecimal ? Number(declaredLength) : Number.NaN;
+          const status = Number.isSafeInteger(declaredBytes) && declaredBytes > MAX_BODY_BYTES ? 413 : 400;
+          return jsonError("Invalid or oversized Content-Length", status);
+        }
+
+        const boundedBody = await readBoundedRequestBody(request, MAX_BODY_BYTES);
+        if (!boundedBody.ok) {
+          return boundedBody.reason === "too-large"
+            ? jsonError("Request body too large", 413)
+            : jsonError("Unable to read request body", 400);
+        }
 
         let raw: unknown;
         try {
-          const body = await request.text();
-          if (new TextEncoder().encode(body).byteLength > MAX_BODY_BYTES) {
-            return jsonError("Request body too large", 413);
-          }
-          raw = JSON.parse(body);
+          raw = JSON.parse(boundedBody.text);
         } catch {
           return jsonError("Invalid JSON body", 400);
         }
         if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
           return jsonError("Request body must be an object", 400);
         }
+
+        // Bound and parse untrusted input before invoking the remote identity provider.
+        const identity = await authenticate(request);
+        if (identity instanceof Response) return identity;
 
         const input = raw as Record<string, unknown>;
         const idempotencyKey = request.headers.get("idempotency-key") ?? "";
@@ -141,7 +163,10 @@ export const Route = createFileRoute("/api/governance/receipts")({
 
         const now = new Date().toISOString();
         const operation = input.operation as GovernanceOperation;
+        // Persist only an actor-scoped digest. A globally unique database
+        // constraint must not let one actor reserve another actor's raw key.
         const binding = `${identity.actorRef}:${idempotencyKey}`;
+        const scopedIdempotencyKey = await stableId("idem", binding);
         const receipt: GovernanceOperationReceipt = {
           schema: "tamv.governance.receipt.v1",
           receiptId: await stableId("receipt", binding),
@@ -154,7 +179,7 @@ export const Route = createFileRoute("/api/governance/receipts")({
           sourceCommitSha: input.sourceCommitSha,
           artifactSha256: input.artifactSha256,
           policyVersion: GOVERN_CORE_POLICY.version,
-          idempotencyKey,
+          idempotencyKey: scopedIdempotencyKey,
           startedAt: now,
           recordedAt: now,
           evidence: [],

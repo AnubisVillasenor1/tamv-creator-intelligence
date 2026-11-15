@@ -158,3 +158,73 @@ describe("Supabase governance receipt store", () => {
     expect(fetcher.mock.calls[1][1].method).toBe("PATCH");
   });
 });
+
+
+describe("PostgREST response size and parse boundaries", () => {
+  it("rejects oversized successful responses before parsing", async () => {
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new Uint8Array(1024 * 1024 + 1));
+        controller.close();
+      },
+    });
+    const fetcher = vi.fn().mockResolvedValue(new Response(body, {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    }));
+    const store = createGovernanceReceiptStore(
+      { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
+      async () => false,
+      fetcher,
+    );
+
+    await expect(store.create(base)).rejects.toMatchObject({
+      name: "GovernanceReceiptStoreError",
+      code: "BACKEND_ERROR",
+      message: "Receipt backend returned an unreadable or oversized response",
+    });
+  });
+
+  it("fails closed when a successful backend response contains malformed JSON", async () => {
+    const fetcher = vi.fn().mockResolvedValue(new Response("{not-json", {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    }));
+    const store = createGovernanceReceiptStore(
+      { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
+      async () => false,
+      fetcher,
+    );
+
+    await expect(store.create(base)).rejects.toMatchObject({
+      name: "GovernanceReceiptStoreError",
+      code: "BACKEND_ERROR",
+      message: "Receipt backend returned invalid JSON",
+    });
+  });
+
+  it("does not include oversized backend error bodies in thrown errors", async () => {
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new Uint8Array(4097).fill(65));
+        controller.close();
+      },
+    });
+    const fetcher = vi.fn().mockResolvedValue(new Response(body, { status: 500 }));
+    const store = createGovernanceReceiptStore(
+      { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
+      async () => false,
+      fetcher,
+    );
+
+    let thrown: unknown;
+    try {
+      await store.create(base);
+    } catch (error) {
+      thrown = error;
+    }
+    expect(thrown).toBeInstanceOf(GovernanceReceiptStoreError);
+    expect((thrown as Error).message.length).toBeLessThan(200);
+    expect((thrown as Error).message).not.toContain("A".repeat(100));
+  });
+});
