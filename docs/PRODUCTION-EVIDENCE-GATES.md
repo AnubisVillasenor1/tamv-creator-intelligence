@@ -6,7 +6,7 @@
 
 ### Safe concurrency probe
 
-A guarded integration probe is available at `scripts/test-hypercore-ledger-postgres.mjs`. It requires an explicit opt-in and a database name containing `test`, `disposable`, or `ci`; it refuses names that resemble production or staging. It performs permanent append-only inserts, so run it only against a freshly provisioned disposable database.
+A guarded integration probe is available at `scripts/test-hypercore-ledger-postgres.mjs`. It requires an explicit opt-in and a database name containing a standalone `test`, `tests`, `testing`, `disposable`, or `ci` token; it refuses names that resemble production or staging. It performs permanent append-only inserts, so run it only against a freshly provisioned disposable database.
 
 ```sh
 TAMV_HYPERCORE_LEDGER_TEST=1 \
