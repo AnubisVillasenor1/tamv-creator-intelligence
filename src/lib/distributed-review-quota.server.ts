@@ -1,6 +1,6 @@
 /* global process */
 import { createHash } from "node:crypto";
-import { checkReviewQuota as checkLocalReviewQuota, type ReviewQuotaDecision } from "./review-guard";
+import {\n  checkReviewQuota as checkLocalReviewQuota,\n  REVIEW_BURST,\n  REVIEW_DAILY_CAP,\n  REVIEW_REFILL_PER_HOUR,\n  type ReviewQuotaDecision,\n} from "./review-guard";
 
 const REDIS_TIMEOUT_MS = 2_000;
 const REDIS_KEY_TTL_MS = 172_800_000;
@@ -92,7 +92,7 @@ function parseDecision(value: unknown): ReviewQuotaDecision | null {
     allowed: isAllowed,
     reason: normalizedReason,
     retryAfterSeconds: Math.max(0, Math.min(86_400, Math.ceil(Number(retryAfterSeconds)))),
-    remainingToday: Math.max(0, Math.min(40, Math.floor(Number(remainingToday)))),
+    remainingToday: Math.max(0, Math.min(REVIEW_DAILY_CAP, Math.floor(Number(remainingToday)))),
   };
 }
 
@@ -188,9 +188,9 @@ export async function checkDistributedReviewQuota(
         key,
         String(now),
         utcDay(now),
-        "6",
-        "6",
-        "40",
+        String(REVIEW_BURST),
+        String(REVIEW_REFILL_PER_HOUR),
+        String(REVIEW_DAILY_CAP),
         String(REDIS_KEY_TTL_MS),
       ]),
       cache: "no-store",
