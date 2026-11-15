@@ -40,5 +40,8 @@ jobs:
       - name: Validate TAMV certification and package
         run: bun run tamv:check
 
+      - name: Validate governance receipt SQL invariants
+        run: node scripts/validate-governance-receipts-sql.mjs
+
       - name: Production build
         run: bun run build
