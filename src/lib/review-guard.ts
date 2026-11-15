@@ -20,6 +20,8 @@ export const REVIEW_REFILL_PER_HOUR = 6;
 export const REVIEW_DAILY_CAP = 40;
 /** Concurrent reviews allowed per process. */
 export const REVIEW_MAX_IN_FLIGHT = 4;
+/** Hard memory bound for process-local quota buckets. Distributed quotas remain a separate production gate. */
+export const REVIEW_MAX_TRACKED_USERS = 5_000;
 
 interface Bucket {
   tokens: number;
@@ -52,7 +54,16 @@ export function checkReviewQuota(userId: string, now = Date.now()): ReviewQuotaD
 
   const day = dayKey(now);
   let bucket = buckets.get(userId);
-  if (!bucket || bucket.day !== day) {
+  if (!bucket) {
+    if (buckets.size >= REVIEW_MAX_TRACKED_USERS) prune(now);
+    // Do not let unique authenticated IDs grow this process-local map without bound.
+    // This is a fail-closed capacity limit, not a substitute for a shared quota store.
+    if (buckets.size >= REVIEW_MAX_TRACKED_USERS) {
+      return { allowed: false, reason: "server-busy", retryAfterSeconds: 60, remainingToday: 0 };
+    }
+    bucket = { tokens: REVIEW_BURST, updatedAt: now, day, usedToday: 0 };
+    buckets.set(userId, bucket);
+  } else if (bucket.day !== day) {
     bucket = { tokens: REVIEW_BURST, updatedAt: now, day, usedToday: 0 };
     buckets.set(userId, bucket);
   } else {
@@ -71,7 +82,6 @@ export function checkReviewQuota(userId: string, now = Date.now()): ReviewQuotaD
 
   bucket.tokens -= 1;
   bucket.usedToday += 1;
-  prune(now);
   return {
     allowed: true,
     reason: "ok",
@@ -135,7 +145,7 @@ export function endReviewWhenSettled(workSettled: Promise<void>): void {
 }
 
 function prune(now: number): void {
-  if (buckets.size < 5_000) return;
+  if (buckets.size < REVIEW_MAX_TRACKED_USERS) return;
   for (const [key, bucket] of buckets) {
     if (now - bucket.updatedAt > 86_400_000) buckets.delete(key);
   }
