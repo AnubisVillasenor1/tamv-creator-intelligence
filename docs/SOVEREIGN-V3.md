@@ -34,7 +34,9 @@ declarar una versión certificada.
 4. La firma Ed25519 cubre el sello completo sin el bloque `signature`.
 
 La serialización canónica ordena claves, rechaza `undefined`, rechaza números no
-finitos y rechaza rutas absolutas, retrocesos (`..`) y separadores de Windows.
+finitos y rechaza rutas absolutas, retrocesos (`..`), separadores de Windows,
+nombres de dispositivo reservados (`CON`, `NUL`, `COM1`…), segmentos con punto o
+espacio final y caracteres ilegales en Windows (`<>:"|?*`).
 También rechaza objetos no planos (`Date`, `Map`, `Set`, `RegExp` o instancias de
 clase): antes se serializaban en silencio como `{}`, perdiendo datos y pudiendo
 producir colisiones de digest entre payloads distintos. Ahora fallan de forma
@@ -152,6 +154,7 @@ node --experimental-strip-types tamv-genesis/scripts/v3-hybrid.mjs seal \
 |---|---|
 | Canonicalización determinista y rechazo de rutas inseguras | Probado por tests locales. |
 | Canonicalización rechaza objetos no planos sin perder datos | Probado por tests locales. |
+| Las rutas rechazan nombres reservados y sufijos/caracteres no portables | Probado por tests locales. |
 | SHA-256, Ed25519, X25519 y AES-GCM operan en Node v24.18.0 | Probado localmente. |
 | Editar, quitar o añadir una skill rompe el sello | Probado por tests locales. |
 | El log de transparencia encadena entradas y detecta reescrituras | Probado por tests locales. |

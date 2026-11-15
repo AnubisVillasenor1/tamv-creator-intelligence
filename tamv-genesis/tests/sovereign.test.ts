@@ -77,6 +77,20 @@ test("relative paths reject traversal and platform separators", () => {
   assert.throws(() => assertSafeRelativePath("/etc/passwd"));
 });
 
+test("relative paths reject non-portable names across platforms", () => {
+  assert.doesNotThrow(() => assertSafeRelativePath("skills/tamv-creator-os/references/fusion.md"));
+  assert.doesNotThrow(() => assertSafeRelativePath("console.md"));
+  for (const reserved of ["CON", "nul.md", "skills/COM1", "lpt9.txt", "aux"]) {
+    assert.throws(() => assertSafeRelativePath(reserved), /reserved device name/);
+  }
+  for (const suffix of ["skills/foo.", "skills/foo ", "trail."]) {
+    assert.throws(() => assertSafeRelativePath(suffix), /not portable/);
+  }
+  for (const illegal of ['skills/a<b', 'skills/a:b', 'skills/a"b', "skills/a|b", "skills/a?b", "skills/a*b"]) {
+    assert.throws(() => assertSafeRelativePath(illegal), /not portable/);
+  }
+});
+
 test("SHA-256 matches the published empty-string vector", async () => {
   assert.equal(
     await sha256Hex(""),

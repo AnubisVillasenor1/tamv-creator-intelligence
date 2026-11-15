@@ -231,7 +231,7 @@ node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --verif
 bash scripts/verify-slsa.sh
 ```
 
-`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **77/77 pruebas aprobadas** localmente (Node v24.18.0), incluidas las del núcleo soberano y las 11 del log de transparencia, y se verificaron la estructura del sello v3 y la cadena del log de transparencia con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
+`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **78/78 pruebas aprobadas** localmente (Node v24.18.0), incluidas las del núcleo soberano y las 11 del log de transparencia, y se verificaron la estructura del sello v3 y la cadena del log de transparencia con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
 
 La firma y recertificación corresponden al responsable autorizado del release, con las claves suministradas de forma segura:
 

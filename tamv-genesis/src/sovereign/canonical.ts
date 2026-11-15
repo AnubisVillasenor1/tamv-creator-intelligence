@@ -49,7 +49,12 @@ export function canonicalJson(value: unknown): string {
   throw new TamvCanonicalError(`A canonical payload cannot contain ${kind}.`);
 }
 
-/** Reject absolute paths, backslashes, traversal and empty segments. */
+const WINDOWS_RESERVED_NAME = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(\..*)?$/i;
+const NON_PORTABLE_SEGMENT_CHARS = /[<>:"|?*]/;
+
+/** Reject absolute paths, backslashes, traversal, empty segments and names that
+ * behave differently across platforms (Windows reserved devices, trailing
+ * dots/spaces and illegal filename characters). */
 export function assertSafeRelativePath(path: string): void {
   if (typeof path !== "string" || path.length === 0 || path.length > 512) {
     throw new TamvCanonicalError("An invalid relative path was supplied.");
@@ -57,8 +62,15 @@ export function assertSafeRelativePath(path: string): void {
   if (path.startsWith("/") || path.includes("\\") || path.includes("\0")) {
     throw new TamvCanonicalError("Only forward-slash relative paths are allowed.");
   }
-  const segments = path.split("/");
-  if (segments.some((segment) => segment.length === 0 || segment === "." || segment === "..")) {
-    throw new TamvCanonicalError("Path traversal is not allowed.");
+  for (const segment of path.split("/")) {
+    if (segment.length === 0 || segment === "." || segment === "..") {
+      throw new TamvCanonicalError("Path traversal is not allowed.");
+    }
+    if (NON_PORTABLE_SEGMENT_CHARS.test(segment) || segment.endsWith(".") || segment.endsWith(" ")) {
+      throw new TamvCanonicalError("A path segment uses characters or suffixes that are not portable across platforms.");
+    }
+    if (WINDOWS_RESERVED_NAME.test(segment)) {
+      throw new TamvCanonicalError("A path segment uses a reserved device name.");
+    }
   }
 }
