@@ -112,6 +112,18 @@ def _service_role_has_append_execute(sql: str) -> bool:
         for match in re.finditer(pattern, sql, re.IGNORECASE)
     )
 
+def _has_direct_insert_grant(sql: str) -> bool:
+    """Reject any explicit INSERT/ALL grant that bypasses the append function."""
+    pattern = (
+        r"GRANT\s+(.+?)\s+ON\s+(?:TABLE\s+)?"
+        r"(?:public\.)?tamv_hypercore_audit_events\s+TO\s+[^;]+;"
+    )
+    for match in re.finditer(pattern, sql, re.IGNORECASE | re.DOTALL):
+        privileges = match.group(1).upper()
+        if re.search(r"\bINSERT\b", privileges) or re.search(r"\bALL(?:\s+PRIVILEGES)?\b", privileges):
+            return True
+    return False
+
 
 def chain_order_findings(sql: str) -> list[str]:
     """Detect identity/trigger order races and weak append-function boundaries.
@@ -146,7 +158,7 @@ def chain_order_findings(sql: str) -> list[str]:
     trigger_header, trigger_body = trigger
     trigger_key, trigger_lock_position = _lock_key_and_position(trigger_body)
     sequence_assignment = re.search(
-        r"NEW\s*\.\s*sequence_id\s*:=\s*nextval\s*\(",
+        r"NEW\s*\.\s*sequence_id\s*:=\s*nextval\s*\(\s*pg_get_serial_sequence\s*\(\s*'public\.tamv_hypercore_audit_events'\s*,\s*'sequence_id'\s*\)\s*\)\s*(?:::bigint)?",
         trigger_body,
         re.IGNORECASE,
     )
@@ -195,20 +207,23 @@ def chain_order_findings(sql: str) -> list[str]:
     revoked_roles = _revoked_insert_roles(sql)
     direct_insert_revoked = REQUIRED_DIRECT_INSERT_REVOKALS.issubset(revoked_roles)
     append_execute_granted = _service_role_has_append_execute(sql)
+    direct_insert_granted = _has_direct_insert_grant(sql)
 
     if not (
         trigger_key
         and append_function_safe
         and direct_insert_revoked
         and append_execute_granted
+        and not direct_insert_granted
     ):
         findings.append(
             "P0 chain-order risk: sequence_id is GENERATED ALWAYS AS IDENTITY, but its value is "
             "allocated before the BEFORE INSERT trigger acquires the chain advisory lock. "
-            "No safe override inside the trigger or fully controlled pre-insert append boundary "
-            "was proven. The append path must use the same literal advisory-lock key, a SECURITY "
-            "DEFINER function with a reviewed fixed search_path, explicit service_role EXECUTE, "
-            "and revocation of direct INSERT from anon/authenticated/service_role."
+            "No safe override using the exact ledger sequence or fully controlled pre-insert append "
+            "boundary was proven. The append path must use the same literal advisory-lock key, a "
+            "SECURITY DEFINER function with a reviewed fixed search_path, explicit service_role "
+            "EXECUTE, revocation of direct INSERT from anon/authenticated/service_role, and no "
+            "explicit INSERT/ALL grant that bypasses the append boundary."
         )
     return findings
 
