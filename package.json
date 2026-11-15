@@ -21,8 +21,9 @@
     "hooks:install": "bash scripts/install-git-hooks.sh",
     "hooks:test": "bash scripts/test-git-hooks.sh && python3 scripts/test-repo-hygiene.py",
     "slsa:test": "bash scripts/test-verify-slsa.sh",
-    "ops:closure": "node scripts/validate-capability-closure.mjs",
-    "ops:closure:test": "node scripts/test-capability-closure.mjs"
+    "ops:preflight": "node scripts/check-production-env.mjs",
+    "ops:preflight:strict": "node scripts/check-production-env.mjs --strict",
+    "ops:preflight:test": "node scripts/test-production-env-check.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"
