@@ -58,14 +58,21 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Los cambios propuestos en PRs abiertos no forman parte de `main` hasta fusionarse | Se registra la separación de ramas y evidencia abajo | No anunciar esos gates como disponibles en `main` antes de merge + CI |
 | El registro de cierre no tiene el mismo significado que aceptación de producción | Se explicita en arquitectura y criterios de cierre | Mantener por separado estados de código, integración y entorno |
 
-## 4. Cambios recientes que aún no son parte de main
+## 4. Estado de integración y cambios posteriores
 
-En el momento de esta revisión, estos pull requests estaban abiertos y no fusionados:
+Esta sección se actualizó contra el estado de GitHub del 15 de noviembre de 2026. Los PR #16, #17, #18 y #19 aparecen fusionados en `main`:
 
-- [PR #16 — preflight de entorno de producción](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/16): validación de presencia/formato de variables y pruebas de no filtración. No valida conectividad real ni credenciales.
-- [PR #17 — validación de cierre de capacidades](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/17): consistencia de inventarios, estados, rutas de evidencia y cobertura. No ejecuta proveedores ni verifica pruebas citadas.
+- [PR #16 — preflight de entorno](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/16): incorporó la comprobación inicial de presencia/forma de configuración y pruebas que evitan imprimir valores de secretos.
+- [PR #17 — cierre de inventario de capacidades](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/17): incorporó el validador de consistencia de capabilities y evidencias de cierre.
+- [PR #18 — documentación, fuentes y validación de enlaces](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/18): incorporó los nuevos documentos operativos y el gate automatizado para rutas/anclas de los documentos mantenidos.
+- [PR #19 — clasificación explícita para cuota local](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/19): endureció el fallback en memoria para que requiera clasificación de entorno explícita y se deniegue en runtimes Vercel.
 
-Esta nota es una instantánea de revisión; comprobar el estado actual de ambos PR antes de usarla como estado vigente. La documentación de un cambio no lo integra en la rama principal.
+La fusión de estos cambios acredita su presencia en la rama principal, pero no prueba conectividad externa ni aceptación de producción.
+
+**Pendiente de integración en esta revisión:**
+- [PR #20 — target Vercel desconocido en preflight estricto](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/20): añade una prueba negativa para que el gate productivo rechace un runtime Vercel cuando `VERCEL_ENV` falta o no indica `production`. En el momento de esta actualización, el PR sigue abierto aunque sus workflows de GitHub Actions aparecen exitosos. No se debe describir este ajuste como disponible en `main` hasta confirmar que se fusionó.
+
+Las ramas y estados de PR son temporales. Verifica estado actual, SHA del head y SHA integrado antes de utilizar esta nota como evidencia. Un workflow verde no sustituye las pruebas live de Redis/PostgreSQL, el wiring de auditoría durable, la firma de release ni la procedencia SLSA.
 
 ## 5. Política de actualización documental
 
