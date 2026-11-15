@@ -14,7 +14,7 @@ Fecha de revisión: 2026-11-15.
 | Patrón de referencia | Adaptación TAMV | Evidencia en este cambio | Límite |
 |---|---|---|---|
 | Separación de identidad del operador, administrador y destino | Referencias opacas diferenciadas para actor y destino; la referencia no se trata como credencial | `src/lib/hypercore-turbo/governance-receipt.ts` | No autentica identidades; el adaptador server-side debe resolverlas |
-| Recibos de instalación/operación y evidencia verificable | Sobre de recibo metadata-only con digest SHA-256 y referencias opacas | Contrato y pruebas unitarias | No existe todavía almacén durable ni firma de recibos |
+| Recibos de instalación/operación y evidencia verificable | Sobre metadata-only, almacén Supabase/PostgREST, clave idempotente única y eventos append-only por trigger | Contrato, adaptador server-only, endpoint autenticado, pruebas y especificación SQL para Lovable | El esquema debe provisionarse y probarse en Supabase; no existe firma de recibos en este PR |
 | Reanudar la misma operación sin cambiar fuente o destino | Validador de binding que fija operationId, commit, digest, destino e idempotency key | `validateResumeBinding` y pruebas | No ejecuta ni reanuda operaciones por sí mismo |
 | Estados terminales e interpretación explícita de fallos | Máquina de transiciones que prohíbe reabrir estados terminales | `canTransitionOperation` y pruebas | Falta persistencia atómica de transiciones |
 | Releases inmutables y hashes de artefactos | El recibo vincula commit y digest exacto; no declara release firmada | Contrato de recibo | La firma Ed25519 y la procedencia siguen siendo gates independientes |
@@ -24,7 +24,7 @@ Fecha de revisión: 2026-11-15.
 
 ## Contrato de recibo
 
-El recibo identifica la operación, la fase, el estado, la política aplicada, la revisión del código, el digest del artefacto, el actor y destino mediante referencias opacas y los digests de evidencia. No contiene el payload de evidencia.
+El recibo identifica la operación, la fase, el estado, la política aplicada, la revisión del código, el digest del artefacto, el actor y destino mediante referencias opacas y los digests de evidencia. No contiene el payload de evidencia. La ruta autenticada `POST /api/governance/receipts` registra sólo intenciones `pending`; `GET /api/governance/receipts?receiptId=...` aplica aislamiento por actor. Ninguna ruta ejecuta una acción externa.
 
 Un estado `succeeded` sin evidencia es inválido. Un recibo válido **no** prueba por sí solo que el evento ocurrió: el sistema que emite el recibo debe autenticarse, verificar el resultado del destino y almacenar el registro en un backend durable, con autorización de escritura restringida.
 
@@ -42,9 +42,9 @@ Un estado `succeeded` sin evidencia es inválido. Un recibo válido **no** prueb
 
 ## Siguiente secuencia de producción
 
-- [ ] Conectar un repositorio durable de recibos mediante una interfaz server-only y escrituras atómicas.
-- [ ] Vincular la identidad del actor a una sesión autenticada y verificar autorización en el servidor.
-- [ ] Implementar idempotencia distribuida con índice único/transacción en el backend elegido.
+- [x] Implementar un adaptador server-only Supabase/PostgREST con clave idempotente única y transición compare-and-set (pendiente de validación de integración).
+- [x] Vincular la creación/lectura de intenciones a Supabase Auth y referencias de actor seudonimizadas.
+- [ ] Provisionar el esquema mediante Lovable y verificar en Supabase no productivo la persistencia, RLS, trigger append-only e idempotencia bajo concurrencia.
 - [ ] Añadir pruebas de concurrencia, reintento, reinicio, caída parcial y recuperación.
 - [ ] Firmar los manifiestos de release con la clave privada protegida y verificar con una clave pública anclada por un canal independiente.
 - [ ] Generar SBOM y procedencia de build para el digest exacto de release.
