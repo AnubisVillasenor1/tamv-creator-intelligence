@@ -11,6 +11,8 @@ export const MAINTAINED_DOCUMENTS = [
   "docs/adr/ADR-003-environment-isolation-and-evidence.md",
 ];
 
+const ALLOWED_EXTERNAL_SCHEMES = new Set(["http", "https", "mailto", "tel"]);
+
 function stripCode(markdown) {
   const tick = String.fromCharCode(96);
   const output = [];
@@ -83,6 +85,26 @@ function parseDestination(raw) {
   return value.replace(/\\([()])/g, "$1");
 }
 
+function decodeComponent(value, sourcePath, destination, label, errors) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    errors.push(sourcePath + ": malformed percent-encoding in " + label + ": " + destination);
+    return null;
+  }
+}
+
+function classifyExternalDestination(destination, sourcePath, errors) {
+  const schemeMatch = destination.match(/^([a-z][a-z0-9+.-]*):/i);
+  if (!schemeMatch) return false;
+
+  const scheme = schemeMatch[1].toLowerCase();
+  if (!ALLOWED_EXTERNAL_SCHEMES.has(scheme)) {
+    errors.push(sourcePath + ": unsupported or unsafe link scheme '" + scheme + "': " + destination);
+  }
+  return true;
+}
+
 export async function validateMarkdownLinks({ root, documents = MAINTAINED_DOCUMENTS }) {
   const rootPath = path.resolve(root);
   const errors = [];
@@ -114,24 +136,35 @@ export async function validateMarkdownLinks({ root, documents = MAINTAINED_DOCUM
     for (const match of scanText.matchAll(linkPattern)) {
       const destination = parseDestination(match[1]);
       if (!destination) continue;
-      if (/^[a-z][a-z0-9+.-]*:/i.test(destination) || destination.startsWith("//")) continue;
+      if (destination.startsWith("//")) continue;
+      if (classifyExternalDestination(destination, sourcePath, errors)) continue;
 
       const hashIndex = destination.indexOf("#");
       const queryIndex = destination.indexOf("?");
       const cutPoints = [hashIndex, queryIndex].filter((index) => index >= 0);
       const pathEnd = cutPoints.length ? Math.min(...cutPoints) : destination.length;
-      const pathPart = destination.slice(0, pathEnd);
+      const rawPathPart = destination.slice(0, pathEnd);
+      const decodedPathPart = decodeComponent(rawPathPart, sourcePath, destination, "link path", errors);
+      if (decodedPathPart === null) continue;
+
       const anchor = hashIndex >= 0
-        ? destination.slice(hashIndex + 1, queryIndex >= 0 && queryIndex > hashIndex ? queryIndex : destination.length)
+        ? decodeComponent(
+          destination.slice(hashIndex + 1, queryIndex >= 0 && queryIndex > hashIndex ? queryIndex : destination.length),
+          sourcePath,
+          destination,
+          "anchor",
+          errors,
+        )
         : "";
+      if (anchor === null) continue;
 
       let target;
-      if (!pathPart) {
+      if (!decodedPathPart) {
         target = sourcePath;
-      } else if (pathPart.startsWith("/")) {
-        target = path.posix.normalize(pathPart.slice(1));
+      } else if (decodedPathPart.startsWith("/")) {
+        target = path.posix.normalize(decodedPathPart.slice(1));
       } else {
-        target = path.posix.normalize(path.posix.join(path.posix.dirname(sourcePath), pathPart));
+        target = path.posix.normalize(path.posix.join(path.posix.dirname(sourcePath), decodedPathPart));
       }
 
       if (target === ".." || target.startsWith("../") || path.posix.isAbsolute(target)) {
@@ -161,7 +194,7 @@ export async function validateMarkdownLinks({ root, documents = MAINTAINED_DOCUM
           errors.push(sourcePath + ": cannot read anchor target: " + destination);
           continue;
         }
-        if (!headingSlugs(targetMarkdown).has(decodeURIComponent(anchor).toLowerCase())) {
+        if (!headingSlugs(targetMarkdown).has(anchor.toLowerCase())) {
           errors.push(sourcePath + ": missing Markdown heading anchor: " + destination);
         }
       }
