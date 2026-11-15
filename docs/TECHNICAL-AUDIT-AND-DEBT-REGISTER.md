@@ -2,41 +2,52 @@
 
 **Fecha de corte:** 15 de noviembre de 2026  
 **Repositorio:** https://github.com/AnubisVillasenor1/tamv-creator-intelligence  
-**Alcance:** revisión estática de documentación, manifiestos, scripts, ruta de recibos y especificación SQL. No equivale a pentest, auditoría externa, certificación normativa ni prueba de producción.
+**Rama de auditoría:** audit/public-disclosure-hardening-2026-11  
+**Alcance:** revisión estática de documentación, manifiestos, scripts, rutas, contratos y especificación SQL; validación automatizada mediante CI. No equivale a pentest, auditoría externa, certificación normativa ni prueba completa de producción.
 
 ## Resumen ejecutivo
 
-El repositorio tiene una base técnica significativa: aplicación web, habilidades versionadas, contratos, validadores, pruebas y automatización CI. La integración de recibos de gobernanza introduce un flujo de intención autenticada que deliberadamente no ejecuta operaciones externas.
+La rama de auditoría contiene correcciones de seguridad en el límite HTTP, controles de idempotencia y documentación pública. Las ejecuciones de CI del commit previo a la tanda más reciente pasaron; los cambios de esta tanda deben validarse nuevamente en un commit exacto antes de considerarlos aceptados.
 
-Sin embargo, la evidencia disponible no permite afirmar que la deuda técnica sea cero, que el proyecto esté certificado integralmente o que todas las integraciones funcionen en producción. Las brechas principales se concentran en la validación del entorno real, persistencia y concurrencia, límites distribuidos, firma/procedencia del release y separación verificable entre contratos y ejecutores.
+No hay evidencia suficiente para afirmar deuda técnica cero, certificación integral o disponibilidad de todas las integraciones en producción. Persisten bloqueos que requieren entorno conectado, autoridad del propietario del esquema, firma de release y pruebas externas.
 
-## Hallazgos priorizados
+## Registro priorizado
 
-| Prioridad | Área | Hallazgo | Criterio de cierre |
-|---|---|---|---|
-| P0 — release gate | Persistencia de recibos | Existe especificación SQL y adaptador, pero no se aporta evidencia de aprovisionamiento en un entorno de prueba conectado. | Aprovisionamiento aprobado, pruebas reales de permisos/RLS, idempotencia y concurrencia, y evidencia asociada a un commit. |
-| P0 — release gate | Release firmado | El repositorio dispone de scripts de hash y firma, pero no debe asumirse que el release actual tiene firma válida. | Firma Ed25519 válida, clave pública confiable por canal independiente y verificación del artefacto exacto. |
-| P0 — release gate | Integridad del ledger Hyper-Core | La documentación operativa registra una cuestión pendiente sobre el orden de secuencia frente al bloqueo transaccional. | Corregir el diseño bajo el flujo autorizado de gestión de esquema y probarlo con escrituras concurrentes en PostgreSQL real. |
-| P1 | Límite de cuerpo HTTP | La ruta comprueba el tamaño después de leer el cuerpo completo; el límite declarado no restringe por sí mismo la memoria consumida durante la lectura. | Leer el flujo por fragmentos, abortar al superar el límite y añadir pruebas para cuerpos fragmentados, sin longitud declarada y sobre el límite. |
-| P1 | Idempotencia multiusuario | La especificación usa una clave de idempotencia globalmente única, mientras que las intenciones están vinculadas a un actor. | Definir y probar el ámbito de unicidad compatible con el actor y con el contrato de reintentos, mediante el flujo de esquema aprobado. |
-| P1 | Control de frecuencia | Las cuotas que dependen de memoria local no coordinan múltiples instancias o procesos. | Límite compartido y atómico, políticas explícitas y pruebas de concurrencia multiinstancia. |
-| P1 | Ejecución externa | La ruta actual registra intención, pero no hay que confundirla con autorización ni ejecución de despliegues. | Modelo de roles, aprobación explícita, adaptador mínimo de ejecución, permisos de mínimo privilegio, recuperación y pruebas de destino. |
-| P1 | Evidencia independiente | La validez estructural de un recibo no prueba el resultado del sistema externo. | Verificador independiente que consulta el destino, valida el artefacto exacto y persiste evidencia durable. |
-| P1 | Observabilidad | La telemetría local no demuestra agregación, alertas ni continuidad entre instancias. | Backend de observabilidad configurado, retención definida, alertas probadas y tratamiento de datos sensibles. |
-| P2 | Inventario de capacidades | Los contratos describen capacidades que pueden no tener ejecutores conectados. | Inventario automático que clasifique cada capacidad como documentada, implementada, probada, operada o bloqueada. |
-| P2 | Cadena de suministro | La disponibilidad de scripts no prueba SBOM/procedencia firmada para cada release. | SBOM generado, atestación de procedencia verificable y política de dependencias aplicada al artefacto publicado. |
-| P2 | Documentación pública | La documentación histórica y operativa puede describir estados de fechas diferentes. | Un estado de release único, fechado, vinculado a SHA, con enlaces a ejecuciones y advertencias de alcance. |
+| Prioridad | Área | Estado | Hallazgo / riesgo | Criterio objetivo de cierre |
+|---|---|---|---|---|
+| P0 — release gate | Persistencia de recibos | Bloqueado externamente | Existe especificación SQL y adaptador, pero no evidencia de aprovisionamiento conectado. | Aprovisionamiento aprobado, permisos/RLS, idempotencia y concurrencia probados en Supabase/PostgreSQL no productivo; evidencia ligada a SHA. |
+| P0 — release gate | Ledger Hyper-Core | Bloqueado por propietario de esquema | La asignación de sequence_id antes del bloqueo puede divergir del orden de encadenamiento de hashes. | Rediseño mediante el flujo autorizado de Lovable y prueba concurrente real que recompute una única cadena verificable. |
+| P0 — release gate | Firma del release | No acreditado | La existencia de scripts no demuestra que el release exacto tenga una firma confiable. | Firma Ed25519 válida, clave pública confiable por canal independiente y verificación del artefacto exacto. |
+| P1 | Cuerpo HTTP | Corregido en código; CI pendiente para esta tanda | La lectura debía limitar bytes durante el streaming, no después de materializar todo el cuerpo. | Pruebas del límite exacto, exceso, fragmentación, UTF-8 multibyte, UTF-8 inválido y cabeceras de longitud malformadas; CI verde en el SHA nuevo. |
+| P1 | Idempotencia multiusuario | Corregido en código; CI pendiente para esta tanda | La clave original era globalmente única en base de datos y podía provocar colisiones entre actores. | Persistir una clave derivada determinísticamente del actor y de la clave de solicitud; verificar reintentos y aislamiento por actor. |
+| P1 | Tiempo de identidad externa | Corregido en código; CI pendiente para esta tanda | La llamada al proveedor de identidad no tenía un tiempo máximo explícito. | Timeout acotado, respuesta de error fail-closed y prueba de integración con proveedor lento/no disponible. |
+| P1 | Respuestas del backend | Pendiente | El adaptador PostgREST debe limitar el volumen leído de respuestas de éxito y error; truncar después de response.text() no limita memoria. | Lectura acotada en streaming con límites distintos para respuestas normales y mensajes de error, más pruebas de tamaño y errores de parseo. |
+| P1 | Control de frecuencia | Pendiente | Las cuotas en memoria no coordinan procesos ni instancias. | Límite compartido, atómico y con pruebas multiinstancia. |
+| P1 | Ejecución externa | Intencionalmente no habilitada | La ruta registra intención y no constituye autorización ni ejecución de despliegues. | Modelo de roles, aprobación humana explícita, adaptador de mínimo privilegio, recuperación y pruebas de destino antes de habilitar cualquier ejecutor. |
+| P1 | Evidencia independiente | Pendiente | La forma válida de un recibo no demuestra que el sistema externo alcanzó el resultado declarado. | Verificador independiente del destino y del artefacto exacto; evidencia durable y verificable. |
+| P1 | Observabilidad | No verificado en producción | La telemetría local no prueba agregación, alertas o continuidad entre instancias. | Backend, retención, alertas probadas y políticas de redacción de datos sensibles. |
+| P2 | Inventario de capacidades | Parcial | Los contratos pueden describir capacidades sin ejecutores conectados. | Inventario automático que clasifique capacidades como documentadas, implementadas, probadas, operadas o bloqueadas. |
+| P2 | Cadena de suministro | No acreditado para el release actual | Scripts de SBOM/procedencia no demuestran artefactos firmados y verificables publicados. | SBOM y atestación verificable asociados al artefacto y al commit de release. |
+| P2 | Documentación de estado | En progreso | Los documentos históricos pueden representar estados de fechas diferentes. | Un estado de release fechado, ligado a SHA y con enlaces a CI, advertencias y bloqueos externos. |
 
-## Corrección aplicada en esta rama
+## Correcciones implementadas en la rama
 
-Se endurece la lectura del cuerpo de la ruta de recibos para aplicar el límite durante la lectura del flujo, en vez de esperar a que todo el cuerpo haya sido materializado en memoria. Se añaden pruebas para el límite, el tamaño exacto y el caso de cuerpo que excede el máximo. Se incorpora además el documento de divulgación pública y este registro de auditoría.
+1. **Lectura acotada del cuerpo:** el endpoint usa lectura por streaming y cuenta bytes UTF-8 reales; rechaza cuerpos excesivos, UTF-8 inválido y fallos de lectura.
+2. **Cabecera Content-Length:** se valida la sintaxis decimal, el rango seguro y el límite declarado. La cabecera nunca sustituye la medición del flujo real.
+3. **Idempotencia aislada por actor:** el valor persistido se deriva de forma determinista de la referencia opaca del actor y de la clave enviada por el cliente. Evita que dos actores colisionen por reutilizar la misma clave global.
+4. **Timeout de identidad:** la llamada al proveedor de identidad tiene un tiempo máximo explícito y falla de forma cerrada si no responde.
+5. **Pruebas de guardas:** se cubren longitudes declaradas inválidas, límites, contenido fragmentado y UTF-8.
 
-La corrección de lectura HTTP no resuelve las brechas de persistencia, despliegue, firmas ni integración externa. Estas requieren validación de infraestructura y, para el esquema, el flujo de cambios administrado por Lovable.
+Estas correcciones no solucionan las brechas de base de datos, ledger, límites distribuidos, firma, procedencia ni integración externa. Los cambios de esquema continúan sujetos al flujo de Lovable; no se modifican manualmente migraciones administradas.
+
+## Condiciones para declarar un hallazgo cerrado
+
+Cada hallazgo debe incluir propietario, severidad, cambio trazable, prueba de aceptación, resultado CI en el SHA exacto y, cuando dependa de infraestructura, evidencia del entorno. Los bloqueos externos deben permanecer como bloqueos explícitos. Un build verde no prueba que un proveedor, base de datos, firma o flujo de producción estén configurados correctamente.
 
 ## Condiciones para declarar deuda cero
 
-No se puede declarar «deuda técnica cero» como una propiedad absoluta. Para una declaración de cierre verificable, cada hallazgo debe tener: propietario, severidad, prueba de aceptación, commit de corrección, resultado CI, evidencia del entorno y decisión explícita de riesgo residual. Los bloqueos externos deben permanecer visibles como bloqueos, no convertirse en porcentajes de avance.
+No se puede demostrar «deuda técnica cero» como una propiedad absoluta. Sí puede cerrarse un inventario delimitado cuando cada hallazgo tiene evidencia reproducible y el riesgo residual ha sido aceptado explícitamente por la persona responsable. No deben convertirse dependencias no verificadas en porcentajes de avance ni afirmarse controles que solo existen en documentación.
 
 ## Límites de esta auditoría
 
-La revisión se basa en los archivos disponibles en GitHub y en la evidencia de CI consultable. No se accedió a secretos, bases de datos privadas, cuentas de proveedores ni infraestructura de producción. No se ejecutó un pentest ni se certificó el cumplimiento de un estándar externo. Los resultados deben interpretarse como una auditoría técnica de repositorio y una lista de cierre, no como garantía de seguridad absoluta.
+La revisión utiliza archivos y automatizaciones accesibles en GitHub. No accede a secretos, bases de datos privadas, cuentas de proveedores ni infraestructura de producción. No se ejecutó un pentest ni se certificó cumplimiento de estándares externos. Los resultados representan auditoría de repositorio y seguimiento de remediación, no una garantía de seguridad absoluta.
