@@ -42,6 +42,18 @@ try {
   process.exit(64);
 }
 
+if (parsedUrl.protocol !== "postgres:" && parsedUrl.protocol !== "postgresql:") {
+  console.error("Refusing to run: database URL must use postgres:// or postgresql://.");
+  process.exit(64);
+}
+
+const hostname = parsedUrl.hostname.toLowerCase();
+const isLoopback = hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+if (!isLoopback && process.env.TAMV_HYPERCORE_TEST_ALLOW_REMOTE !== "1") {
+  console.error("Refusing to run against a remote host without TAMV_HYPERCORE_TEST_ALLOW_REMOTE=1.");
+  process.exit(64);
+}
+
 const databaseName = decodeURIComponent(parsedUrl.pathname.replace(/^\//, ""));
 if (!/(^|[_-])(test|tests|testing|disposable|ci)([_-]|$)/i.test(databaseName)) {
   console.error("Refusing to run: database name must contain test, disposable, or ci.");
