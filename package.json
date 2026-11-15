@@ -20,7 +20,9 @@
     "tamv:keygen": "bash scripts/generate-tamv-ed25519-keypair.sh",
     "hooks:install": "bash scripts/install-git-hooks.sh",
     "hooks:test": "bash scripts/test-git-hooks.sh && python3 scripts/test-repo-hygiene.py",
-    "slsa:test": "bash scripts/test-verify-slsa.sh"
+    "slsa:test": "bash scripts/test-verify-slsa.sh",
+    "ops:closure": "node scripts/validate-capability-closure.mjs",
+    "ops:closure:test": "node scripts/test-capability-closure.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"
