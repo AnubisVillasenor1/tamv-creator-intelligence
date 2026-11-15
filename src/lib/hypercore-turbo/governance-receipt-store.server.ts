@@ -65,6 +65,19 @@ function assertValidReceipt(receipt: GovernanceOperationReceipt): void {
   }
 }
 
+function preservesEvidence(
+  previous: GovernanceOperationReceipt,
+  next: GovernanceOperationReceipt,
+): boolean {
+  return previous.evidence.every((item) =>
+    next.evidence.some((candidate) =>
+      candidate.kind === item.kind
+      && candidate.sha256 === item.sha256
+      && candidate.reference === item.reference,
+    ),
+  );
+}
+
 function sameIdempotentOperation(
   existing: GovernanceOperationReceipt,
   requested: GovernanceOperationReceipt,
@@ -216,6 +229,12 @@ export function createGovernanceReceiptStore(
         || previous.idempotencyKey !== next.idempotencyKey
         || previous.startedAt !== next.startedAt) {
         throw new GovernanceReceiptStoreError("Immutable operation bindings changed", "RECEIPT_INVALID");
+      }
+      if (Date.parse(next.recordedAt) < Date.parse(previous.recordedAt)) {
+        throw new GovernanceReceiptStoreError("Receipt timestamp cannot move backwards", "RECEIPT_INVALID");
+      }
+      if (!preservesEvidence(previous, next)) {
+        throw new GovernanceReceiptStoreError("Existing evidence references cannot be removed", "RECEIPT_INVALID");
       }
       if (next.status === "succeeded") {
         let verified = false;
