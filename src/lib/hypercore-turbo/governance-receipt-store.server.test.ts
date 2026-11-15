@@ -60,8 +60,8 @@ describe("Supabase governance receipt store", () => {
     await expect(store.create(base)).resolves.toEqual(base);
     expect(fetcher).toHaveBeenCalledOnce();
     expect(fetcher.mock.calls[0][0]).toContain("/rest/v1/tamv_governance_receipts");
-    expect(fetcher.mock.calls[0][1].headers.Authorization).toBe("Bearer server-secret");
-    expect(fetcher.mock.calls[0][1].headers.Prefer).toBe("resolution=ignore-duplicates,return=representation");
+    expect(new Headers(fetcher.mock.calls[0]?.[1]?.headers).get("Authorization")).toBe("Bearer server-secret");
+    expect(new Headers(fetcher.mock.calls[0]?.[1]?.headers).get("Prefer")).toBe("resolution=ignore-duplicates,return=representation");
   });
 
   it("rejects success transitions unless independent evidence verification succeeds", async () => {
