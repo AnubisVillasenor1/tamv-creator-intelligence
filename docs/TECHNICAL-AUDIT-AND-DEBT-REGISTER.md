@@ -36,7 +36,8 @@ No hay evidencia suficiente para afirmar deuda técnica cero, certificación int
 2. **Cabecera Content-Length:** se valida la sintaxis decimal, el rango seguro y el límite declarado. La cabecera nunca sustituye la medición del flujo real.
 3. **Idempotencia aislada por actor:** el valor persistido se deriva de forma determinista de la referencia opaca del actor y de la clave enviada por el cliente. Evita que dos actores colisionen por reutilizar la misma clave global.
 4. **Timeout de identidad:** la llamada al proveedor de identidad tiene un tiempo máximo explícito y falla de forma cerrada si no responde.
-5. **Respuestas de PostgREST:** el adaptador limita en streaming el tamaño de las respuestas y añade un timeout de red; los cuerpos de error se omiten si exceden el límite.\n6. **Pruebas de guardas:** se cubren longitudes declaradas inválidas, límites, contenido fragmentado y UTF-8.
+5. **Respuestas de PostgREST:** el adaptador limita en streaming el tamaño de las respuestas y añade un timeout de red; los cuerpos de error se omiten si exceden el límite.
+6. **Pruebas de guardas:** se cubren longitudes declaradas inválidas, límites, contenido fragmentado y UTF-8.
 
 Estas correcciones no solucionan las brechas de base de datos, ledger, límites distribuidos, firma, procedencia ni integración externa. Los cambios de esquema continúan sujetos al flujo de Lovable; no se modifican manualmente migraciones administradas.
 
