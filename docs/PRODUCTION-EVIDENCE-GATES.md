@@ -10,7 +10,7 @@ A guarded integration probe is available at `scripts/test-hypercore-ledger-postg
 
 ```sh
 TAMV_HYPERCORE_LEDGER_TEST=1 \
-TAMV_HYPERCORE_TEST_DATABASE_URL='postgres://localhost:5432/tamv_ledger_test' \\
+TAMV_HYPERCORE_TEST_DATABASE_URL='postgres://localhost:5432/tamv_ledger_test' \
 node scripts/test-hypercore-ledger-postgres.mjs
 ```
 
