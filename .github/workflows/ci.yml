@@ -39,6 +39,12 @@ jobs:
       - name: Verify PostgreSQL ledger probe safety guards
         run: bun run test:ledger-guard
 
+      - name: Test capability closure drift guards
+        run: bun run ops:closure:test
+
+      - name: Validate capability evidence and registry coverage
+        run: bun run ops:closure
+
       - name: Lint source and scripts
         run: bun run lint
 
