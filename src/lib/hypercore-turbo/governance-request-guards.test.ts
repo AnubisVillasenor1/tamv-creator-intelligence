@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   isBearerTokenWithinLimit,
+  isDeclaredContentLengthWithinLimit,
   isJsonContentType,
   readBoundedRequestBody,
 } from "./governance-request-guards";
@@ -27,6 +28,19 @@ describe("governance API request boundary guards", () => {
     expect(isBearerTokenWithinLimit(undefined)).toBe(false);
     expect(isBearerTokenWithinLimit("")).toBe(false);
     expect(isBearerTokenWithinLimit("x".repeat(8193))).toBe(false);
+  });
+
+  it("validates declared Content-Length syntax and limit without trusting it for actual size", () => {
+    expect(isDeclaredContentLengthWithinLimit(null, 16)).toBe(true);
+    expect(isDeclaredContentLengthWithinLimit("0", 16)).toBe(true);
+    expect(isDeclaredContentLengthWithinLimit("16", 16)).toBe(true);
+    expect(isDeclaredContentLengthWithinLimit("17", 16)).toBe(false);
+    expect(isDeclaredContentLengthWithinLimit("-1", 16)).toBe(false);
+    expect(isDeclaredContentLengthWithinLimit("1e2", 16)).toBe(false);
+    expect(isDeclaredContentLengthWithinLimit(" 8", 16)).toBe(false);
+    expect(isDeclaredContentLengthWithinLimit("", 16)).toBe(false);
+    expect(isDeclaredContentLengthWithinLimit("9007199254740992", 16)).toBe(false);
+    expect(isDeclaredContentLengthWithinLimit("1", 0)).toBe(false);
   });
 });
 
