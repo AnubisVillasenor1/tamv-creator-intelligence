@@ -38,6 +38,8 @@ El proyecto reúne cuatro superficies con responsabilidades diferentes:
 La IA propone; la persona conserva el control creativo. El flujo implementado no publica contenido, no ejecuta campañas ni toma decisiones legales o financieras definitivas.
 
 ## Actualización de hardening — 2026-11-15
+**Clasificación de entorno para cuotas (hardening adicional):** el fallback en memoria solo se permite en un runtime local sin marcadores de Vercel y con `TAMV_DEPLOYMENT_ENV=local`, `development` o `test`. El `.env.example` opta explícitamente por `local` para uso local. Si existen `VERCEL`, `VERCEL_ENV` o `VERCEL_URL`, la falta de Redis debe denegar la operación aunque `NODE_ENV` indique `development`; esto protege frente a una clasificación errónea y no convierte la cuota local en global.
+
 
 Se añadieron pruebas automatizadas para el guard de revisión creativa y un límite de memoria para sus buckets locales:
 
