@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+"""Regression tests for the audit ledger chain-order detector."""
+from __future__ import annotations
+
+import importlib.util
+import unittest
+from pathlib import Path
+
+SCRIPT = Path(__file__).with_name("validate-audit-migration.py")
+SPEC = importlib.util.spec_from_file_location("audit_migration_validator", SCRIPT)
+assert SPEC is not None and SPEC.loader is not None
+MODULE = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MODULE)
+
+
+UNSAFE_IDENTITY_TRIGGER = """
+CREATE TABLE public.tamv_hypercore_audit_events (
+  sequence_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY
+);
+CREATE OR REPLACE FUNCTION tamv_hypercore_audit_chain_insert()
+RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  PERFORM pg_advisory_xact_lock(hashtext('tamv_hypercore_audit_events_chain'));
+  SELECT event_hash INTO last_hash
+  FROM public.tamv_hypercore_audit_events ORDER BY sequence_id DESC LIMIT 1;
+  RETURN NEW;
+END;
+$$;
+CREATE TRIGGER tamv_hypercore_audit_chain_before_insert
+BEFORE INSERT ON public.tamv_hypercore_audit_events
+FOR EACH ROW EXECUTE FUNCTION tamv_hypercore_audit_chain_insert();
+"""
+
+SAFE_TRIGGER_REASSIGNMENT = UNSAFE_IDENTITY_TRIGGER.replace(
+    "  SELECT event_hash INTO last_hash",
+    "  NEW.sequence_id := nextval(pg_get_serial_sequence('public.tamv_hypercore_audit_events', 'sequence_id'))::bigint;\n  SELECT event_hash INTO last_hash",
+)
+
+SAFE_APPEND_FUNCTION = UNSAFE_IDENTITY_TRIGGER + """
+CREATE OR REPLACE FUNCTION public.tamv_hypercore_audit_append()
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+BEGIN
+  PERFORM pg_advisory_xact_lock(hashtext('tamv_hypercore_audit_events_chain'));
+  INSERT INTO public.tamv_hypercore_audit_events DEFAULT VALUES;
+END;
+$$;
+REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.tamv_hypercore_audit_append() TO service_role;
+"""
+
+
+class ChainOrderDetectorTests(unittest.TestCase):
+    def test_current_trigger_pattern_is_reported_as_p0(self) -> None:
+        findings = MODULE.chain_order_findings(UNSAFE_IDENTITY_TRIGGER)
+        self.assertEqual(len(findings), 1)
+        self.assertIn("sequence_id", findings[0])
+        self.assertIn("concurrent inserts", findings[0])
+
+    def test_sequence_reassignment_after_lock_is_accepted(self) -> None:
+        self.assertEqual(MODULE.chain_order_findings(SAFE_TRIGGER_REASSIGNMENT), [])
+
+    def test_serialized_append_function_requires_privilege_boundary(self) -> None:
+        self.assertEqual(MODULE.chain_order_findings(SAFE_APPEND_FUNCTION), [])
+
+    def test_append_function_without_direct_insert_revocation_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(
+            "REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;",
+            "",
+        )
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+    def test_append_function_without_service_role_execute_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(
+            "GRANT EXECUTE ON FUNCTION public.tamv_hypercore_audit_append() TO service_role;",
+            "",
+        )
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
