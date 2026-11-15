@@ -40,6 +40,8 @@ alter table public.tamv_governance_receipt_events enable row level security;
 
 -- No anon/authenticated policies are intentionally defined.
 -- The current-state projection is writable only by the trusted server adapter.
+revoke all on public.tamv_governance_receipts from anon, authenticated;
+revoke delete, truncate on public.tamv_governance_receipts from service_role;
 grant select, insert, update on public.tamv_governance_receipts to service_role;
 grant select on public.tamv_governance_receipt_events to service_role;
 revoke insert, update, delete, truncate on public.tamv_governance_receipt_events from anon, authenticated, service_role;
