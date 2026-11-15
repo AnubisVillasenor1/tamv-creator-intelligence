@@ -69,8 +69,11 @@ Esta sección se actualizó contra el estado de GitHub del 15 de noviembre de 20
 
 La fusión de estos cambios acredita su presencia en la rama principal, pero no prueba conectividad externa ni aceptación de producción.
 
-**Pendiente de integración en esta revisión:**
-- [PR #20 — target Vercel desconocido en preflight estricto](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/20): añade una prueba negativa para que el gate productivo rechace un runtime Vercel cuando `VERCEL_ENV` falta o no indica `production`. En el momento de esta actualización, el PR sigue abierto aunque sus workflows de GitHub Actions aparecen exitosos. No se debe describir este ajuste como disponible en `main` hasta confirmar que se fusionó.
+**Integrado después de la revisión inicial:**
+- [PR #20 — target Vercel desconocido en preflight estricto](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/20): fusionado en `main` el 15 de noviembre de 2026. El modo estricto ahora rechaza Production/Preview mal clasificados y un runtime Vercel con `VERCEL_ENV` desconocido; sus workflows de GitHub Actions se completaron con éxito para el HEAD del PR.
+- [PR #21 — fallback local de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/21): cerrado sin fusión como duplicado, porque la corrección equivalente ya había sido integrada por PR #19.
+
+El estado de Vercel para la rama principal reporta una comprobación fallida cuyo destino enlaza a `upgradeToPro=build-rate-limit`. Esto es un bloqueo de la plataforma de despliegue y no una prueba de que los workflows de GitHub Actions fallen; la causa exacta y la configuración del proyecto deben verificarse desde el scope de Vercel autorizado.
 
 Las ramas y estados de PR son temporales. Verifica estado actual, SHA del head y SHA integrado antes de utilizar esta nota como evidencia. Un workflow verde no sustituye las pruebas live de Redis/PostgreSQL, el wiring de auditoría durable, la firma de release ni la procedencia SLSA.
 
