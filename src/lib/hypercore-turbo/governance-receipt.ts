@@ -54,11 +54,16 @@ const VERSION_PATTERN = /^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$/;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
 
 function isIsoUtc(value: string): boolean {
-  return ISO_DATE_PATTERN.test(value) && Number.isFinite(Date.parse(value));
+  return typeof value === "string"
+    && ISO_DATE_PATTERN.test(value)
+    && Number.isFinite(Date.parse(value));
 }
 
 function isOpaqueReference(value: string): boolean {
-  return ID_PATTERN.test(value) && !value.includes("@") && !value.includes("/");
+  return typeof value === "string"
+    && ID_PATTERN.test(value)
+    && !value.includes("@")
+    && !value.includes("/");
 }
 
 /**
