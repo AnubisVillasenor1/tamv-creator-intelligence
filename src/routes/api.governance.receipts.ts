@@ -6,6 +6,7 @@ import {
   isDeclaredContentLengthWithinLimit,
   isJsonContentType,
   readBoundedRequestBody,
+  readBoundedResponseText,
 } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   createGovernanceReceiptStoreFromEnv,
@@ -64,7 +65,7 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
 
   let user: { id?: unknown };
   try {
-    user = await authResponse.json() as { id?: unknown };
+    user = JSON.parse(await readBoundedResponseText(authResponse, 16 * 1024)) as { id?: unknown };
   } catch {
     return jsonError("Identity provider returned an invalid response", 503);
   }
