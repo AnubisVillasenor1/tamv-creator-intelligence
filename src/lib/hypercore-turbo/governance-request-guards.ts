@@ -14,6 +14,21 @@ export function isBearerTokenWithinLimit(token: string | undefined): boolean {
     && token.length <= MAX_BEARER_TOKEN_LENGTH;
 }
 
+/**
+ * Validate a declared Content-Length without trusting it as the actual body
+ * size. A missing header is allowed; the streaming reader remains authoritative.
+ */
+export function isDeclaredContentLengthWithinLimit(
+  value: string | null,
+  maxBytes: number,
+): boolean {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) return false;
+  if (value === null) return true;
+  if (!/^(0|[1-9]\d*)$/.test(value)) return false;
+  const declared = Number(value);
+  return Number.isSafeInteger(declared) && declared <= maxBytes;
+}
+
 export type BoundedBodyResult =
   | { readonly ok: true; readonly text: string }
   | { readonly ok: false; readonly reason: "too-large" | "unreadable" };
