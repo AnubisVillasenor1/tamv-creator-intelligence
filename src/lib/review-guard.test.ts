@@ -73,6 +73,7 @@ describe("creator review runtime guard", () => {
   it("keeps the concurrency slot reserved until timed-out upstream work settles", async () => {
     let settle!: () => void;
     const upstream = new Promise<void>((resolve) => { settle = resolve; });
+    expect(beginReview()).toBe(true);
     let error: unknown;
     try {
       await withReviewTimeout(upstream, 5);
@@ -81,7 +82,6 @@ describe("creator review runtime guard", () => {
     }
     expect(error).toBeInstanceOf(ReviewTimeoutError);
     const timeout = error as ReviewTimeoutError;
-    expect(beginReview()).toBe(true);
     endReviewWhenSettled(timeout.workSettled);
     expect(currentInFlight()).toBe(1);
     settle();
