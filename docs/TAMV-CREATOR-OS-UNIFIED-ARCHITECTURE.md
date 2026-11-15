@@ -103,14 +103,14 @@ El camino de inferencia objetivo es: autenticación backend → autorización/co
 
 ### 5.4 Recibos de operación
 
-El contrato añadido en `src/lib/hypercore-turbo/governance-receipt.ts` define metadatos de operación, commit, digest del artefacto, referencias opacas, estado y digests de evidencia. El validador es puro. Por sí solo no autentica, persiste, firma, autoriza ni ejecuta.
+El contrato `src/lib/hypercore-turbo/governance-receipt.ts` define metadatos de operación, commit, digest del artefacto, referencias opacas, estado y digests de evidencia. El adaptador `src/lib/hypercore-turbo/governance-receipt-store.server.ts` implementa persistencia mediante Supabase/PostgREST, clave de idempotencia única y actualizaciones de estado compare-and-set. La ruta `POST /api/governance/receipts` autentica el token contra Supabase Auth, deriva una referencia opaca de actor y registra únicamente una intención `pending`; `GET /api/governance/receipts?receiptId=...` limita la lectura al actor autenticado. Ninguna de estas rutas ejecuta despliegues ni publica contenido. La tabla y el trigger de eventos están especificados en `docs/sql/tamv-governance-receipts.sql` y deben provisionarse por el flujo aprobado de Lovable antes de que la persistencia funcione en el entorno conectado.
 
 Reglas:
 - `succeeded` requiere evidencia.
 - `resume` conserva operationId, commit, digest, destino e idempotency key.
 - Un nuevo candidato se tramita como operación nueva autorizada, no como reanudación.
 - Los estados terminales no se reabren.
-- El adaptador futuro debe escribir atómicamente, aplicar idempotencia distribuida y verificar el resultado real del destino.
+- El adaptador usa la clave única y compare-and-set; el esquema propuesto registra cada inserción/transición en una tabla de eventos append-only mediante trigger transaccional. La persistencia no se considera operativa hasta provisionar el esquema con Lovable y superar pruebas de integración/concurrencia. Para marcar `succeeded`, el llamador de confianza debe inyectar un verificador de evidencia que confirme el resultado real del destino.
 
 ## 6. Harness SDLC F0–F17
 
@@ -174,7 +174,8 @@ Ninguna capacidad pasa a `closed` hasta reunir la evidencia aplicable:
 - [ ] Contratos/skills versionados y validados contra el inventario real.
 - [ ] Autenticación y autorización server-side; rechazo de acceso no autorizado probado.
 - [ ] Consentimiento y aprobación humana persistidos y vinculados al artefacto exacto.
-- [ ] Recibos persistentes, atómicos, con control de acceso e idempotencia distribuida.
+- [ ] Provisionar por Lovable `tamv_governance_receipts`, el ledger append-only, sus triggers y permisos; validar RLS y privilegios con pruebas de integración.
+- [ ] Verificar en entorno Supabase no productivo la idempotencia, concurrencia y atomicidad del ledger.
 - [ ] Pruebas de concurrencia, reintentos, duplicados, reinicio, fallo parcial y recuperación.
 - [ ] Validación de Specification Boundary y CI independiente.
 - [ ] Pruebas unitarias, integración, lint, build, cobertura y seguridad ejecutadas en el commit candidato.
@@ -190,8 +191,8 @@ Ninguna capacidad pasa a `closed` hasta reunir la evidencia aplicable:
 1. Inventariar el árbol real y los 37 contratos declarados; localizar el registro canónico de cierre y evitar inventarios duplicados.
 2. Ejecutar pruebas y build del PR sobre un checkout limpio; corregir errores observados, no supuestos.
 3. Validar skills públicas y su relación con contratos internos mediante una prueba automatizada de referencias.
-4. Implementar el adaptador de recibos con persistencia durable y autorización, sin tocar esquemas administrados manualmente.
-5. Añadir idempotencia distribuida y pruebas de concurrencia/reanudación.
+4. Provisionar el esquema de recibos/ledger mediante Lovable y ejecutar pruebas de integración en Supabase no productivo.
+5. Conectar los puntos de ejecución protegidos al adaptador, añadiendo autorización por operación y pruebas de concurrencia/reanudación.
 6. Integrar el recibo al flujo de ejecución protegido; verificar resultado del destino antes de marcar `succeeded`.
 7. Añadir gates de firma, SBOM/procedencia y límites de especificación a CI.
 8. Integrar proveedores de inferencia/observabilidad sólo después de definir permisos, datos, costes y pruebas.
