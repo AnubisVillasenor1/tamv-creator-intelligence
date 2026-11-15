@@ -43,7 +43,7 @@ try {
 }
 
 const databaseName = decodeURIComponent(parsedUrl.pathname.replace(/^\//, ""));
-if (!/(test|disposable|ci)/i.test(databaseName)) {
+if (!/(^|[_-])(test|tests|testing|disposable|ci)([_-]|$)/i.test(databaseName)) {
   console.error("Refusing to run: database name must contain test, disposable, or ci.");
   process.exit(64);
 }
