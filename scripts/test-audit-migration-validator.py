@@ -38,12 +38,12 @@ SAFE_TRIGGER_REASSIGNMENT = UNSAFE_IDENTITY_TRIGGER.replace(
 
 SAFE_APPEND_FUNCTION = UNSAFE_IDENTITY_TRIGGER + """
 CREATE OR REPLACE FUNCTION public.tamv_hypercore_audit_append()
-RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
 BEGIN
   PERFORM pg_advisory_xact_lock(hashtext('tamv_hypercore_audit_events_chain'));
   INSERT INTO public.tamv_hypercore_audit_events DEFAULT VALUES;
 END;
-$;
+$$;
 REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;
 GRANT EXECUTE ON FUNCTION public.tamv_hypercore_audit_append() TO service_role;
 """
