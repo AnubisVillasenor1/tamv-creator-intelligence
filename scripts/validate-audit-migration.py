@@ -125,6 +125,38 @@ def _has_direct_insert_grant(sql: str) -> bool:
     return False
 
 
+def security_definer_findings(sql: str) -> list[str]:
+    """Flag an unqualified pgcrypto digest call inside a SECURITY DEFINER ledger trigger.
+
+    The current migration installs pgcrypto in schema extensions, while the trigger
+    search_path places public before extensions and calls digest() unqualified. If
+    a same-named function can be created in public, name resolution may be shadowed.
+    We require the extension function to be explicitly schema-qualified instead of
+    assuming that current schema CREATE grants happen to make the path safe.
+    """
+    findings: list[str] = []
+    if not re.search(
+        r"CREATE\\s+EXTENSION(?:\\s+IF\\s+NOT\\s+EXISTS)?\\s+pgcrypto\\s+WITH\\s+SCHEMA\\s+extensions",
+        sql,
+        re.IGNORECASE,
+    ):
+        return findings
+
+    for name, header, body in _function_definitions(sql):
+        if not name.endswith("tamv_hypercore_audit_chain_insert"):
+            continue
+        if not re.search(r"\\bSECURITY\\s+DEFINER\\b", header, re.IGNORECASE):
+            continue
+        if re.search(r"(?<![A-Za-z0-9_.])digest\\s*\\(", body, re.IGNORECASE):
+            findings.append(
+                "P1 SECURITY DEFINER resolution risk: the ledger trigger calls digest() "
+                "without schema qualification even though pgcrypto is installed in "
+                "extensions. The configured search_path includes public before extensions; "
+                "use extensions.digest(...) and validate CREATE privileges on every searched schema."
+            )
+    return findings
+
+
 def chain_order_findings(sql: str) -> list[str]:
     """Detect identity/trigger order races and weak append-function boundaries.
 
@@ -250,14 +282,14 @@ def main() -> None:
     if "raw_prompt" in schema or "access_token" in schema:
         fail("sensitive payload fields must not be modeled in the audit ledger")
 
-    findings = chain_order_findings(sql)
+    findings = chain_order_findings(sql) + security_definer_findings(sql)
     if findings:
         for finding in findings:
             print(f"BLOCKER: {finding}", file=sys.stderr)
         if STRICT_ORDER:
-            fail("strict production mode refuses a ledger whose chain order is not proven safe")
+            fail("strict production mode refuses a ledger with unresolved ordering or SECURITY DEFINER resolution risks")
     else:
-        print("PASS: no known identity-allocation/trigger-lock ordering hazard detected.")
+        print("PASS: no known identity-allocation, trigger-lock or SECURITY DEFINER resolution hazard detected.")
 
     print("Hyper-Core audit migration structural checks passed.")
     print("NOTE: static checks do not apply the migration or prove PostgreSQL runtime behavior.")
