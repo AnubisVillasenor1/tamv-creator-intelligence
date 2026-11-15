@@ -12,6 +12,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:ledger-guard": "node scripts/test-hypercore-ledger-postgres-guard.mjs",
+    "docs:check": "node scripts/validate-documentation-links.mjs",
+    "docs:check:test": "node scripts/test-documentation-links.mjs",
     "test:watch": "vitest",
     "tamv:check": "node scripts/tamv-certification.mjs --check && bash tamv-pack/scripts/validate-pack.sh && node scripts/validate-skills-sh.mjs",
     "tamv:hash": "node scripts/tamv-certification.mjs --update-hashes",
