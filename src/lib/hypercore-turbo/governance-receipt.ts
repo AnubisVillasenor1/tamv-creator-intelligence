@@ -69,6 +69,9 @@ export function validateGovernanceReceipt(
   receipt: GovernanceOperationReceipt,
 ): ReceiptValidation {
   const errors: string[] = [];
+  if (!receipt || typeof receipt !== "object" || Array.isArray(receipt)) {
+    return { valid: false, errors: ["RECEIPT_NOT_OBJECT"] };
+  }
   if (receipt.schema !== "tamv.governance.receipt.v1") errors.push("SCHEMA_UNSUPPORTED");
   if (!ID_PATTERN.test(receipt.receiptId)) errors.push("RECEIPT_ID_INVALID");
   if (!ID_PATTERN.test(receipt.operationId)) errors.push("OPERATION_ID_INVALID");
@@ -89,8 +92,13 @@ export function validateGovernanceReceipt(
   if (!operations.includes(receipt.operation)) errors.push("OPERATION_UNSUPPORTED");
   if (!statuses.includes(receipt.status)) errors.push("STATUS_UNSUPPORTED");
   if (!Array.isArray(receipt.evidence)) errors.push("EVIDENCE_NOT_ARRAY");
+  else if (receipt.evidence.length > 1000) errors.push("EVIDENCE_LIMIT_EXCEEDED");
   else {
     for (const item of receipt.evidence) {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        errors.push("EVIDENCE_ITEM_INVALID");
+        continue;
+      }
       if (!["test", "approval", "artifact", "deployment", "audit"].includes(item.kind)) {
         errors.push("EVIDENCE_KIND_UNSUPPORTED");
       }
