@@ -3,6 +3,7 @@ import {
   isBearerTokenWithinLimit,
   isDeclaredContentLengthWithinLimit,
   isJsonContentType,
+  isValidSupabaseIdentityPayload,
   readBoundedRequestBody,
   readBoundedResponseText,
 } from "./governance-request-guards";
@@ -18,6 +19,15 @@ describe("governance API request boundary guards", () => {
     expect(isJsonContentType("text/application/json")).toBe(false);
     expect(isJsonContentType("application/json-malicious")).toBe(false);
     expect(isJsonContentType(null)).toBe(false);
+  });
+
+  it("validates identity-provider JSON shape and UUID before property access", () => {
+    expect(isValidSupabaseIdentityPayload({ id: "550e8400-e29b-41d4-a716-446655440000" })).toBe(true);
+    expect(isValidSupabaseIdentityPayload(null)).toBe(false);
+    expect(isValidSupabaseIdentityPayload([])).toBe(false);
+    expect(isValidSupabaseIdentityPayload("null")).toBe(false);
+    expect(isValidSupabaseIdentityPayload({ id: null })).toBe(false);
+    expect(isValidSupabaseIdentityPayload({ id: "not-a-uuid" })).toBe(false);
   });
 
   it("accepts non-empty bearer tokens up to the configured boundary", () => {
