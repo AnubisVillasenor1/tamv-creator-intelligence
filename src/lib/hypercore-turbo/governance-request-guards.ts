@@ -1,5 +1,17 @@
 const MAX_BEARER_TOKEN_LENGTH = 8192;
 
+const SUPABASE_USER_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+/** Validate untrusted JSON from the identity provider before property access. */
+export function isValidSupabaseIdentityPayload(value: unknown): value is { id: string } {
+  return value !== null
+    && typeof value === "object"
+    && !Array.isArray(value)
+    && "id" in value
+    && typeof value.id === "string"
+    && SUPABASE_USER_ID_PATTERN.test(value.id);
+}
+
 /** Accept application/json, optionally followed by valid media-type parameters. */
 export function isJsonContentType(value: string | null): boolean {
   if (!value) return false;
