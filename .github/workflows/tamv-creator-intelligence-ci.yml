@@ -43,5 +43,8 @@ jobs:
       - name: Validate governance receipt SQL invariants
         run: node scripts/validate-governance-receipts-sql.mjs
 
+      - name: Validate closure inventory against repository evidence
+        run: node scripts/validate-closure-inventory.mjs
+
       - name: Production build
         run: bun run build
