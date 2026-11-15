@@ -59,6 +59,13 @@ class ChainOrderDetectorTests(unittest.TestCase):
     def test_sequence_reassignment_after_same_lock_before_chain_read_is_accepted(self) -> None:
         self.assertEqual(MODULE.chain_order_findings(SAFE_TRIGGER_REASSIGNMENT), [])
 
+    def test_sequence_reassignment_to_unrelated_sequence_is_not_accepted(self) -> None:
+        unsafe = SAFE_TRIGGER_REASSIGNMENT.replace(
+            "pg_get_serial_sequence('public.tamv_hypercore_audit_events', 'sequence_id')",
+            "pg_get_serial_sequence('public.unrelated_table', 'sequence_id')",
+        )
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
     def test_serialized_append_function_requires_privilege_boundary(self) -> None:
         self.assertEqual(MODULE.chain_order_findings(SAFE_APPEND_FUNCTION), [])
 
@@ -81,6 +88,20 @@ class ChainOrderDetectorTests(unittest.TestCase):
         unsafe = SAFE_APPEND_FUNCTION.replace(
             "REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;",
             "",
+        )
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+    def test_append_function_with_public_insert_grant_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(
+            "REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;",
+            "GRANT INSERT ON TABLE public.tamv_hypercore_audit_events TO PUBLIC;\\nREVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;",
+        )
+        self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
+
+    def test_append_function_with_select_insert_grant_is_not_accepted(self) -> None:
+        unsafe = SAFE_APPEND_FUNCTION.replace(
+            "REVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;",
+            "GRANT SELECT, INSERT ON TABLE public.tamv_hypercore_audit_events TO report_reader;\\nREVOKE INSERT ON TABLE public.tamv_hypercore_audit_events FROM anon, authenticated, service_role;",
         )
         self.assertEqual(len(MODULE.chain_order_findings(unsafe)), 1)
 
