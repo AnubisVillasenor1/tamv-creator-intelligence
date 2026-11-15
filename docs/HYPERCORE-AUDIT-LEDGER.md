@@ -24,7 +24,7 @@ These are properties visible in source SQL. They are **not runtime-verified cont
 ## Required implementation sequence
 
 1. Ask the approved schema owner to redesign chain ordering so the chain position is assigned/serialized under the same transaction lock; do not assume an identity sequence establishes insertion order.
-2. Add a disposable PostgreSQL integration test that launches concurrent writers with intentionally varied scheduling and verifies every row in canonical chain order, recomputes every digest, and detects forks/gaps.
+2. Run the disposable PostgreSQL integration probe at `scripts/test-hypercore-ledger-postgres.mjs`. It launches concurrent writers with varied scheduling, checks chain continuity in `sequence_id` order, and recomputes each stored digest from persisted columns using PostgreSQL's JSONB serialization. The executable probe and its safety-guard regression tests are implemented; live execution, raw logs, and the schema-order correction remain outstanding.
 3. Verify UPDATE, DELETE and TRUNCATE rejection using a role that is not the table owner; verify owner-level bypass limitations separately.
 4. Define least-privilege service-role grants and deployment-specific RLS policy. Never expose direct client writes.
 5. Implement a server-only adapter for `AuditPort.append` that writes only metadata, uses parameterized queries, and fails closed when audit persistence is required but unavailable.
