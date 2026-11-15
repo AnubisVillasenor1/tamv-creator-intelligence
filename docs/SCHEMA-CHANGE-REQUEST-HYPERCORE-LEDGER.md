@@ -36,6 +36,7 @@ Una alternativa basada en reasignar `NEW.sequence_id` después del lock también
 ## 3. Requisitos de seguridad y consistencia
 
 - Las funciones `SECURITY DEFINER` requieren `search_path` explícito y seguro, objetos calificados por schema y entradas validadas.
+- La migración instala `pgcrypto WITH SCHEMA extensions`; la función `tamv_hypercore_audit_chain_insert()` usa `SECURITY DEFINER`, pone `public` antes de `extensions` en `search_path` y llama a `digest()` sin calificar. La revisión de seguridad requiere cambiar a `extensions.digest(...)`, preferir `SET search_path = pg_catalog, extensions` cuando todos los objetos no incorporados estén calificados por schema, y comprobar que roles no confiables no tengan `CREATE` en schemas del path.
 - El rol de aplicación no debe poder omitir el camino serializado haciendo INSERT directo.
 - No exponer a cliente el actor, autoridad, hash anterior o hash final como valores autoritativos; el backend y la base calculan los campos que correspondan.
 - Los eventos del ledger permanecen metadata-only; no guardar prompts, contenido generado, tokens, claves, correos ni datos personales innecesarios.
