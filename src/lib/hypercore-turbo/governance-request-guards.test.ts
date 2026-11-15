@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   isBearerTokenWithinLimit,
   isJsonContentType,
+  readBoundedRequestBody,
 } from "./governance-request-guards";
 
 describe("governance API request boundary guards", () => {
@@ -61,13 +62,14 @@ describe("bounded request body reader", () => {
         controller.close();
       },
     });
-    const request = new Request("https://example.test", { method: "POST", body });
+    const request = new Request("https://example.test", { method: "POST", body, duplex: "half" });
     await expect(readBoundedRequestBody(request, 4)).resolves.toEqual({
       ok: true,
       text: "ábc",
     });
     const second = new Request("https://example.test", {
       method: "POST",
+      duplex: "half",
       body: new ReadableStream<Uint8Array>({
         start(controller) {
           controller.enqueue(encoder.encode("á"));
@@ -89,7 +91,7 @@ describe("bounded request body reader", () => {
         controller.close();
       },
     });
-    const request = new Request("https://example.test", { method: "POST", body });
+    const request = new Request("https://example.test", { method: "POST", body, duplex: "half" });
     await expect(readBoundedRequestBody(request, 8)).resolves.toEqual({
       ok: false,
       reason: "unreadable",
