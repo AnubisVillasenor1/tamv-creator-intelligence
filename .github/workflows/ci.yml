@@ -39,6 +39,12 @@ jobs:
       - name: Verify PostgreSQL ledger probe safety guards
         run: bun run test:ledger-guard
 
+      - name: Test secret-safe production environment preflight
+        run: bun run ops:preflight:test
+
+      - name: Report deployment configuration gaps without exposing values
+        run: bun run ops:preflight
+
       - name: Lint source and scripts
         run: bun run lint
 
