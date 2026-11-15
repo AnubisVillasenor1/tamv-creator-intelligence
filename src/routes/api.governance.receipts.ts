@@ -1,3 +1,4 @@
+/* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { GOVERN_CORE_POLICY, validateGovernCorePolicy } from "../lib/hypercore-turbo/policy";
 import {
