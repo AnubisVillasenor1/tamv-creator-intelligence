@@ -1,0 +1,195 @@
+{
+  "schema": "tamv.closure.v1",
+  "pack": "tamv-creator-intelligence",
+  "version": "3.0.0",
+  "rules": {
+    "closed": "Implementación presente, evidencia existente y al menos un archivo de pruebas existente.",
+    "contract": "Contrato ejecutable y probado, sin proveedor real conectado; la nota explica el límite.",
+    "documented": "Contrato documental publicado; no implica ejecución ni capacidad operativa.",
+    "partial": "Trabajo iniciado con una limitación declarada.",
+    "blocked": "Depende de una acción externa verificable (clave de release, proveedor, credenciales).",
+    "open": "Reconocido y no iniciado.",
+    "capabilityCoverage": "Toda capacidad de pack.json debe aparecer en al menos un módulo.",
+    "skillCoverage": "Toda skill pública debe aparecer en al menos un módulo.",
+    "noFakeCompletion": "Un módulo closed exige evidencia y pruebas existentes; ninguna nota puede declarar operativo lo que solo es contrato."
+  },
+  "modules": [
+    {
+      "id": "public.skill.tamv-creator-os",
+      "title": "Skill pública TAMV Creator OS",
+      "status": "documented",
+      "publicSkills": ["tamv-creator-os"],
+      "capabilities": [
+        "creator.community",
+        "creator.content",
+        "creator.launch",
+        "creator.learning",
+        "creator.strategy"
+      ],
+      "evidence": ["tamv-genesis/v3/skills/tamv-creator-os/SKILL.md"],
+      "tests": [],
+      "note": "Contrato documental de 14 contratos internos. No es un runtime ejecutable ni declara horas verificadas."
+    },
+    {
+      "id": "public.skill.tamv-audio-intelligence",
+      "title": "Skill pública TAMV Audio Intelligence",
+      "status": "documented",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.mastering", "audio.production", "audio.visuals", "audio.voice"],
+      "evidence": ["tamv-genesis/v3/skills/tamv-audio-intelligence/SKILL.md"],
+      "tests": [],
+      "note": "Contrato documental con consentimiento obligatorio. La generación real depende de proveedores no conectados."
+    },
+    {
+      "id": "public.skill.tamv-growth-engine",
+      "title": "Skill pública TAMV Growth Engine",
+      "status": "documented",
+      "publicSkills": ["tamv-growth-engine"],
+      "capabilities": [
+        "growth.analytics",
+        "growth.content",
+        "growth.conversion",
+        "growth.pricing",
+        "growth.seo"
+      ],
+      "evidence": ["tamv-genesis/v3/skills/tamv-growth-engine/SKILL.md"],
+      "tests": [],
+      "note": "Contrato documental. No incluye analítica en vivo, credenciales ni resultados de campañas."
+    },
+    {
+      "id": "public.skill.tamv-sovereign-platform",
+      "title": "Skill pública TAMV Sovereign Platform",
+      "status": "documented",
+      "publicSkills": ["tamv-sovereign-platform"],
+      "capabilities": [
+        "platform.audit",
+        "platform.data",
+        "platform.frontend",
+        "platform.governance",
+        "platform.integrity"
+      ],
+      "evidence": ["tamv-genesis/v3/skills/tamv-sovereign-platform/SKILL.md"],
+      "tests": [],
+      "note": "Contrato documental de gobernanza; el sello y la auditoría reales viven en el kernel y se prueban aparte."
+    },
+    {
+      "id": "sovereign.seal",
+      "title": "Sello fail-closed, dominio de firma y puerta de capacidades",
+      "status": "closed",
+      "publicSkills": [],
+      "capabilities": ["platform.governance", "platform.integrity"],
+      "evidence": [
+        "tamv-genesis/src/sovereign/seal.ts",
+        "tamv-genesis/src/sovereign/keys.ts",
+        "docs/SOVEREIGN-V3.md"
+      ],
+      "tests": ["tamv-genesis/tests/sovereign.test.ts"],
+      "note": "Vincula manifiesto y registro de capacidades, separa el dominio Ed25519 y exige consentimiento en requireCapability(). Sigue sin firma de release."
+    },
+    {
+      "id": "sovereign.transparency",
+      "title": "Log de transparencia y checkpoint Merkle",
+      "status": "closed",
+      "publicSkills": [],
+      "capabilities": ["platform.audit"],
+      "evidence": [
+        "tamv-genesis/src/sovereign/transparency.ts",
+        "tamv-genesis/scripts/v3-transparency.mjs",
+        "tamv-genesis/v3/seals/transparency.json"
+      ],
+      "tests": ["tamv-genesis/tests/sovereign.test.ts"],
+      "note": "La cadena y las pruebas de inclusión están probadas. El checkpoint actual está sin firmar; el log no se declara certificado."
+    },
+    {
+      "id": "sovereign.hybrid",
+      "title": "Sobre híbrido X25519 + HKDF-SHA256 + AES-256-GCM",
+      "status": "closed",
+      "publicSkills": [],
+      "capabilities": [],
+      "evidence": [
+        "tamv-genesis/src/sovereign/hybrid.ts",
+        "tamv-genesis/scripts/v3-hybrid.mjs",
+        "docs/SOVEREIGN-V3.md"
+      ],
+      "tests": ["tamv-genesis/tests/sovereign.test.ts"],
+      "note": "Protege payloads retenidos; no cifra las skills públicas ni impide copiar el paquete completo."
+    },
+    {
+      "id": "sovereign.canonical",
+      "title": "Canonicalización y rutas portables",
+      "status": "closed",
+      "publicSkills": [],
+      "capabilities": [],
+      "evidence": ["tamv-genesis/src/sovereign/canonical.ts", "tamv-genesis/src/sovereign/digest.ts"],
+      "tests": ["tamv-genesis/tests/sovereign.test.ts"],
+      "note": "Rechaza objetos no planos, números no finitos y rutas no portables antes de firmar."
+    },
+    {
+      "id": "audio.gateway.contract",
+      "title": "Contrato de orquestación de audio",
+      "status": "contract",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.mastering", "audio.production"],
+      "evidence": [
+        "tamv-genesis/src/audio/gateway.ts",
+        "tamv-genesis/src/audio/contracts.ts",
+        "docs/AUDIO-ORCHESTRATION.md"
+      ],
+      "tests": ["tamv-genesis/tests/audio-gateway.test.ts"],
+      "note": "Valida, exige consentimiento/derechos, autoriza por sello y encola. No hay proveedor, worker, base de datos ni Redis conectados; truePeakDb y chroma permanecen null si el proveedor no los devuelve."
+    },
+    {
+      "id": "distribution.public-surface",
+      "title": "Superficie pública de cuatro skills y sello v3",
+      "status": "closed",
+      "publicSkills": [
+        "tamv-creator-os",
+        "tamv-audio-intelligence",
+        "tamv-growth-engine",
+        "tamv-sovereign-platform"
+      ],
+      "capabilities": [],
+      "evidence": [
+        "skills.sh.json",
+        "tamv-genesis/v3/pack.json",
+        "tamv-genesis/v3/seals/pack-seal.json"
+      ],
+      "tests": ["tamv-genesis/tests/sovereign.test.ts"],
+      "note": "Cuatro skills públicas; 37 contratos internos permanecen en tamv-pack y no se republican. El sello está en UNSIGNED_RELEASE_PENDING."
+    },
+    {
+      "id": "evidence.public-footprint",
+      "title": "Huella pública y límites de corroboración",
+      "status": "documented",
+      "publicSkills": [],
+      "capabilities": [],
+      "evidence": ["docs/PUBLIC-FOOTPRINT.md", "docs/PROFILES.md", "tamv-genesis/data/github-profiles.json"],
+      "tests": [],
+      "note": "Registra fuentes públicas de identidad y actividad; no eleva C-001 a verificado ni convierte presencia web en horas."
+    },
+    {
+      "id": "release.signing",
+      "title": "Firma de release Ed25519",
+      "status": "blocked",
+      "publicSkills": [],
+      "capabilities": [],
+      "evidence": [
+        "tamv-genesis/scripts/v3-seal.mjs",
+        "tamv-attribution.sig",
+        "docs/RELEASE-SIGNING.md"
+      ],
+      "tests": [],
+      "note": "Bloqueado por una clave privada Ed25519 que no está en el repositorio. No se fabrica ni se simula la firma."
+    },
+    {
+      "id": "audit.kernel",
+      "title": "Consola de auditoría K-01..K-20",
+      "status": "partial",
+      "publicSkills": [],
+      "capabilities": [],
+      "evidence": ["tamv-genesis/cli/sovereign.mjs", "docs/audit/2026-11-13/EVIDENCE-INDEX.md"],
+      "tests": ["tamv-genesis/tests/data.test.ts"],
+      "note": "La consola recalcula hashes, claims, ledger y sello, pero no tiene pruebas unitarias dedicadas para cada uno de sus 20 chequeos. K-02 (firma) sigue fallando por diseño."
+    }
+  ]
+}

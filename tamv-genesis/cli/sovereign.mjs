@@ -357,7 +357,7 @@ function checkV3Seal() {
   }
   const pack = JSON.parse(readFileSync(packPath, "utf8"));
   const seal = JSON.parse(readFileSync(sealPath, "utf8"));
-  if (pack.schema !== "tamv.creator-intelligence.pack.v3" || seal.schema !== "tamv.pack-seal.v1") {
+  if (pack.schema !== "tamv.creator-intelligence.pack.v3" || seal.schema !== "tamv.pack-seal.v2") {
     return { ok: false, skills: 0, signature: "invalid", detail: "El esquema de v3 no coincide." };
   }
   const declaredIds = pack.publicSkills.map((skill) => skill.id).sort();
@@ -402,6 +402,21 @@ function checkV3Seal() {
   }
   computed.sort((left, right) => left.id.localeCompare(right.id));
 
+  const manifestBinding = {
+    path: "v3/pack.json",
+    canonicalSha256: `sha256:${sha256(canonicalJson(pack))}`,
+  };
+  if (
+    seal.manifest?.path !== manifestBinding.path ||
+    seal.manifest?.canonicalSha256 !== manifestBinding.canonicalSha256
+  ) {
+    return { ok: false, skills: computed.length, signature: "n/a", detail: "El sello no está vinculado al manifiesto actual." };
+  }
+  const capabilities = [...new Set(pack.publicSkills.flatMap((skill) => skill.capabilities))].sort();
+  if (JSON.stringify(seal.capabilities) !== JSON.stringify(capabilities)) {
+    return { ok: false, skills: computed.length, signature: "n/a", detail: "El registro de capacidades del sello no coincide." };
+  }
+
   for (const entry of computed) {
     const sealed = seal.skills.find((skill) => skill.id === entry.id);
     if (!sealed || sealed.root !== entry.root || sealed.path !== entry.path) {
@@ -413,6 +428,8 @@ function checkV3Seal() {
     pack: seal.pack,
     version: seal.version,
     issuedAt: seal.issuedAt,
+    manifest: seal.manifest,
+    capabilities: seal.capabilities,
     skills: seal.skills.map(({ id, path, root }) => ({ id, path, root })),
     internalContracts: seal.internalContracts ?? null,
   }))}`;
@@ -431,9 +448,10 @@ function checkV3Seal() {
   try {
     const payload = { ...seal };
     delete payload.signature;
+    const signedBytes = canonicalJson({ domain: "tamv.pack-seal.ed25519.v2", payload });
     const valid = verifySignature(
       null,
-      Buffer.from(canonicalJson(payload), "utf8"),
+      Buffer.from(signedBytes, "utf8"),
       createPublicKey(publicPem),
       Buffer.from(signature.value, "base64url"),
     );
@@ -446,6 +464,84 @@ function checkV3Seal() {
   } catch (error) {
     return { ok: false, skills: computed.length, signature: "invalid", detail: `No se pudo verificar la firma: ${error.message}` };
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* closure registry                                                    */
+/* ------------------------------------------------------------------ */
+
+function checkClosure() {
+  const packPath = join(PACKAGE_ROOT, "v3", "pack.json");
+  const closurePath = join(PACKAGE_ROOT, "v3", "closure.json");
+  if (!existsSync(packPath) || !existsSync(closurePath)) {
+    return { ok: false, modules: 0, capabilities: 0, detail: "Falta pack.json o closure.json de v3." };
+  }
+  let pack;
+  let closure;
+  try {
+    pack = JSON.parse(readFileSync(packPath, "utf8"));
+    closure = JSON.parse(readFileSync(closurePath, "utf8"));
+  } catch (error) {
+    return { ok: false, modules: 0, capabilities: 0, detail: `JSON inválido: ${error.message}` };
+  }
+  if (closure.schema !== "tamv.closure.v1" || !Array.isArray(closure.modules)) {
+    return { ok: false, modules: 0, capabilities: 0, detail: "El registro de cierre no coincide con tamv.closure.v1." };
+  }
+
+  const problems = [];
+  const allowed = new Set(["closed", "contract", "documented", "partial", "blocked", "open"]);
+  const catalog = new Set(pack.publicSkills.flatMap((skill) => skill.capabilities));
+  const skillIds = new Set(pack.publicSkills.map((skill) => skill.id));
+  const coveredCapabilities = new Set();
+  const coveredSkills = new Set();
+  const ids = new Set();
+
+  for (const module of closure.modules) {
+    const id = typeof module?.id === "string" ? module.id : "<sin id>";
+    if (!/^[a-z0-9][a-z0-9.-]{2,80}$/.test(id)) problems.push(`${id}:id inválido`);
+    if (ids.has(id)) problems.push(`${id}:duplicado`);
+    ids.add(id);
+    if (!allowed.has(module?.status)) {
+      problems.push(`${id}:estado inválido (${String(module?.status)})`);
+    }
+    if (typeof module?.note !== "string" || module.note.trim().length < 20) {
+      problems.push(`${id}:nota ausente`);
+    }
+    const evidence = Array.isArray(module?.evidence) ? module.evidence : [];
+    const tests = Array.isArray(module?.tests) ? module.tests : [];
+    if (evidence.length === 0) problems.push(`${id}:sin evidencia`);
+    for (const path of [...evidence, ...tests]) {
+      if (typeof path !== "string" || !existsRepo(path)) problems.push(`${id}:ruta inexistente ${String(path)}`);
+    }
+    if (module.status === "closed" || module.status === "contract") {
+      if (tests.length === 0) problems.push(`${id}:${module.status} sin pruebas`);
+    }
+    for (const capability of Array.isArray(module?.capabilities) ? module.capabilities : []) {
+      if (!catalog.has(capability)) problems.push(`${id}:capacidad fuera del manifiesto ${capability}`);
+      coveredCapabilities.add(capability);
+    }
+    for (const skill of Array.isArray(module?.publicSkills) ? module.publicSkills : []) {
+      if (!skillIds.has(skill)) problems.push(`${id}:skill fuera del manifiesto ${skill}`);
+      coveredSkills.add(skill);
+    }
+  }
+
+  for (const capability of catalog) {
+    if (!coveredCapabilities.has(capability)) problems.push(`capacidad sin módulo: ${capability}`);
+  }
+  for (const skill of skillIds) {
+    if (!coveredSkills.has(skill)) problems.push(`skill sin módulo: ${skill}`);
+  }
+
+  return {
+    ok: problems.length === 0,
+    modules: closure.modules.length,
+    capabilities: catalog.size,
+    detail:
+      problems.length === 0
+        ? `${closure.modules.length} módulos; ${catalog.size} capacidades y ${skillIds.size} skills cubiertas; sin módulos closed sin pruebas.`
+        : problems.join("; "),
+  };
 }
 
 /* ------------------------------------------------------------------ */
@@ -468,6 +564,7 @@ function runAudit() {
   const corpus = checkLocalCorpus();
   const sensitive = checkSensitiveGovernance();
   const v3Seal = checkV3Seal();
+  const closure = checkClosure();
 
   const capabilityAssessments = capabilities.map((capability) =>
     assessCapability(capability, {
@@ -619,6 +716,13 @@ function runAudit() {
     v3Seal.detail,
     true,
   );
+  push(
+    "K-20",
+    "Registro de cierre de skills, módulos y capacidades",
+    closure.ok ? "pass" : "fail",
+    closure.detail,
+    true,
+  );
 
   return {
     generatedAt: "2026-11-13T00:00:00Z",
@@ -638,6 +742,7 @@ function runAudit() {
     corpus,
     sensitive,
     seal: v3Seal,
+    closure,
     capabilityAssessments,
     checks,
   };
@@ -830,9 +935,14 @@ function buildReviewPacket(audit) {
     "docs/PUBLISHING.md",
     "docs/ACADEMIC-EVALUATION.md",
     "docs/SOVEREIGN-V3.md",
+    "docs/AUDIO-ORCHESTRATION.md",
+    "docs/PUBLIC-FOOTPRINT.md",
     "skills.sh.json",
     "tamv-genesis/v3/pack.json",
+    "tamv-genesis/v3/closure.json",
     "tamv-genesis/v3/seals/pack-seal.json",
+    "tamv-genesis/v3/seals/transparency.json",
+    "tamv-genesis/v3/seals/transparency-checkpoint.json",
     "tamv-genesis/v3/skills/tamv-creator-os/SKILL.md",
     "tamv-genesis/v3/skills/tamv-audio-intelligence/SKILL.md",
     "tamv-genesis/v3/skills/tamv-growth-engine/SKILL.md",
@@ -842,9 +952,15 @@ function buildReviewPacket(audit) {
     "tamv-genesis/src/sovereign/keys.ts",
     "tamv-genesis/src/sovereign/hybrid.ts",
     "tamv-genesis/src/sovereign/seal.ts",
+    "tamv-genesis/src/sovereign/transparency.ts",
+    "tamv-genesis/src/audio/contracts.ts",
+    "tamv-genesis/src/audio/gateway.ts",
+    "tamv-genesis/src/audio/index.ts",
     "tamv-genesis/scripts/v3-seal.mjs",
     "tamv-genesis/scripts/v3-hybrid.mjs",
+    "tamv-genesis/scripts/v3-transparency.mjs",
     "tamv-genesis/tests/sovereign.test.ts",
+    "tamv-genesis/tests/audio-gateway.test.ts",
   ]
     .map((path) => {
       try {

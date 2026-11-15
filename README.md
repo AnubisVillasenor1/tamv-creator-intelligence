@@ -71,7 +71,11 @@ El paquete se organiza en una superficie pública unificada de **cuatro skills c
 
 Las cuatro skills viven en `tamv-genesis/v3/skills/` y son las únicas publicadas en [skills.sh.json](skills.sh.json). No duplican los 37 contratos de `tamv-pack/skills/`: los referencian como biblioteca interna. La matriz de fusión de patrones externos — absorbidos como capacidades, sin copiar texto ni implementación de terceros — está en [tamv-genesis/v3/pack.json](tamv-genesis/v3/pack.json).
 
-El paquete v3 se protege con un sello de raíces SHA-256 por skill y por paquete, firmado con Ed25519 y verificado en fail-closed: quitar, editar, mover o añadir una skill rompe el sello y el runtime deniega la ejecución certificada. **El sello actual no está firmado** (`UNSIGNED_RELEASE_PENDING`). Sobre ese sello, un log de transparencia append-only encadena por hash cada raíz publicada y ofrece pruebas de inclusión Merkle verificables por terceros, con un checkpoint firmable que también está sin firmar en este release. El modelo de amenaza, el cifrado híbrido X25519 + HKDF-SHA256 + AES-256-GCM, el log de transparencia y la migración desde 1.2.1 están en [docs/SOVEREIGN-V3.md](docs/SOVEREIGN-V3.md).
+Estas cuatro skills son **contratos publicados**, no servicios operativos. Varias capacidades de audio, voz, agente y publicación siguen respondiendo `501` hasta que exista un gateway autorizado, consentimiento, cuota, auditoría y pruebas negativas. El estado de cada módulo se declara en [tamv-genesis/v3/closure.json](tamv-genesis/v3/closure.json): `closed` exige evidencia y pruebas existentes; `documented` significa solo contrato documental; `blocked` significa dependencia externa verificable.
+
+El paquete v3 se protege con un sello de raíces SHA-256 por skill y por paquete, firmado con Ed25519 y verificado en fail-closed: quitar, editar, mover o añadir una skill rompe el sello y el runtime deniega la ejecución certificada. **El sello actual no está firmado** (`UNSIGNED_RELEASE_PENDING`).
+
+El endurecimiento triple del sello añade: (1) **vinculación del manifiesto**, de modo que `pack.json` no puede intercambiarse sin romper el sello; (2) **separación de dominio** en las firmas, para que una firma de sello no se reutilice como firma de checkpoint; y (3) una **puerta de capacidades** (`requireCapability`) que exige sello válido, pertenencia al registro sellado y consentimiento cuando la skill lo declara. Sobre ese sello, un log de transparencia append-only encadena por hash cada raíz publicada y ofrece pruebas de inclusión Merkle verificables por terceros, con un checkpoint firmable que también está sin firmar en este release. El modelo de amenaza, el cifrado híbrido X25519 + HKDF-SHA256 + AES-256-GCM, el log de transparencia y la migración desde 1.2.1 están en [docs/SOVEREIGN-V3.md](docs/SOVEREIGN-V3.md).
 
 ## HyperCore Turbo
 
@@ -131,6 +135,17 @@ El diseño previsto contempla:
 
 Mientras no exista implementación verificada, estas funciones no deben presentarse como operativas.
 
+### Contrato de orquestación de audio (sin proveedor conectado)
+
+Existe un contrato ejecutable y probado para validar, autorizar y encolar trabajo de audio:
+
+- Valida peticiones estrictas y rechaza campos desconocidos, derechos inválidos o falta de consentimiento.
+- Autoriza mediante el sello v3 y exige consentimiento cuando la skill lo declara.
+- Devuelve únicamente `status: "queued"`; nunca declara que la generación terminó.
+- No inventa DSP: `truePeakDb`, `integratedLufs` y `chroma` permanecen `null` si el proveedor no los entrega.
+
+No hay proveedor, worker, Redis, BullMQ, base de datos, bucket MinIO ni Docker Compose de audio conectados. El detalle y la ruta honesta hacia esa infraestructura están en [docs/AUDIO-ORCHESTRATION.md](docs/AUDIO-ORCHESTRATION.md).
+
 ## Seguridad e integridad
 
 TAMV Creator Intelligence implementa una arquitectura de verificación continua:
@@ -138,6 +153,9 @@ TAMV Creator Intelligence implementa una arquitectura de verificación continua:
 - Manifiesto de integridad basado en SHA-256 sobre 22 archivos obligatorios.
 - Firma Ed25519 para el manifiesto de atribución (pendiente en este release).
 - Sello v3 fail-closed: sin firma válida, las capacidades certificadas se deniegan.
+- Vinculación del manifiesto v3, separación de dominio de firmas y puerta de capacidad con consentimiento.
+- Registro de cierre `K-20`: ninguna módulo `closed` puede carecer de evidencia o pruebas existentes.
+- Contrato de audio sin métricas inventadas: `truePeakDb` y `chroma` quedan `null` si el proveedor no los entrega.
 - Procedencia SLSA para artefactos publicados y SBOM para visibilidad de componentes, configurados en el workflow de release.
 - Políticas fail-closed ante fallos de integridad.
 - RLS obligatoria en Supabase como regla de diseño; los cambios de esquema se gestionan mediante Lovable.
@@ -226,12 +244,13 @@ bun run test
 bun run tamv:check
 bun run build
 node --experimental-strip-types --test tamv-genesis/tests/*.test.ts
+node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit
 node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify
 node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --verify
 bash scripts/verify-slsa.sh
 ```
 
-`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **78/78 pruebas aprobadas** localmente (Node v24.18.0), incluidas las del núcleo soberano y las 11 del log de transparencia, y se verificaron la estructura del sello v3 y la cadena del log de transparencia con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
+`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. La auditoría devuelve 20 chequeos; `K-02` falla a propósito mientras el release siga sin firma y `K-20` valida el registro de cierre. `v3-seal.mjs --verify` sin `TAMV_V3_PUBLIC_KEY` devuelve `TAMV_SEAL_KEY_MISSING`; el build exige integridad válida. En esta actualización se ejecutó la suite de Genesis: **93/93 pruebas aprobadas** localmente (Node v26.13.0), incluidas 19 del núcleo soberano, 11 del log de transparencia y 11 del contrato de audio, y se verificaron la estructura del sello v3, la vinculación del manifiesto, la cadena del log de transparencia y el registro de cierre con sus CLIs. No se ejecutaron Vitest, lint, typecheck, build ni validación en navegador; la suite de la aplicación no se declara “en verde”.
 
 La firma y recertificación corresponden al responsable autorizado del release, con las claves suministradas de forma segura:
 
@@ -249,6 +268,9 @@ No desactives verificaciones para conseguir un build ni sustituyas `UNSIGNED_REL
 
 - [Referencia operativa verificada](docs/OPERATIONS.md) — revisión, cuotas, catálogo de 37 contratos, Genesis, endpoints, instalación y certificación.
 - [Sello, firma y cifrado híbrido v3](docs/SOVEREIGN-V3.md).
+- [Contrato de orquestación de audio](docs/AUDIO-ORCHESTRATION.md).
+- [Registro de cierre de módulos y capacidades](tamv-genesis/v3/closure.json).
+- [Huella pública y límites de corroboración](docs/PUBLIC-FOOTPRINT.md).
 - [Distribución y publicación](docs/PUBLISHING.md).
 - [Auditoría fechada y evidencia](docs/audit/2026-11-13/README.md).
 - [Gobernanza](GOVERNANCE.md) y [seguridad](SECURITY.md).
@@ -257,7 +279,5 @@ No desactives verificaciones para conseguir un build ni sustituyas `UNSIGNED_REL
 ## Atribución institucional
 
 ```text
-Proyecto impulsado con colaboración de tecnología latinoamericana
-TAMV ONLINE NETWORK
-Orgullosamente Realmontenses.
+Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.
 ```

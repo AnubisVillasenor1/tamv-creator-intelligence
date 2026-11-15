@@ -23,6 +23,8 @@ import {
 import { keyId, signEd25519, verifyEd25519 } from "./keys.ts";
 
 export const TRANSPARENCY_SCHEMA = "tamv.seal-transparency.v1";
+/** Domain separation: a checkpoint signature cannot be replayed as a seal signature. */
+export const CHECKPOINT_SIGNING_DOMAIN = "tamv.seal-transparency.checkpoint.ed25519.v1";
 export const TRANSPARENCY_GENESIS_HASH: Sha256Digest = `sha256:${"0".repeat(64)}`;
 
 export type TransparencyEntry = {
@@ -292,10 +294,13 @@ export async function verifyEntryInclusion(
 
 function checkpointSigningInput(checkpoint: TransparencyCheckpoint): string {
   return canonicalJson({
-    schema: checkpoint.schema,
-    size: checkpoint.size,
-    rootHash: checkpoint.rootHash,
-    chainHead: checkpoint.chainHead,
+    domain: CHECKPOINT_SIGNING_DOMAIN,
+    payload: {
+      schema: checkpoint.schema,
+      size: checkpoint.size,
+      rootHash: checkpoint.rootHash,
+      chainHead: checkpoint.chainHead,
+    },
   });
 }
 

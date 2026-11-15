@@ -69,7 +69,7 @@ horas; solo volumen de publicación. Detalle en `docs/PROFILES.md`.
 # Integridad del release
 node scripts/tamv-certification.mjs --check
 
-# Auditoría completa (15 chequeos)
+# Auditoría completa (20 chequeos)
 node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit
 
 # Ledger y manifiesto genesis

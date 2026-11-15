@@ -13,6 +13,8 @@ import {
 import { decodePlaintext, openHybrid, sealHybrid } from "../src/sovereign/hybrid.ts";
 import {
   buildPackSeal,
+  packSealSigningPayload,
+  requireCapability,
   requireCertifiedPack,
   signPackSeal,
   TamvSealDeniedError,
@@ -22,6 +24,13 @@ import {
 } from "../src/sovereign/seal.ts";
 
 const issuedAt = "2026-11-14T00:00:00.000Z";
+const manifestContent = JSON.stringify({
+  schema: "tamv.creator-intelligence.pack.v3",
+  pack: "tamv-creator-intelligence",
+  packVersion: "3.0.0",
+  publicSkills: ["tamv-creator-os", "tamv-audio-intelligence"],
+});
+const manifest = { path: "v3/pack.json", content: manifestContent };
 
 function sources(): SkillSource[] {
   return [
@@ -48,7 +57,13 @@ function sources(): SkillSource[] {
 async function signedSeal() {
   const pair = await generateEd25519KeyPair();
   const seal = await signPackSeal(
-    await buildPackSeal({ pack: "tamv-creator-intelligence", version: "3.0.0", issuedAt, skills: sources() }),
+    await buildPackSeal({
+      pack: "tamv-creator-intelligence",
+      version: "3.0.0",
+      issuedAt,
+      manifest,
+      skills: sources(),
+    }),
     pair.privateKey,
     pair.publicKey,
   );
@@ -123,7 +138,7 @@ test("hybrid envelope round-trips and rejects the wrong recipient or AAD", async
 
 test("a signed pack seal certifies the exact public skills", async () => {
   const { seal, pair } = await signedSeal();
-  const result = await verifyPackSeal({ seal, sources: sources(), publicKey: pair.publicKey });
+  const result = await verifyPackSeal({ seal, manifest, sources: sources(), publicKey: pair.publicKey });
   assert.equal(result.allowed, true);
   assert.equal(result.code, "TAMV_SEAL_VALID");
   assert.match(seal.root, /^sha256:[a-f0-9]{64}$/);
@@ -133,7 +148,7 @@ test("editing one byte of one skill breaks the seal", async () => {
   const { seal, pair } = await signedSeal();
   const changed = sources();
   changed[0].files[0].content = "# TAMV Creator OS\nmalicious line\n";
-  const result = await verifyPackSeal({ seal, sources: changed, publicKey: pair.publicKey });
+  const result = await verifyPackSeal({ seal, manifest, sources: changed, publicKey: pair.publicKey });
   assert.equal(result.allowed, false);
   assert.equal(result.code, "TAMV_SEAL_CONTENT_MISMATCH");
 });
@@ -141,24 +156,24 @@ test("editing one byte of one skill breaks the seal", async () => {
 test("removing or adding a skill is refused", async () => {
   const { seal, pair } = await signedSeal();
   const removed = sources().slice(1);
-  assert.equal((await verifyPackSeal({ seal, sources: removed, publicKey: pair.publicKey })).code, "TAMV_SEAL_SKILL_MISSING");
+  assert.equal((await verifyPackSeal({ seal, manifest, sources: removed, publicKey: pair.publicKey })).code, "TAMV_SEAL_SKILL_MISSING");
 
   const added = sources();
   added.push({ ...sources()[1], id: "tamv-growth-engine", path: "skills/tamv-growth-engine" });
-  assert.equal((await verifyPackSeal({ seal, sources: added, publicKey: pair.publicKey })).code, "TAMV_SEAL_CONTENT_MISMATCH");
+  assert.equal((await verifyPackSeal({ seal, manifest, sources: added, publicKey: pair.publicKey })).code, "TAMV_SEAL_CONTENT_MISMATCH");
 });
 
 test("an unsigned seal is denied even when every hash matches", async () => {
-  const seal = await buildPackSeal({ pack: "tamv-creator-intelligence", version: "3.0.0", issuedAt, skills: sources() });
+  const seal = await buildPackSeal({ pack: "tamv-creator-intelligence", version: "3.0.0", issuedAt, manifest, skills: sources() });
   const pair = await generateEd25519KeyPair();
-  const result = await verifyPackSeal({ seal, sources: sources(), publicKey: pair.publicKey });
+  const result = await verifyPackSeal({ seal, manifest, sources: sources(), publicKey: pair.publicKey });
   assert.equal(result.allowed, false);
   assert.equal(result.code, "TAMV_SEAL_UNSIGNED");
 });
 
 test("a missing public key denies certification while structure is valid", async () => {
   const { seal } = await signedSeal();
-  const result = await verifyPackSeal({ seal, sources: sources() });
+  const result = await verifyPackSeal({ seal, manifest, sources: sources() });
   assert.equal(result.allowed, false);
   assert.equal(result.code, "TAMV_SEAL_KEY_MISSING");
 });
@@ -166,7 +181,7 @@ test("a missing public key denies certification while structure is valid", async
 test("a foreign signing key cannot authenticate the seal", async () => {
   const { seal } = await signedSeal();
   const attacker = await generateEd25519KeyPair();
-  const result = await verifyPackSeal({ seal, sources: sources(), publicKey: attacker.publicKey });
+  const result = await verifyPackSeal({ seal, manifest, sources: sources(), publicKey: attacker.publicKey });
   assert.equal(result.allowed, false);
   assert.equal(result.code, "TAMV_SEAL_SIGNATURE_INVALID");
 });
@@ -174,16 +189,101 @@ test("a foreign signing key cannot authenticate the seal", async () => {
 test("a tampered root or signature block is rejected before execution", async () => {
   const { seal, pair } = await signedSeal();
   const rootTampered = { ...seal, root: ("sha256:" + "0".repeat(64)) as PackSeal["root"] };
-  assert.equal((await verifyPackSeal({ seal: rootTampered, sources: sources(), publicKey: pair.publicKey })).code, "TAMV_SEAL_CONTENT_MISMATCH");
+  assert.equal((await verifyPackSeal({ seal: rootTampered, manifest, sources: sources(), publicKey: pair.publicKey })).code, "TAMV_SEAL_CONTENT_MISMATCH");
 
   const malformed = { ...seal, signature: { alg: "Ed25519" } } as unknown as PackSeal;
-  assert.equal((await verifyPackSeal({ seal: malformed, sources: sources(), publicKey: pair.publicKey })).code, "TAMV_SEAL_MALFORMED");
+  assert.equal((await verifyPackSeal({ seal: malformed, manifest, sources: sources(), publicKey: pair.publicKey })).code, "TAMV_SEAL_MALFORMED");
+});
+
+test("the pack manifest is bound into the seal and cannot be swapped", async () => {
+  const { seal, pair } = await signedSeal();
+  const altered = { ...manifest, content: JSON.stringify({ ...JSON.parse(manifestContent), packVersion: "9.9.9" }) };
+  assert.equal(
+    (await verifyPackSeal({ seal, manifest: altered, sources: sources(), publicKey: pair.publicKey })).code,
+    "TAMV_SEAL_MANIFEST_MISMATCH",
+  );
+  assert.equal(
+    (await verifyPackSeal({ seal, sources: sources(), publicKey: pair.publicKey })).code,
+    "TAMV_SEAL_MANIFEST_MISSING",
+  );
+  assert.equal(
+    (await verifyPackSeal({ seal, manifest: { ...manifest, path: "v3/other.json" }, sources: sources(), publicKey: pair.publicKey })).code,
+    "TAMV_SEAL_MANIFEST_MISMATCH",
+  );
+});
+
+test("seal signatures are domain separated from other Ed25519 payloads", async () => {
+  const { seal, pair } = await signedSeal();
+  assert.ok("value" in seal.signature);
+  const signature = seal.signature.value;
+  const { signature: _signature, ...barePayload } = seal as PackSeal & { signature: unknown };
+  assert.equal(await verifyEd25519(pair.publicKey, canonicalJson(barePayload), signature), false);
+  assert.equal(await verifyEd25519(pair.publicKey, packSealSigningPayload(seal), signature), true);
+});
+
+test("a capability gate denies unknown capabilities and requires consent", async () => {
+  const { seal, pair } = await signedSeal();
+  const grant = await requireCapability({
+    capability: "creator.strategy",
+    seal,
+    manifest,
+    sources: sources(),
+    publicKey: pair.publicKey,
+  });
+  assert.deepEqual(grant, { capability: "creator.strategy", skillId: "tamv-creator-os", requiresConsent: false });
+
+  await assert.rejects(
+    () =>
+      requireCapability({
+        capability: "audio.production",
+        seal,
+        manifest,
+        sources: sources(),
+        publicKey: pair.publicKey,
+      }),
+    (error: unknown) => error instanceof TamvSealDeniedError && error.code === "TAMV_SEAL_CONSENT_REQUIRED",
+  );
+
+  const consented = await requireCapability({
+    capability: "audio.production",
+    seal,
+    manifest,
+    sources: sources(),
+    publicKey: pair.publicKey,
+    consentGranted: true,
+  });
+  assert.equal(consented.skillId, "tamv-audio-intelligence");
+
+  await assert.rejects(
+    () =>
+      requireCapability({
+        capability: "admin.root",
+        seal,
+        manifest,
+        sources: sources(),
+        publicKey: pair.publicKey,
+        consentGranted: true,
+      }),
+    (error: unknown) => error instanceof TamvSealDeniedError && error.code === "TAMV_SEAL_CAPABILITY_DENIED",
+  );
+});
+
+test("one capability cannot be claimed by two public skills", async () => {
+  const duplicated = sources();
+  duplicated[1] = {
+    ...duplicated[1],
+    capabilities: ["audio.production", "audio.mastering", "creator.strategy"],
+  };
+  await assert.rejects(
+    () => buildPackSeal({ pack: "tamv-creator-intelligence", version: "3.0.0", issuedAt, manifest, skills: duplicated }),
+    /claimed by both/,
+  );
 });
 
 test("requireCertifiedPack throws a typed denial instead of returning quietly", async () => {
-  const seal = await buildPackSeal({ pack: "tamv-creator-intelligence", version: "3.0.0", issuedAt, skills: sources() });
+  const seal = await buildPackSeal({ pack: "tamv-creator-intelligence", version: "3.0.0", issuedAt, manifest, skills: sources() });
   await assert.rejects(
-    () => requireCertifiedPack({ seal, sources: sources() }),
+    () => requireCertifiedPack({ seal, manifest, sources: sources() }),
     (error: unknown) => error instanceof TamvSealDeniedError && error.code === "TAMV_SEAL_UNSIGNED",
   );
 });

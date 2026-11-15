@@ -9,6 +9,15 @@
       "issuedAt": "2026-11-14T00:00:00.000Z",
       "prevHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
       "entryHash": "sha256:b4bd9c3fbf3dae7b1f481b50212db29dead989c1b53ea5641e56c09d982671bd"
+    },
+    {
+      "seq": 1,
+      "pack": "tamv-creator-intelligence",
+      "version": "3.0.0",
+      "sealRoot": "sha256:3519d34593e1a01f6685f77c8d3dbc0a3a8a87d75de95c679644e33a17b7b487",
+      "issuedAt": "2026-11-14T00:00:00.000Z",
+      "prevHash": "sha256:b4bd9c3fbf3dae7b1f481b50212db29dead989c1b53ea5641e56c09d982671bd",
+      "entryHash": "sha256:5921f06261c3e1e45b3bdf7e30807d25485c16e5c7c202c62baac48cb0133b37"
     }
   ]
 }

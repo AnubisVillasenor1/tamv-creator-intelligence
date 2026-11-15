@@ -17,8 +17,14 @@ import { assertSafeRelativePath, canonicalJson } from "./canonical.ts";
 import { isSha256Digest, sha256Hex, type Sha256Digest } from "./digest.ts";
 import { keyId, signEd25519, verifyEd25519 } from "./keys.ts";
 
-export const PACK_SEAL_SCHEMA = "tamv.pack-seal.v1";
+export const PACK_SEAL_SCHEMA = "tamv.pack-seal.v2";
 export const UNSIGNED_STATE = "UNSIGNED_RELEASE_PENDING";
+/**
+ * Signatures are domain separated: a seal signature can never be replayed as a
+ * transparency checkpoint signature (or any other Ed25519 payload) because the
+ * signed bytes always include this context string.
+ */
+export const SEAL_SIGNING_DOMAIN = "tamv.pack-seal.ed25519.v2";
 
 export type SkillFileDigest = {
   path: string;
@@ -35,12 +41,23 @@ export type SkillSealEntry = {
   files: SkillFileDigest[];
 };
 
+export type ManifestBinding = {
+  /** Path of the manifest relative to the pack root. */
+  path: string;
+  /** SHA-256 of the manifest's canonical JSON, not of its formatting. */
+  canonicalSha256: Sha256Digest;
+};
+
 export type PackSealPayload = {
   schema: typeof PACK_SEAL_SCHEMA;
   pack: string;
   version: string;
   issuedAt: string;
   root: Sha256Digest;
+  /** Binds the manifest that consumers must evaluate, so it cannot be swapped. */
+  manifest: ManifestBinding;
+  /** Sorted union of every capability of every public skill. */
+  capabilities: string[];
   policy: {
     failClosed: true;
     hash: "SHA-256";
@@ -69,6 +86,7 @@ export type SealBuildInput = {
   pack: string;
   version: string;
   issuedAt: string;
+  manifest: { path: string; content: string };
   skills: SkillSource[];
   internalContracts?: { path: string; count: number };
 };
@@ -79,13 +97,23 @@ export type SealCode =
   | "TAMV_SEAL_KEY_MISSING"
   | "TAMV_SEAL_SIGNATURE_INVALID"
   | "TAMV_SEAL_CONTENT_MISMATCH"
+  | "TAMV_SEAL_MANIFEST_MISMATCH"
+  | "TAMV_SEAL_MANIFEST_MISSING"
   | "TAMV_SEAL_SKILL_MISSING"
+  | "TAMV_SEAL_CAPABILITY_DENIED"
+  | "TAMV_SEAL_CONSENT_REQUIRED"
   | "TAMV_SEAL_MALFORMED";
 
 export type SealVerification = {
   allowed: boolean;
   code: SealCode;
   detail: string;
+};
+
+export type CapabilityGrant = {
+  capability: string;
+  skillId: string;
+  requiresConsent: boolean;
 };
 
 const encoder = new TextEncoder();
@@ -116,6 +144,24 @@ function normalizeCapabilities(capabilities: string[]): string[] {
     seen.add(capability);
   }
   return [...seen].sort();
+}
+
+/** Digest of the manifest's canonical JSON, so formatting and newlines do not matter. */
+export async function canonicalManifestDigest(content: string): Promise<Sha256Digest> {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(content.replace(/^\uFEFF/, ""));
+  } catch {
+    throw new Error("The bound manifest is not valid JSON.");
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("The bound manifest must be a JSON object.");
+  }
+  return sha256Hex(canonicalJson(parsed));
+}
+
+function capabilityRegistry(skills: SkillSealEntry[]): string[] {
+  return [...new Set(skills.flatMap((skill) => skill.capabilities))].sort();
 }
 
 async function digestFiles(files: SkillSource["files"]): Promise<SkillFileDigest[]> {
@@ -155,6 +201,8 @@ async function packRoot(payload: Omit<PackSealPayload, "root">): Promise<Sha256D
       pack: payload.pack,
       version: payload.version,
       issuedAt: payload.issuedAt,
+      manifest: payload.manifest,
+      capabilities: payload.capabilities,
       skills: payload.skills.map(({ id, path, root }) => ({ id, path, root })),
       internalContracts: payload.internalContracts ?? null,
     }),
@@ -166,8 +214,17 @@ export async function buildPackSeal(input: SealBuildInput): Promise<PackSeal> {
   assertSemver(input.version);
   if (!Array.isArray(input.skills) || input.skills.length === 0) throw new Error("A pack needs at least one public skill.");
   if (Number.isNaN(Date.parse(input.issuedAt))) throw new Error("issuedAt must be an ISO timestamp.");
+  if (!input.manifest || typeof input.manifest.content !== "string") {
+    throw new Error("A v2 pack seal must bind the pack manifest.");
+  }
+  assertSafeRelativePath(input.manifest.path);
+  const manifest: ManifestBinding = {
+    path: input.manifest.path,
+    canonicalSha256: await canonicalManifestDigest(input.manifest.content),
+  };
   const ids = new Set<string>();
   const paths = new Set<string>();
+  const claimed = new Map<string, string>();
   const entries: SkillSealEntry[] = [];
   for (const skill of [...input.skills].sort((left, right) => left.id.localeCompare(right.id))) {
     assertIdentifier(skill.id, "skill id");
@@ -184,6 +241,13 @@ export async function buildPackSeal(input: SealBuildInput): Promise<PackSeal> {
       capabilities: normalizeCapabilities(skill.capabilities),
       files,
     };
+    for (const capability of withoutRoot.capabilities) {
+      const owner = claimed.get(capability);
+      if (owner) {
+        throw new Error(`Capability ${capability} is claimed by both ${owner} and ${skill.id}.`);
+      }
+      claimed.set(capability, skill.id);
+    }
     entries.push({ ...withoutRoot, root: await skillRoot(withoutRoot) });
   }
   const payloadBase: Omit<PackSealPayload, "root"> = {
@@ -191,6 +255,8 @@ export async function buildPackSeal(input: SealBuildInput): Promise<PackSeal> {
     pack: input.pack,
     version: input.version,
     issuedAt: input.issuedAt,
+    manifest,
+    capabilities: capabilityRegistry(entries),
     policy: { failClosed: true, hash: "SHA-256", signature: "Ed25519", unsignedBehavior: "deny" },
     skills: entries,
     ...(input.internalContracts ? { internalContracts: input.internalContracts } : {}),
@@ -202,10 +268,13 @@ export async function buildPackSeal(input: SealBuildInput): Promise<PackSeal> {
   };
 }
 
-function signingPayload(seal: PackSeal | PackSealPayload): string {
+/** Bytes covered by the Ed25519 seal signature, including the anti-replay domain. */
+export function packSealSigningPayload(seal: PackSeal | PackSealPayload): string {
   const { signature: _signature, ...payload } = seal as PackSeal;
-  return canonicalJson(payload);
+  return canonicalJson({ domain: SEAL_SIGNING_DOMAIN, payload });
 }
+
+const signingPayload = packSealSigningPayload;
 
 export async function signPackSeal(
   seal: PackSeal,
@@ -234,11 +303,24 @@ export function assertPackSeal(value: unknown): asserts value is PackSeal {
     typeof seal.version !== "string" ||
     typeof seal.issuedAt !== "string" ||
     !isSha256Digest(seal.root) ||
+    !seal.manifest ||
+    typeof seal.manifest !== "object" ||
+    !isSha256Digest((seal.manifest as Record<string, unknown>).canonicalSha256) ||
+    !Array.isArray(seal.capabilities) ||
     !Array.isArray(seal.skills) ||
     !seal.policy ||
     typeof seal.policy !== "object"
   ) {
     throw new Error("The pack seal does not match the TAMV contract.");
+  }
+  const manifest = seal.manifest as Record<string, unknown>;
+  if (typeof manifest.path !== "string") throw new Error("The pack seal manifest path is missing.");
+  assertSafeRelativePath(manifest.path);
+
+  const capabilities = seal.capabilities as unknown[];
+  for (const capability of capabilities) assertCapability(capability);
+  if (new Set(capabilities).size !== capabilities.length) {
+    throw new Error("The pack seal capability registry contains duplicates.");
   }
   for (const entry of seal.skills as unknown[]) {
     if (!entry || typeof entry !== "object") throw new Error("Invalid skill entry in the pack seal.");
@@ -270,6 +352,7 @@ export function assertPackSeal(value: unknown): asserts value is PackSeal {
 export async function verifyPackSeal(input: {
   seal: PackSeal;
   sources: SkillSource[];
+  manifest?: { path: string; content: string };
   publicKey?: CryptoKey;
   requireSignature?: boolean;
 }): Promise<SealVerification> {
@@ -289,8 +372,10 @@ export async function verifyPackSeal(input: {
   }
 
   let computedPackRoot: Sha256Digest;
+  let computedRegistry: string[];
   try {
     computedPackRoot = await packRoot(input.seal);
+    computedRegistry = capabilityRegistry(input.seal.skills);
   } catch (error) {
     return { allowed: false, code: "TAMV_SEAL_MALFORMED", detail: (error as Error).message };
   }
@@ -299,6 +384,41 @@ export async function verifyPackSeal(input: {
       allowed: false,
       code: "TAMV_SEAL_CONTENT_MISMATCH",
       detail: "The pack root does not match the signed payload.",
+    };
+  }
+  if (JSON.stringify(computedRegistry) !== JSON.stringify(input.seal.capabilities)) {
+    return {
+      allowed: false,
+      code: "TAMV_SEAL_CONTENT_MISMATCH",
+      detail: "The capability registry does not match the sealed skills.",
+    };
+  }
+
+  if (!input.manifest) {
+    return {
+      allowed: false,
+      code: "TAMV_SEAL_MANIFEST_MISSING",
+      detail: "The seal binds a manifest; verification requires the manifest content.",
+    };
+  }
+  if (input.manifest.path !== input.seal.manifest.path) {
+    return {
+      allowed: false,
+      code: "TAMV_SEAL_MANIFEST_MISMATCH",
+      detail: "The supplied manifest path differs from the sealed path.",
+    };
+  }
+  let manifestDigest: Sha256Digest;
+  try {
+    manifestDigest = await canonicalManifestDigest(input.manifest.content);
+  } catch (error) {
+    return { allowed: false, code: "TAMV_SEAL_MALFORMED", detail: (error as Error).message };
+  }
+  if (manifestDigest !== input.seal.manifest.canonicalSha256) {
+    return {
+      allowed: false,
+      code: "TAMV_SEAL_MANIFEST_MISMATCH",
+      detail: "The supplied manifest differs from the manifest bound into the seal.",
     };
   }
 
@@ -364,6 +484,13 @@ export async function verifyPackSeal(input: {
       detail: "An unsigned seal cannot authenticate a pack.",
     };
   }
+  if ((await keyId(input.publicKey)) !== input.seal.signature.keyId) {
+    return {
+      allowed: false,
+      code: "TAMV_SEAL_SIGNATURE_INVALID",
+      detail: "The configured public key does not match the seal key id.",
+    };
+  }
   const valid = await verifyEd25519(input.publicKey, signingPayload(input.seal), input.seal.signature.value);
   if (!valid) {
     return {
@@ -378,6 +505,7 @@ export async function verifyPackSeal(input: {
 export async function assertPackSealValid(input: {
   seal: PackSeal;
   sources: SkillSource[];
+  manifest?: { path: string; content: string };
   publicKey?: CryptoKey;
   requireSignature?: boolean;
 }): Promise<void> {
@@ -399,9 +527,43 @@ export class TamvSealDeniedError extends Error {
 export async function requireCertifiedPack(input: {
   seal: PackSeal;
   sources: SkillSource[];
+  manifest?: { path: string; content: string };
   publicKey?: CryptoKey;
   requireSignature?: boolean;
 }): Promise<void> {
   const result = await verifyPackSeal(input);
   if (!result.allowed) throw new TamvSealDeniedError(result.code, result.detail);
+}
+
+/**
+ * Capability gate: the pack must be certified *and* the requested capability
+ * must belong to a sealed skill, *and* consent must be granted when that skill
+ * declares it. Knowing a capability name is not authorization.
+ */
+export async function requireCapability(input: {
+  capability: string;
+  seal: PackSeal;
+  sources: SkillSource[];
+  manifest?: { path: string; content: string };
+  publicKey?: CryptoKey;
+  requireSignature?: boolean;
+  consentGranted?: boolean;
+}): Promise<CapabilityGrant> {
+  assertCapability(input.capability);
+  const verified = await verifyPackSeal(input);
+  if (!verified.allowed) throw new TamvSealDeniedError(verified.code, verified.detail);
+  const entry = input.seal.skills.find((skill) => skill.capabilities.includes(input.capability));
+  if (!entry) {
+    throw new TamvSealDeniedError(
+      "TAMV_SEAL_CAPABILITY_DENIED",
+      `The capability ${input.capability} is not certified by this pack.`,
+    );
+  }
+  if (entry.requiresConsent && input.consentGranted !== true) {
+    throw new TamvSealDeniedError(
+      "TAMV_SEAL_CONSENT_REQUIRED",
+      `The capability ${input.capability} requires explicit consent before execution.`,
+    );
+  }
+  return { capability: input.capability, skillId: entry.id, requiresConsent: entry.requiresConsent };
 }

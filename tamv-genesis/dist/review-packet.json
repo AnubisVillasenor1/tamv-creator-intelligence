@@ -765,7 +765,7 @@
     "ok": true,
     "skills": 4,
     "signature": "unsigned",
-    "detail": "Raíz sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed)."
+    "detail": "Raíz sha256:3519d34593e1a01f6685f77c8d3dbc0a3a8a87d75de95c679644e33a17b7b487; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed)."
   },
   "checks": [
     {
@@ -891,14 +891,21 @@
       "id": "K-18",
       "label": "Gobernanza de material sensible",
       "status": "pass",
-      "detail": "100 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
+      "detail": "112 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1).",
       "blocking": true
     },
     {
       "id": "K-19",
       "label": "Sello criptográfico del paquete v3",
       "status": "pass",
-      "detail": "Raíz sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed).",
+      "detail": "Raíz sha256:3519d34593e1a01f6685f77c8d3dbc0a3a8a87d75de95c679644e33a17b7b487; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed).",
+      "blocking": true
+    },
+    {
+      "id": "K-20",
+      "label": "Registro de cierre de skills, módulos y capacidades",
+      "status": "pass",
+      "detail": "13 módulos; 19 capacidades y 4 skills cubiertas; sin módulos closed sin pruebas.",
       "blocking": true
     }
   ],
@@ -907,6 +914,7 @@
     "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit",
     "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs verify",
     "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs report",
+    "node --experimental-strip-types tamv-genesis/cli/sovereign.mjs seal",
     "node --experimental-strip-types --test tamv-genesis/tests/*.test.ts",
     "node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify",
     "npx skills add AnubisVillasenor1/tamv-creator-intelligence --list"
@@ -929,12 +937,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "sha256:62c170c887d538d8e6a3db0c2b4c16da68bbc74e1544876b96c0b29083d57ffd",
-      "bytes": 50664
+      "sha256": "sha256:947fb0f5f9b88d0b7c7f43b69bb2df2b3682ecfa85c571ed8d4d8c14b153240a",
+      "bytes": 19673
     },
     {
       "path": "tamv-attribution.json",
-      "sha256": "sha256:a5beb1915a8073a546e79c69aeb8c651f9cca9e098ae21b7a540daa897bfe8e2",
+      "sha256": "sha256:114608c014f0be2e52140f402500e5aab082714ed5d31b72b8422105b21d8abe",
       "bytes": 4285
     },
     {
@@ -999,7 +1007,7 @@
     },
     {
       "path": "docs/audit/2026-11-13/EVIDENCE-INDEX.md",
-      "sha256": "sha256:95195024a2b7cdfed517c19dd0ba5fc311d576aa3dd512d7ccef613fd6c9b42b",
+      "sha256": "sha256:84e58d140f8f3606977ac3ac493b7ae4ac60f3dc07d6e4b226f4728a35a663f6",
       "bytes": 5047
     },
     {
@@ -1024,8 +1032,18 @@
     },
     {
       "path": "docs/SOVEREIGN-V3.md",
-      "sha256": "sha256:736ad2522a3127bb0a4819cf64bfe5765d5e999baca4d39784af9672f3eb0bec",
-      "bytes": 7415
+      "sha256": "sha256:34b3e38d24b4cf4582e0395de15aed490e2d20f420b8da94a4760d39c0d7d5a1",
+      "bytes": 14044
+    },
+    {
+      "path": "docs/AUDIO-ORCHESTRATION.md",
+      "sha256": "sha256:d3894bd0f63df3ecdb9944d20dcf9fd0432d8be07c3cfaa74b2c10c9ebe18677",
+      "bytes": 5114
+    },
+    {
+      "path": "docs/PUBLIC-FOOTPRINT.md",
+      "sha256": "sha256:0d1b1d3f9b6f7ea9785994acb8d55a6ac05429a7a9fe1a3b0d945ece018392e6",
+      "bytes": 4916
     },
     {
       "path": "skills.sh.json",
@@ -1034,13 +1052,28 @@
     },
     {
       "path": "tamv-genesis/v3/pack.json",
-      "sha256": "sha256:d329255b987baceaa454f5bd70fa5b9304d24f13b0908305cf7c44100a3e0266",
-      "bytes": 8028
+      "sha256": "sha256:abc455968e6c1cb2afb04e138ff27145f3c7998867b2bbef089f146100a51494",
+      "bytes": 8244
+    },
+    {
+      "path": "tamv-genesis/v3/closure.json",
+      "sha256": "sha256:24e016b0d99c84bdd76ef883815bdddcbd57d1f7438c05a9770f7a423d750a2d",
+      "bytes": 8147
     },
     {
       "path": "tamv-genesis/v3/seals/pack-seal.json",
-      "sha256": "sha256:5a1fdc3e891fe3ee373823e8ccd59e515b5720d6507f6185f99121414be0a2c2",
-      "bytes": 2803
+      "sha256": "sha256:a47cfa4fe2f7d010db94a5b5b5fa23146b6c200bdddc13e23b4c057de9d3a9cc",
+      "bytes": 3410
+    },
+    {
+      "path": "tamv-genesis/v3/seals/transparency.json",
+      "sha256": "sha256:99aa876c8ad4a66b1a10f0d8eb83fc8774e446918c5057c66724be323bdca2c3",
+      "bytes": 909
+    },
+    {
+      "path": "tamv-genesis/v3/seals/transparency-checkpoint.json",
+      "sha256": "sha256:337daeeaf54e61b26047da09eeb849eecf52f64926a10fe1d8f856a1308ab039",
+      "bytes": 320
     },
     {
       "path": "tamv-genesis/v3/skills/tamv-creator-os/SKILL.md",
@@ -1064,8 +1097,8 @@
     },
     {
       "path": "tamv-genesis/src/sovereign/canonical.ts",
-      "sha256": "sha256:3eeb63b31e8d62a923efef909a46073cccdabcaf51be40c8a22241ace283921a",
-      "bytes": 2278
+      "sha256": "sha256:98efe81a02af687c531fcce293401bbd7263e582b4172814244425de23546f38",
+      "bytes": 3211
     },
     {
       "path": "tamv-genesis/src/sovereign/digest.ts",
@@ -1074,8 +1107,8 @@
     },
     {
       "path": "tamv-genesis/src/sovereign/keys.ts",
-      "sha256": "sha256:8ae44304c82530d667a7100ee2a34f9f54ba70a92bd695e675c89ac88778f83a",
-      "bytes": 5204
+      "sha256": "sha256:b447c6cfba87124027829a12f1c4b87e5929ddbaba36858a8cdd560b90db3d63",
+      "bytes": 5229
     },
     {
       "path": "tamv-genesis/src/sovereign/hybrid.ts",
@@ -1084,13 +1117,33 @@
     },
     {
       "path": "tamv-genesis/src/sovereign/seal.ts",
-      "sha256": "sha256:3bb90662b940c9611b527a90dcdf9cad28be44d1ea4abe4ee7febb40440a92c0",
-      "bytes": 13568
+      "sha256": "sha256:0af37e7bdb50c0e8b573dfe6280480d5fe639e363a5db0d06a68cc603e29bd56",
+      "bytes": 19789
+    },
+    {
+      "path": "tamv-genesis/src/sovereign/transparency.ts",
+      "sha256": "sha256:59b82244519ec3c94395e6ac514df533fb582f7698fe09168e40dc421494ef95",
+      "bytes": 14995
+    },
+    {
+      "path": "tamv-genesis/src/audio/contracts.ts",
+      "sha256": "sha256:d0bd603687d34bc324daa485576b23f67d07a5ff148d0f852cc39faab5b6ac2a",
+      "bytes": 9435
+    },
+    {
+      "path": "tamv-genesis/src/audio/gateway.ts",
+      "sha256": "sha256:7bcf0b42de82675a225e84f6541e837849dedc5193e6e0d68d692d826d80cb4a",
+      "bytes": 7266
+    },
+    {
+      "path": "tamv-genesis/src/audio/index.ts",
+      "sha256": "sha256:5b62035819f5337f9908557276258dbd86b4b4c281586d26cf99013d3ac74f06",
+      "bytes": 257
     },
     {
       "path": "tamv-genesis/scripts/v3-seal.mjs",
-      "sha256": "sha256:2097627e2334f681b7aebdb5cd2be525f127df01f8d7a5015aeb499750ace534",
-      "bytes": 6208
+      "sha256": "sha256:f9771c57ff16f8015b515ede6fba29e3d0d237ea596281d134a38429ef06a919",
+      "bytes": 6340
     },
     {
       "path": "tamv-genesis/scripts/v3-hybrid.mjs",
@@ -1098,9 +1151,19 @@
       "bytes": 2437
     },
     {
+      "path": "tamv-genesis/scripts/v3-transparency.mjs",
+      "sha256": "sha256:5201bc7d3fdb8f1408fb0ecd19331bab287c4f980fb8857bf9263f071eaa9fce",
+      "bytes": 6340
+    },
+    {
       "path": "tamv-genesis/tests/sovereign.test.ts",
-      "sha256": "sha256:8789c727bfa2eb8dfeae40bfc0d5c6683f4f935c8d298513f2d2949effde7ced",
-      "bytes": 7466
+      "sha256": "sha256:42d0b6a34ee69e07eb79a76898bb79568c8956fc7ef299c7658ab2ec04c647e0",
+      "bytes": 12268
+    },
+    {
+      "path": "tamv-genesis/tests/audio-gateway.test.ts",
+      "sha256": "sha256:7deca185e7108a6a5b20a2f506feb251862c2b4223f3ab66137c5d3ba69da326",
+      "bytes": 7523
     }
   ],
   "limitations": [

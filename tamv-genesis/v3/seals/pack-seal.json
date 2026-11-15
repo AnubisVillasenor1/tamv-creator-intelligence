@@ -1,8 +1,33 @@
 {
-  "schema": "tamv.pack-seal.v1",
+  "schema": "tamv.pack-seal.v2",
   "pack": "tamv-creator-intelligence",
   "version": "3.0.0",
   "issuedAt": "2026-11-14T00:00:00.000Z",
+  "manifest": {
+    "path": "v3/pack.json",
+    "canonicalSha256": "sha256:72bbfc90de6cde7c957fbc0fd36b5854d8db6e7194031a73f9ab11485156e985"
+  },
+  "capabilities": [
+    "audio.mastering",
+    "audio.production",
+    "audio.visuals",
+    "audio.voice",
+    "creator.community",
+    "creator.content",
+    "creator.launch",
+    "creator.learning",
+    "creator.strategy",
+    "growth.analytics",
+    "growth.content",
+    "growth.conversion",
+    "growth.pricing",
+    "growth.seo",
+    "platform.audit",
+    "platform.data",
+    "platform.frontend",
+    "platform.governance",
+    "platform.integrity"
+  ],
   "policy": {
     "failClosed": true,
     "hash": "SHA-256",
@@ -94,7 +119,7 @@
     "path": "tamv-pack/skills",
     "count": 37
   },
-  "root": "sha256:0f0be734a429a8fdddae36c597b73b3eaa1dff74fbe55d02d9a4ad05e3aa77bc",
+  "root": "sha256:3519d34593e1a01f6685f77c8d3dbc0a3a8a87d75de95c679644e33a17b7b487",
   "signature": {
     "alg": "Ed25519",
     "state": "UNSIGNED_RELEASE_PENDING"

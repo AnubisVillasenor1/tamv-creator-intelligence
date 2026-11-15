@@ -108,8 +108,10 @@ async function loadVerificationKey() {
 }
 
 async function main() {
-  const pack = JSON.parse(await readFile(PACK_PATH, "utf8"));
+  const packContent = await readFile(PACK_PATH, "utf8");
+  const pack = JSON.parse(packContent);
   if (pack.schema !== "tamv.creator-intelligence.pack.v3") throw new Error("Unsupported v3 manifest schema.");
+  const manifest = { path: "v3/pack.json", content: packContent };
   const sources = await sourcesFromPack(pack);
 
   if (args.has("--verify")) {
@@ -117,6 +119,7 @@ async function main() {
     const result = await verifyPackSeal({
       seal: JSON.parse(raw),
       sources,
+      manifest,
       publicKey: await loadVerificationKey(),
       requireSignature: REQUIRE_SIGNATURE,
     });
@@ -130,6 +133,7 @@ async function main() {
     pack: pack.pack,
     version: pack.packVersion,
     issuedAt,
+    manifest,
     skills: sources,
     internalContracts: { path: pack.internalContracts.path, count: pack.internalContracts.count },
   });

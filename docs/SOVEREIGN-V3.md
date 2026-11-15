@@ -29,9 +29,18 @@ declarar una versión certificada.
 1. Cada archivo de una skill se serializa a UTF-8 y se hashea con SHA-256.
 2. La raíz de la skill hashea un JSON canónico con `id`, `path`,
    `requiresConsent`, `capabilities` ordenadas y la lista ordenada de archivos.
-3. La raíz del paquete hashea un JSON canónico con esquema, pack, versión,
-   `issuedAt`, las tuplas `{id, path, root}` y el recuento de contratos internos.
-4. La firma Ed25519 cubre el sello completo sin el bloque `signature`.
+3. El sello vincula el manifiesto: guarda `manifest.path` y
+   `manifest.canonicalSha256`, el SHA-256 del **JSON canónico** de `pack.json`
+   (no de su formato). Cambiar versión, skills o capacidades del manifiesto sin
+   actualizar el sello produce `TAMV_SEAL_MANIFEST_MISMATCH`.
+4. La raíz del paquete hashea un JSON canónico con esquema, pack, versión,
+   `issuedAt`, la vinculación del manifiesto, el registro ordenado de
+   capacidades, las tuplas `{id, path, root}` y el recuento de contratos
+   internos.
+5. La firma Ed25519 cubre `{domain: "tamv.pack-seal.ed25519.v2", payload}`.
+   El dominio impide reutilizar una firma de sello como firma de checkpoint de
+   transparencia o como cualquier otro payload Ed25519. Los checkpoints usan su
+   propio dominio (`tamv.seal-transparency.checkpoint.ed25519.v1`).
 
 La serialización canónica ordena claves, rechaza `undefined`, rechaza números no
 finitos y rechaza rutas absolutas, retrocesos (`..`), separadores de Windows,
@@ -42,9 +51,13 @@ clase): antes se serializaban en silencio como `{}`, perdiendo datos y pudiendo
 producir colisiones de digest entre payloads distintos. Ahora fallan de forma
 explícita. El mismo payload debe producir los mismos bytes en navegador, Node y CI.
 
+Una capacidad no puede pertenecer a dos skills públicas: el constructor del
+sello lo rechaza para que la puerta de runtime no sea ambigua.
+
 ## 3. Comportamiento fail-closed
 
-`verifyPackSeal()` y `requireCertifiedPack()` aplican estas reglas:
+`verifyPackSeal()`, `requireCertifiedPack()` y `requireCapability()` aplican
+estas reglas:
 
 | Situación | Código | Resultado |
 |---|---|---|
@@ -54,12 +67,34 @@ explícita. El mismo payload debe producir los mismos bytes en navegador, Node y
 | Un byte editado en una skill | `TAMV_SEAL_CONTENT_MISMATCH` | Denegado. |
 | Skill eliminada del paquete | `TAMV_SEAL_SKILL_MISSING` | Denegado. |
 | Skill no declarada añadida | `TAMV_SEAL_CONTENT_MISMATCH` | Denegado. |
-| Firma de otra clave | `TAMV_SEAL_SIGNATURE_INVALID` | Denegado. |
+| Manifiesto distinto o ruta cambiada | `TAMV_SEAL_MANIFEST_MISMATCH` | Denegado. |
+| La verificación no recibe el manifiesto vinculado | `TAMV_SEAL_MANIFEST_MISSING` | Denegado. |
+| Capacidad fuera del registro sellado | `TAMV_SEAL_CAPABILITY_DENIED` | Denegado. |
+| Capacidad de una skill con `requiresConsent` sin consentimiento | `TAMV_SEAL_CONSENT_REQUIRED` | Denegado. |
+| Firma de otra clave o `keyId` distinto | `TAMV_SEAL_SIGNATURE_INVALID` | Denegado. |
 | JSON malformado | `TAMV_SEAL_MALFORMED` | Denegado. |
 
-La auditoría `K-19` recalcula las raíces desde el árbol real y las compara con el
-sello. Comprueba estructura y contenido; la verificación de firma requiere
-`TAMV_V3_PUBLIC_KEY`, porque la auditoría no debe inventar una clave.
+`requireCapability()` es la puerta que debe usar un runtime real:
+
+```ts
+await requireCapability({
+  capability: "audio.production",
+  consentGranted: true,
+  seal,
+  sources,
+  manifest: { path: "v3/pack.json", content: await readFile("…/pack.json", "utf8") },
+  publicKey,
+});
+```
+
+Comprueba el sello completo, que la capacidad exista en el registro sellado y
+que se haya concedido consentimiento si la skill lo exige. Conocer el nombre de
+una capacidad no autoriza nada.
+
+La auditoría `K-19` recalcula las raíces desde el árbol real, comprueba la
+vinculación del manifiesto y el registro de capacidades, y las compara con el
+sello. La verificación de firma requiere `TAMV_V3_PUBLIC_KEY`, porque la
+auditoría no debe inventar una clave. `K-20` valida el registro de cierre.
 
 ## 4. Qué impide y qué no
 
@@ -157,6 +192,10 @@ node --experimental-strip-types tamv-genesis/scripts/v3-hybrid.mjs seal \
 | Las rutas rechazan nombres reservados y sufijos/caracteres no portables | Probado por tests locales. |
 | SHA-256, Ed25519, X25519 y AES-GCM operan en Node v24.18.0 | Probado localmente. |
 | Editar, quitar o añadir una skill rompe el sello | Probado por tests locales. |
+| Cambiar el manifiesto o su ruta rompe el sello | Probado por tests locales. |
+| Una firma de sello no vale como firma de checkpoint | Probado por tests locales (separación de dominio). |
+| `requireCapability()` deniega capacidades desconocidas y exige consentimiento | Probado por tests locales. |
+| El contrato de audio encola sin declarar finalización y no inventa DSP | Probado por tests locales; sin proveedor ni worker conectados. |
 | El log de transparencia encadena entradas y detecta reescrituras | Probado por tests locales. |
 | Las pruebas de inclusión Merkle verifican cada entrada | Probado por tests locales (tamaños 1..7). |
 | El checkpoint actual está firmado | **No.** `UNSIGNED_RELEASE_PENDING`. |

@@ -21,6 +21,11 @@ Generado: 2026-11-13T00:00:00Z. No editar a mano: `node --experimental-strip-typ
 | K-13 | Licencia única | pass | NOTICE=true LICENSE=true MAP=true |
 | K-14 | Revisión con autenticación y cuota | pass | auth=true cert=true quota=true timeout=true |
 | K-15 | Correlación de errores por petición | pass | ALS=true scope=true |
+| K-16 | Inventario de perfiles GitHub | pass | 2 perfiles; 154 repos; 41 forks; 109 originales con 0 estrellas. |
+| K-17 | Inventario del corpus local | pass | 9948 archivos; 129 retenidos (P0=119, P1=10); extraídos=0. |
+| K-18 | Gobernanza de material sensible | pass | 112 archivos escaneados; 0 patrones de secreto; restringidos excluidos=true (1). |
+| K-19 | Sello criptográfico del paquete v3 | pass | Raíz sha256:3519d34593e1a01f6685f77c8d3dbc0a3a8a87d75de95c679644e33a17b7b487; firma=UNSIGNED_RELEASE_PENDING (runtime fail-closed). |
+| K-20 | Registro de cierre de skills, módulos y capacidades | pass | 13 módulos; 19 capacidades y 4 skills cubiertas; sin módulos closed sin pruebas. |
 
 ## Claims
 
@@ -60,6 +65,24 @@ Generado: 2026-11-13T00:00:00Z. No editar a mano: `node --experimental-strip-typ
 | hypercore.audit | M3-tested | M3-tested | sí | ninguno |
 | sovereignty.dashboard | M2-implemented | M2-implemented | sí | ninguno |
 | skills.install | M1-contracted | M1-contracted | no | no-agent-discovery-path |
+
+## Perfiles GitHub
+
+| Perfil | Repos | Originales | Forks | Estrellas (orig.) | Originales con 0 estrellas |
+|---|---:|---:|---:|---:|---:|
+| AnubisVillasenor1 | 10 | 9 | 1 | 0 | 9 |
+| OsoPanda1 | 144 | 104 | 40 | 4 | 100 |
+
+## Corpus local
+
+| Métrica | Valor |
+|---|---:|
+| Archivos | 9948 |
+| Bytes | 4241742190 |
+| Extraídos | 8818 |
+| Retenidos P0/P1 | 129 |
+| Duplicados (grupos) | 2358 |
+| Caracteres extraídos | 100091333 |
 
 # Scorecard — TAMV Creator Intelligence — tamv-genesis v2.0.0
 
