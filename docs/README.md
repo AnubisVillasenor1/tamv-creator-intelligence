@@ -11,6 +11,7 @@
 ## Arquitectura y desarrollo
 
 - [Referencia de arquitectura operativa](ARCHITECTURE-REFERENCE.md): mapa de capas, flujos críticos, fronteras de confianza y condiciones para afirmar operación real.
+- [Superficie API y contratos de error](API-SURFACE-AND-ERROR-CONTRACTS.md): rutas reales, autenticación, límites, códigos de respuesta y diferencias entre diagnóstico, intención y ejecución.
 - [Registro de fuentes e integración entre repositorios](CROSS-REPOSITORY-ADOPTION-REGISTER.md): procedencia de fuentes de ambos perfiles, patrones adoptados, límites y decisiones excluidas.
 - [Arquitectura unificada del Creator OS](TAMV-CREATOR-OS-UNIFIED-ARCHITECTURE.md).
 - [Operaciones](OPERATIONS.md): procedimientos y límites de capacidades.
