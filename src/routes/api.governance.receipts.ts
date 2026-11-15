@@ -30,9 +30,9 @@ function jsonError(message: string, status: number): Response {
 async function authenticate(request: Request): Promise<{ actorRef: string } | Response> {
   const authorization = request.headers.get("authorization");
   const token = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
-  const url = process.env.SUPABASE_URL;
-  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
-  const actorSalt = process.env.TAMV_GOVERNANCE_ACTOR_SALT;
+  const url = process.env['SUPABASE_URL'];
+  const publishableKey = process.env['SUPABASE_PUBLISHABLE_KEY'];
+  const actorSalt = process.env['TAMV_GOVERNANCE_ACTOR_SALT'];
 
   if (!url || !publishableKey || !actorSalt || actorSalt.length < 32) {
     return jsonError("Governance authentication is not configured", 503);
