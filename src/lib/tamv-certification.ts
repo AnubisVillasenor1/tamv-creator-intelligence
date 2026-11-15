@@ -292,25 +292,25 @@ export async function verifyTamvCertification(
   }
 
   if (
-    !sourceFiles["ATTRIBUTION.md"].includes(TAMV_EXPECTED_ATTRIBUTION) ||
-    !sourceFiles["README.md"].includes(TAMV_EXPECTED_ATTRIBUTION) ||
-    !sourceFiles["src/lib/tamv-attribution.ts"].includes(TAMV_EXPECTED_ATTRIBUTION) ||
-    !sourceFiles["src/components/branding/TamvAttribution.tsx"].includes("TAMV_CANONICAL_ATTRIBUTION") ||
-    !sourceFiles["src/routes/__root.tsx"].includes("<TamvAttribution />") ||
-    !sourceFiles["src/lib/content.functions.ts"].includes("requireTamvCertification") ||
-    !sourceFiles["src/routes/api.tamv.status.ts"].includes("getTamvCertification") ||
-    !sourceFiles["src/routes/api.generation.ts"].includes('unavailableTamvCapabilityResponse("music.generation")') ||
-    !sourceFiles["src/routes/api.voice.generate.ts"].includes('unavailableTamvCapabilityResponse("voice.generation")') ||
-    !sourceFiles["src/routes/api.audiocore.advanced.ts"].includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
-    !sourceFiles["src/routes/api.agent.ts"].includes('unavailableTamvCapabilityResponse("agent.orchestration")') ||
-    !sourceFiles["src/lib/hypercore-turbo/policy.ts"].includes("tamv.govern.policy.v2") ||
-    !sourceFiles["src/lib/hypercore-turbo/velocity.ts"].includes("runTurboParallel") ||
-    !sourceFiles["hypercore/govern-core/policy.json"].includes("NIST-CSF-2.0") ||
-    !sourceFiles["hypercore/velocity-core/turbo-config.json"].includes("maxConcurrency") ||
-    !sourceFiles["src/routes/api.tamv.hypercore.audit.ts"].includes('createFileRoute("/api/tamv/hypercore/audit")') ||
-    !sourceFiles["src/lib/hypercore-turbo/parallel-runner.ts"].includes("runTurboParallel") ||
-    !sourceFiles["scripts/verify-slsa.sh"].includes("slsa-verifier") ||
-    !sourceFiles["src/routes/hypercore.tsx"].includes('createFileRoute("/hypercore")')
+    !sourceFiles["ATTRIBUTION.md"]?.includes(TAMV_EXPECTED_ATTRIBUTION) ||
+    !sourceFiles["README.md"]?.includes(TAMV_EXPECTED_ATTRIBUTION) ||
+    !sourceFiles["src/lib/tamv-attribution.ts"]?.includes(TAMV_EXPECTED_ATTRIBUTION) ||
+    !sourceFiles["src/components/branding/TamvAttribution.tsx"]?.includes("TAMV_CANONICAL_ATTRIBUTION") ||
+    !sourceFiles["src/routes/__root.tsx"]?.includes("<TamvAttribution />") ||
+    !sourceFiles["src/lib/content.functions.ts"]?.includes("requireTamvCertification") ||
+    !sourceFiles["src/routes/api.tamv.status.ts"]?.includes("getTamvCertification") ||
+    !sourceFiles["src/routes/api.generation.ts"]?.includes('unavailableTamvCapabilityResponse("music.generation")') ||
+    !sourceFiles["src/routes/api.voice.generate.ts"]?.includes('unavailableTamvCapabilityResponse("voice.generation")') ||
+    !sourceFiles["src/routes/api.audiocore.advanced.ts"]?.includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
+    !sourceFiles["src/routes/api.agent.ts"]?.includes('unavailableTamvCapabilityResponse("agent.orchestration")') ||
+    !sourceFiles["src/lib/hypercore-turbo/policy.ts"]?.includes("tamv.govern.policy.v2") ||
+    !sourceFiles["src/lib/hypercore-turbo/velocity.ts"]?.includes("runTurboParallel") ||
+    !sourceFiles["hypercore/govern-core/policy.json"]?.includes("NIST-CSF-2.0") ||
+    !sourceFiles["hypercore/velocity-core/turbo-config.json"]?.includes("maxConcurrency") ||
+    !sourceFiles["src/routes/api.tamv.hypercore.audit.ts"]?.includes('createFileRoute("/api/tamv/hypercore/audit")') ||
+    !sourceFiles["src/lib/hypercore-turbo/parallel-runner.ts"]?.includes("runTurboParallel") ||
+    !sourceFiles["scripts/verify-slsa.sh"]?.includes("slsa-verifier") ||
+    !sourceFiles["src/routes/hypercore.tsx"]?.includes('createFileRoute("/hypercore")')
   ) {
     return fail("attribution-modified", "La atribución visible o uno de sus puntos de control fue alterado.", checkedAt);
   }
@@ -334,7 +334,11 @@ export async function verifyTamvCertification(
     if (typeof expectedHash !== "string" || !HEX_SHA256.test(expectedHash)) {
       return fail("manifest-invalid", "Hash SHA-256 inválido para " + path, checkedAt);
     }
-    const actualHash = "sha256:" + (await sha256Hex(sourceFiles[path], provider));
+    const source = sourceFiles[path];
+    if (typeof source !== "string") {
+      return fail("required-file-missing", "Falta un archivo requerido por la certificación: " + path, checkedAt);
+    }
+    const actualHash = "sha256:" + (await sha256Hex(source, provider));
     if (actualHash !== expectedHash) {
       return fail("source-integrity-mismatch", "La integridad de origen no coincide en " + path, checkedAt);
     }
@@ -352,7 +356,7 @@ export async function verifyTamvCertification(
   const publicKeyPem = (
     options.publicKeyPem ??
     (typeof process !== "undefined" ? process.env?.["TAMV_ATTRIBUTION_PUBLIC_KEY"] : undefined) ??
-    import.meta.env?.VITE_TAMV_ATTRIBUTION_PUBLIC_KEY ??
+    import.meta.env?.["VITE_TAMV_ATTRIBUTION_PUBLIC_KEY"] ??
     ""
   ).replace(/\\n/g, "\n").trim();
   if (!publicKeyPem) {

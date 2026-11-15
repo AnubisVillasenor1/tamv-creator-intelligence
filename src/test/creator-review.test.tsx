@@ -18,6 +18,7 @@ vi.mock('@/integrations/supabase/client', () => ({
   },
 }));
 
+type ReviewResult = Awaited<ReturnType<typeof reviewContent>>;
 const response = {
   ok: true as const,
   review: {
@@ -28,20 +29,22 @@ const response = {
   },
   audit: {
     hash: 'a'.repeat(64),
-    runId: 'review-test-1',
+    runId: '00000000-0000-4000-8000-000000000001',
     model: 'openai/gpt-6-astra',
     timestamp: '2026-11-13T12:00:00.000Z',
     governance: { policyVersion: 'test-policy', decision: 'POLICY_ALLOWED' as const },
-    skills: ['tamv-content-review'],
+    skills: ['tamv-core-governance', 'tamv-rights-safety-guard', 'tamv-content-review', 'tamv-audience-research', 'tamv-quality-gate'],
   },
-};
+} satisfies Extract<ReviewResult, { ok: true }>;
 
 function fillReview() {
   fireEvent.change(screen.getByLabelText('Contenido'), { target: { value: 'Un taller original para aprender a componer música.' } });
   fireEvent.change(screen.getByLabelText('Tu audiencia'), { target: { value: 'Músicos principiantes' } });
   fireEvent.change(screen.getByLabelText('¿Qué quieres lograr?'), { target: { value: 'Invitar a mi comunidad al taller' } });
   fireEvent.click(screen.getByRole('checkbox'));
-  return screen.getByRole('button', { name: /Proponer mejoras/ }).closest('form')!;
+  const form = screen.getByRole('button', { name: /Proponer mejoras/ }).closest('form');
+  if (!form) throw new Error('Review form missing');
+  return form;
 }
 
 beforeEach(() => { vi.mocked(reviewContent).mockReset(); });
@@ -86,7 +89,7 @@ describe('Creator review feedback and evidence', () => {
   });
 
   it('does not send duplicate requests while the first request is pending', async () => {
-    let finish: ((value: typeof response) => void) | undefined;
+    let finish: ((value: ReviewResult) => void) | undefined;
     vi.mocked(reviewContent).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
     const onComplete = vi.fn();
     render(<CreatorReview onComplete={onComplete}/>);
@@ -116,7 +119,7 @@ describe('Creator review feedback and evidence', () => {
     render(<CreatorReview onComplete={vi.fn()}/>);
     fireEvent.submit(fillReview());
     fireEvent.click(await screen.findByRole('button', { name: 'Descargar revisión y trazabilidad' }));
-    expect(clicked[0]?.download).toBe('tamv-review-review-test-1.json');
+    expect(clicked[0]?.download).toBe('tamv-review-00000000-0000-4000-8000-000000000001.json');
     const blob = createObjectURL.mock.calls[0]?.[0] as Blob | undefined;
     expect(blob?.type).toBe('application/json');
     const reader = new FileReader();
@@ -124,7 +127,8 @@ describe('Creator review feedback and evidence', () => {
       reader.onload = () => resolve(String(reader.result));
       reader.onerror = () => reject(reader.error);
     });
-    reader.readAsText(blob!);
+    if (!blob) throw new Error('Review export missing');
+    reader.readAsText(blob);
     const downloaded = JSON.parse(await text);
     expect(downloaded).toEqual({ schema: 'tamv.review.export.v1', review: response.review, audit: response.audit });
     expect(downloaded).not.toHaveProperty('draft');
@@ -137,7 +141,7 @@ describe('Creator review feedback and evidence', () => {
     fireEvent.submit(fillReview());
     expect(await screen.findByText('Modelo: openai/gpt-6-astra')).toBeInTheDocument();
     expect(screen.getByText('Política: test-policy · POLICY_ALLOWED')).toBeInTheDocument();
-    expect(screen.getByText('Skills declaradas: tamv-content-review')).toBeInTheDocument();
+    expect(screen.getByText(`Skills declaradas: ${response.audit.skills.join(', ')}`)).toBeInTheDocument();
     expect(screen.getByText(/no un registro persistente ni una certificación firmada/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Descargar revisión y trazabilidad' })).toBeEnabled();
   });
