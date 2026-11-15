@@ -13,3 +13,52 @@ export function isBearerTokenWithinLimit(token: string | undefined): boolean {
     && token.length > 0
     && token.length <= MAX_BEARER_TOKEN_LENGTH;
 }
+
+export type BoundedBodyResult =
+  | { readonly ok: true; readonly text: string }
+  | { readonly ok: false; readonly reason: "too-large" | "unreadable" };
+
+/**
+ * Reads a request body without buffering beyond the configured byte limit.
+ * The platform may deliver a single oversized chunk, but this function never
+ * retains or decodes more than the accepted limit.
+ */
+export async function readBoundedRequestBody(
+  request: Request,
+  maxBytes: number,
+): Promise<BoundedBodyResult> {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) {
+    return { ok: false, reason: "unreadable" };
+  }
+  if (!request.body) return { ok: true, text: "" };
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel("Request body exceeds configured size limit").catch(() => undefined);
+        return { ok: false, reason: "too-large" };
+      }
+      chunks.push(value);
+    }
+    const bytes = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return { ok: true, text: new TextDecoder("utf-8", { fatal: true }).decode(bytes) };
+  } catch {
+    await reader.cancel().catch(() => undefined);
+    return { ok: false, reason: "unreadable" };
+  } finally {
+    reader.releaseLock();
+  }
+}
