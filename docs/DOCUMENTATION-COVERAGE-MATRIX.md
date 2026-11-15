@@ -97,6 +97,8 @@ En cada PR que cambie comportamiento, contratos o despliegue:
 - [ ] Actualizar este índice si se crea un documento canónico.
 - [ ] Revisar enlaces internos y ejecutar los validadores disponibles.
 
+Estado de ramas verificado después de la limpieza: solo existe `main` (`f16f80412da2e6c4e261b1724225f820fef08105`); los branches de PR fusionados y los seguimientos documentales obsoletos se eliminaron mediante una allowlist de SHA y comprobación de PR/protección.
+
 No usar porcentajes subjetivos de completitud. Si se necesita un score, publicar rúbrica, denominador, commit, evidencias y bloqueos excluidos.
 
 Para el análisis ejecutado y los límites actuales, consulta [la auditoría profunda](audit/2026-11-15/DEEP-AUDIT-IMPLEMENTATION-REPORT.md).
