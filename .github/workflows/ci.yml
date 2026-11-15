@@ -36,6 +36,9 @@ jobs:
       - name: Run unit and regression tests
         run: bun run test
 
+      - name: Verify PostgreSQL ledger probe safety guards
+        run: bun run test:ledger-guard
+
       - name: Lint source and scripts
         run: bun run lint
 
