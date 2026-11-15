@@ -12,6 +12,8 @@ This plan separates repository changes from external infrastructure actions. A s
 - [x] Added a hard cap of 5,000 process-local quota buckets; new IDs are temporarily denied if the map is full and stale entries cannot be pruned.
 - [x] Documented that process-local quotas are not globally consistent across serverless instances.
 - [x] Require explicit `TAMV_DEPLOYMENT_ENV=local|development|test` for process-local quota fallback and reject it when Vercel deployment markers are present, even if `NODE_ENV` is misclassified.
+- [x] Require an explicit non-empty `TAMV_DEPLOYMENT_ENV`; `NODE_ENV` alone can no longer authorize local quota fallback. Regression coverage includes `NODE_ENV=test` with deployment classification missing.
+- [x] Detect the PostgreSQL identity-allocation/trigger-lock ordering hazard in static review and make signed-release CI refuse to sign while the known P0 schema defect remains.
 - [x] Documented the Hyper-Core ledger chain-order defect and blocked production acceptance until corrected through the approved schema-management workflow.
 
 ## Critical blockers — must be resolved before production claims
