@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 """Static fail-closed checks for the Hyper-Core audit-ledger migration.
 
-The default mode validates structural safeguards and reports known chain-order
-risks without turning the whole development CI red while the schema owner is
-working through the approved Lovable-managed schema workflow.
+The ordinary CI mode reports a known ledger-order hazard while the schema owner
+works through the approved Lovable-managed schema workflow. Release signing uses
+--strict-order and refuses to sign if no recognized safe serialization boundary
+is demonstrated by the migration.
 
-Use --strict-order on a production release path. It fails unless sequence_id
-allocation is serialized before the chain-head is observed, or a controlled
-SECURITY DEFINER append function acquires the same transaction lock before
-INSERT and direct table INSERT is revoked from application roles.
+This is a static heuristic, not a replacement for disposable PostgreSQL tests.
 """
 from __future__ import annotations
 
@@ -40,6 +38,15 @@ REQUIRED_SCHEMA = (
     'index("tamv_hypercore_audit_trace_idx")',
     'index("tamv_hypercore_audit_time_idx")',
 )
+REQUIRED_DIRECT_INSERT_REVOKALS = {"anon", "authenticated", "service_role"}
+SAFE_APPEND_SEARCH_PATHS = {
+    ("pg_catalog", "public"),
+    ("pg_catalog", "public", "extensions"),
+}
+CHAIN_LOCK_PATTERN = re.compile(
+    r"pg_advisory_xact_lock\s*\(\s*hashtext\s*\(\s*'([^']+)'\s*\)\s*\)",
+    re.IGNORECASE,
+)
 
 
 def fail(message: str) -> None:
@@ -47,26 +54,75 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
-def _function_bodies(sql: str) -> list[tuple[str, str]]:
-    """Return named PL/pgSQL/SQL function bodies using $$ delimiters."""
-    matches = re.finditer(
+def _function_definitions(sql: str) -> list[tuple[str, str, str]]:
+    """Return (normalized function name, function header, body).
+
+    Header includes function attributes between the argument list and AS,
+    allowing the detector to verify SECURITY DEFINER and a fixed search_path.
+    """
+    pattern = (
         r"CREATE(?:\s+OR\s+REPLACE)?\s+FUNCTION\s+"
-        r"([A-Za-z0-9_.\"]+)\s*\(.*?\).*?AS\s+\$\$(.*?)\$\$\s*;",
-        sql,
-        re.IGNORECASE | re.DOTALL,
+        r"([A-Za-z0-9_.\"]+)\s*\(.*?\)\s*(.*?)\bAS\s+\$\$(.*?)\$\$\s*;"
     )
-    return [(match.group(1).replace('"', "").lower(), match.group(2)) for match in matches]
+    definitions = []
+    for match in re.finditer(pattern, sql, re.IGNORECASE | re.DOTALL):
+        name = match.group(1).replace('"', "").lower()
+        header = match.group(2)
+        body = match.group(3)
+        definitions.append((name, header, body))
+    return definitions
+
+
+def _lock_key_and_position(body: str) -> tuple[str | None, int]:
+    """Return a recognized literal hashtext lock key and its source offset."""
+    match = CHAIN_LOCK_PATTERN.search(body)
+    return (match.group(1), match.start()) if match else (None, -1)
+
+
+def _safe_search_path(header: str) -> bool:
+    match = re.search(r"\bSET\s+search_path\s*=\s*([^;]+)", header, re.IGNORECASE)
+    if not match:
+        return False
+    value = match.group(1).strip().lower()
+    # Normalize whitespace and identifier quotes; accept only reviewed fixed paths.
+    value = re.sub(r'["\s]', "", value)
+    path = tuple(part for part in value.split(",") if part)
+    return path in SAFE_APPEND_SEARCH_PATHS
+
+
+def _revoked_insert_roles(sql: str) -> set[str]:
+    """Union role names explicitly denied direct INSERT on the ledger table."""
+    roles: set[str] = set()
+    pattern = (
+        r"REVOKE\s+INSERT\s+ON\s+(?:TABLE\s+)?"
+        r"(?:public\.)?tamv_hypercore_audit_events\s+FROM\s+([^;]+);"
+    )
+    for match in re.finditer(pattern, sql, re.IGNORECASE):
+        roles.update(re.findall(r"[A-Za-z_][A-Za-z0-9_$]*", match.group(1).lower()))
+    return roles
+
+
+def _service_role_has_append_execute(sql: str) -> bool:
+    pattern = (
+        r"GRANT\s+EXECUTE\s+ON\s+FUNCTION\s+"
+        r"(?:public\.)?tamv_hypercore_audit_append\s*\([^;]*?\)\s+TO\s+([^;]+);"
+    )
+    return any(
+        "service_role" in re.findall(r"[A-Za-z_][A-Za-z0-9_$]*", match.group(1).lower())
+        for match in re.finditer(pattern, sql, re.IGNORECASE)
+    )
 
 
 def chain_order_findings(sql: str) -> list[str]:
-    """Detect the known identity-allocation-before-trigger-lock race.
+    """Detect identity/trigger order races and weak append-function boundaries.
 
-    A BEFORE INSERT trigger gets a generated identity value before its body is
-    run. Taking an advisory lock inside the trigger therefore does not ensure
-    that sequence_id order matches lock/commit order. A safe design must either
-    override the final sequence allocation under that lock, or force all
-    inserts through an append function that takes the same lock before INSERT
-    and revoke direct INSERT from application roles.
+    A BEFORE INSERT trigger runs after PostgreSQL has already generated an
+    identity value. A lock in that trigger does not serialize that earlier
+    allocation. The known pattern is accepted only if the trigger reassigns
+    NEW.sequence_id after the recognized chain lock and before reading the
+    chain head, or if every app-facing direct INSERT is revoked and a SECURITY
+    DEFINER append function with a reviewed fixed search_path takes the exact
+    same lock before INSERT and has explicit execution permission.
     """
     findings: list[str] = []
     normalized = sql.lower()
@@ -81,49 +137,78 @@ def chain_order_findings(sql: str) -> list[str]:
     if not identity_sequence or not before_insert:
         return findings
 
-    bodies = _function_bodies(sql)
-    trigger_body = next(
-        (body for name, body in bodies if name.endswith("tamv_hypercore_audit_chain_insert")),
-        "",
+    definitions = _function_definitions(sql)
+    trigger = next(
+        ((header, body) for name, header, body in definitions
+         if name.endswith("tamv_hypercore_audit_chain_insert")),
+        ("", ""),
     )
-    lock_position = trigger_body.lower().find("pg_advisory_xact_lock")
+    trigger_header, trigger_body = trigger
+    trigger_key, trigger_lock_position = _lock_key_and_position(trigger_body)
     sequence_assignment = re.search(
-        r"new\s*\.\s*sequence_id\s*:=\s*nextval\s*\(",
+        r"NEW\s*\.\s*sequence_id\s*:=\s*nextval\s*\(",
         trigger_body,
         re.IGNORECASE,
     )
-    if sequence_assignment and lock_position >= 0 and sequence_assignment.start() > lock_position:
+    chain_head_read = re.search(
+        r"SELECT\s+event_hash\s+INTO\s+last_hash.*?FROM\s+public\.tamv_hypercore_audit_events",
+        trigger_body,
+        re.IGNORECASE | re.DOTALL,
+    )
+
+    trigger_reassignment_safe = bool(
+        trigger_key
+        and trigger_lock_position >= 0
+        and sequence_assignment
+        and sequence_assignment.start() > trigger_lock_position
+        and chain_head_read
+        and trigger_lock_position < chain_head_read.start()
+        and sequence_assignment.start() < chain_head_read.start()
+    )
+    if trigger_reassignment_safe:
         return findings
 
     append_function_safe = False
-    for name, body in bodies:
-        if not name.endswith("tamv_hypercore_audit_append"):
-            continue
-        body_lower = body.lower()
-        lock_position = body_lower.find("pg_advisory_xact_lock")
-        insert_position = body_lower.find("insert into public.tamv_hypercore_audit_events")
-        if lock_position >= 0 and insert_position > lock_position:
-            append_function_safe = True
-            break
+    if trigger_key:
+        for name, header, body in definitions:
+            if not name.endswith("tamv_hypercore_audit_append"):
+                continue
+            function_key, lock_position = _lock_key_and_position(body)
+            insert_match = re.search(
+                r"INSERT\s+INTO\s+public\.tamv_hypercore_audit_events",
+                body,
+                re.IGNORECASE,
+            )
+            is_security_definer = bool(re.search(r"\bSECURITY\s+DEFINER\b", header, re.IGNORECASE))
+            fixed_search_path = _safe_search_path(header)
+            same_lock = function_key == trigger_key and lock_position >= 0
+            lock_before_insert = bool(insert_match and lock_position < insert_match.start())
+            if (
+                is_security_definer
+                and fixed_search_path
+                and same_lock
+                and lock_before_insert
+            ):
+                append_function_safe = True
+                break
 
-    direct_insert_revoked = bool(re.search(
-        r"revoke\s+insert\s+on\s+(?:table\s+)?public\.tamv_hypercore_audit_events\s+from\s+[^;]*\b(?:anon|authenticated|service_role)\b[^;]*;",
-        normalized,
-        re.IGNORECASE,
-    ))
-    append_execute_granted = bool(re.search(
-        r"grant\s+execute\s+on\s+function\s+public\.tamv_hypercore_audit_append\s*\([^;]*?\)\s+to\s+[^;]*\bservice_role\b",
-        normalized,
-        re.IGNORECASE,
-    ))
+    revoked_roles = _revoked_insert_roles(sql)
+    direct_insert_revoked = REQUIRED_DIRECT_INSERT_REVOKALS.issubset(revoked_roles)
+    append_execute_granted = _service_role_has_append_execute(sql)
 
-    if not (append_function_safe and direct_insert_revoked and append_execute_granted):
+    if not (
+        trigger_key
+        and append_function_safe
+        and direct_insert_revoked
+        and append_execute_granted
+    ):
         findings.append(
             "P0 chain-order risk: sequence_id is GENERATED ALWAYS AS IDENTITY, but its value is "
             "allocated before the BEFORE INSERT trigger acquires the chain advisory lock. "
-            "The migration does not serialize direct INSERT allocation via a pre-insert append "
-            "function or reassign NEW.sequence_id under the lock. Hash linkage can therefore "
-            "disagree with sequence_id order under concurrent inserts."
+            "No safe override inside the trigger or fully controlled pre-insert append boundary "
+            "was proven. The append path must use the same literal advisory-lock key, a SECURITY "
+            "DEFINER function with a reviewed fixed search_path, explicit service_role EXECUTE, "
+            "and revocation of direct INSERT from anon/authenticated/service_role."
         )
     return findings
 
