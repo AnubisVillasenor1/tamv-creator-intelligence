@@ -71,7 +71,8 @@ La fusión de estos cambios acredita su presencia en la rama principal, pero no 
 
 **Integrado después de la revisión inicial:**
 - [PR #20 — target Vercel desconocido en preflight estricto](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/20): fusionado en `main` el 15 de noviembre de 2026. El modo estricto ahora rechaza Production/Preview mal clasificados y un runtime Vercel con `VERCEL_ENV` desconocido; sus workflows de GitHub Actions se completaron con éxito para el HEAD del PR.
-- [PR #21 — fallback local de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/21): cerrado sin fusión como duplicado, porque la corrección equivalente ya había sido integrada por PR #19.
+- [PR #21 — fallback local de cuota](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/21): GitHub lo registra ahora como fusionado. Consolida el guard de entorno y las pruebas de regresión para producción, Preview, target desconocido y staging. La revisión posterior encontró un matiz adicional: el helper aún permitía derivar el entorno de `NODE_ENV` cuando faltaba la variable explícita.
+- [PR #24 — clasificación explícita obligatoria](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/pull/24): abierto; añade el caso negativo que rechaza fallback cuando falta `TAMV_DEPLOYMENT_ENV`, incluso si `NODE_ENV=test`. No se considera integrado hasta que se confirme su fusión.
 
 El estado de Vercel para la rama principal reporta una comprobación fallida cuyo destino enlaza a `upgradeToPro=build-rate-limit`. Esto es un bloqueo de la plataforma de despliegue y no una prueba de que los workflows de GitHub Actions fallen; la causa exacta y la configuración del proyecto deben verificarse desde el scope de Vercel autorizado.
 
