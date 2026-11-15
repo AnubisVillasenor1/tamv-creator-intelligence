@@ -33,6 +33,7 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Operación general | [OPERATIONS.md](OPERATIONS.md) | [GOVERNANCE-RECEIPTS-OPERATIONS.md](GOVERNANCE-RECEIPTS-OPERATIONS.md) | Un procedimiento no prueba que el servicio esté conectado |
 | Despliegue | [DEPLOYMENT-READINESS-2026-11-15.md](DEPLOYMENT-READINESS-2026-11-15.md) | [PRODUCTION-EVIDENCE-GATES.md](PRODUCTION-EVIDENCE-GATES.md) | Un check de Vercel no acredita integridad de datos ni firma |
 | Aislamiento de entornos | [DEPLOYMENT-ENVIRONMENT-ISOLATION.md](DEPLOYMENT-ENVIRONMENT-ISOLATION.md) y [ADR-003](adr/ADR-003-environment-isolation-and-evidence.md) | RFC de entorno/operaciones de Isabella y ADR de Play & Go | No confirma que las variables o scopes reales de Vercel estén bien configurados |
+| Orden del Hyper-Core ledger | [Solicitud de cambio de esquema](SCHEMA-CHANGE-REQUEST-HYPERCORE-LEDGER.md), `scripts/validate-audit-migration.py`, `scripts/test-audit-migration-validator.py` | `drizzle/migrations/0000_hypercore_audit_ledger.sql`, [Issue #14](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/issues/14) | El cambio de esquema sólo puede aplicarse por Lovable; la prueba estática no reemplaza el probe PostgreSQL live |
 | Hardening | [PRODUCTION-HARDENING-PLAN.md](PRODUCTION-HARDENING-PLAN.md) | [TECHNICAL-AUDIT-AND-DEBT-REGISTER.md](TECHNICAL-AUDIT-AND-DEBT-REGISTER.md) | Una lista de tareas no demuestra remediación |
 | Auditoría técnica | [audit/2026-11-15/README.md](audit/2026-11-15/README.md) | [AUDIT-TECHNICAL-2026-11-13.md](AUDIT-TECHNICAL-2026-11-13.md) | Las conclusiones históricas no son un score actual |
 | Firma e integridad | [RELEASE-SIGNING.md](RELEASE-SIGNING.md) | `tamv-attribution.json`, `tamv-attribution.sig`, `scripts/tamv-certification.mjs` | Hashes sin firma válida no certifican el release |
@@ -44,6 +45,7 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 | Legal y derechos | [legal/AI-GOVERNANCE-POLICY.md](legal/AI-GOVERNANCE-POLICY.md) | [legal/DATA-PROTECTION-AND-CREATOR-RIGHTS.md](legal/DATA-PROTECTION-AND-CREATOR-RIGHTS.md), [legal/REGULATORY-MATRIX.md](legal/REGULATORY-MATRIX.md) | La documentación no sustituye revisión jurídica competente |
 | Seguridad | [SECURITY.md](../SECURITY.md) | [audit/2026-11-13/THREAT-MODEL.md](audit/2026-11-13/THREAT-MODEL.md) | Una política no equivale a una prueba de penetración |
 | Integridad de enlaces | `scripts/validate-documentation-links.mjs` | `scripts/test-documentation-links.mjs`, CI | Comprueba rutas/anclas Markdown de documentos mantenidos, no la veracidad semántica ni los enlaces externos |
+| Reproducibilidad de toolchain | `.github/workflows/ci.yml`, `.github/workflows/tamv-creator-intelligence-ci.yml`, `.github/workflows/validate-pack.yml` | SHA fijados de actions y Bun 1.3.5 | Requiere CI verde sobre el SHA exacto de esta rama y revisión de las reglas de branch protection |
 | Gobernanza del proyecto | [GOVERNANCE.md](../GOVERNANCE.md) | [PUBLIC-FOOTPRINT.md](PUBLIC-FOOTPRINT.md) | Una política propuesta no demuestra que exista un proceso institucional activo |
 
 ## 3. Vacíos identificados y tratamiento
@@ -96,6 +98,8 @@ En cada PR que cambie comportamiento, contratos o despliegue:
 - [ ] Revisar enlaces internos y ejecutar los validadores disponibles.
 
 No usar porcentajes subjetivos de completitud. Si se necesita un score, publicar rúbrica, denominador, commit, evidencias y bloqueos excluidos.
+
+Para el análisis ejecutado y los límites actuales, consulta [la auditoría profunda](audit/2026-11-15/DEEP-AUDIT-IMPLEMENTATION-REPORT.md).
 
 ## Validación de documentación canónica
 
