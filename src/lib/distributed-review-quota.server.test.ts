@@ -74,6 +74,17 @@ describe("distributed creator-review quota", () => {
     expect(result.source).toBe("local-development");
   });
 
+  it("fails closed when explicit deployment classification is missing even under NODE_ENV=test", async () => {
+    vi.stubEnv("NODE_ENV", "test");
+    vi.stubEnv("TAMV_DEPLOYMENT_ENV", "");
+
+    await expect(checkDistributedReviewQuota("unclassified-test-user")).resolves.toMatchObject({
+      allowed: false,
+      reason: "server-busy",
+      source: "fail-closed",
+    });
+  });
+
   it("fails closed in a Vercel production runtime even if NODE_ENV is misclassified", async () => {
     vi.stubEnv("NODE_ENV", "development");
     vi.stubEnv("VERCEL", "1");
