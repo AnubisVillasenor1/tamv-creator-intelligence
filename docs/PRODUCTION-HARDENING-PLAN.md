@@ -13,7 +13,7 @@ This plan separates repository changes from external infrastructure actions. A s
 - [x] Documented that process-local quotas are not globally consistent across serverless instances.
 - [x] Require explicit `TAMV_DEPLOYMENT_ENV=local|development|test` for process-local quota fallback and reject it when Vercel deployment markers are present, even if `NODE_ENV` is misclassified.
 - [x] Require an explicit non-empty `TAMV_DEPLOYMENT_ENV`; `NODE_ENV` alone can no longer authorize local quota fallback. Regression coverage includes `NODE_ENV=test` with deployment classification missing.
-- [x] Release the reserved process-local review slot when the distributed quota lookup unexpectedly throws; the request fails closed with HTTP 503 and `Retry-After: 5`, with regression tests for both exceptional and normal lookup outcomes.
+- [x] Harden the distributed quota adapter so unexpected exceptions outside the Redis transport boundary return a fail-closed `server-busy` decision; this preserves the caller's existing slot-release path. Regression coverage injects a clock exception before any Redis request.
 - [x] Detect the PostgreSQL identity-allocation/trigger-lock ordering hazard in static review and make signed-release CI refuse to sign while the known P0 schema defect remains.
 - [x] Documented the Hyper-Core ledger chain-order defect and blocked production acceptance until corrected through the approved schema-management workflow.
 
