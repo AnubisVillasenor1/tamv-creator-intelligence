@@ -28,7 +28,7 @@ No hay evidencia suficiente para afirmar deuda técnica cero, certificación int
 | P1 | Observabilidad | No verificado en producción | La telemetría local no prueba agregación, alertas o continuidad entre instancias. | Backend, retención, alertas probadas y políticas de redacción de datos sensibles. |
 | P2 | Inventario de capacidades | Parcial | Los contratos pueden describir capacidades sin ejecutores conectados. | Inventario automático que clasifique capacidades como documentadas, implementadas, probadas, operadas o bloqueadas. |
 | P2 | Cadena de suministro | No acreditado para el release actual | Scripts de SBOM/procedencia no demuestran artefactos firmados y verificables publicados. | SBOM y atestación verificable asociados al artefacto y al commit de release. |
-| P2 | Documentación de estado | En progreso | Los documentos históricos pueden representar estados de fechas diferentes. | Un estado de release fechado, ligado a SHA y con enlaces a CI, advertencias y bloqueos externos. |
+| P2 | Documentación de estado | Atendido para el SHA `07e829b` | Los documentos históricos pueden representar estados de fechas diferentes. | Un estado de release fechado, ligado a SHA y con enlaces a CI, advertencias y bloqueos externos: [RELEASE-STATE-2026-11-15.md](RELEASE-STATE-2026-11-15.md); regenerar por SHA en cada release. |
 
 ## Correcciones implementadas en la rama
 

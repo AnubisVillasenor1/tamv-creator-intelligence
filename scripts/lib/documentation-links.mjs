@@ -11,6 +11,7 @@ export const MAINTAINED_DOCUMENTS = [
   "docs/SECURITY-OPERATIONS-AND-INCIDENT-PLAYBOOK.md",
   "docs/CROSS-REPOSITORY-ADOPTION-REGISTER.md",
   "docs/DEPLOYMENT-ENVIRONMENT-ISOLATION.md",
+  "docs/RELEASE-STATE-2026-11-15.md",
   "docs/adr/ADR-003-environment-isolation-and-evidence.md",
 ];
 

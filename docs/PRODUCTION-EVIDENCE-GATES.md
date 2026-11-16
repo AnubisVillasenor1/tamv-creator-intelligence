@@ -55,7 +55,7 @@ Implemented controls:
 - Unit tests for allow, local-development-only fallback, production missing config, HTTP failure, malformed/oversized response, and transport failure.
 
 Still required before calling this production-verified:
-- [x] Run unit tests and all three CI workflows against the exact PR #31 head SHA; all three completed successfully. The subsequent merge commit still needs fresh mainline checks.
+- [x] Run unit tests and all three CI workflows against the exact PR #31 head SHA; all three completed successfully. Mainline SHA `07e829b126deb7a6aea64a92f98e17f4ba582b5d` also has fresh checks: the three workflows completed `success` (runs [43768218121](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/actions/runs/43768218121), [43768218122](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/actions/runs/43768218122), [43768218148](https://github.com/AnubisVillasenor1/tamv-creator-intelligence/actions/runs/43768218148)); see [RELEASE-STATE-2026-11-15.md](RELEASE-STATE-2026-11-15.md). The Vercel commit check remains `failure` due to the account build-rate limit, not repository gates.
 - [ ] Verify quota consistency using concurrent calls from independent server processes against a real disposable Redis/Upstash instance.
 - [ ] Test expiry and UTC-day boundaries, Redis outage, and credential rotation.
 - [ ] Verify deployment environment variables exist without exposing their values.

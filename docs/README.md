@@ -24,6 +24,7 @@
 
 ## Despliegue, hardening y recuperación
 
+- [Estado de release — 15 de noviembre de 2026](RELEASE-STATE-2026-11-15.md): estado fechado y ligado al SHA de main, con evidencia CI, puertas locales, advertencias y bloqueos externos.
 - [Preparación de despliegue — 15 de noviembre de 2026](DEPLOYMENT-READINESS-2026-11-15.md).
 - [Solicitud de cambio de esquema — Hyper-Core](SCHEMA-CHANGE-REQUEST-HYPERCORE-LEDGER.md): especificación de remediación pendiente para el propietario de esquema; no es migración ejecutable.
 - [Aislamiento de entornos y gates de integraciones](DEPLOYMENT-ENVIRONMENT-ISOLATION.md): criterios separados para local, CI, Preview, staging y producción.
