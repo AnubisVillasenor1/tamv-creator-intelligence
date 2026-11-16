@@ -3,6 +3,7 @@ import {
   __resetReviewGuard,
   beginReview,
   checkReviewQuota,
+  checkQuotaFailClosed,
   currentInFlight,
   endReview,
   endReviewWhenSettled,
@@ -76,6 +77,35 @@ describe("creator review runtime guard", () => {
     expect(beginReview()).toBe(false);
     expect(currentInFlight()).toBe(REVIEW_MAX_IN_FLIGHT);
     for (let index = 0; index < REVIEW_MAX_IN_FLIGHT + 2; index += 1) endReview();
+    expect(currentInFlight()).toBe(0);
+  });
+
+  it("releases a reserved concurrency slot when the distributed quota lookup throws", async () => {
+    expect(beginReview()).toBe(true);
+    expect(currentInFlight()).toBe(1);
+
+    const result = await checkQuotaFailClosed(async () => {
+      throw new Error("simulated quota backend failure");
+    }, endReview);
+
+    expect(result).toEqual({ status: "unavailable" });
+    expect(currentInFlight()).toBe(0);
+  });
+
+  it("preserves the slot while a quota lookup returns a decision", async () => {
+    expect(beginReview()).toBe(true);
+    const decision = {
+      allowed: false,
+      reason: "server-busy" as const,
+      retryAfterSeconds: 5,
+      remainingToday: 0,
+    };
+
+    const result = await checkQuotaFailClosed(async () => decision, endReview);
+
+    expect(result).toEqual({ status: "checked", value: decision });
+    expect(currentInFlight()).toBe(1);
+    endReview();
     expect(currentInFlight()).toBe(0);
   });
 
