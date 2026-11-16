@@ -9,6 +9,7 @@ import {
   endReview,
   endReviewWhenSettled,
   ReviewTimeoutError,
+  checkQuotaFailClosed,
   withReviewTimeout,
 } from './review-guard';
 
@@ -55,7 +56,24 @@ export const reviewContent = createServerFn({ method: 'POST' })
       throw jsonError(503, { ok: false, error: 'Capacidad de revisión saturada. Intenta de nuevo.', reason: 'server-busy' }, { 'Retry-After': '5' });
     }
 
-    const quota = await checkDistributedReviewQuota(userId);
+    const quotaGate = await checkQuotaFailClosed(
+      () => checkDistributedReviewQuota(userId),
+      endReview,
+    );
+    if (quotaGate.status === "unavailable") {
+      console.error("TAMV review quota lookup failed; failing closed");
+      throw jsonError(
+        503,
+        {
+          ok: false,
+          error: "El servicio de cuotas no está disponible. Intenta en unos segundos.",
+          reason: "server-busy",
+        },
+        { "Retry-After": "5" },
+      );
+    }
+
+    const quota = quotaGate.value;
     if (!quota.allowed) {
       endReview();
       throw jsonError(
