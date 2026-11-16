@@ -132,6 +132,23 @@ describe("distributed creator-review quota", () => {
     });
   });
 
+  it("fails closed when the injected clock throws before the Redis request", async () => {
+    const fetcher = vi.fn(async () => new Response(JSON.stringify({ result: [1, "ok", 0, 39] })));
+    const result = await checkDistributedReviewQuota("user-1", {
+      ...config,
+      now: () => { throw new Error("simulated clock failure"); },
+      fetcher,
+    });
+
+    expect(result).toMatchObject({
+      allowed: false,
+      reason: "server-busy",
+      retryAfterSeconds: 5,
+      source: "fail-closed",
+    });
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+
   it("fails closed when Redis transport throws", async () => {
     const fetcher = vi.fn(async () => {
       throw new Error("secret-bearing transport error");
