@@ -8,8 +8,13 @@ const actions = vi.hoisted(() => ({
   updatePassword: vi.fn(),
   isValidEmail: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
   validateNewPassword: (value: string) =>
-    value.length >= 8 ? null : 'La contraseña debe tener al menos 8 caracteres.',
+    value.length < 8
+      ? 'La contraseña debe tener al menos 8 caracteres.'
+      : value.length > 72
+        ? 'La contraseña no puede superar los 72 caracteres.'
+        : null,
   PASSWORD_MIN_LENGTH: 8,
+  PASSWORD_MAX_LENGTH: 72,
 }));
 
 vi.mock('@/lib/auth-actions', () => actions);
@@ -39,6 +44,15 @@ describe('creator access panel', () => {
     render(<AuthPanel onAuthenticated={onAuthenticated} />);
     expect(screen.queryByRole('button', { name: /Google|Lovable|GitHub/i })).not.toBeInTheDocument();
     expect(screen.getByText(/No se crean cuentas anónimas/)).toBeInTheDocument();
+  });
+
+  it('caps new passwords at the provider limit and explains the rule', () => {
+    render(<AuthPanel initialMode="signup" onAuthenticated={onAuthenticated} />);
+
+    const password = screen.getByLabelText('Contraseña');
+    expect(password).toHaveAttribute('maxLength', '72');
+    expect(password).toHaveAttribute('aria-describedby', 'auth-password-hint');
+    expect(screen.getByText('Entre 8 y 72 caracteres.')).toBeInTheDocument();
   });
 
   it('signs in and hands control back to the caller', async () => {

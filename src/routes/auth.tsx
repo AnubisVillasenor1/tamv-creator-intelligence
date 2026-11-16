@@ -34,6 +34,9 @@ export const Route = createFileRoute('/auth')({
         name: 'description',
         content: 'Inicia sesión, crea una cuenta o recupera tu contraseña para revisar contenido con gobernanza TAMV.',
       },
+      // Access pages must never be indexed: they render account state and
+      // receive one-time recovery links.
+      { name: 'robots', content: 'noindex, nofollow' },
     ],
   }),
   component: AuthPage,

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/auth-callback')({
   head: () => ({
     meta: [
       { title: 'Verificando acceso — TAMV PLAY & GO' },
-      { name: 'robots', content: 'noindex' },
+      { name: 'robots', content: 'noindex, nofollow' },
     ],
   }),
   component: AuthCallbackPage,
@@ -69,12 +69,17 @@ function AuthCallbackPage() {
             <p role="alert" className="mt-3 text-sm leading-6 text-muted-foreground">
               {error}
             </p>
-            <a
-              href="/auth?mode=reset"
-              className="mt-5 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              Solicitar un enlace nuevo
-            </a>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="/auth?mode=reset"
+                className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              >
+                Solicitar un enlace nuevo
+              </a>
+              <a href="/auth" className="text-sm text-primary hover:underline">
+                Volver al acceso
+              </a>
+            </div>
           </>
         ) : (
           <>

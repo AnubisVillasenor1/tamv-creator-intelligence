@@ -60,6 +60,18 @@ describe('Creator review feedback and evidence', () => {
     expect(screen.getByLabelText('Contenido')).toHaveValue('Un taller original para aprender a componer música.');
   });
 
+  it('shows inline access after a 401 without resubmitting or clearing the draft', async () => {
+    vi.mocked(reviewContent).mockRejectedValue(new Response(null, { status: 401 }));
+    render(<CreatorReview onComplete={vi.fn()}/>);
+    fireEvent.submit(fillReview());
+
+    expect(await screen.findByRole('heading', { level: 2, name: 'Inicia sesión' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Correo electrónico')).toHaveValue('');
+    expect(screen.getByLabelText('Contraseña')).toHaveValue('');
+    expect(reviewContent).toHaveBeenCalledTimes(1);
+    expect(screen.getByLabelText('Contenido')).toHaveValue('Un taller original para aprender a componer música.');
+  });
+
   it('reports rate limits without automatically repeating the request', async () => {
     vi.mocked(reviewContent).mockRejectedValue(new Response(null, { status: 429, headers: { 'Retry-After': '30' } }));
     render(<CreatorReview onComplete={vi.fn()}/>);

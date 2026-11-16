@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
+  PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
   isValidEmail,
   requestPasswordReset,
@@ -19,6 +20,11 @@ export type AuthMode = 'signin' | 'signup' | 'reset' | 'recovery';
 
 type AuthPanelProps = {
   initialMode?: AuthMode;
+  /**
+   * Heading level for the panel title. The access page owns the document
+   * heading, so the inline copy nested in a view uses `h2` to avoid two `h1`s.
+   */
+  headingLevel?: 'h1' | 'h2';
   /**
    * Absolute URL used by confirmation and recovery emails. Declared as
    * `string | undefined` so callers can forward a value computed only in the
@@ -51,7 +57,13 @@ const COPY: Record<AuthMode, { title: string; subtitle: string; action: string }
   },
 };
 
-export function AuthPanel({ initialMode = 'signin', redirectTo, onAuthenticated }: AuthPanelProps) {
+export function AuthPanel({
+  initialMode = 'signin',
+  headingLevel = 'h1',
+  redirectTo,
+  onAuthenticated,
+}: AuthPanelProps) {
+  const Heading = headingLevel;
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -152,7 +164,7 @@ export function AuthPanel({ initialMode = 'signin', redirectTo, onAuthenticated 
         <ShieldCheck size={18} />
         <span className="text-xs font-semibold uppercase tracking-wider">Acceso de creadores</span>
       </div>
-      <h1 className="mt-4 text-2xl font-semibold tracking-tight">{copy.title}</h1>
+      <Heading className="mt-4 text-2xl font-semibold tracking-tight">{copy.title}</Heading>
       <p className="mt-2 text-sm leading-6 text-muted-foreground">{copy.subtitle}</p>
 
       <form onSubmit={submit} className="mt-6 space-y-4" noValidate>
@@ -187,11 +199,18 @@ export function AuthPanel({ initialMode = 'signin', redirectTo, onAuthenticated 
               autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
               value={password}
               minLength={mode === 'signin' ? undefined : PASSWORD_MIN_LENGTH}
+              maxLength={mode === 'signin' ? undefined : PASSWORD_MAX_LENGTH}
+              aria-describedby={mode === 'signin' ? undefined : 'auth-password-hint'}
               onChange={(event) => setPassword(event.target.value)}
               placeholder={mode === 'signin' ? 'Tu contraseña' : `Mínimo ${PASSWORD_MIN_LENGTH} caracteres`}
               disabled={busy}
               required
             />
+            {mode !== 'signin' && (
+              <p id="auth-password-hint" className="text-xs leading-5 text-muted-foreground">
+                Entre {PASSWORD_MIN_LENGTH} y {PASSWORD_MAX_LENGTH} caracteres.
+              </p>
+            )}
           </div>
         )}
 
@@ -205,11 +224,16 @@ export function AuthPanel({ initialMode = 'signin', redirectTo, onAuthenticated 
               autoComplete="new-password"
               value={confirm}
               minLength={PASSWORD_MIN_LENGTH}
+              maxLength={PASSWORD_MAX_LENGTH}
+              aria-describedby="auth-confirm-hint"
               onChange={(event) => setConfirm(event.target.value)}
               placeholder="Repite la contraseña"
               disabled={busy}
               required
             />
+            <p id="auth-confirm-hint" className="text-xs leading-5 text-muted-foreground">
+              Debe coincidir con la contraseña anterior.
+            </p>
           </div>
         )}
 

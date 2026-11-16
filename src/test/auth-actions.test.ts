@@ -102,8 +102,14 @@ describe('auth actions', () => {
 
   it('enforces the local password policy before updating', async () => {
     expect(validateNewPassword('short')).toMatch(/al menos 8/);
+    expect(validateNewPassword('x'.repeat(73))).toMatch(/no puede superar los 72/);
+    expect(validateNewPassword('x'.repeat(72))).toBeNull();
     const result = await updatePassword('short');
     expect(result.ok).toBe(false);
+    expect(mocks.updateUser).not.toHaveBeenCalled();
+
+    const tooLong = await updatePassword('x'.repeat(73));
+    expect(tooLong.ok).toBe(false);
     expect(mocks.updateUser).not.toHaveBeenCalled();
 
     mocks.updateUser.mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null });
