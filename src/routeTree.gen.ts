@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthCallbackRouteImport } from './routes/auth-callback'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
 import { Route as SovereigntyRouteImport } from './routes/sovereignty'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
@@ -25,6 +27,16 @@ import { Route as ApiTamvHypercoreMetricsRouteImport } from './routes/api.tamv.h
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth-callback',
+  path: '/auth-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HypercoreRoute = HypercoreRouteImport.update({
@@ -85,6 +97,8 @@ const ApiTamvHypercoreMetricsRoute = ApiTamvHypercoreMetricsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/auth-callback': typeof AuthCallbackRoute
   '/hypercore': typeof HypercoreRoute
   '/sovereignty': typeof SovereigntyRoute
   '/api/agent': typeof ApiAgentRoute
@@ -99,6 +113,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/auth-callback': typeof AuthCallbackRoute
   '/hypercore': typeof HypercoreRoute
   '/sovereignty': typeof SovereigntyRoute
   '/api/agent': typeof ApiAgentRoute
@@ -114,6 +130,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/auth-callback': typeof AuthCallbackRoute
   '/hypercore': typeof HypercoreRoute
   '/sovereignty': typeof SovereigntyRoute
   '/api/agent': typeof ApiAgentRoute
@@ -130,6 +148,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
+    | '/auth-callback'
     | '/hypercore'
     | '/sovereignty'
     | '/api/agent'
@@ -144,6 +164,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
+    | '/auth-callback'
     | '/hypercore'
     | '/sovereignty'
     | '/api/agent'
@@ -158,6 +180,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
+    | '/auth-callback'
     | '/hypercore'
     | '/sovereignty'
     | '/api/agent'
@@ -173,6 +197,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   HypercoreRoute: typeof HypercoreRoute
   SovereigntyRoute: typeof SovereigntyRoute
   ApiAgentRoute: typeof ApiAgentRoute
@@ -193,6 +219,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth-callback': {
+      id: '/auth-callback'
+      path: '/auth-callback'
+      fullPath: '/auth-callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hypercore': {
@@ -277,6 +317,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   HypercoreRoute: HypercoreRoute,
   SovereigntyRoute: SovereigntyRoute,
   ApiAgentRoute: ApiAgentRoute,

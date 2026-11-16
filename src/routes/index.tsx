@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { CreatorReview } from '@/components/creator-review';
 import { ModelExplorer } from '@/components/model-explorer';
 import { skillRegistry } from '@/lib/skill-registry';
+import { AuthStatus } from '@/components/auth-status';
 import sculpture from '@/assets/sound-sculpture.jpg';
 
 export const Route = createFileRoute("/")({
@@ -32,7 +33,7 @@ function Index() {
       <div className="brand"><AudioLines className="text-primary" size={28}/><div>TAMV<span>ONLINE NETWORK</span></div></div>
       <div className="workspace-label">CREATOR WORKSPACE</div>
       <nav aria-label="Navegación principal">{nav.map(({ name, icon: Icon }) => <Button key={name} variant="ghost" className={`nav-item ${view === name ? 'nav-active' : ''}`} onClick={() => go(name)}><Icon size={18}/><span>{name}</span>{view === name && <span className="nav-indicator"/>}</Button>)}</nav>
-      <div className="sidebar-bottom"><div className="flex gap-2 items-center text-sm"><ShieldCheck size={17} className="text-primary"/>Gobernanza TAMV</div><p>Control humano. Creación responsable.</p><div className="sidebar-profile"><span className="avatar">AV</span><div>Anubis Villaseñor<span>Creator workspace</span></div><Button variant="ghost" size="icon" title="Acerca del espacio" aria-label="Acerca del espacio" onClick={() => setInfo(true)}><CircleHelp/></Button></div></div>
+      <div className="sidebar-bottom"><div className="flex gap-2 items-center text-sm"><ShieldCheck size={17} className="text-primary"/>Gobernanza TAMV</div><p>Control humano. Creación responsable.</p><div className="mt-3"><AuthStatus/></div><div className="sidebar-profile"><span className="avatar">AV</span><div>Anubis Villaseñor<span>Creator workspace</span></div><Button variant="ghost" size="icon" title="Acerca del espacio" aria-label="Acerca del espacio" onClick={() => setInfo(true)}><CircleHelp/></Button></div></div>
     </aside>
     <main className="main-content">
       <header className="topbar"><div className="flex gap-2 items-center"><span className="text-muted-foreground">Workspace</span><ChevronRight size={13}/><span>{view}</span></div><div className="flex items-center gap-5"><a href="/sovereignty" className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/10" aria-label="Abrir panel de soberanía"><ShieldCheck size={15}/>Soberanía</a><a href="/hypercore" className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/10" aria-label="Abrir auditoría total del proyecto"><ShieldCheck size={15}/>Auditoría total</a><span className="status-label"><span className="status-dot"/>PACK v1.2.1</span><Button variant="ghost" size="icon" aria-label="Abrir repositorio en GitHub" title="Repositorio en GitHub" asChild><a href="https://github.com/AnubisVillasenor1/tamv-creator-intelligence" target="_blank" rel="noreferrer"><Github/></a></Button></div></header>
