@@ -174,7 +174,7 @@ function permitsLocalQuotaFallback(
  * Process-local fallback is allowed only in non-production environments with no
  * Redis configuration; it is never represented as a distributed decision.
  */
-export async function checkDistributedReviewQuota(
+async function checkDistributedReviewQuotaInternal(
   userId: string,
   input: Partial<DistributedReviewQuotaConfig> = {},
 ): Promise<DistributedReviewQuotaResult> {
@@ -250,4 +250,21 @@ export async function checkDistributedReviewQuota(
   if (!payload || typeof payload !== "object" || !("result" in payload)) return denied();
   const decision = parseDecision((payload as { result: unknown }).result);
   return decision ? { ...decision, source: "redis" } : denied();
+}
+
+
+/**
+ * Fail closed for unexpected errors outside the Redis transport boundary too.
+ * Callers reserve a local review slot before awaiting this result; returning a
+ * normal denial ensures their existing rejection path releases that slot.
+ */
+export async function checkDistributedReviewQuota(
+  userId: string,
+  input: Partial<DistributedReviewQuotaConfig> = {},
+): Promise<DistributedReviewQuotaResult> {
+  try {
+    return await checkDistributedReviewQuotaInternal(userId, input);
+  } catch {
+    return denied();
+  }
 }
