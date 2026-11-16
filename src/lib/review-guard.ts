@@ -90,26 +90,6 @@ export function checkReviewQuota(userId: string, now = Date.now()): ReviewQuotaD
   };
 }
 
-/**
- * Run the distributed quota lookup after a process slot has been reserved.
- * Unexpected provider/transport exceptions release that slot and fail closed.
- */
-export type ReviewQuotaGateResult<T> =
-  | { readonly status: "checked"; readonly value: T }
-  | { readonly status: "unavailable" };
-
-export async function checkQuotaFailClosed<T>(
-  check: () => Promise<T>,
-  releaseSlot: () => void,
-): Promise<ReviewQuotaGateResult<T>> {
-  try {
-    return { status: "checked", value: await check() };
-  } catch {
-    releaseSlot();
-    return { status: "unavailable" };
-  }
-}
-
 export function beginReview(): boolean {
   if (inFlight >= REVIEW_MAX_IN_FLIGHT) return false;
   inFlight += 1;
