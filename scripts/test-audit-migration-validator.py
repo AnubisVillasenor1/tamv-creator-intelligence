@@ -66,6 +66,16 @@ QUALIFIED_DIGEST_DEFINER = UNQUALIFIED_DIGEST_DEFINER.replace(
 
 
 class ChainOrderDetectorTests(unittest.TestCase):
+
+    def test_repository_migrations_prove_serialized_append_boundary(self) -> None:
+        migrations_dir = MODULE.ROOT / "drizzle" / "migrations"
+        migration_sql = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in sorted(migrations_dir.glob("*.sql"))
+        )
+        self.assertEqual(MODULE.chain_order_findings(migration_sql), [])
+        self.assertEqual(MODULE.security_definer_findings(migration_sql), [])
+
     def test_current_trigger_pattern_is_reported_as_p0(self) -> None:
         findings = MODULE.chain_order_findings(UNSAFE_IDENTITY_TRIGGER)
         self.assertEqual(len(findings), 1)
