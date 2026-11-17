@@ -988,9 +988,11 @@ textarea {
 .govern-brand img {
   width: 53px;
   height: 57px;
-  object-fit: cover;
-  object-position: center 26%;
-  border-radius: 4px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
 }
 .govern-brand small {
   display: block;
@@ -1156,7 +1158,9 @@ textarea {
   width: 35%;
   max-height: 370px;
   object-fit: contain;
-  background: var(--background);
+  padding: 10px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
   flex-shrink: 0;
 }
 .command-metrics {
@@ -1750,6 +1754,9 @@ textarea {
     max-height: 108px;
     opacity: 1;
     object-fit: contain;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
   }
   .command-copy > span {
     max-width: calc(100% - 108px);

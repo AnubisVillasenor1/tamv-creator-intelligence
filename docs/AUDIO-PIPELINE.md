@@ -154,7 +154,7 @@ los puertos:
 | Docker Compose de audio | **No implementado** | No se puede declarar un despliegue inexistente. |
 | DSP en C++ (true peak/LUFS/chroma) | **No implementado** | Requiere motor nativo y vectores de referencia; las métricas permanecen `null`. |
 | Rutas Next.js | **No aplicable** | El proyecto usa TanStack Start; las rutas serían `src/routes/api.*.ts`. |
-| Landing y copy de marca | **Documentado** | Ver `docs/PRODUCT-POSITIONING.md`; la UI existente ya usa PLAY & GO. |
+| Landing y copy de marca | **Documentado** | Ver `docs/PRODUCT-POSITIONING.md`; la UI de TAMV Creator Intelligence declara gobernanza agnóstica de sector y proveedor. |
 
 ## 7. Reproducción
 

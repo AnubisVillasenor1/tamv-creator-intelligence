@@ -3,11 +3,12 @@ import { createFileRoute } from '@tanstack/react-router';
 import { LoaderCircle } from 'lucide-react';
 
 import { exchangeCodeForSession, readSession, safeRedirectPath } from '@/lib/auth-actions';
+import { TamvLogo } from '@/components/branding/TamvLogo';
 
 export const Route = createFileRoute('/auth-callback')({
   head: () => ({
     meta: [
-      { title: 'Verificando acceso — TAMV PLAY & GO' },
+      { title: 'Verificando acceso — TAMV Creator Intelligence' },
       { name: 'robots', content: 'noindex, nofollow' },
     ],
   }),
@@ -63,6 +64,13 @@ function AuthCallbackPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
       <section className="w-full max-w-md rounded-xl border border-border bg-card p-6 text-center shadow-sm">
+        <div className="mb-4 flex justify-center">
+          <TamvLogo
+            className="h-12 w-12 rounded-lg border border-border bg-background object-contain"
+            size={48}
+            priority
+          />
+        </div>
         {error ? (
           <>
             <h1 className="text-lg font-semibold">No se pudo verificar el enlace</h1>

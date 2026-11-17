@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AuthStatus } from "@/components/auth-status";
-import logo from "@/assets/tamv-online-official.jpg.asset.json";
+import { TamvLogo } from "@/components/branding/TamvLogo";
 const navigation = [
   { to: "/", label: "Centro de control", icon: LayoutDashboard },
   { to: "/projects", label: "Proyectos · IA", icon: Bot },
@@ -29,10 +29,10 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
   return (
     <div className="govern-shell">
       <aside className="govern-sidebar">
-        <Link to="/" className="govern-brand">
-          <img src={logo.url} alt="TAMV ONLINE · logotipo oficial" />
+        <Link to="/" className="govern-brand" aria-label="TAMV ONLINE NETWORK — Creator Intelligence">
+          <TamvLogo size={57} priority />
           <span>
-            TAMV <small>CREATOR INTELLIGENCE</small>
+            TAMV <small>ONLINE NETWORK · CREATOR INTELLIGENCE</small>
           </span>
         </Link>
         <div className="system-label">
@@ -99,7 +99,7 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
         <main className="govern-body">{children}</main>
         <footer className="govern-footer">
           <span>TAMV ONLINE NETWORK · Inteligencia con responsabilidad</span>
-          <span>INDEPENDIENTE DEL SECTOR / PROVEEDOR</span>
+          <span>AGNÓSTICO DE SECTOR Y PROVEEDOR</span>
         </footer>
       </div>
     </div>

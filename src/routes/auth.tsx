@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { AudioLines, LogOut, ShieldCheck } from 'lucide-react';
+import { LogOut, ShieldCheck } from 'lucide-react';
 
 import { AuthPanel, type AuthMode } from '@/components/auth-panel';
+import { TamvLogo } from '@/components/branding/TamvLogo';
 import { Button } from '@/components/ui/button';
 import { useAuthSession } from '@/hooks/use-auth-session';
 import { safeRedirectPath, signOut } from '@/lib/auth-actions';
@@ -29,7 +30,7 @@ export const Route = createFileRoute('/auth')({
   },
   head: () => ({
     meta: [
-      { title: 'Acceso de creadores — TAMV PLAY & GO' },
+      { title: 'Acceso — TAMV Creator Intelligence' },
       {
         name: 'description',
         content: 'Inicia sesión, crea una cuenta o recupera tu contraseña para revisar contenido con gobernanza TAMV.',
@@ -72,10 +73,17 @@ function AuthPage() {
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 flex items-center gap-3">
-          <AudioLines className="text-primary" size={28} />
+          <TamvLogo
+            className="h-14 w-14 rounded-lg border border-border bg-card object-contain"
+            size={56}
+            priority
+          />
           <div>
             <div className="font-semibold tracking-tight">
-              TAMV<span className="block text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">ONLINE NETWORK</span>
+              TAMV ONLINE NETWORK
+              <span className="block text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                Creator Intelligence · Gobernanza agnóstica de IA
+              </span>
             </div>
           </div>
         </div>

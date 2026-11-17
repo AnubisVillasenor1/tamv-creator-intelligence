@@ -13,10 +13,10 @@ import {
   Workflow,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TamvLogo } from "@/components/branding/TamvLogo";
 import { useGovernedProjects } from "@/hooks/use-governed-projects";
 import { skillRegistry } from "@/lib/skill-registry";
 import { CORE_CONTROLS } from "../../sdk/index.mjs";
-import logo from "@/assets/tamv-online-official.jpg.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -45,7 +45,7 @@ function Dashboard() {
     <>
       <div className="page-heading dashboard-heading">
         <div>
-          <span className="eyebrow">TAMV / GOVERNANCE COMMAND CENTER</span>
+          <span className="eyebrow">TAMV ONLINE NETWORK / GOVERNANCE COMMAND CENTER</span>
           <h1>TAMV Creator Intelligence</h1>
           <p>Inteligencia soberana. Ecosistemas responsables.</p>
         </div>
@@ -67,7 +67,7 @@ function Dashboard() {
       <section className="command-band">
         <div className="command-copy">
           <span className="text-primary text-xs flex gap-2 items-center">
-            <Network size={15} /> UNIVERSAL AI GOVERNANCE
+            <Network size={15} /> UNIVERSAL AI GOVERNANCE · TAMV ONLINE
           </span>
           <h2>
             Tu IA, bajo control.
@@ -75,6 +75,11 @@ function Dashboard() {
             <span>Sin fronteras de sector.</span>
           </h2>
           <p>Profesional · Ética · Transparente · Gobernada</p>
+          <p className="mt-2">
+            Nació en el ecosistema PLAY &amp; GO y hoy es{" "}
+            <strong className="text-foreground">agnóstico de sector y proveedor</strong>: cualquier proyecto de IA puede
+            integrarse.
+          </p>
           <div className="flex flex-wrap gap-3 mt-7">
             <Button asChild>
               <Link to="/projects">
@@ -92,14 +97,15 @@ function Dashboard() {
           </div>
           <div className="command-foot">
             <span>CONTROL HUMANO</span>
-            <span>PROVEEDOR AGNÓSTICO</span>
+            <span>SECTOR Y PROVEEDOR AGNÓSTICOS</span>
             <span>FAIL CLOSED</span>
           </div>
         </div>
-        <img
+        <TamvLogo
           className="official-logo"
-          src={logo.url}
-          alt="TAMV ONLINE — Tecnología Avanzada Mexicana Versátil"
+          size={512}
+          variant="full"
+          priority
         />
       </section>
       <div className="command-metrics">

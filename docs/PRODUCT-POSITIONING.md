@@ -97,11 +97,12 @@ en un solo espacio, con control humano y consentimiento explícito.
 
 ## 7. Estado real en la interfaz
 
-La ruta `/` ya usa PLAY & GO, «Aprende. Crea. Analiza. Evoluciona.» y el marco de
-gobernanza TAMV. Este cambio ajusta el posicionamiento escrito y documenta la
-arquitectura; **no** crea Academy, Studio, AI Lab, Creator Hub, Analytics ni
-TAMV Research como secciones navegables. Crear una sección vacía para aparentar
-producto sería una afirmación falsa.
+La ruta `/` presenta TAMV Creator Intelligence como gobernanza agnóstica de
+sector y proveedor, atribuida a TAMV ONLINE NETWORK. PLAY & GO es el ecosistema
+de origen, no un requisito de integración. Este cambio ajusta el posicionamiento
+escrito y documenta la arquitectura; **no** crea Academy, Studio, AI Lab,
+Creator Hub, Analytics ni TAMV Research como secciones navegables. Crear una
+sección vacía para aparentar producto sería una afirmación falsa.
 
 ## 8. Referencias internas
 
