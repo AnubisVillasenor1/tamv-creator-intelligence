@@ -23,7 +23,7 @@ The trigger uses a schema-qualified pgcrypto digest to reduce SECURITY DEFINER s
 - CI must pass the migration inventory, static invariants, and regression tests.
 - The migration must be applied through the approved database/schema workflow before runtime behavior changes.
 - The PostgreSQL integration probe must run against a freshly provisioned, disposable database, with explicit opt-in and remote-host permission if applicable.
-- The probe must demonstrate 32 concurrent successful append attempts, valid recomputed event hashes, a continuous hash chain, and rejection of prohibited mutation paths.
-- Production database connectivity, actual grants/role ownership, RLS behavior, and restore/recovery remain unverified until the controlled integration test is run.
+- The probe executes all 32 appends under `SET LOCAL ROLE service_role`, checks valid recomputed event hashes and a continuous hash chain, and verifies that direct INSERT, UPDATE, DELETE, and TRUNCATE are denied for that effective role.
+- The probe requires a connection principal permitted to `SET ROLE service_role`. Production database connectivity, tenant-specific RLS behavior, backup/restore, recovery, and application AuditPort wiring remain unverified until separate controlled tests are run.
 
 This change does not apply migrations to Supabase or any external database. Static checks and CI are not proof of runtime database behavior, compliance certification, or production readiness.

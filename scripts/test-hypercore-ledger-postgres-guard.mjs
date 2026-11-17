@@ -4,6 +4,7 @@
  * These cases must exit before any database connection is attempted.
  */
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
@@ -83,3 +84,11 @@ if (failures > 0) {
 } else {
   console.log(`PASS: all ${cases.length} ledger safety guard tests passed without opening a database connection.`);
 }
+
+const probeSource = readFileSync(probe, "utf8");
+assert.match(probeSource, /set local role service_role/i, "runtime probe must test the effective service_role");
+assert.match(probeSource, /public\.tamv_hypercore_audit_append/, "runtime probe must use the serialized append function");
+assert.match(probeSource, /expectServiceRoleWriteDenied\("UPDATE"/, "runtime probe must test UPDATE denial");
+assert.match(probeSource, /expectServiceRoleWriteDenied\("DELETE"/, "runtime probe must test DELETE denial");
+assert.match(probeSource, /expectServiceRoleWriteDenied\("TRUNCATE"/, "runtime probe must test TRUNCATE denial");
+console.log("PASS: runtime probe statically enforces service_role append and mutation-denial coverage.");
