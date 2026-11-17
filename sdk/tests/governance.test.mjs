@@ -77,3 +77,24 @@ test("governance evaluation denies missing controls by default", () => {
   assert.equal(decision.allowed, false);
   assert.deepEqual(decision.reasons, ["consent", "rights", "privacy", "transparency", "oversight", "integrity"]);
 });
+
+test("success-receipt failure does not mislabel a completed action as execution failure", async () => {
+  const events = [];
+  const governance = createGovernance({
+    audit: async (event) => {
+      events.push(event);
+      if (event.kind === "execution.succeeded") throw new Error("success receipt unavailable");
+    },
+  });
+  let invoked = false;
+  await assert.rejects(
+    governance.run({
+      projectId: "p1",
+      context: safeContext,
+      execute: async () => { invoked = true; return "completed"; },
+    }),
+    /success receipt unavailable/,
+  );
+  assert.equal(invoked, true);
+  assert.equal(events.some((event) => event.kind === "execution.failed"), false);
+});
