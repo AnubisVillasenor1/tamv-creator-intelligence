@@ -1,0 +1,54 @@
+name: TAMV Security & Trust Pack
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "security-trust/governance-pack-v2/**"
+      - "docs/audit/2026-11-17/**"
+      - ".github/workflows/security-trust-pack.yml"
+  push:
+    branches: [main]
+    paths:
+      - "security-trust/governance-pack-v2/**"
+      - "docs/audit/2026-11-17/**"
+      - ".github/workflows/security-trust-pack.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: security-trust-pack-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate-pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout source without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Compile Python sources
+        run: python -m py_compile security-trust/governance-pack-v2/mcp_server/fixtures.py security-trust/governance-pack-v2/mcp_server/tamv_audit_mcp.py security-trust/governance-pack-v2/scripts/validate_pack.py security-trust/governance-pack-v2/scripts/generate_manifest.py
+      - name: Run dependency-free unit tests
+        run: python -m unittest discover -s security-trust/governance-pack-v2/tests -v
+      - name: Validate package structure
+        run: python security-trust/governance-pack-v2/scripts/validate_pack.py
+      - name: Generate and verify SHA-256 manifest
+        run: |
+          python security-trust/governance-pack-v2/scripts/generate_manifest.py
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path("security-trust/governance-pack-v2")
+          manifest = json.loads((root / "MANIFEST.sha256.json").read_text())
+          assert manifest["integrity_only_not_signature"] is True
+          for name, item in manifest["files"].items():
+              data = (root / name).read_bytes()
+              assert len(data) == item["bytes"], name
+              assert hashlib.sha256(data).hexdigest() == item["sha256"], name
+          print(f"Manifest verified: {len(manifest['files'])} files")
+          PY

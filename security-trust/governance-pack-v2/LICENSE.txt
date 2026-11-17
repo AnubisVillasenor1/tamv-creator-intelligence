@@ -1,0 +1,5 @@
+TAMV SECURITY & TRUST GOVERNANCE PACK — LICENSE NOTICE
+
+Copyright (c) 2026 TAMV ONLINE NETWORK.
+
+Unless a separate written license is provided by TAMV ONLINE NETWORK, this package is provided for internal evaluation and advisory use only. Redistribution, commercial use or representation as an independent certification is not authorized by this notice. Third-party standards and references remain subject to their respective owners' terms.
