@@ -5,12 +5,19 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "mcp_server"))
-from fixtures import get_evidence, list_evidence_ids, canonical_json
+from fixtures import get_evidence, list_evidence_ids, canonical_json, is_valid_evidence_id
 
 
 class GovernancePackTests(unittest.TestCase):
     def test_only_fixed_synthetic_fixture_is_listed(self):
         self.assertEqual(list_evidence_ids(), ["EVID-SYNTH-001"])
+
+    def test_identifier_validation_rejects_non_synthetic_and_unbounded_input(self):
+        self.assertTrue(is_valid_evidence_id("EVID-SYNTH-001"))
+        self.assertFalse(is_valid_evidence_id("PRODUCTION-001"))
+        self.assertFalse(is_valid_evidence_id("EVID-SYNTH-0001"))
+        self.assertFalse(is_valid_evidence_id({"secret": "no"}))
+        self.assertFalse(is_valid_evidence_id("EVID-SYNTH-001" + "x" * 10000))
 
     def test_unknown_identifier_is_not_found_without_reflection(self):
         result = get_evidence("PRODUCTION-001")
