@@ -15,6 +15,13 @@
       "when": 1794874943285,
       "tag": "0001_tamv_project_governance",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794935700000,
+      "tag": "0002_hypercore_audit_ledger_append_boundary",
+      "breakpoints": true
     }
   ]
 }
