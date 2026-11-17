@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MIGRATION = ROOT / "drizzle/migrations/0000_hypercore_audit_ledger.sql"
+MIGRATIONS_DIR = ROOT / "drizzle/migrations"
 SCHEMA = ROOT / "drizzle/schema.ts"
 JOURNAL = ROOT / "drizzle/migrations/meta/_journal.json"
 STRICT_ORDER = "--strict-order" in sys.argv
@@ -260,10 +260,15 @@ def chain_order_findings(sql: str) -> list[str]:
 
 
 def main() -> None:
-    for path in (MIGRATION, SCHEMA, JOURNAL):
-        if not path.is_file():
-            fail(f"missing required file: {path.relative_to(ROOT)}")
-    sql = MIGRATION.read_text(encoding="utf-8")
+    for path in (MIGRATIONS_DIR, SCHEMA, JOURNAL):
+        if not path.exists():
+            fail(f"missing required path: {path.relative_to(ROOT)}")
+    migration_files = sorted(
+        path for path in MIGRATIONS_DIR.glob("*.sql") if path.is_file()
+    )
+    if not migration_files:
+        fail("no SQL migrations found")
+    sql = "\\n".join(path.read_text(encoding="utf-8") for path in migration_files)
     schema = SCHEMA.read_text(encoding="utf-8")
     for label, pattern in REQUIRED_SQL.items():
         if not re.search(pattern, sql, re.IGNORECASE):
@@ -276,8 +281,16 @@ def main() -> None:
     except (json.JSONDecodeError, OSError) as error:
         fail(f"Drizzle journal is not valid JSON: {error}")
     entries = journal.get("entries", [])
+    registered_tags = {entry.get("tag") for entry in entries}
     if not any(entry.get("tag") == "0000_hypercore_audit_ledger" for entry in entries):
-        fail("migration is not registered in Drizzle journal")
+        fail("initial ledger migration is not registered in Drizzle journal")
+    disk_tags = {path.stem for path in migration_files}
+    if disk_tags != registered_tags:
+        fail(
+            "Drizzle journal/migration inventory mismatch: "
+            f"unregistered SQL={sorted(disk_tags - registered_tags)}, "
+            f"missing SQL={sorted(registered_tags - disk_tags)}"
+        )
     if "raw_prompt" in schema or "access_token" in schema:
         fail("sensitive payload fields must not be modeled in the audit ledger")
 
