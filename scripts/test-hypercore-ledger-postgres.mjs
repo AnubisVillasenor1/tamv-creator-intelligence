@@ -25,6 +25,27 @@ function fail(message) {
   process.exitCode = 1;
 }
 
+async function asServiceRole(operation) {
+  return sql.begin(async (tx) => {
+    await tx`set local role service_role`;
+    return operation(tx);
+  });
+}
+
+async function expectServiceRoleWriteDenied(label, operation) {
+  try {
+    await asServiceRole(operation);
+    fail(`${label} unexpectedly succeeded as service_role.`);
+  } catch (error) {
+    const code = String(error?.code ?? "");
+    if (code === "42501" || code === "P0001") {
+      console.log(`PASS: ${label} denied for service_role (SQLSTATE ${code}).`);
+    } else {
+      fail(`${label} failed for an unexpected reason (SQLSTATE ${code || "unknown"}).`);
+    }
+  }
+}
+
 if (optIn !== "1") {
   console.error("Refusing to run: set TAMV_HYPERCORE_LEDGER_TEST=1 explicitly.");
   process.exit(64);
@@ -111,12 +132,12 @@ try {
       const delayMs = (CONCURRENCY - index) % 7;
       await new Promise((resolve) => setTimeout(resolve, delayMs));
       const input = digest(`${traceId}:${index}:${randomUUID()}`);
-      return sql`
+      return asServiceRole((tx) => tx`
         select public.tamv_hypercore_audit_append(
           ${traceId}, now(), 'verification', 'ledger.concurrent.integration_test',
           'completed', 'cold', ${input}::char(64), ${sql.json({ test: true, ordinal: index })}::jsonb
         )
-      `;
+      `);
     }));
 
     const rejected = results.filter((result) => result.status === "rejected");
@@ -188,10 +209,35 @@ try {
     if (malformedHashes > 0) fail(`Found ${malformedHashes} rows with malformed previous/event hash values.`);
     if (digestMismatches > 0) fail(`Independent PostgreSQL digest recomputation found ${digestMismatches} mismatches across ${rows.length} rows.`);
     if (sequenceDuplicates.length > 0) fail("Duplicate sequence_id values detected.");
-    if (rejected.length === 0 && testRows.length === CONCURRENCY && brokenLinks === 0 && malformedHashes === 0 && digestMismatches === 0 && sequenceDuplicates.length === 0) {
-      console.log(`PASS: ${CONCURRENCY} concurrent appends accepted; ${rows.length} total rows; sequence-order links and PostgreSQL JSONB digest recomputation are valid.`);
+    await expectServiceRoleWriteDenied("direct INSERT", (tx) => {
+      const traceId = `direct-write-probe-${randomUUID()}`;
+      const input = digest(`direct-write-probe:${traceId}`);
+      return tx`
+        insert into public.tamv_hypercore_audit_events
+          (trace_id, occurred_at, core, event_name, phase, lane, input_hash, details, previous_hash, event_hash)
+        values
+          (${traceId}, now(), 'verification', 'ledger.direct_write_probe',
+           'completed', 'cold', ${input}, ${sql.json({ test: true })}, ${"0".repeat(64)}, ${"0".repeat(64)})
+      `;
+    });
+    await expectServiceRoleWriteDenied("UPDATE", (tx) => tx`
+      update public.tamv_hypercore_audit_events
+      set details = ${sql.json({ tampered: true })}
+      where trace_id = ${insertedTraceIds[0]}
+    `);
+    await expectServiceRoleWriteDenied("DELETE", (tx) => tx`
+      delete from public.tamv_hypercore_audit_events
+      where trace_id = ${insertedTraceIds[0]}
+    `);
+    await expectServiceRoleWriteDenied("TRUNCATE", (tx) => tx`
+      truncate table public.tamv_hypercore_audit_events
+    `);
+
+    if (rejected.length === 0 && testRows.length === CONCURRENCY && brokenLinks === 0 && malformedHashes === 0 && digestMismatches === 0 && sequenceDuplicates.length === 0 && process.exitCode !== 1) {
+      console.log(`PASS: ${CONCURRENCY} concurrent service_role appends accepted; ${rows.length} total rows; chain order and PostgreSQL JSONB digest recomputation are valid.`);
+      console.log("PASS: direct INSERT, UPDATE, DELETE, and TRUNCATE were rejected for the effective service_role.");
       console.log("LIMITATION: digest recomputation uses PostgreSQL's own JSONB text serialization; it is independent of the stored event_hash but not an external cross-language canonicalizer.");
-      console.log("LIMITATION: this does not verify RLS/grants, UPDATE/DELETE/TRUNCATE protections, backup/restore, or application AuditPort wiring.");
+      console.log("LIMITATION: this probe does not verify backup/restore or application AuditPort wiring, and it does not substitute for tenant-specific RLS tests.");
       console.log("The test events are append-only and remain in this disposable database. Recreate the database before another clean run.");
     }
   }
