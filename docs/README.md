@@ -3,10 +3,8 @@
 ## Para público, usuarios y colaboradores
 
 - [Investigación TAMV 5.0](RESEARCH-PROTOCOL-5.md): corpus verificado, veinte protocolos, prototipo SQLite, análisis y límites experimentales.
-
 - [Workspace, tutorial y estudio](WORKSPACE-AND-STUDIO.md): navegación, preferencias, audio verificable, planes locales y métricas autenticadas.
 - [Integraciones sociales y webhooks](SOCIAL-WEBHOOKS.md): protocolos, configuración del relay, privacidad y aceptación externa pendiente.
-
 - [Documento público de divulgación técnica](PUBLIC-TECHNICAL-OVERVIEW.md): propósito, autoría declarada, arquitectura conceptual, capacidades, límites, seguridad y condiciones de producción.
 - [Política de gobernanza](../GOVERNANCE.md): principios y proceso de decisión; es una política propuesta y no una certificación.
 - [Política de seguridad y divulgación](../SECURITY.md): tratamiento responsable de reportes y requisitos de seguridad.
@@ -20,6 +18,7 @@
 - [Registro de fuentes e integración entre repositorios](CROSS-REPOSITORY-ADOPTION-REGISTER.md): procedencia de fuentes de ambos perfiles, patrones adoptados, límites y decisiones excluidas.
 - [Arquitectura unificada del Creator OS](TAMV-CREATOR-OS-UNIFIED-ARCHITECTURE.md).
 - [Operaciones](OPERATIONS.md): procedimientos y límites de capacidades.
+- [HyperCore Turbo con scheduler gobernado](HYPERCORE-TURBO-GOVERNED-SCHEDULER.md): olas DAG, límites, autorización, recibos preflight y concurrencia adaptativa local.
 - [Matriz de implementación](IMPLEMENTATION-MATRIX.md): distingue código, contratos, documentación y dependencias bloqueadas.
 - [Catálogo del corpus](CORPUS-CATALOG.md): inventario y organización del paquete.
 - [Pipeline de audio](AUDIO-PIPELINE.md) y [orquestación de audio](AUDIO-ORCHESTRATION.md).
@@ -48,7 +47,7 @@
 - [Auditoría profunda e implementación de correcciones](audit/2026-11-15/DEEP-AUDIT-IMPLEMENTATION-REPORT.md): hallazgos reproducibles, cambios, validaciones y bloqueos externos.
 - [Auditoría del 13 de noviembre de 2026](audit/2026-11-13/README.md).
 - [Registro técnico de deuda](TECHNICAL-AUDIT-AND-DEBT-REGISTER.md).
-- [Evaluación académica](ACADEMIC-EVALUATION.md): alcance evaluativo y límites de las afirmaciones.
+- [Evaluación académica](ACADEMIC-EVALUATION.md): alcance evaluativo y límites de inferencia.
 
 ## Gobernanza, derechos y contexto institucional
 
@@ -68,10 +67,10 @@
 - **Sin evidencia de producción:** el repositorio no contiene evidencia suficiente de aceptación contra el entorno real.
 - **Histórico:** refleja un commit o una fecha específica; no debe reutilizarse como estado actual sin revalidación.
 
-Los workflows de CI, la documentación, las matrices de cierre y los despliegues son fuentes complementarias. Ninguna de ellas, por separado, sustituye la verificación del artefacto, la firma del release, las pruebas de integración, las pruebas negativas de autorización, la restauración ni la validación del entorno de producción.
+Los workflows de CI, la documentación, las matrices de cierre y los despliegues son fuentes complementarias. Ninguna de ellas, por sí sola, sustituye la verificación del artefacto, firma de release ni la prueba de funcionamiento con los proveedores reales.
 
 ## Mantenimiento documental
 
-Cuando un cambio modifique comportamiento, contratos, rutas, variables, políticas o estado de capacidades, actualiza la fuente canónica y la [matriz de cobertura](DOCUMENTATION-COVERAGE-MATRIX.md). No marques una capacidad como operativa por el mero hecho de documentarla.
+Cuando un cambio modifique comportamiento, contratos, rutas, variables, políticas o estado de capacidades, actualiza la fuente canónica y la [matriz de cobertura](DOCUMENTATION-COVERAGE-MATRIX.md).
 
 Ejecuta `bun run docs:check:test` y `bun run docs:check` para validar enlaces internos de los documentos mantenidos. Los enlaces externos no se verifican mediante este gate.
