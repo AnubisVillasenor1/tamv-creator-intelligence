@@ -66,6 +66,9 @@ jobs:
       - name: Lint source and scripts
         run: bun run lint
 
+      - name: Typecheck source
+        run: bun run typecheck
+
       - name: Validate TAMV pack and skill contracts
         run: bun run tamv:check
 

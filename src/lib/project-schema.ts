@@ -1,13 +1,33 @@
 import { z } from "zod";
+
+/**
+ * JSON values accepted for a project's `config` column. Keeping the type
+ * explicit (instead of `unknown`) lets the server function stay serializable
+ * for TanStack Start, which rejects `unknown` index signatures.
+ */
+export type JsonValue =
+  string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+
+const jsonValueSchema: z.ZodType<JsonValue> = z.lazy(() =>
+  z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+    z.array(jsonValueSchema),
+    z.record(jsonValueSchema),
+  ]),
+);
+
 export const projectSchema = z.object({
   id: z.string().uuid(),
   owner_id: z.string().uuid(),
   name: z.string(),
   use_case: z.string(),
-  config: z.record(z.unknown()),
+  config: z.record(jsonValueSchema),
   version: z.number().int(),
   approved_version: z.number().nullable(),
-  assessment: z.unknown().nullable(),
+  assessment: jsonValueSchema.nullable(),
   created_at: z.string(),
   updated_at: z.string(),
 });
