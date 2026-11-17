@@ -1,31 +1,49 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { listProjects } from "@/lib/project.functions";
 import { useAuthSession } from "./use-auth-session";
 import type { GovernedProject } from "@/lib/project-schema";
+
 export function useGovernedProjects() {
   const session = useAuthSession();
   const fetchProjects = useServerFn(listProjects);
-  const [projects, setProjects] = useState<GovernedProject[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const owner = session.status === "authenticated" ? session.email : null;
+  const generation = useRef(0);
+  const [state, setState] = useState<{
+    owner: string | null;
+    projects: GovernedProject[];
+    loading: boolean;
+    error: string;
+  }>({ owner: null, projects: [], loading: false, error: "" });
   const refresh = useCallback(async () => {
-    if (session.status !== "authenticated") {
-      setProjects([]);
-      return;
-    }
-    setLoading(true);
-    setError("");
+    const run = ++generation.current;
+    setState({ owner, projects: [], loading: owner !== null, error: "" });
+    if (owner === null) return;
     try {
-      setProjects(await fetchProjects());
+      const projects = await fetchProjects();
+      if (run === generation.current) setState({ owner, projects, loading: false, error: "" });
     } catch {
-      setError("No se pudieron cargar tus proyectos.");
-    } finally {
-      setLoading(false);
+      if (run === generation.current)
+        setState({
+          owner,
+          projects: [],
+          loading: false,
+          error: "No se pudieron cargar tus proyectos.",
+        });
     }
-  }, [session.status, fetchProjects]);
+  }, [owner, fetchProjects]);
   useEffect(() => {
     void refresh();
+    return () => {
+      generation.current += 1;
+    };
   }, [refresh]);
-  return { projects, loading, error, session, refresh };
+  const visible = state.owner === owner && owner !== null;
+  return {
+    projects: visible ? state.projects : [],
+    loading: visible && state.loading,
+    error: visible ? state.error : "",
+    session,
+    refresh,
+  };
 }

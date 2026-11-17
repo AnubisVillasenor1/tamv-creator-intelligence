@@ -1,4 +1,4 @@
-import { webcrypto } from "node:crypto";
+import { createHash, webcrypto } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import {
   TAMV_ATTRIBUTION_MANIFEST,
@@ -38,6 +38,11 @@ describe("TAMV attribution certification runtime", () => {
     const result = await verifyTamvCertification({
       manifest: TAMV_ATTRIBUTION_MANIFEST,
       signature: signed.signature,
+      approvedManifestSha256:
+        "sha256:" +
+        createHash("sha256")
+          .update(canonicalizeTamvManifest(TAMV_ATTRIBUTION_MANIFEST))
+          .digest("hex"),
       publicKeyPem: signed.publicPem,
       sourceFiles: TAMV_CERTIFICATION_SOURCE_FILES,
       cryptoProvider,
@@ -47,11 +52,56 @@ describe("TAMV attribution certification runtime", () => {
     expect(result.premiumFeaturesEnabled).toBe(true);
   });
 
+  it("T07 rejects a package signed by a replacement key against the external trusted key", async () => {
+    const trusted = await signManifest(TAMV_ATTRIBUTION_MANIFEST);
+    const replacement = await signManifest(TAMV_ATTRIBUTION_MANIFEST);
+    const result = await verifyTamvCertification({
+      signature: replacement.signature,
+      publicKeyPem: trusted.publicPem,
+      cryptoProvider,
+    });
+    expect(result.status).toBe("signature-invalid");
+  });
+
+  it("T08 rejects a correctly signed old manifest and missing external approval", async () => {
+    const oldManifest = { ...TAMV_ATTRIBUTION_MANIFEST, packVersion: "0.0.1" };
+    const old = await signManifest(oldManifest);
+    const approvedManifestSha256 =
+      "sha256:" +
+      createHash("sha256")
+        .update(canonicalizeTamvManifest(TAMV_ATTRIBUTION_MANIFEST))
+        .digest("hex");
+    const result = await verifyTamvCertification({
+      manifest: oldManifest,
+      signature: old.signature,
+      publicKeyPem: old.publicPem,
+      approvedManifestSha256,
+      cryptoProvider,
+    });
+    expect(result.status).toBe("release-not-approved");
+    const current = await signManifest(TAMV_ATTRIBUTION_MANIFEST);
+    expect(
+      (
+        await verifyTamvCertification({
+          signature: current.signature,
+          publicKeyPem: current.publicPem,
+          approvedManifestSha256: "",
+          cryptoProvider,
+        })
+      ).status,
+    ).toBe("release-not-approved");
+  });
+
   it("fails closed when an attested attribution source is modified", async () => {
     const signed = await signManifest(TAMV_ATTRIBUTION_MANIFEST);
     const result = await verifyTamvCertification({
       manifest: TAMV_ATTRIBUTION_MANIFEST,
       signature: signed.signature,
+      approvedManifestSha256:
+        "sha256:" +
+        createHash("sha256")
+          .update(canonicalizeTamvManifest(TAMV_ATTRIBUTION_MANIFEST))
+          .digest("hex"),
       publicKeyPem: signed.publicPem,
       sourceFiles: {
         ...TAMV_CERTIFICATION_SOURCE_FILES,
@@ -73,6 +123,11 @@ describe("TAMV attribution certification runtime", () => {
     const result = await verifyTamvCertification({
       manifest: TAMV_ATTRIBUTION_MANIFEST,
       signature: signed.signature,
+      approvedManifestSha256:
+        "sha256:" +
+        createHash("sha256")
+          .update(canonicalizeTamvManifest(TAMV_ATTRIBUTION_MANIFEST))
+          .digest("hex"),
       publicKeyPem: signed.publicPem,
       sourceFiles,
       cryptoProvider,
@@ -122,7 +177,9 @@ describe("TAMV attribution certification runtime", () => {
   it("returns an honest unsigned state and HTTP 403 for a protected capability", async () => {
     const status = await getTamvCertification();
     expect(status.certified).toBe(false);
-    expect(["signature-missing", "signing-key-missing", "crypto-unavailable"]).toContain(status.status);
+    expect(["signature-missing", "signing-key-missing", "crypto-unavailable"]).toContain(
+      status.status,
+    );
     const response = await requireTamvCertification("creator.review");
     expect(response).not.toBeNull();
     expect(response?.status).toBe(403);

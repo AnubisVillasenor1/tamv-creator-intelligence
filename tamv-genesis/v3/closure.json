@@ -223,13 +223,13 @@
     },
     {
       "id": "audio.metrics.prometheus",
-      "title": "Exposición Prometheus sin dependencias",
-      "status": "contract",
+      "title": "Exposición Prometheus autenticada del estudio",
+      "status": "closed",
       "publicSkills": ["tamv-audio-intelligence"],
       "capabilities": [],
-      "evidence": ["tamv-genesis/src/audio/metrics.ts", "docs/AUDIO-PIPELINE.md"],
-      "tests": ["tamv-genesis/tests/audio-pipeline.test.ts"],
-      "note": "Renderiza solo eventos observados. No hay endpoint de scrape conectado ni gauges de loudness inventados."
+      "evidence": ["tamv-genesis/src/audio/metrics.ts", "src/lib/studio-metrics.server.ts", "src/routes/api.studio.metrics.ts", "docs/WORKSPACE-AND-STUDIO.md"],
+      "tests": ["tamv-genesis/tests/audio-pipeline.test.ts", "src/test/studio-metrics.test.ts"],
+      "note": "GET /api/studio/metrics exige token de operador y certificación; audio y agente comparten eventos observados dentro de la misma instancia. Sin agregación multiinstancia, retención ni scraper externo provisionado."
     },
     {
       "id": "product.positioning",
@@ -239,7 +239,7 @@
       "capabilities": [],
       "evidence": ["docs/PRODUCT-POSITIONING.md", "src/routes/index.tsx"],
       "tests": [],
-      "note": "Fija el copy aprobado y separa la arquitectura de marca de las secciones aún no implementadas; no crea Academy, Studio, AI Lab ni Creator Hub."
+      "note": "Referencia de posicionamiento; existen estudio procedural, tutorial introductorio e integraciones de transporte. No implica LMS, AI Lab, modelos neuronales ni cuentas sociales conectadas."
     },
     {
       "id": "distribution.public-surface",
@@ -278,7 +278,7 @@
       "capabilities": ["audio.mastering"],
       "evidence": ["docs/AUDIO-PIPELINE.md"],
       "tests": [],
-      "note": "No hay motor nativo ni vectores de referencia. El pipeline deja truePeakDb, integratedLufs y chroma en null; no se estiman."
+      "note": "Motor nativo y pico intersample siguen pendientes. El DSP TypeScript local sí mide LUFS, pico de muestra y chroma con vectores de referencia; evidencia en audio.local-dsp. Este módulo no representa ese alcance local ya implementado."
     },
     {
       "id": "audio.queue.durable",
@@ -313,12 +313,12 @@
     {
       "id": "audio.frontend.client",
       "title": "Cliente frontend del pipeline de audio",
-      "status": "open",
+      "status": "closed",
       "publicSkills": ["tamv-audio-intelligence"],
       "capabilities": ["audio.production"],
-      "evidence": ["src/routes/api.audiocore.advanced.ts", "docs/IMPLEMENTATION-MATRIX.md"],
-      "tests": [],
-      "note": "La ruta existente responde como capacidad no disponible; la UI no consume el pipeline ni simula generación."
+      "evidence": ["src/routes/studio.tsx", "src/components/studio-workbench.tsx", "src/lib/studio-client.ts", "docs/WORKSPACE-AND-STUDIO.md"],
+      "tests": ["src/test/studio-client.test.ts", "src/test/studio-workbench.test.tsx"],
+      "note": "Cliente tipado con consentimiento, validación WAV/SHA-256, reproducción y descarga; aislamiento de sesión y cancelación. Pruebas locales con transporte controlado, sin aceptación autenticada de producción. La firma oficial sigue pendiente."
     },
     {
       "id": "planning.implementation-matrix",

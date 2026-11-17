@@ -1,5 +1,16 @@
 # Actualización TAMV
 
+## Workspace, estudio e integraciones (2026-11-17)
+- [x] Navegación Crear/Conectar/Gobernar/Aprender, búsqueda, tema claro/oscuro y menú móvil.
+- [x] Tutorial de seis pasos con progreso local y reinicio; no certifica cuentas ni ejecuta capacidades.
+- [x] Cliente de estudio con consentimiento, validación WAV/SHA-256, reproducción y descarga; pruebas de cambios de sesión, solicitudes duplicadas y respuestas tardías.
+- [x] Métricas compartidas de audio/agente y scrape autenticado/certificado; solo eventos observados por instancia.
+- [x] Resolución topológica de 37 contratos de skills e inclusión explícita en revisión creativa; sin inventar servicios ejecutados.
+- [x] Nueve receptores sociales con protocolos de autenticación y relay HTTPS firmado, probado con transporte controlado. Longe.ai permanece 501.
+- [x] Documentación de rutas, secretos por nombre, privacidad, límites e idempotencia del relay.
+- [ ] Aceptación autenticada del estudio contra despliegue certificado y evidencia oficial por proveedor social.
+- [ ] OAuth/publicación social, cola durable y relay externo: no provisionados. Activación corresponde al operador con permisos del proveedor.
+
 ## Integración agnóstica (2026-11-17)
 - [ ] SDK independiente con controles, hooks, API y ejemplos.
 - [ ] Proyectos privados, evaluación AI Gateway y auditoría persistente exportable.

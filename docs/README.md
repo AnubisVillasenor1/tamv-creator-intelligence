@@ -2,6 +2,11 @@
 
 ## Para público, usuarios y colaboradores
 
+- [Investigación TAMV 5.0](RESEARCH-PROTOCOL-5.md): corpus verificado, veinte protocolos, prototipo SQLite, análisis y límites experimentales.
+
+- [Workspace, tutorial y estudio](WORKSPACE-AND-STUDIO.md): navegación, preferencias, audio verificable, planes locales y métricas autenticadas.
+- [Integraciones sociales y webhooks](SOCIAL-WEBHOOKS.md): protocolos, configuración del relay, privacidad y aceptación externa pendiente.
+
 - [Documento público de divulgación técnica](PUBLIC-TECHNICAL-OVERVIEW.md): propósito, autoría declarada, arquitectura conceptual, capacidades, límites, seguridad y condiciones de producción.
 - [Política de gobernanza](../GOVERNANCE.md): principios y proceso de decisión; es una política propuesta y no una certificación.
 - [Política de seguridad y divulgación](../SECURITY.md): tratamiento responsable de reportes y requisitos de seguridad.

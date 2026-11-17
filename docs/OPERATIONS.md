@@ -4,6 +4,8 @@
 
 > **Estado documentado al 2026-11-14: desarrollo, no release certificado.** Hay 37 contratos internos, cuatro skills públicas v3 y una capacidad de inferencia implementada: `creator.review`. Tanto la firma del manifiesto raíz como el sello del paquete v3 conservan `UNSIGNED_RELEASE_PENDING`.
 
+> **Actualización 2026-11-17:** esta referencia conserva evidencia histórica. Para las implementaciones nuevas consultar [workspace y estudio](WORKSPACE-AND-STUDIO.md), [webhooks sociales](SOCIAL-WEBHOOKS.md), [audio](AUDIO-ORCHESTRATION.md), [agentes](AGENT-ORCHESTRATION.md) y [superficie HTTP actualizada](API-SURFACE-AND-ERROR-CONTRACTS.md). Las limitaciones sobre ausencia de UI, DSP y cuotas locales descritas abajo no representan esas implementaciones posteriores.
+
 ## Índice
 
 - [Propósito y alcance](#propósito-y-alcance)

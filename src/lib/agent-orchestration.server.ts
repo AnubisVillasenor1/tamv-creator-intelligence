@@ -14,6 +14,7 @@ import {
   readBoundedRequestBody,
 } from "./hypercore-turbo/governance-request-guards";
 import { requireTamvCertification } from "./tamv-certification";
+import { studioMetrics } from "./studio-metrics.server";
 import { supabaseAuthenticate } from "./audiocore-advanced.server";
 import {
   acquireCapabilitySlot,
@@ -115,7 +116,11 @@ export async function handleAgentOrchestration(
   const identity = await authenticate(request);
   if (identity instanceof Response) return identity;
 
-  const quota = await checkCapabilityQuota(AGENT_FEATURE, identity.actorRef, deps.quotaConfig ?? {});
+  const quota = await checkCapabilityQuota(
+    AGENT_FEATURE,
+    identity.actorRef,
+    deps.quotaConfig ?? {},
+  );
   if (!quota.allowed) return capabilityQuotaResponse(quota);
 
   let plan: AgentPlan;
@@ -128,7 +133,10 @@ export async function handleAgentOrchestration(
   for (const step of plan.steps) {
     if (step.tool !== "audio.render") continue;
     const input = step.input as { durationSeconds?: unknown; format?: unknown };
-    if (typeof input.durationSeconds === "number" && input.durationSeconds > AGENT_MAX_AUDIO_DURATION_SECONDS) {
+    if (
+      typeof input.durationSeconds === "number" &&
+      input.durationSeconds > AGENT_MAX_AUDIO_DURATION_SECONDS
+    ) {
       return jsonError(
         `audio.render steps accept up to ${AGENT_MAX_AUDIO_DURATION_SECONDS} seconds in this endpoint.`,
         400,
@@ -149,6 +157,7 @@ export async function handleAgentOrchestration(
   }
   try {
     const tools = createLocalAgentTools({
+      metrics: studioMetrics,
       certification: {
         async requireCapability({ consentGranted }) {
           if (!consentGranted) {
@@ -164,13 +173,20 @@ export async function handleAgentOrchestration(
         },
       },
     });
+    const started = performance.now();
     const result = await runAgentPlan(plan, {
       tools,
-      signal: AbortSignal.timeout(AGENT_EXECUTION_TIMEOUT_MS),
+      signal: AbortSignal.any([request.signal, AbortSignal.timeout(AGENT_EXECUTION_TIMEOUT_MS)]),
     });
+    studioMetrics.inc("tamv_agent_plans_total", { status: result.status });
+    studioMetrics.observe("tamv_agent_execution_seconds", (performance.now() - started) / 1000);
 
     if (result.status === "cancelled") {
-      return jsonError("The plan was cancelled or timed out; no result is claimed", 503, "TAMV_AGENT_CANCELLED");
+      return jsonError(
+        "The plan was cancelled or timed out; no result is claimed",
+        503,
+        "TAMV_AGENT_CANCELLED",
+      );
     }
     if (result.status === "failed") {
       const failure = result.steps.find((step) => step.status === "failed")?.failure;

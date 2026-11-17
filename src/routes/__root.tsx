@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import workspaceCss from "../workspace.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { GovernanceShell } from "../components/governance-shell";
 import { TamvAttribution } from "../components/branding/TamvAttribution";
@@ -103,6 +104,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "stylesheet", href: workspaceCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "apple-touch-icon", href: "/brand/tamv-online-logo-192.jpg" },
     ],

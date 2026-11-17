@@ -1,6 +1,6 @@
 # Matriz de cobertura documental y evidencia
 
-**Revisión:** 2026-11-15  
+**Revisión:** 2026-11-17
 **Ámbito:** documentación del repositorio `AnubisVillasenor1/tamv-creator-intelligence`.  
 **Objetivo:** reducir documentación duplicada, identificar vacíos y enlazar cada afirmación operativa con una fuente de verdad.
 
@@ -25,6 +25,9 @@ La existencia de un documento no demuestra que su contenido siga actualizado ni 
 
 | Tema | Fuente canónica | Complemento | Lo que no debe inferirse |
 |---|---|---|---|
+| Workspace, tutorial y estudio | [WORKSPACE-AND-STUDIO.md](WORKSPACE-AND-STUDIO.md) | UI, validación de artefactos, pruebas de sesión y métricas del estudio | No prueba una ejecución autenticada en producción |
+| Webhooks sociales | [SOCIAL-WEBHOOKS.md](SOCIAL-WEBHOOKS.md) | `social-webhooks.server.ts`, catálogo y pruebas de firmas/relay | Nueve receptores no equivalen a nueve cuentas conectadas ni a publicación social |
+| Investigación TAMV 5.0 | [RESEARCH-PROTOCOL-5.md](RESEARCH-PROTOCOL-5.md) | Corpus, prototipo SQLite, análisis, interfaz y pruebas T01–T20 delimitadas | No equivale a ensayo confirmatorio, piloto o revisión independiente |
 | Orientación documental | [docs/README.md](README.md) | README raíz | El índice no certifica que los documentos estén sincronizados |
 | Superficie API y errores | [API-SURFACE-AND-ERROR-CONTRACTS.md](API-SURFACE-AND-ERROR-CONTRACTS.md) | `src/routes/`, `src/lib/content.functions.ts`, contratos de gobernanza | Los códigos y capacidades dependen de la implementación y del estado de certificación; no prueban operación live |
 | Arquitectura runtime | [ARCHITECTURE-REFERENCE.md](ARCHITECTURE-REFERENCE.md) | `AGENTS.md`, `src/routes/README.md`, módulos fuente | Un mapa no reemplaza la revisión de código |

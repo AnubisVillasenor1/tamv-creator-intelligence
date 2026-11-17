@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { validateClosure } from "./validate-capability-closure.mjs";
+import { closureInventoryLine, validateClosure, validateReadmeInventory } from "./validate-capability-closure.mjs";
 
 const root = process.cwd();
 const read = (path) => JSON.parse(readFileSync(resolve(root, path), "utf8"));
@@ -41,4 +41,11 @@ const unknownStatus = structuredClone(base);
 unknownStatus.closure.modules[0].status = "production-ready";
 assert.ok(validateClosure(unknownStatus).errors.some((error) => error.includes("status is invalid")));
 
-console.log("Capability closure regression tests passed (6 scenarios).");
+const inventoryLine = closureInventoryLine(base);
+assert.deepEqual(validateReadmeInventory(inventoryLine, base), []);
+assert.ok(validateReadmeInventory(inventoryLine.replace(`**${base.closure.modules.length} módulos**`, "**-1 módulos**"), base).length);
+assert.ok(validateReadmeInventory("No inventory", base).length);
+assert.ok(validateReadmeInventory(`${inventoryLine}\n${inventoryLine}`, base).length);
+assert.deepEqual(validateReadmeInventory(readFileSync(resolve(root, "README.md"), "utf8"), base), []);
+
+console.log("Capability closure regression tests passed (11 scenarios).");

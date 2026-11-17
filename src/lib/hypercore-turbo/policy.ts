@@ -16,7 +16,8 @@ export const GOVERN_CORE_POLICY = {
   },
   attribution: {
     required: true,
-    canonicalText: "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.",
+    canonicalText:
+      "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.",
     visibility: "public",
     violationAction: "revoke-certification",
     preserveUserData: true,
@@ -33,6 +34,7 @@ export const GOVERN_CORE_POLICY = {
       "creator.review",
       "music.generation",
       "voice.generation",
+      "audiocore.advanced",
       "agent.orchestration",
       "external.publishing",
       "personal_data.processing",
@@ -110,13 +112,33 @@ export function validateGovernCorePolicy(): { valid: boolean; errors: string[] }
   const p = GOVERN_CORE_POLICY;
   const expectedFunctions = ["GOVERN", "IDENTIFY", "PROTECT", "DETECT", "RESPOND", "RECOVER"];
   if (p.schema !== "tamv.govern.policy.v2") errors.push("schema");
-  if (p.defaults.decision !== "deny" || p.defaults.failClosed !== true) errors.push("fail-closed-default");
+  if (p.defaults.decision !== "deny" || p.defaults.failClosed !== true)
+    errors.push("fail-closed-default");
   if (p.defaults.destructiveActions !== false) errors.push("destructive-actions");
-  if (expectedFunctions.some((name, index) => p.framework.functions[index] !== name) || p.framework.functions.length !== expectedFunctions.length) errors.push("nist-csf-functions");
-  if (p.consent.required !== true || p.consent.revocable !== true || p.consent.auditRequired !== true) errors.push("consent-controls");
-  if (p.integrity.requireReleaseSignature !== true || p.integrity.requireVerifiedProvenance !== true) errors.push("integrity-controls");
-  if (p.audit.enabled !== true || p.audit.appendOnlyStorage !== true || p.audit.redactSecrets !== true) errors.push("audit-controls");
-  if (p.execution.retryOnlyIdempotentOperations !== true || p.execution.unboundedQueues !== false) errors.push("execution-bounds");
+  if (
+    expectedFunctions.some((name, index) => p.framework.functions[index] !== name) ||
+    p.framework.functions.length !== expectedFunctions.length
+  )
+    errors.push("nist-csf-functions");
+  if (
+    p.consent.required !== true ||
+    p.consent.revocable !== true ||
+    p.consent.auditRequired !== true
+  )
+    errors.push("consent-controls");
+  if (
+    p.integrity.requireReleaseSignature !== true ||
+    p.integrity.requireVerifiedProvenance !== true
+  )
+    errors.push("integrity-controls");
+  if (
+    p.audit.enabled !== true ||
+    p.audit.appendOnlyStorage !== true ||
+    p.audit.redactSecrets !== true
+  )
+    errors.push("audit-controls");
+  if (p.execution.retryOnlyIdempotentOperations !== true || p.execution.unboundedQueues !== false)
+    errors.push("execution-bounds");
   return { valid: errors.length === 0, errors };
 }
 
@@ -132,7 +154,7 @@ const CAPABILITY_POLICY: Record<GovernedCapability, { requiresConsent: boolean }
   "creator.review": { requiresConsent: true },
   "music.generation": { requiresConsent: true },
   "voice.generation": { requiresConsent: true },
-  "audiocore.advanced": { requiresConsent: false },
+  "audiocore.advanced": { requiresConsent: true },
   "agent.orchestration": { requiresConsent: true },
   "external.publishing": { requiresConsent: true },
 };
@@ -146,21 +168,34 @@ export interface GovernedAuthorizationInput {
 export interface GovernedAuthorizationDecision {
   allowed: boolean;
   policyVersion: string;
-  reasonCode: "POLICY_ALLOWED" | "CAPABILITY_NOT_ALLOWLISTED" | "CONSENT_MISSING" | "CERTIFICATION_FAILED";
+  reasonCode:
+    "POLICY_ALLOWED" | "CAPABILITY_NOT_ALLOWLISTED" | "CONSENT_MISSING" | "CERTIFICATION_FAILED";
 }
 
 export function authorizeGovernedCapability(
   input: GovernedAuthorizationInput,
 ): GovernedAuthorizationDecision {
   if (!Object.prototype.hasOwnProperty.call(CAPABILITY_POLICY, input.capability)) {
-    return { allowed: false, policyVersion: GOVERN_CORE_POLICY.version, reasonCode: "CAPABILITY_NOT_ALLOWLISTED" };
+    return {
+      allowed: false,
+      policyVersion: GOVERN_CORE_POLICY.version,
+      reasonCode: "CAPABILITY_NOT_ALLOWLISTED",
+    };
   }
   if (!input.certificationValid) {
-    return { allowed: false, policyVersion: GOVERN_CORE_POLICY.version, reasonCode: "CERTIFICATION_FAILED" };
+    return {
+      allowed: false,
+      policyVersion: GOVERN_CORE_POLICY.version,
+      reasonCode: "CERTIFICATION_FAILED",
+    };
   }
   const capability = input.capability as GovernedCapability;
   if (CAPABILITY_POLICY[capability].requiresConsent && !input.consentGranted) {
-    return { allowed: false, policyVersion: GOVERN_CORE_POLICY.version, reasonCode: "CONSENT_MISSING" };
+    return {
+      allowed: false,
+      policyVersion: GOVERN_CORE_POLICY.version,
+      reasonCode: "CONSENT_MISSING",
+    };
   }
   return { allowed: true, policyVersion: GOVERN_CORE_POLICY.version, reasonCode: "POLICY_ALLOWED" };
 }

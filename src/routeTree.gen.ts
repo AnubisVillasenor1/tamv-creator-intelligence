@@ -13,19 +13,25 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthCallbackRouteImport } from './routes/auth-callback'
+import { Route as GuideRouteImport } from './routes/guide'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as ModelsRouteImport } from './routes/models'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SdkRouteImport } from './routes/sdk'
 import { Route as SovereigntyRouteImport } from './routes/sovereignty'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
+import { Route as ApiStudioMetricsRouteImport } from './routes/api.studio.metrics'
 import { Route as ApiTamvGenesisRouteImport } from './routes/api.tamv.genesis'
 import { Route as ApiTamvStatusRouteImport } from './routes/api.tamv.status'
 import { Route as ApiVoiceGenerateRouteImport } from './routes/api.voice.generate'
+import { Route as ApiWebhooksProviderRouteImport } from './routes/api.webhooks.$provider'
 import { Route as ApiPublicTamvProjectsRouteImport } from './routes/api.public.tamv.projects'
 import { Route as ApiTamvHypercoreAuditRouteImport } from './routes/api.tamv.hypercore.audit'
 import { Route as ApiTamvHypercoreMetricsRouteImport } from './routes/api.tamv.hypercore.metrics'
@@ -50,9 +56,19 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/auth-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HypercoreRoute = HypercoreRouteImport.update({
   id: '/hypercore',
   path: '/hypercore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegrationsRoute = IntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketplaceRoute = MarketplaceRouteImport.update({
@@ -70,6 +86,11 @@ const ProjectsRoute = ProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SdkRoute = SdkRouteImport.update({
   id: '/sdk',
   path: '/sdk',
@@ -78,6 +99,11 @@ const SdkRoute = SdkRouteImport.update({
 const SovereigntyRoute = SovereigntyRouteImport.update({
   id: '/sovereignty',
   path: '/sovereignty',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAgentRoute = ApiAgentRouteImport.update({
@@ -100,6 +126,11 @@ const ApiGovernanceReceiptsRoute = ApiGovernanceReceiptsRouteImport.update({
   path: '/api/governance/receipts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiStudioMetricsRoute = ApiStudioMetricsRouteImport.update({
+  id: '/api/studio/metrics',
+  path: '/api/studio/metrics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiTamvGenesisRoute = ApiTamvGenesisRouteImport.update({
   id: '/api/tamv/genesis',
   path: '/api/tamv/genesis',
@@ -113,6 +144,11 @@ const ApiTamvStatusRoute = ApiTamvStatusRouteImport.update({
 const ApiVoiceGenerateRoute = ApiVoiceGenerateRouteImport.update({
   id: '/api/voice/generate',
   path: '/api/voice/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWebhooksProviderRoute = ApiWebhooksProviderRouteImport.update({
+  id: '/api/webhooks/$provider',
+  path: '/api/webhooks/$provider',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicTamvProjectsRoute = ApiPublicTamvProjectsRouteImport.update({
@@ -136,19 +172,25 @@ export interface FileRoutesByFullPath {
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
+  '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
+  '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
   '/models': typeof ModelsRoute
   '/projects': typeof ProjectsRoute
+  '/research': typeof ResearchRoute
   '/sdk': typeof SdkRoute
   '/sovereignty': typeof SovereigntyRoute
+  '/studio': typeof StudioRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
+  '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
   '/api/voice/generate': typeof ApiVoiceGenerateRoute
+  '/api/webhooks/$provider': typeof ApiWebhooksProviderRoute
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
@@ -158,19 +200,25 @@ export interface FileRoutesByTo {
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
+  '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
+  '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
   '/models': typeof ModelsRoute
   '/projects': typeof ProjectsRoute
+  '/research': typeof ResearchRoute
   '/sdk': typeof SdkRoute
   '/sovereignty': typeof SovereigntyRoute
+  '/studio': typeof StudioRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
+  '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
   '/api/voice/generate': typeof ApiVoiceGenerateRoute
+  '/api/webhooks/$provider': typeof ApiWebhooksProviderRoute
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
@@ -181,19 +229,25 @@ export interface FileRoutesById {
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
+  '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
+  '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
   '/models': typeof ModelsRoute
   '/projects': typeof ProjectsRoute
+  '/research': typeof ResearchRoute
   '/sdk': typeof SdkRoute
   '/sovereignty': typeof SovereigntyRoute
+  '/studio': typeof StudioRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
+  '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
   '/api/voice/generate': typeof ApiVoiceGenerateRoute
+  '/api/webhooks/$provider': typeof ApiWebhooksProviderRoute
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
@@ -205,19 +259,25 @@ export interface FileRouteTypes {
     | '/audit'
     | '/auth'
     | '/auth-callback'
+    | '/guide'
     | '/hypercore'
+    | '/integrations'
     | '/marketplace'
     | '/models'
     | '/projects'
+    | '/research'
     | '/sdk'
     | '/sovereignty'
+    | '/studio'
     | '/api/agent'
     | '/api/generation'
     | '/api/audiocore/advanced'
     | '/api/governance/receipts'
+    | '/api/studio/metrics'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
     | '/api/voice/generate'
+    | '/api/webhooks/$provider'
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
@@ -227,19 +287,25 @@ export interface FileRouteTypes {
     | '/audit'
     | '/auth'
     | '/auth-callback'
+    | '/guide'
     | '/hypercore'
+    | '/integrations'
     | '/marketplace'
     | '/models'
     | '/projects'
+    | '/research'
     | '/sdk'
     | '/sovereignty'
+    | '/studio'
     | '/api/agent'
     | '/api/generation'
     | '/api/audiocore/advanced'
     | '/api/governance/receipts'
+    | '/api/studio/metrics'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
     | '/api/voice/generate'
+    | '/api/webhooks/$provider'
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
@@ -249,19 +315,25 @@ export interface FileRouteTypes {
     | '/audit'
     | '/auth'
     | '/auth-callback'
+    | '/guide'
     | '/hypercore'
+    | '/integrations'
     | '/marketplace'
     | '/models'
     | '/projects'
+    | '/research'
     | '/sdk'
     | '/sovereignty'
+    | '/studio'
     | '/api/agent'
     | '/api/generation'
     | '/api/audiocore/advanced'
     | '/api/governance/receipts'
+    | '/api/studio/metrics'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
     | '/api/voice/generate'
+    | '/api/webhooks/$provider'
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
@@ -272,19 +344,25 @@ export interface RootRouteChildren {
   AuditRoute: typeof AuditRoute
   AuthRoute: typeof AuthRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  GuideRoute: typeof GuideRoute
   HypercoreRoute: typeof HypercoreRoute
+  IntegrationsRoute: typeof IntegrationsRoute
   MarketplaceRoute: typeof MarketplaceRoute
   ModelsRoute: typeof ModelsRoute
   ProjectsRoute: typeof ProjectsRoute
+  ResearchRoute: typeof ResearchRoute
   SdkRoute: typeof SdkRoute
   SovereigntyRoute: typeof SovereigntyRoute
+  StudioRoute: typeof StudioRoute
   ApiAgentRoute: typeof ApiAgentRoute
   ApiGenerationRoute: typeof ApiGenerationRoute
   ApiAudiocoreAdvancedRoute: typeof ApiAudiocoreAdvancedRoute
   ApiGovernanceReceiptsRoute: typeof ApiGovernanceReceiptsRoute
+  ApiStudioMetricsRoute: typeof ApiStudioMetricsRoute
   ApiTamvGenesisRoute: typeof ApiTamvGenesisRoute
   ApiTamvStatusRoute: typeof ApiTamvStatusRoute
   ApiVoiceGenerateRoute: typeof ApiVoiceGenerateRoute
+  ApiWebhooksProviderRoute: typeof ApiWebhooksProviderRoute
   ApiPublicTamvProjectsRoute: typeof ApiPublicTamvProjectsRoute
   ApiTamvHypercoreAuditRoute: typeof ApiTamvHypercoreAuditRoute
   ApiTamvHypercoreMetricsRoute: typeof ApiTamvHypercoreMetricsRoute
@@ -320,11 +398,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hypercore': {
       id: '/hypercore'
       path: '/hypercore'
       fullPath: '/hypercore'
       preLoaderRoute: typeof HypercoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/marketplace': {
@@ -348,6 +440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sdk': {
       id: '/sdk'
       path: '/sdk'
@@ -360,6 +459,13 @@ declare module '@tanstack/react-router' {
       path: '/sovereignty'
       fullPath: '/sovereignty'
       preLoaderRoute: typeof SovereigntyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/agent': {
@@ -390,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGovernanceReceiptsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/studio/metrics': {
+      id: '/api/studio/metrics'
+      path: '/api/studio/metrics'
+      fullPath: '/api/studio/metrics'
+      preLoaderRoute: typeof ApiStudioMetricsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/tamv/genesis': {
       id: '/api/tamv/genesis'
       path: '/api/tamv/genesis'
@@ -409,6 +522,13 @@ declare module '@tanstack/react-router' {
       path: '/api/voice/generate'
       fullPath: '/api/voice/generate'
       preLoaderRoute: typeof ApiVoiceGenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhooks/$provider': {
+      id: '/api/webhooks/$provider'
+      path: '/api/webhooks/$provider'
+      fullPath: '/api/webhooks/$provider'
+      preLoaderRoute: typeof ApiWebhooksProviderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/tamv/projects': {
@@ -440,19 +560,25 @@ const rootRouteChildren: RootRouteChildren = {
   AuditRoute: AuditRoute,
   AuthRoute: AuthRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  GuideRoute: GuideRoute,
   HypercoreRoute: HypercoreRoute,
+  IntegrationsRoute: IntegrationsRoute,
   MarketplaceRoute: MarketplaceRoute,
   ModelsRoute: ModelsRoute,
   ProjectsRoute: ProjectsRoute,
+  ResearchRoute: ResearchRoute,
   SdkRoute: SdkRoute,
   SovereigntyRoute: SovereigntyRoute,
+  StudioRoute: StudioRoute,
   ApiAgentRoute: ApiAgentRoute,
   ApiGenerationRoute: ApiGenerationRoute,
   ApiAudiocoreAdvancedRoute: ApiAudiocoreAdvancedRoute,
   ApiGovernanceReceiptsRoute: ApiGovernanceReceiptsRoute,
+  ApiStudioMetricsRoute: ApiStudioMetricsRoute,
   ApiTamvGenesisRoute: ApiTamvGenesisRoute,
   ApiTamvStatusRoute: ApiTamvStatusRoute,
   ApiVoiceGenerateRoute: ApiVoiceGenerateRoute,
+  ApiWebhooksProviderRoute: ApiWebhooksProviderRoute,
   ApiPublicTamvProjectsRoute: ApiPublicTamvProjectsRoute,
   ApiTamvHypercoreAuditRoute: ApiTamvHypercoreAuditRoute,
   ApiTamvHypercoreMetricsRoute: ApiTamvHypercoreMetricsRoute,

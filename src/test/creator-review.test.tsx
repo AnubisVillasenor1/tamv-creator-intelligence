@@ -1,19 +1,22 @@
-import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { CreatorReview } from '@/components/creator-review';
-import { reviewContent } from '@/lib/content.functions';
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { CreatorReview } from "@/components/creator-review";
+import { reviewContent } from "@/lib/content.functions";
 
-vi.mock('@/lib/content.functions', () => ({ reviewContent: vi.fn() }));
+vi.mock("@/lib/content.functions", () => ({ reviewContent: vi.fn() }));
 
 // The component resolves the server function through the router and checks the
 // session before invoking it. Both boundaries are stubbed so the tests exercise
 // the component's feedback logic instead of the real router or network.
-vi.mock('@tanstack/react-start', () => ({ useServerFn: (fn: unknown) => fn }));
+vi.mock("@tanstack/react-start", () => ({ useServerFn: (fn: unknown) => fn }));
 
-vi.mock('@/integrations/supabase/client', () => ({
+vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
     auth: {
-      getSession: vi.fn(async () => ({ data: { session: { access_token: 'test-session' } }, error: null })),
+      getSession: vi.fn(async () => ({
+        data: { session: { access_token: "test-session" } },
+        error: null,
+      })),
     },
   },
 }));
@@ -22,89 +25,127 @@ type ReviewResult = Awaited<ReturnType<typeof reviewContent>>;
 const response = {
   ok: true as const,
   review: {
-    diagnosis: 'La propuesta puede aclarar su objetivo.',
-    improvements: [{ title: 'Invitación', reason: 'Explica el objetivo.', action: 'Incluye una invitación.' }],
-    revised: 'Te invitamos a un taller original de composición.',
-    safety: 'Mantén el control creativo.',
+    diagnosis: "La propuesta puede aclarar su objetivo.",
+    improvements: [
+      { title: "Invitación", reason: "Explica el objetivo.", action: "Incluye una invitación." },
+    ],
+    revised: "Te invitamos a un taller original de composición.",
+    safety: "Mantén el control creativo.",
   },
   audit: {
-    hash: 'a'.repeat(64),
-    runId: '00000000-0000-4000-8000-000000000001',
-    model: 'openai/gpt-6-astra',
-    timestamp: '2026-11-13T12:00:00.000Z',
-    governance: { policyVersion: 'test-policy', decision: 'POLICY_ALLOWED' as const },
-    skills: ['tamv-core-governance', 'tamv-rights-safety-guard', 'tamv-content-review', 'tamv-audience-research', 'tamv-quality-gate'],
+    hash: "a".repeat(64),
+    runId: "00000000-0000-4000-8000-000000000001",
+    model: "openai/gpt-6-astra",
+    timestamp: "2026-11-13T12:00:00.000Z",
+    governance: { policyVersion: "test-policy", decision: "POLICY_ALLOWED" as const },
+    skills: [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-content-review",
+      "tamv-audience-research",
+      "tamv-quality-gate",
+    ],
+    skillEvidence: "resolved-contracts",
   },
 } satisfies Extract<ReviewResult, { ok: true }>;
 
 function fillReview() {
-  fireEvent.change(screen.getByLabelText('Contenido'), { target: { value: 'Un taller original para aprender a componer música.' } });
-  fireEvent.change(screen.getByLabelText('Tu audiencia'), { target: { value: 'Músicos principiantes' } });
-  fireEvent.change(screen.getByLabelText('¿Qué quieres lograr?'), { target: { value: 'Invitar a mi comunidad al taller' } });
-  fireEvent.click(screen.getByRole('checkbox'));
-  const form = screen.getByRole('button', { name: /Proponer mejoras/ }).closest('form');
-  if (!form) throw new Error('Review form missing');
+  fireEvent.change(screen.getByLabelText("Contenido"), {
+    target: { value: "Un taller original para aprender a componer música." },
+  });
+  fireEvent.change(screen.getByLabelText("Tu audiencia"), {
+    target: { value: "Músicos principiantes" },
+  });
+  fireEvent.change(screen.getByLabelText("¿Qué quieres lograr?"), {
+    target: { value: "Invitar a mi comunidad al taller" },
+  });
+  fireEvent.click(screen.getByRole("checkbox"));
+  const form = screen.getByRole("button", { name: /Proponer mejoras/ }).closest("form");
+  if (!form) throw new Error("Review form missing");
   return form;
 }
 
-beforeEach(() => { vi.mocked(reviewContent).mockReset(); });
-afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
+beforeEach(() => {
+  vi.mocked(reviewContent).mockReset();
+});
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
 
-describe('Creator review feedback and evidence', () => {
-  it('distinguishes missing authentication from certification and keeps the draft', async () => {
+describe("Creator review feedback and evidence", () => {
+  it("distinguishes missing authentication from certification and keeps the draft", async () => {
     vi.mocked(reviewContent).mockRejectedValue(new Response(null, { status: 401 }));
-    render(<CreatorReview onComplete={vi.fn()}/>);
+    render(<CreatorReview onComplete={vi.fn()} />);
     fireEvent.submit(fillReview());
-    expect(await screen.findByRole('alert')).toHaveTextContent('Necesitas una sesión válida');
-    expect(screen.getByRole('alert')).not.toHaveTextContent('no está certificada');
-    expect(screen.getByLabelText('Contenido')).toHaveValue('Un taller original para aprender a componer música.');
+    expect(await screen.findByRole("alert")).toHaveTextContent("Necesitas una sesión válida");
+    expect(screen.getByRole("alert")).not.toHaveTextContent("no está certificada");
+    expect(screen.getByLabelText("Contenido")).toHaveValue(
+      "Un taller original para aprender a componer música.",
+    );
   });
 
-  it('shows inline access after a 401 without resubmitting or clearing the draft', async () => {
+  it("shows inline access after a 401 without resubmitting or clearing the draft", async () => {
     vi.mocked(reviewContent).mockRejectedValue(new Response(null, { status: 401 }));
-    render(<CreatorReview onComplete={vi.fn()}/>);
+    render(<CreatorReview onComplete={vi.fn()} />);
     fireEvent.submit(fillReview());
 
-    expect(await screen.findByRole('heading', { level: 2, name: 'Inicia sesión' })).toBeInTheDocument();
-    expect(screen.getByLabelText('Correo electrónico')).toHaveValue('');
-    expect(screen.getByLabelText('Contraseña')).toHaveValue('');
+    expect(
+      await screen.findByRole("heading", { level: 2, name: "Inicia sesión" }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Correo electrónico")).toHaveValue("");
+    expect(screen.getByLabelText("Contraseña")).toHaveValue("");
     expect(reviewContent).toHaveBeenCalledTimes(1);
-    expect(screen.getByLabelText('Contenido')).toHaveValue('Un taller original para aprender a componer música.');
+    expect(screen.getByLabelText("Contenido")).toHaveValue(
+      "Un taller original para aprender a componer música.",
+    );
   });
 
-  it('reports rate limits without automatically repeating the request', async () => {
-    vi.mocked(reviewContent).mockRejectedValue(new Response(null, { status: 429, headers: { 'Retry-After': '30' } }));
-    render(<CreatorReview onComplete={vi.fn()}/>);
+  it("reports rate limits without automatically repeating the request", async () => {
+    vi.mocked(reviewContent).mockRejectedValue(
+      new Response(null, { status: 429, headers: { "Retry-After": "30" } }),
+    );
+    render(<CreatorReview onComplete={vi.fn()} />);
     fireEvent.submit(fillReview());
-    expect(await screen.findByRole('alert')).toHaveTextContent('Espera 30 segundos');
-    expect(screen.getByRole('alert')).toHaveTextContent('no se reintentará automáticamente');
+    expect(await screen.findByRole("alert")).toHaveTextContent("Espera 30 segundos");
+    expect(screen.getByRole("alert")).toHaveTextContent("no se reintentará automáticamente");
     expect(reviewContent).toHaveBeenCalledTimes(1);
   });
 
   it.each([
-    ['TAMV_ATTRIBUTION_INTEGRITY_FAILED', 'no está certificada'],
-    ['TAMV_FEATURE_NOT_LICENSED', 'no está habilitada en la licencia'],
-    ['OTHER', 'política de acceso'],
-  ])('distinguishes forbidden response %s', async (code, expected) => {
-    vi.mocked(reviewContent).mockRejectedValue(new Response(JSON.stringify({ code }), { status: 403 }));
-    render(<CreatorReview onComplete={vi.fn()}/>);
+    ["TAMV_ATTRIBUTION_INTEGRITY_FAILED", "no está certificada"],
+    ["TAMV_FEATURE_NOT_LICENSED", "no está habilitada en la licencia"],
+    ["OTHER", "política de acceso"],
+  ])("distinguishes forbidden response %s", async (code, expected) => {
+    vi.mocked(reviewContent).mockRejectedValue(
+      new Response(JSON.stringify({ code }), { status: 403 }),
+    );
+    render(<CreatorReview onComplete={vi.fn()} />);
     fireEvent.submit(fillReview());
-    expect(await screen.findByRole('alert')).toHaveTextContent(expected);
+    expect(await screen.findByRole("alert")).toHaveTextContent(expected);
   });
 
-  it('does not label an invalid server response as a certification failure', async () => {
-    vi.mocked(reviewContent).mockRejectedValue(new Response('upstream unavailable', { status: 500 }));
-    render(<CreatorReview onComplete={vi.fn()}/>);
+  it("does not label an invalid server response as a certification failure", async () => {
+    vi.mocked(reviewContent).mockRejectedValue(
+      new Response("upstream unavailable", { status: 500 }),
+    );
+    render(<CreatorReview onComplete={vi.fn()} />);
     fireEvent.submit(fillReview());
-    expect(await screen.findByRole('alert')).toHaveTextContent('El servicio no pudo completar');
-    expect(screen.getByRole('alert')).not.toHaveTextContent('certificad');
+    expect(await screen.findByRole("alert")).toHaveTextContent("El servicio no pudo completar");
+    expect(screen.getByRole("alert")).not.toHaveTextContent("certificad");
   });
 
-  it('does not send duplicate requests while the first request is pending', async () => {
+  it("does not send duplicate requests while the first request is pending", async () => {
     let finish: ((value: ReviewResult) => void) | undefined;
-    vi.mocked(reviewContent).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+    vi.mocked(reviewContent).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          finish = resolve;
+        }),
+    );
     const onComplete = vi.fn();
-    render(<CreatorReview onComplete={onComplete}/>);
+    render(<CreatorReview onComplete={onComplete} />);
     const form = fillReview();
     fireEvent.submit(form);
     fireEvent.submit(form);
@@ -113,48 +154,67 @@ describe('Creator review feedback and evidence', () => {
     await waitFor(() => expect(reviewContent).toHaveBeenCalledTimes(1));
     await act(async () => {});
     expect(reviewContent).toHaveBeenCalledTimes(1);
-    await act(async () => { finish?.(response); });
+    await act(async () => {
+      finish?.(response);
+    });
     await waitFor(() => expect(onComplete).toHaveBeenCalledTimes(1));
   });
 
-  it('downloads only the returned proposal and provenance as JSON', async () => {
-    const createObjectURL = vi.fn<(blob: Blob | MediaSource) => string>(() => 'blob:review-test');
+  it("downloads only the returned proposal and provenance as JSON", async () => {
+    const createObjectURL = vi.fn<(blob: Blob | MediaSource) => string>(() => "blob:review-test");
     const revokeObjectURL = vi.fn();
     const OriginalURL = URL;
-    vi.stubGlobal('URL', class extends OriginalURL {
-      static override createObjectURL = createObjectURL;
-      static override revokeObjectURL = revokeObjectURL;
-    });
+    vi.stubGlobal(
+      "URL",
+      class extends OriginalURL {
+        static override createObjectURL = createObjectURL;
+        static override revokeObjectURL = revokeObjectURL;
+      },
+    );
     const clicked: HTMLAnchorElement[] = [];
-    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function (this: HTMLAnchorElement) { clicked.push(this); });
+    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (
+      this: HTMLAnchorElement,
+    ) {
+      clicked.push(this);
+    });
     vi.mocked(reviewContent).mockResolvedValue(response);
-    render(<CreatorReview onComplete={vi.fn()}/>);
+    render(<CreatorReview onComplete={vi.fn()} />);
     fireEvent.submit(fillReview());
-    fireEvent.click(await screen.findByRole('button', { name: 'Descargar revisión y trazabilidad' }));
-    expect(clicked[0]?.download).toBe('tamv-review-00000000-0000-4000-8000-000000000001.json');
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Descargar revisión y trazabilidad" }),
+    );
+    expect(clicked[0]?.download).toBe("tamv-review-00000000-0000-4000-8000-000000000001.json");
     const blob = createObjectURL.mock.calls[0]?.[0] as Blob | undefined;
-    expect(blob?.type).toBe('application/json');
+    expect(blob?.type).toBe("application/json");
     const reader = new FileReader();
     const text = new Promise<string>((resolve, reject) => {
       reader.onload = () => resolve(String(reader.result));
       reader.onerror = () => reject(reader.error);
     });
-    if (!blob) throw new Error('Review export missing');
+    if (!blob) throw new Error("Review export missing");
     reader.readAsText(blob);
     const downloaded = JSON.parse(await text);
-    expect(downloaded).toEqual({ schema: 'tamv.review.export.v1', review: response.review, audit: response.audit });
-    expect(downloaded).not.toHaveProperty('draft');
-    await waitFor(() => expect(revokeObjectURL).toHaveBeenCalledWith('blob:review-test'));
+    expect(downloaded).toEqual({
+      schema: "tamv.review.export.v1",
+      review: response.review,
+      audit: response.audit,
+    });
+    expect(downloaded).not.toHaveProperty("draft");
+    await waitFor(() => expect(revokeObjectURL).toHaveBeenCalledWith("blob:review-test"));
   });
 
-  it('displays returned provenance without claiming durable or signed storage', async () => {
+  it("displays returned provenance without claiming durable or signed storage", async () => {
     vi.mocked(reviewContent).mockResolvedValue(response);
-    render(<CreatorReview onComplete={vi.fn()}/>);
+    render(<CreatorReview onComplete={vi.fn()} />);
     fireEvent.submit(fillReview());
-    expect(await screen.findByText('Modelo: openai/gpt-6-astra')).toBeInTheDocument();
-    expect(screen.getByText('Política: test-policy · POLICY_ALLOWED')).toBeInTheDocument();
-    expect(screen.getByText(`Skills declaradas: ${response.audit.skills.join(', ')}`)).toBeInTheDocument();
-    expect(screen.getByText(/no un registro persistente ni una certificación firmada/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Descargar revisión y trazabilidad' })).toBeEnabled();
+    expect(await screen.findByText("Modelo: openai/gpt-6-astra")).toBeInTheDocument();
+    expect(screen.getByText("Política: test-policy · POLICY_ALLOWED")).toBeInTheDocument();
+    expect(
+      screen.getByText(`Skills declaradas: ${response.audit.skills.join(", ")}`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/no un registro persistente ni una certificación firmada/),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Descargar revisión y trazabilidad" })).toBeEnabled();
   });
 });

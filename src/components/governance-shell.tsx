@@ -1,105 +1,234 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  Activity,
   ArrowUpRight,
-  Blocks,
-  Bot,
-  Braces,
-  Cable,
-  CircleDot,
-  FileClock,
-  LayoutDashboard,
+  Command,
+  GraduationCap,
+  Menu,
+  Moon,
+  Search,
   ShieldCheck,
+  Sun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { AuthStatus } from "@/components/auth-status";
 import { TamvLogo } from "@/components/branding/TamvLogo";
-const navigation = [
-  { to: "/", label: "Centro de control", icon: LayoutDashboard },
-  { to: "/projects", label: "Proyectos · IA", icon: Bot },
-  { to: "/audit", label: "Registro de auditoría", icon: FileClock },
-  { to: "/sdk", label: "SDK & API", icon: Braces },
-  { to: "/marketplace", label: "Marketplace de skills", icon: Blocks },
-  { to: "/models", label: "Modelos de IA", icon: Cable },
-] as const;
+import { workspaceNavigation } from "@/lib/workspace-navigation";
+
 export function GovernanceShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const current = navigation.find((item) => item.to === pathname)?.label ?? "Gobernanza TAMV";
-  return (
-    <div className="govern-shell">
-      <aside className="govern-sidebar">
-        <Link to="/" className="govern-brand" aria-label="TAMV ONLINE NETWORK — Creator Intelligence">
-          <TamvLogo size={57} priority />
-          <span>
-            TAMV <small>ONLINE NETWORK · CREATOR INTELLIGENCE</small>
-          </span>
-        </Link>
-        <div className="system-label">
-          <CircleDot size={12} /> GOVERNANCE OS <span>v0.1</span>
-        </div>
+  const current =
+    workspaceNavigation.find((item) => item.to === pathname)?.label ?? "TAMV Workspace";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [theme, setTheme] = useState("dark");
+  const main = useRef<HTMLElement>(null);
+  const previousPath = useRef(pathname);
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("tamv.workspace.theme");
+      if (saved === "light" || saved === "dark") {
+        setTheme(saved);
+        document.documentElement.dataset["workspaceTheme"] = saved;
+      }
+    } catch {
+      /* Browser preferences may be disabled. */
+    }
+  }, []);
+  useEffect(() => {
+    if (previousPath.current !== pathname) {
+      setMenuOpen(false);
+      setSearchOpen(false);
+      main.current?.focus();
+      previousPath.current = pathname;
+    }
+  }, [pathname]);
+  function toggleTheme() {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.dataset["workspaceTheme"] = next;
+    try {
+      localStorage.setItem("tamv.workspace.theme", next);
+    } catch {
+      /* Preference remains usable without storage. */
+    }
+  }
+  function navigation() {
+    return (
+      <>
         <nav aria-label="Navegación principal">
-          {navigation.map((item) => (
-            <Button
-              key={item.to}
-              variant="ghost"
-              asChild
-              className={`govern-nav ${pathname === item.to ? "govern-nav-active" : ""}`}
-            >
-              <Link to={item.to}>
-                <item.icon size={18} />
-                {item.label}
-                {pathname === item.to && <span className="nav-indicator" />}
-              </Link>
-            </Button>
+          {["Crear", "Conectar", "Gobernar", "Aprender"].map((group) => (
+            <div className="nav-group" key={group}>
+              <span className="nav-group-label">{group}</span>
+              {workspaceNavigation
+                .filter((item) => item.group === group)
+                .map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    aria-current={pathname === item.to ? "page" : undefined}
+                    className={`govern-nav ${pathname === item.to ? "govern-nav-active" : ""}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <item.icon size={18} aria-hidden="true" />
+                    <span>{item.label}</span>
+                    {pathname === item.to && <span className="nav-indicator" />}
+                  </Link>
+                ))}
+            </div>
           ))}
         </nav>
-        <div className="govern-secondary">
-          <span className="eyebrow">INFRAESTRUCTURA</span>
-          <Button variant="ghost" asChild className="govern-nav">
-            <Link to="/sovereignty">
-              <ShieldCheck />
-              Soberanía
-            </Link>
-          </Button>
-          <Button variant="ghost" asChild className="govern-nav">
-            <Link to="/hypercore">
-              <Activity />
-              Hypercore
-              <ArrowUpRight />
-            </Link>
-          </Button>
+        <div className="sidebar-trust">
+          <ShieldCheck size={18} />
+          <div>
+            <strong>El control es tuyo</strong>
+            <p>Nada se publica automáticamente.</p>
+          </div>
         </div>
         <div className="govern-session">
-          <div className="flex items-center gap-2 text-primary text-xs mb-4">
-            <ShieldCheck size={14} /> Control humano · Fail closed
-          </div>
           <AuthStatus />
         </div>
+      </>
+    );
+  }
+  return (
+    <div className="govern-shell">
+      <a href="#workspace-content" className="skip-link">
+        Saltar al contenido
+      </a>
+      <aside className="govern-sidebar">
+        <Link to="/" className="govern-brand" aria-label="TAMV — Inicio">
+          <TamvLogo size={48} priority />
+          <span>
+            TAMV<small>CREATOR INTELLIGENCE</small>
+          </span>
+        </Link>
+        <div className="workspace-switch">
+          <span className="workspace-monogram">T</span>
+          <div>
+            <strong>Tu espacio creativo</strong>
+            <span>Personal · Gobernado</span>
+          </div>
+        </div>
+        {navigation()}
       </aside>
       <div className="govern-main">
         <header className="govern-topbar">
-          <div className="flex items-center gap-2">
-            <span className="text-muted-foreground">Workspace</span>
-            <span className="text-muted-foreground">/</span>
-            {current}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="system-status">
-              <span />
-              TAMV ONLINE
+          <div className="topbar-location">
+            <Dialog open={menuOpen} onOpenChange={setMenuOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  className="mobile-menu-button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Abrir navegación"
+                >
+                  <Menu />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="mobile-navigation">
+                <DialogTitle>Tu espacio TAMV</DialogTitle>
+                <DialogDescription>Crear, conectar y gobernar.</DialogDescription>
+                {navigation()}
+              </DialogContent>
+            </Dialog>
+            <span className="breadcrumb-root">
+              Workspace <span>/</span>
             </span>
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/projects">
-                <Bot size={14} /> Integrar proyecto
+            <strong>{current}</strong>
+          </div>
+          <div className="topbar-actions">
+            <Dialog
+              open={searchOpen}
+              onOpenChange={(open) => {
+                setSearchOpen(open);
+                if (!open) setQuery("");
+              }}
+            >
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="workspace-search"
+                  aria-label="Buscar herramientas"
+                >
+                  <Search size={16} />
+                  <span>Buscar herramientas</span>
+                  <Command size={13} />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="command-dialog">
+                <DialogTitle>¿Qué quieres hacer?</DialogTitle>
+                <DialogDescription>
+                  Encuentra una herramienta de tu espacio de trabajo.
+                </DialogDescription>
+                <label className="sr-only" htmlFor="workspace-search">
+                  Buscar herramientas
+                </label>
+                <input
+                  id="workspace-search"
+                  className="field"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Audio, redes sociales, auditoría…"
+                />
+                <div className="command-results">
+                  {workspaceNavigation
+                    .filter((item) =>
+                      `${item.label} ${item.description}`
+                        .toLocaleLowerCase("es")
+                        .includes(query.toLocaleLowerCase("es")),
+                    )
+                    .map((item) => (
+                      <Link key={item.to} to={item.to} onClick={() => setSearchOpen(false)}>
+                        <item.icon size={20} />
+                        <div>
+                          <strong>{item.label}</strong>
+                          <p>{item.description}</p>
+                        </div>
+                        <ArrowUpRight size={16} />
+                      </Link>
+                    ))}
+                </div>
+                {!workspaceNavigation.some((item) =>
+                  `${item.label} ${item.description}`
+                    .toLocaleLowerCase("es")
+                    .includes(query.toLocaleLowerCase("es")),
+                ) && <p role="status">No hay coincidencias. Prueba con otra palabra.</p>}
+              </DialogContent>
+            </Dialog>
+            <Button asChild variant="ghost" className="topbar-guide">
+              <Link to="/guide" aria-label="Tutorial">
+                <GraduationCap size={18} />
+                <span>Tutorial</span>
               </Link>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Usar tema claro" : "Usar tema oscuro"}
+            >
+              {theme === "dark" ? <Sun /> : <Moon />}
             </Button>
           </div>
         </header>
-        <main className="govern-body">{children}</main>
+        <main id="workspace-content" ref={main} tabIndex={-1} className="govern-body">
+          {children}
+        </main>
         <footer className="govern-footer">
-          <span>TAMV ONLINE NETWORK · Inteligencia con responsabilidad</span>
-          <span>AGNÓSTICO DE SECTOR Y PROVEEDOR</span>
+          <span>TAMV ONLINE NETWORK · Tecnología con responsabilidad</span>
+          <div className="flex gap-4">
+            <Link to="/sovereignty">Soberanía</Link>
+            <Link to="/hypercore">Diagnóstico</Link>
+          </div>
         </footer>
       </div>
     </div>

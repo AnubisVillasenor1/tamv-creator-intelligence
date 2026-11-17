@@ -58,16 +58,32 @@ export function validateClosure({ closure, pack, skillsManifest, exists = (path)
   return { errors, moduleCount: modules.length, closedCount: modules.filter((module) => module?.status === "closed").length, publicSkillCount: packSkills.size, capabilityCount: declaredCapabilities.size };
 }
 
+export function closureInventoryLine({ closure, pack }) {
+  const modules = closure.modules;
+  const skills = pack.publicSkills;
+  const capabilities = new Set(skills.flatMap((skill) => skill.capabilities));
+  const states = [...allowedStatuses].map((status) => `${status}=${modules.filter((module) => module.status === status).length}`);
+  return `Inventario validado: **${modules.length} módulos** · **${skills.length} skills públicas** · **${pack.internalContracts.count} contratos internos** · **${capabilities.size} capacidades**; estados: ${states.join(", ")}.`;
+}
+
+export function validateReadmeInventory(readme, input) {
+  const expected = closureInventoryLine(input);
+  const lines = readme.split(/\r?\n/).filter((line) => line.startsWith("Inventario validado:"));
+  return lines.length === 1 && lines[0] === expected ? [] : [`README inventory is stale or missing. Expected: ${expected}`];
+}
+
 function readJson(relativePath) {
   return JSON.parse(readFileSync(resolve(root, relativePath), "utf8"));
 }
 
 function run() {
-  const result = validateClosure({
+  const input = {
     closure: readJson("tamv-genesis/v3/closure.json"),
     pack: readJson("tamv-genesis/v3/pack.json"),
     skillsManifest: readJson("skills.sh.json"),
-  });
+  };
+  const result = validateClosure(input);
+  if (!result.errors.length) result.errors.push(...validateReadmeInventory(readFileSync(resolve(root, "README.md"), "utf8"), input));
   console.log("TAMV capability closure validation");
   console.log(`Modules: ${result.moduleCount}; closed: ${result.closedCount}; public skills: ${result.publicSkillCount}; capabilities: ${result.capabilityCount}`);
   if (result.errors.length) {

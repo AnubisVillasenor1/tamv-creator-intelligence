@@ -74,9 +74,12 @@ export type AgentRunResult = {
 
 export type CreateLocalAgentToolsOptions = {
   certification?: AudioGatewayPorts["certification"];
+  metrics?: import("../audio/ports.ts").AudioMetrics;
 };
 
-export function createLocalAgentTools(options: CreateLocalAgentToolsOptions = {}): AgentToolRegistry {
+export function createLocalAgentTools(
+  options: CreateLocalAgentToolsOptions = {},
+): AgentToolRegistry {
   const certification: AudioGatewayPorts["certification"] = options.certification ?? {
     async requireCapability({ consentGranted }) {
       if (!consentGranted) {
@@ -101,6 +104,7 @@ export function createLocalAgentTools(options: CreateLocalAgentToolsOptions = {}
       const request = validateAudioRenderInput(input);
       const pipeline = createAudioPipeline({
         certification,
+        ...(options.metrics === undefined ? {} : { metrics: options.metrics }),
         provider: createLocalSynthesisProvider(),
         analysis: createLocalDspAnalysis(),
       });
@@ -109,9 +113,14 @@ export function createLocalAgentTools(options: CreateLocalAgentToolsOptions = {}
         throw new TamvAgentError("TAMV_AGENT_CANCELLED", "plan cancelled before the worker ran.");
       }
       const runs = await pipeline.worker.runUntilIdle(10);
-      const run = runs.find((entry) => entry.status !== "idle" && entry.record.jobId === submission.jobId);
+      const run = runs.find(
+        (entry) => entry.status !== "idle" && entry.record.jobId === submission.jobId,
+      );
       if (!run || run.status === "idle" || run.status === "retry-scheduled") {
-        throw new TamvAgentError("TAMV_AGENT_TOOL_FAILED", "audio.render did not complete in this process.");
+        throw new TamvAgentError(
+          "TAMV_AGENT_TOOL_FAILED",
+          "audio.render did not complete in this process.",
+        );
       }
       if (run.status === "failed") {
         throw new TamvAgentError(
@@ -121,7 +130,10 @@ export function createLocalAgentTools(options: CreateLocalAgentToolsOptions = {}
       }
       const artifact = run.record.artifact;
       if (!artifact) {
-        throw new TamvAgentError("TAMV_AGENT_TOOL_FAILED", "audio.render succeeded without an artifact.");
+        throw new TamvAgentError(
+          "TAMV_AGENT_TOOL_FAILED",
+          "audio.render succeeded without an artifact.",
+        );
       }
       return {
         jobId: run.record.jobId,
@@ -141,7 +153,10 @@ export type RunAgentPlanOptions = {
   signal?: AbortSignal;
 };
 
-export async function runAgentPlan(rawPlan: unknown, options: RunAgentPlanOptions): Promise<AgentRunResult> {
+export async function runAgentPlan(
+  rawPlan: unknown,
+  options: RunAgentPlanOptions,
+): Promise<AgentRunResult> {
   const plan: AgentPlan = validateAgentPlan(rawPlan);
   const ports = options.ports ?? {};
   const steps: AgentStepResult[] = [];
@@ -167,7 +182,9 @@ export async function runAgentPlan(rawPlan: unknown, options: RunAgentPlanOption
 
     let deniedEffect: string | null = null;
     for (const effect of handler.effects) {
-      const authorized = ports.effects ? await ports.effects.authorize({ tool: step.tool, effect }) : false;
+      const authorized = ports.effects
+        ? await ports.effects.authorize({ tool: step.tool, effect })
+        : false;
       if (!authorized) {
         deniedEffect = effect;
         break;
@@ -178,10 +195,18 @@ export async function runAgentPlan(rawPlan: unknown, options: RunAgentPlanOption
         stepId: step.id,
         tool: step.tool,
         status: "failed",
-        failure: { code: "TAMV_AGENT_EFFECT_DENIED", detail: `external effect not authorized: ${deniedEffect}` },
+        failure: {
+          code: "TAMV_AGENT_EFFECT_DENIED",
+          detail: `external effect not authorized: ${deniedEffect}`,
+        },
       });
       status = "failed";
-      await ports.audit?.record({ type: "agent.step.failed", stepId: step.id, tool: step.tool, detail: deniedEffect });
+      await ports.audit?.record({
+        type: "agent.step.failed",
+        stepId: step.id,
+        tool: step.tool,
+        detail: deniedEffect,
+      });
       break;
     }
 
@@ -193,10 +218,16 @@ export async function runAgentPlan(rawPlan: unknown, options: RunAgentPlanOption
       await ports.audit?.record({ type: "agent.step.completed", stepId: step.id, tool: step.tool });
     } catch (error) {
       const code = error instanceof TamvAgentError ? error.code : "TAMV_AGENT_TOOL_FAILED";
-      const detail = error instanceof Error ? error.message.slice(0, 500) : String(error).slice(0, 500);
+      const detail =
+        error instanceof Error ? error.message.slice(0, 500) : String(error).slice(0, 500);
       steps.push({ stepId: step.id, tool: step.tool, status: "failed", failure: { code, detail } });
       status = "failed";
-      await ports.audit?.record({ type: "agent.step.failed", stepId: step.id, tool: step.tool, detail: code });
+      await ports.audit?.record({
+        type: "agent.step.failed",
+        stepId: step.id,
+        tool: step.tool,
+        detail: code,
+      });
       break;
     }
   }

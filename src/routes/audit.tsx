@@ -43,15 +43,21 @@ function Audit() {
   const [refresh, setRefresh] = useState(0);
   const project = projects.find((p) => p.id === id) ?? projects[0];
   const projectId = project?.id;
+  const [eventProjectId, setEventProjectId] = useState<string>();
+  const visibleEvents = projectId && projectId === eventProjectId ? events : [];
   useEffect(() => {
     let active = true;
     setEvents([]);
-    if (!projectId) return;
-    setBusy(true);
+    setEventProjectId(undefined);
+    setBusy(Boolean(projectId));
     setError("");
+    if (!projectId) return;
     void read({ data: { projectId } })
       .then((rows) => {
-        if (active) setEvents(rows);
+        if (active) {
+          setEvents(rows);
+          setEventProjectId(projectId);
+        }
       })
       .catch(() => {
         if (active) setError("No se pudo cargar la auditoría.");
@@ -98,14 +104,14 @@ function Audit() {
         </Button>
         <Button
           variant="outline"
-          disabled={!projectId || busy}
+          disabled={!projectId || busy || eventProjectId !== projectId}
           onClick={() =>
             downloadJson(
               {
                 schema: "tamv.project.audit.v1",
                 exportedAt: new Date().toISOString(),
                 project,
-                events,
+                events: visibleEvents,
               },
               `tamv-audit-${projectId}.json`,
             )
@@ -121,7 +127,7 @@ function Audit() {
         </p>
       )}
       {busy && <p className="text-muted-foreground">Cargando evidencia…</p>}
-      {!events.length && !busy && (
+      {!visibleEvents.length && !busy && (
         <div className="empty-ledger">
           <FileClock size={38} />
           <h2>
@@ -135,7 +141,7 @@ function Audit() {
         </div>
       )}
       <div className="audit-timeline">
-        {events.map((event) => (
+        {visibleEvents.map((event) => (
           <article key={event.id}>
             <div className="audit-marker">
               <FileClock size={16} />

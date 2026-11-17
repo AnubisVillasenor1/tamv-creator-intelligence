@@ -62,6 +62,7 @@ export type TamvCertificationStatus =
   | "signature-missing"
   | "signing-key-missing"
   | "signature-invalid"
+  | "release-not-approved"
   | "crypto-unavailable";
 
 export interface TamvCertification {
@@ -245,6 +246,7 @@ export interface VerifyTamvCertificationOptions {
   manifest?: unknown;
   signature?: string;
   publicKeyPem?: string;
+  approvedManifestSha256?: string;
   sourceFiles?: Record<string, string>;
   cryptoProvider?: Crypto;
   now?: Date;
@@ -272,7 +274,11 @@ export async function verifyTamvCertification(
     manifest.requiredFiles.length !== requiredFiles.length ||
     manifest.requiredFiles.some((file, index) => file !== requiredFiles[index])
   ) {
-    return fail("manifest-invalid", "La lista de archivos obligatorios no coincide con la política.", checkedAt);
+    return fail(
+      "manifest-invalid",
+      "La lista de archivos obligatorios no coincide con la política.",
+      checkedAt,
+    );
   }
 
   const manifestPaths = Object.keys(manifest.integrity.files).sort();
@@ -281,13 +287,21 @@ export async function verifyTamvCertification(
     manifestPaths.length !== expectedPaths.length ||
     manifestPaths.some((path, index) => path !== expectedPaths[index])
   ) {
-    return fail("manifest-invalid", "El manifest no cubre exactamente los archivos obligatorios.", checkedAt);
+    return fail(
+      "manifest-invalid",
+      "El manifest no cubre exactamente los archivos obligatorios.",
+      checkedAt,
+    );
   }
 
   const sourceFiles = options.sourceFiles ?? TAMV_CERTIFICATION_SOURCE_FILES;
   for (const path of requiredFiles) {
     if (typeof sourceFiles[path] !== "string") {
-      return fail("required-file-missing", "Falta un archivo requerido por la certificación: " + path, checkedAt);
+      return fail(
+        "required-file-missing",
+        "Falta un archivo requerido por la certificación: " + path,
+        checkedAt,
+      );
     }
   }
 
@@ -295,38 +309,66 @@ export async function verifyTamvCertification(
     !sourceFiles["ATTRIBUTION.md"]?.includes(TAMV_EXPECTED_ATTRIBUTION) ||
     !sourceFiles["README.md"]?.includes(TAMV_EXPECTED_ATTRIBUTION) ||
     !sourceFiles["src/lib/tamv-attribution.ts"]?.includes(TAMV_EXPECTED_ATTRIBUTION) ||
-    !sourceFiles["src/components/branding/TamvAttribution.tsx"]?.includes("TAMV_CANONICAL_ATTRIBUTION") ||
+    !sourceFiles["src/components/branding/TamvAttribution.tsx"]?.includes(
+      "TAMV_CANONICAL_ATTRIBUTION",
+    ) ||
     !sourceFiles["src/routes/__root.tsx"]?.includes("<TamvAttribution />") ||
     !sourceFiles["src/lib/content.functions.ts"]?.includes("requireTamvCertification") ||
     !sourceFiles["src/routes/api.tamv.status.ts"]?.includes("getTamvCertification") ||
-    !sourceFiles["src/routes/api.generation.ts"]?.includes('unavailableTamvCapabilityResponse("music.generation")') ||
-    !sourceFiles["src/routes/api.voice.generate.ts"]?.includes('unavailableTamvCapabilityResponse("voice.generation")') ||
-    !sourceFiles["src/routes/api.audiocore.advanced.ts"]?.includes('unavailableTamvCapabilityResponse("audiocore.advanced")') ||
-    !sourceFiles["src/routes/api.agent.ts"]?.includes('unavailableTamvCapabilityResponse("agent.orchestration")') ||
+    !sourceFiles["src/routes/api.generation.ts"]?.includes(
+      'unavailableTamvCapabilityResponse("music.generation")',
+    ) ||
+    !sourceFiles["src/routes/api.voice.generate.ts"]?.includes(
+      'unavailableTamvCapabilityResponse("voice.generation")',
+    ) ||
+    !sourceFiles["src/routes/api.audiocore.advanced.ts"]?.includes(
+      'unavailableTamvCapabilityResponse("audiocore.advanced")',
+    ) ||
+    !sourceFiles["src/routes/api.agent.ts"]?.includes(
+      'unavailableTamvCapabilityResponse("agent.orchestration")',
+    ) ||
     !sourceFiles["src/lib/hypercore-turbo/policy.ts"]?.includes("tamv.govern.policy.v2") ||
     !sourceFiles["src/lib/hypercore-turbo/velocity.ts"]?.includes("runTurboParallel") ||
     !sourceFiles["hypercore/govern-core/policy.json"]?.includes("NIST-CSF-2.0") ||
     !sourceFiles["hypercore/velocity-core/turbo-config.json"]?.includes("maxConcurrency") ||
-    !sourceFiles["src/routes/api.tamv.hypercore.audit.ts"]?.includes('createFileRoute("/api/tamv/hypercore/audit")') ||
+    !sourceFiles["src/routes/api.tamv.hypercore.audit.ts"]?.includes(
+      'createFileRoute("/api/tamv/hypercore/audit")',
+    ) ||
     !sourceFiles["src/lib/hypercore-turbo/parallel-runner.ts"]?.includes("runTurboParallel") ||
     !sourceFiles["scripts/verify-slsa.sh"]?.includes("slsa-verifier") ||
     !sourceFiles["src/routes/hypercore.tsx"]?.includes('createFileRoute("/hypercore")')
   ) {
-    return fail("attribution-modified", "La atribución visible o uno de sus puntos de control fue alterado.", checkedAt);
+    return fail(
+      "attribution-modified",
+      "La atribución visible o uno de sus puntos de control fue alterado.",
+      checkedAt,
+    );
   }
 
   const provider = options.cryptoProvider ?? globalThis.crypto;
   if (!provider?.subtle) {
-    return fail("crypto-unavailable", "Web Crypto no está disponible para verificar la certificación.", checkedAt);
+    return fail(
+      "crypto-unavailable",
+      "Web Crypto no está disponible para verificar la certificación.",
+      checkedAt,
+    );
   }
 
   const expectedCanonicalHash = manifest.integrity.canonicalTextSha256;
   if (!HEX_SHA256.test(expectedCanonicalHash)) {
-    return fail("manifest-invalid", "El hash de la atribución canónica no es SHA-256 válido.", checkedAt);
+    return fail(
+      "manifest-invalid",
+      "El hash de la atribución canónica no es SHA-256 válido.",
+      checkedAt,
+    );
   }
   const actualCanonicalHash = "sha256:" + (await sha256Hex(TAMV_EXPECTED_ATTRIBUTION, provider));
   if (actualCanonicalHash !== expectedCanonicalHash) {
-    return fail("attribution-modified", "La huella SHA-256 del texto canónico no coincide.", checkedAt);
+    return fail(
+      "attribution-modified",
+      "La huella SHA-256 del texto canónico no coincide.",
+      checkedAt,
+    );
   }
 
   for (const path of requiredFiles) {
@@ -336,21 +378,37 @@ export async function verifyTamvCertification(
     }
     const source = sourceFiles[path];
     if (typeof source !== "string") {
-      return fail("required-file-missing", "Falta un archivo requerido por la certificación: " + path, checkedAt);
+      return fail(
+        "required-file-missing",
+        "Falta un archivo requerido por la certificación: " + path,
+        checkedAt,
+      );
     }
     const actualHash = "sha256:" + (await sha256Hex(source, provider));
     if (actualHash !== expectedHash) {
-      return fail("source-integrity-mismatch", "La integridad de origen no coincide en " + path, checkedAt);
+      return fail(
+        "source-integrity-mismatch",
+        "La integridad de origen no coincide en " + path,
+        checkedAt,
+      );
     }
   }
 
   if (!manifest.license.features.includes("creator.review")) {
-    return fail("manifest-invalid", "El manifest no autoriza la capacidad creator.review.", checkedAt);
+    return fail(
+      "manifest-invalid",
+      "El manifest no autoriza la capacidad creator.review.",
+      checkedAt,
+    );
   }
 
   const signature = (options.signature ?? attributionSignature).trim();
   if (!signature || signature === "UNSIGNED_RELEASE_PENDING") {
-    return fail("signature-missing", "La firma Ed25519 del release aún no ha sido emitida.", checkedAt);
+    return fail(
+      "signature-missing",
+      "La firma Ed25519 del release aún no ha sido emitida.",
+      checkedAt,
+    );
   }
 
   const publicKeyPem = (
@@ -358,15 +416,25 @@ export async function verifyTamvCertification(
     (typeof process !== "undefined" ? process.env?.["TAMV_ATTRIBUTION_PUBLIC_KEY"] : undefined) ??
     import.meta.env?.["VITE_TAMV_ATTRIBUTION_PUBLIC_KEY"] ??
     ""
-  ).replace(/\\n/g, "\n").trim();
+  )
+    .replace(/\\n/g, "\n")
+    .trim();
   if (!publicKeyPem) {
-    return fail("signing-key-missing", "No está configurada TAMV_ATTRIBUTION_PUBLIC_KEY.", checkedAt);
+    return fail(
+      "signing-key-missing",
+      "No está configurada TAMV_ATTRIBUTION_PUBLIC_KEY.",
+      checkedAt,
+    );
   }
 
   try {
     const signatureBytes = decodeBase64Url(signature);
     if (signatureBytes.byteLength !== 64) {
-      return fail("signature-invalid", "La firma Ed25519 debe contener exactamente 64 bytes.", checkedAt);
+      return fail(
+        "signature-invalid",
+        "La firma Ed25519 debe contener exactamente 64 bytes.",
+        checkedAt,
+      );
     }
     const publicKey = await provider.subtle.importKey(
       "spki",
@@ -382,17 +450,42 @@ export async function verifyTamvCertification(
       encoder.encode(canonicalJson(manifest)),
     );
     if (!verified) {
-      return fail("signature-invalid", "La firma Ed25519 no autentica el manifest actual.", checkedAt);
+      return fail(
+        "signature-invalid",
+        "La firma Ed25519 no autentica el manifest actual.",
+        checkedAt,
+      );
     }
   } catch {
-    return fail("signature-invalid", "No se pudo verificar la firma Ed25519 de la distribución.", checkedAt);
+    return fail(
+      "signature-invalid",
+      "No se pudo verificar la firma Ed25519 de la distribución.",
+      checkedAt,
+    );
+  }
+
+  const approvedDigest =
+    options.approvedManifestSha256 ??
+    (typeof process !== "undefined" ? process.env?.["TAMV_RELEASE_MANIFEST_SHA256"] : undefined) ??
+    import.meta.env?.["VITE_TAMV_RELEASE_MANIFEST_SHA256"] ??
+    "";
+  if (
+    !HEX_SHA256.test(approvedDigest) ||
+    approvedDigest !== "sha256:" + (await sha256Hex(canonicalJson(manifest), provider))
+  ) {
+    return fail(
+      "release-not-approved",
+      "El manifiesto firmado no coincide con el digest aprobado fuera del paquete.",
+      checkedAt,
+    );
   }
 
   return {
     status: "certified",
     certified: true,
     premiumFeaturesEnabled: true,
-    reason: "Distribución TAMV certificada; hashes de origen y firma Ed25519 verificados.",
+    reason:
+      "Hashes, firma Ed25519 y digest aprobado verificados; no es certificación normativa ni validación científica.",
     checkedAt,
   };
 }
@@ -434,10 +527,12 @@ export function buildUnavailableCapabilityResponse(
 
   return Response.json(
     {
-      error: "La distribución está certificada, pero el gateway de esta capacidad todavía no está conectado.",
+      error:
+        "La distribución está certificada, pero el gateway de esta capacidad todavía no está conectado.",
       code: "TAMV_CAPABILITY_NOT_IMPLEMENTED",
       feature,
-      action: "Conecta y prueba el gateway correspondiente antes de habilitar esta capacidad en un release.",
+      action:
+        "Conecta y prueba el gateway correspondiente antes de habilitar esta capacidad en un release.",
     },
     { status: 501, headers },
   );
@@ -464,7 +559,11 @@ export async function requireTamvCertification(feature: string): Promise<Respons
   }
   if (!TAMV_ATTRIBUTION_MANIFEST.license.features.includes(feature)) {
     return Response.json(
-      { error: "La capacidad no está habilitada en el manifest TAMV", code: "TAMV_FEATURE_NOT_LICENSED", feature },
+      {
+        error: "La capacidad no está habilitada en el manifest TAMV",
+        code: "TAMV_FEATURE_NOT_LICENSED",
+        feature,
+      },
       { status: 403, headers: { "Cache-Control": "no-store, max-age=0" } },
     );
   }

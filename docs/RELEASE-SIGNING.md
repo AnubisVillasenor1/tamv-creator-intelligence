@@ -4,13 +4,14 @@
 
 ## Trust model
 
-The release verifier uses three independent checks:
+The release verifier uses four checks (updated 2026-11-17):
 
 1. The attribution manifest matches the expected schema and policy.
 2. SHA-256 hashes for the exact protected-source inventory match the files in the release.
 3. An Ed25519 signature authenticates the canonical JSON representation of the manifest using the configured public key.
+4. `TAMV_RELEASE_MANIFEST_SHA256` matches the SHA-256 of that exact canonical manifest. A signed older manifest is rejected as `release-not-approved`. This approval is maintained outside the package and is never read from the candidate itself.
 
-The private key is used only by the signing job. It must never be committed, placed in build artifacts, exposed to pull-request workflows, or made available to the application runtime. The application needs only the public key. A valid signature does **not** certify legal compliance, model quality, SLSA provenance, or the security of external services.
+The private key is used only by the signing job. It must never be committed, placed in build artifacts, exposed to pull-request workflows, or made available to the application runtime. The application needs the public key and independently approved manifest digest, never the private key. A valid signature does **not** certify legal compliance, model quality, SLSA provenance, or the security of external services.
 
 ## One-time key generation
 
@@ -31,7 +32,7 @@ The public key is not confidential, but keeping both values in the same controll
 
 ## Local workflow
 
-From the repository root, after making reviewed changes:
+From the repository root, after making reviewed changes. Before verification or build of a signed artifact, the release owner must independently approve and inject `TAMV_RELEASE_MANIFEST_SHA256` into the environment. The signing command prints the candidate digest for review; do not automatically promote that output into the trusted approval. Without approval, verification intentionally fails.
 
 ```bash
 bun install --frozen-lockfile
@@ -53,7 +54,7 @@ Signing rewrites `tamv-attribution.sig`; hashing deliberately resets the old sig
 
 ## Release pipeline
 
-The workflow `.github/workflows/release-sign.yml` runs only for tags matching `v*`. It:
+The workflow `.github/workflows/release-sign.yml` runs only for tags matching `v*`. Its existing sequence is described below. As of 2026-11-17, injecting independently approved `TAMV_RELEASE_MANIFEST_SHA256` into the protected release environment is an additional operator/CI prerequisite; this change does not configure shared infrastructure or claim a successful tagged run. It:
 
 1. Requires the tag commit to be reachable from `main`.
 2. Installs the locked dependency graph.
@@ -73,7 +74,7 @@ The job fails closed if either secret is missing, if a source hash drifts, if th
 - If certification is valid but a gateway is not implemented or licensed, the route must return `501 TAMV_CAPABILITY_NOT_IMPLEMENTED` or `403 TAMV_FEATURE_NOT_LICENSED`, respectively.
 - A successful signature does not make an unimplemented capability executable.
 
-The public key must be configured on the server as `TAMV_ATTRIBUTION_PUBLIC_KEY`. The unsigned marker in the source checkout is intentional; it is not evidence that a release has been signed.
+The public key must be configured on the server as `TAMV_ATTRIBUTION_PUBLIC_KEY`, together with the independently approved `TAMV_RELEASE_MANIFEST_SHA256`. Browser verification additionally requires the same approved digest as `VITE_TAMV_RELEASE_MANIFEST_SHA256` at build time; neither public setting replaces server enforcement. The unsigned marker in the source checkout is intentional; it is not evidence that a release has been signed.
 
 ## Operational acceptance checklist
 
@@ -83,7 +84,7 @@ The public key must be configured on the server as `TAMV_ATTRIBUTION_PUBLIC_KEY`
 - [ ] Release tag points to a commit reachable from `main`.
 - [ ] Tagged workflow succeeds end-to-end.
 - [ ] Downloaded artifact contains the signed manifest, signature and build output.
-- [ ] Production environment has the public key only.
+- [ ] Production environment has the public key and independently approved `TAMV_RELEASE_MANIFEST_SHA256`, with no private key.
 - [ ] `GET /api/tamv/status` returns `certified: true` for the deployed signed artifact.
 - [ ] Protected endpoints still fail closed if the signature, key, or manifest is missing or invalid.
 - [ ] SLSA provenance, SBOM, deployment environment, and provider-side runtime behavior are separately verified before claiming production readiness.

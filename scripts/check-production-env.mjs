@@ -23,7 +23,9 @@ const checks = [
   { group: "Distributed review quota", key: "UPSTASH_REDIS_REST_URL", required: true, validate: isHttpsUrl },
   { group: "Distributed review quota", key: "UPSTASH_REDIS_REST_TOKEN", required: true },
   { group: "Distributed review quota", key: "TAMV_REVIEW_QUOTA_KEY_SALT", required: true, validate: (v) => v.length >= 32 },
+  { group: "Distributed capability quota", key: "TAMV_CAPABILITY_QUOTA_KEY_SALT", required: true, validate: (v) => v.length >= 32 },
   { group: "Release verification", key: "TAMV_ATTRIBUTION_PUBLIC_KEY", required: true, validate: (v) => v.includes("BEGIN PUBLIC KEY") && v.includes("END PUBLIC KEY") },
+  { group: "Release verification", key: "TAMV_RELEASE_MANIFEST_SHA256", required: true, validate: (v) => /^sha256:[a-f0-9]{64}$/.test(v) },
   { group: "Release verification", key: "TAMV_CERTIFICATION_REQUIRED", required: true, validate: (v) => v === "true" },
 ];
 

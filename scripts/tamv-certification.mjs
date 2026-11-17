@@ -184,6 +184,7 @@ async function signManifest(manifest, sources) {
   await writeFile(SIGNATURE_PATH, signature + "\n", "utf8");
   await verifySignature(manifest, signature, publicKey.export({ type: "spki", format: "pem" }).toString());
   console.log("Manifest TAMV firmado con Ed25519 y verificado localmente.");
+  console.log("Digest para aprobación externa en TAMV_RELEASE_MANIFEST_SHA256: " + sha256(canonicalJson(manifest)));
   if (!configuredPublicPem) {
     console.log("Configura esta clave pública en TAMV_ATTRIBUTION_PUBLIC_KEY del entorno de despliegue:");
     console.log(publicKey.export({ type: "spki", format: "pem" }).toString());
@@ -221,7 +222,11 @@ async function main() {
     return;
   }
   await verifySignature(manifest, signature, publicKey);
-  console.log("Certificación TAMV válida: hashes SHA-256 y firma Ed25519 verificados.");
+  const approvedDigest = process.env.TAMV_RELEASE_MANIFEST_SHA256;
+  if (approvedDigest !== sha256(canonicalJson(manifest))) {
+    throw new Error("El digest exacto del release no está aprobado en TAMV_RELEASE_MANIFEST_SHA256; una firma válida no autoriza rollback.");
+  }
+  console.log("Integridad TAMV válida: hashes, firma Ed25519 y digest aprobado verificados; no es certificación normativa.");
 }
 
 main().catch((error) => {

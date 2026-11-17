@@ -2,7 +2,12 @@ import { access, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
 export const MAINTAINED_DOCUMENTS = [
+  "README.md",
   "docs/README.md",
+  "docs/WORKSPACE-AND-STUDIO.md",
+  "docs/SOCIAL-WEBHOOKS.md",
+  "docs/RESEARCH-PROTOCOL-5.md",
+  "docs/RELEASE-SIGNING.md",
   "docs/ARCHITECTURE-REFERENCE.md",
   "docs/API-SURFACE-AND-ERROR-CONTRACTS.md",
   "docs/SCHEMA-CHANGE-REQUEST-HYPERCORE-LEDGER.md",

@@ -27,22 +27,24 @@ indica el estado real en este repositorio.
 | Persistencia Drizzle/Postgres | `blocked` | `AGENTS.md` prohíbe editar `drizzle/` y `supabase/migrations/`; lo gestiona Lovable. |
 | Almacenamiento MinIO/S3 | `contract` | Puerto `AudioStoragePort`; adaptador en memoria con SHA-256. |
 | MusicGen local | `contract` | Puerto `AudioGenerationPort`; no hay modelo desplegado. |
-| DSP C++ (true peak/LUFS/chroma) | `open` | No hay motor nativo; las métricas quedan `null`. |
-| Métricas Prometheus | `contract` | `tamv-genesis/src/audio/metrics.ts`; sin endpoint de scrape conectado. |
+| DSP C++ | `open` | No hay motor C++; el DSP TypeScript local sí mide LUFS, pico de muestra y chroma, no picos intersample. |
+| DSP TypeScript local | `implemented` | `tamv-genesis/src/audio/local-dsp.ts`, vectores de referencia en `audio-local-dsp.test.ts`. |
+| Métricas Prometheus | `implemented` | Registro compartido y `/api/studio/metrics` autenticado/certificado; solo una instancia, sin scraper ni retención provisionados. |
 | Docker Compose de audio | `open` | No se declara un despliegue inexistente. |
 | Rutas Next.js | `not-applicable` | El proyecto usa TanStack Start. |
-| Cliente frontend tipado | `open` | La UI existente no consume el pipeline. |
+| Cliente frontend tipado | `implemented` | `/studio`, validación WAV/SHA-256, reproducción, descarga, consentimiento y cancelación; pruebas locales con transporte controlado, sin aceptación autenticada en producción. |
 
 ## Producto y marca
 
 | Propuesta | Estado | Evidencia / límite |
 |---|---|---|
 | Posicionamiento TAMV Online / PLAY & GO | `documented` | `docs/PRODUCT-POSITIONING.md`. |
-| Tagline y copy del Hero | `implemented` | `src/routes/index.tsx` usa «Aprende. Crea. Analiza. Publica.». |
-| Arquitectura Academy / Studio / AI Lab / AudioCore | `documented` | No se crean secciones vacías. |
-| Sitemap y navegación completa | `open` | La app sigue siendo un monitor de creación. |
-| Sistema visual y motion design | `documented` | Ya existe una dirección visual; no se replica el documento. |
-| Onboarding de siete pantallas | `open` | No implementado. |
+| Tagline y copy del Hero | `implemented` | `src/routes/index.tsx`: «Grandes ideas. Decisiones conscientes.», sin promesas de publicación automática. |
+| Arquitectura Academy / Studio / AI Lab / AudioCore | `documented` | Existen estudio y tutorial; no un LMS, AI Lab ni catálogo de cursos. |
+| Navegación operativa | `implemented` | Crear/Conectar/Gobernar/Aprender, búsqueda y menú móvil; no completa servicios externos. |
+| Sistema visual | `implemented` | `src/workspace.css`, claro/oscuro y responsive; no se atribuye mejora porcentual medida. |
+| Tutorial | `implemented` | Seis pasos, progreso local, reinicio y funcionamiento sin storage; sustituye la propuesta de siete pantallas. |
+| Webhooks sociales | `implemented` | Nueve receptores y relay firmado; pruebas criptográficas locales. Sin cuentas, OAuth ni publicaciones conectadas; Longe pendiente de contrato. |
 | Prueba social y precios | `open` | No se inventan testimonios, métricas ni planes. |
 | Copy del footer y CTAs | `documented` | Reglas editoriales en `docs/PRODUCT-POSITIONING.md`. |
 
@@ -53,9 +55,20 @@ indica el estado real en este repositorio.
 | Sello fail-closed v2 | `implemented` | `tamv-genesis/src/sovereign/seal.ts`, 19 pruebas. |
 | Firma de release Ed25519 | `blocked` | Requiere clave privada fuera del repositorio. |
 | Log de transparencia | `implemented` | `tamv-genesis/src/sovereign/transparency.ts`, 11 pruebas. |
-| Registro de cierre K-20 | `implemented` | `tamv-genesis/v3/closure.json`; 23 módulos, con estados `closed`, `contract`, `documented`, `blocked` y `open`. |
+| Registro de cierre K-20 | `implemented` | `tamv-genesis/v3/closure.json`; 26 módulos, con estados `closed`, `contract`, `documented`, `blocked` y `open`. |
 | Horas de investigación | `documented` | `C-001` sigue `unverified`; la huella pública no mide horas. |
 | Validación académica | `open` | No se declara revisión por pares ni acreditación. |
+
+## Investigación TAMV 5.0
+
+| Propuesta | Estado | Evidencia / límite |
+|---|---|---|
+| Corpus verificable y veinte protocolos | `implemented` | Importador, `research-catalog.json`, `/research` y pruebas; manifiesto sin firma y ensayos confirmatorios pendientes. |
+| Gateway con evidencia durable | `implemented` | `scripts/lib/research-gateway.mjs`, SQLite, dos operaciones sintéticas, concurrencia, conciliación y respaldo; no autenticación de producción ni pagos reales. |
+| Análisis de conteos, equidad y separación confirmatoria | `implemented` | `research-analysis.ts` y pruebas; cálculos descriptivos y elegibilidad para revisión humana, nunca aprobación automática. |
+| Protección contra rollback de release firmado | `implemented` | Verificación de digest aprobado externamente; configurar aprobación y firma oficial permanece bloqueado. |
+| Ledger externo ordenado, federación, EOCT y SAE causal | `open` | T11, T12, T14, T15 y T16 no tienen implementación experimental completa; consultar [alcance y límites](RESEARCH-PROTOCOL-5.md). |
+| Piloto territorial y validación científica | `blocked` | Requiere protocolo preregistrado, participantes autorizados, datos y revisión independiente; los tests no los sustituyen. |
 
 ## Regla de mantenimiento
 

@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Blocks, Braces, Check, GitBranch, Search, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { skillRegistry } from "@/lib/skill-registry";
+import { resolveSkillDependencies } from "@/lib/skill-governance";
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
@@ -89,6 +90,10 @@ function Marketplace() {
               <div className="mt-3 space-y-3 text-xs text-muted-foreground">
                 <p>Entrada: {skill.inputs}</p>
                 <p>Salida: {skill.outputs}</p>
+                <p>
+                  Plan de dependencias resuelto (contratos; no ejecutado):{" "}
+                  {resolveSkillDependencies([skill.id]).join(" → ")}
+                </p>
                 {skill.dependencies.map((d) => (
                   <p key={d} className="flex gap-2">
                     <Check size={12} />

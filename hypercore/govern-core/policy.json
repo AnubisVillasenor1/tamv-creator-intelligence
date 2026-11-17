@@ -41,6 +41,7 @@
       "creator.review",
       "music.generation",
       "voice.generation",
+      "audiocore.advanced",
       "agent.orchestration",
       "external.publishing",
       "personal_data.processing"

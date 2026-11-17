@@ -10,7 +10,7 @@ El principio rector es:
 
 TAMV Creator Intelligence estructura flujos de trabajo asistidos por IA mediante habilidades modulares, políticas de consentimiento, controles de derechos, verificación de integridad, procedencia de software y evidencia auditable. No sustituye la autoría humana ni publica contenido automáticamente: asiste en la creación, el análisis, la planificación y la operación, dejando las decisiones finales en manos del creador.
 
-> **Estado verificado al 2026-11-16.** El árbol que produce este commit parte de `3382b2b` y añade la corrección de tipos descrita más abajo. Sobre ese árbol se ejecutaron localmente: **276/276 pruebas de aplicación**, **105/105 pruebas de Genesis**, **typecheck sin errores**, **lint sin errores (7 advertencias)**, **build de producción correcto** y **hashes de certificación válidos**. El release sigue **sin firma Ed25519**: `tamv-attribution.sig` contiene `UNSIGNED_RELEASE_PENDING`, `/api/tamv/status` devuelve `certified: false` y las capacidades certificadas permanecen bloqueadas. No se fabricó ni simuló ninguna firma, cobro o despliegue.
+> **Verificación local al 2026-11-17, sobre cambios posteriores a `ad44b444`.** Se ejecutaron **460/460 pruebas de aplicación**, **125/125 pruebas de Genesis** y **17/17 pruebas del prototipo de investigación SQLite**, además de typecheck, lint (0 errores, 7 advertencias) y build de producción. Son suites separadas, no ensayos científicos ni aceptación de un despliegue. El release sigue **sin firma Ed25519** (`UNSIGNED_RELEASE_PENDING`); las capacidades certificadas permanecen bloqueadas. El prototipo de investigación usa créditos sintéticos explícitos, nunca cobros reales. No se fabricó firma, aval ni despliegue.
 >
 > **Este README está protegido por el manifiesto de integridad.** En esta actualización se ejecutó `tamv:hash`, por lo que el hash registrado corresponde al texto actual; el marcador de firma se mantiene en `UNSIGNED_RELEASE_PENDING` y la firma real debe generarla el responsable autorizado del release con `tamv:sign` → `tamv:verify`.
 
@@ -40,7 +40,7 @@ El núcleo de gobernanza aplica a **cualquier proyecto con IA**; las cuatro skil
 
 - Definir identidad, propuesta de valor y estrategia de creador.
 - Planificar contenido, lanzamientos, comunidad y educación.
-- Analizar propuestas musicales, de voz y audiovisuales mediante contratos especializados; la generación de música, voz y DSP **no tiene ejecutores conectados** en esta versión.
+- Crear WAV procedural determinista y medir LUFS, pico de muestra y chroma en un estudio con consentimiento; no genera voz ni música neuronal. Las rutas certificadas siguen bloqueadas sin firma.
 - Diseñar estrategias de crecimiento, descubrimiento y monetización ética.
 - Integrar controles de gobernanza en proyectos existentes mediante SDK, API autenticada y adaptadores.
 - Registrar proyectos de IA, versionar su configuración, aprobarlos con intervención humana y evaluar sus riesgos con evidencia exportable.
@@ -76,11 +76,13 @@ TAMV Creator Intelligence combina una **aplicación web operativa** (TanStack St
 
 Las cuatro skills viven en `tamv-genesis/v3/skills/` y son las únicas publicadas en [skills.sh.json](skills.sh.json). No duplican los 37 contratos de `tamv-pack/skills/`: los referencian como biblioteca interna. La matriz de fusión de patrones externos —absorbidos como capacidades, sin copiar texto ni implementación de terceros— está en [tamv-genesis/v3/pack.json](tamv-genesis/v3/pack.json).
 
-Estas cuatro skills son **contratos publicados**, no servicios operativos. Las 19 capacidades públicas que declaran están mapeadas en el registro de cierre; varias capacidades de audio, voz, agente y publicación siguen respondiendo `501` hasta que exista un gateway autorizado, consentimiento, cuota, auditoría y pruebas negativas.
+Estas cuatro skills son **contratos publicados**, no servicios operativos. Sus 19 capacidades están mapeadas en el registro de cierre. AudioCore y el agente tienen ejecutores locales acotados; las rutas de generación neuronal y voz siguen sin ejecutor. Un contrato instalable no concede autoridad ni activa proveedores.
 
 ### Registro de cierre
 
-[tamv-genesis/v3/closure.json](tamv-genesis/v3/closure.json) declara **23 módulos**: 6 `closed`, 3 `contract`, 7 `documented`, 4 `blocked`, 2 `open` y 1 `partial`. Las reglas son explícitas: `closed` exige evidencia y pruebas existentes; `documented` significa solo contrato documental; `blocked` significa dependencia externa verificable. El validador rechaza un módulo `closed` sin pruebas.
+Inventario validado: **26 módulos** · **4 skills públicas** · **37 contratos internos** · **19 capacidades**; estados: closed=11, contract=2, documented=7, partial=1, blocked=4, open=1.
+
+[tamv-genesis/v3/closure.json](tamv-genesis/v3/closure.json) distingue alcance y límites por módulo: `closed` exige evidencia y archivos de pruebas existentes, no aceptación de producción; `documented` significa contrato documental; `blocked` significa dependencia externa verificable. `scripts/validate-capability-closure.mjs` rechaza módulos cerrados sin pruebas y discrepancias de esta línea de inventario con los manifiestos. Las cifras de pruebas ejecutadas se fechan por separado: contar archivos no acredita ejecución.
 
 ### Sello v3
 
@@ -94,7 +96,11 @@ La aplicación es un centro de control para proyectos de IA: permite registrarlo
 
 | Ruta             | Función                                                                       | Estado                                                            |
 | ---------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `/`              | Panel: monitor de integridad, revisión creativa, skills, modelos y gobernanza | Implementada; no validada en navegador durante esta actualización |
+| `/`              | Centro operativo con navegación agrupada, búsqueda y tema claro/oscuro | Implementado; no implica despliegue aceptado |
+| `/guide`         | Tutorial de seis pasos, progreso local, reanudación y reinicio | Recorrido local verificado en navegador |
+| `/studio`        | WAV procedural y planes deterministas, reproducción y descarga verificadas por digest | Cliente probado con transporte controlado; recorrido autenticado externo pendiente |
+| `/integrations`  | Diez plataformas, nueve receptores nativos y relay firmado | Transporte probado; cuentas externas no activadas; Longe.ai pendiente |
+| `/research`      | Veinte protocolos, expediente vacío y análisis descriptivo local | Interacción local verificada; no resultados experimentales |
 | `/projects`      | Proyectos gobernados: alta, configuración, aprobación y evaluación            | Implementada contra Supabase; requiere sesión                     |
 | `/audit`         | Auditoría privada por proyecto, exportable a JSON                             | Implementada contra Supabase; requiere sesión                     |
 | `/auth`          | Acceso: inicio de sesión, registro, recuperación y cambio de contraseña       | Implementada; recorrido con usuario real pendiente                |
@@ -117,10 +123,12 @@ La aplicación es un centro de control para proyectos de IA: permite registrarlo
 | `/api/governance/receipts`    | `GET`, `POST` | Recibos de gobernanza append-only              | Requiere Supabase y almacén aprovisionado             |
 | `/api/generation`             | `POST`        | `music.generation`                             | Sin ejecutor conectado (`403`/`501`)                  |
 | `/api/voice/generate`         | `POST`        | `voice.generation`                             | Sin ejecutor conectado (`403`/`501`)                  |
-| `/api/audiocore/advanced`     | `POST`        | `audiocore.advanced`                           | Sin ejecutor conectado (`403`/`501`)                  |
-| `/api/agent`                  | `POST`        | `agent.orchestration`                          | Sin ejecutor conectado (`403`/`501`)                  |
+| `/api/audiocore/advanced`     | `POST`        | WAV procedural y DSP local medido            | Ejecutor implementado; exige sesión, consentimiento, certificación y cuota |
+| `/api/agent`                  | `POST`        | Plan determinista de 1–8 pasos locales        | Ejecutor implementado; sin LLM ni efectos externos, con guardas y cuota |
+| `/api/studio/metrics`         | `GET`         | Prometheus compartido por audio/agente       | Token de operador y certificación; solo eventos del proceso |
+| `/api/webhooks/$provider`     | `GET`, `POST` | Challenges, firmas nativas y relay opt-in     | Requiere secretos externos y acuse exacto del relay; Longe.ai `501` |
 
-Además existen server functions autenticadas para la interfaz: `listProjects`, `changeProject`, `readProjectAudit`, `assessProject` y `reviewContent`. Las cuatro rutas sin ejecutor aplican la respuesta compartida de certificación y licencia: `403` si una guarda falla y `501` si ambas permiten continuar pero falta el ejecutor. La lista de features de la licencia actual solo contiene `creator.review`; firmar el paquete no habilita automáticamente las demás.
+Además existen server functions autenticadas para la interfaz: `listProjects`, `changeProject`, `readProjectAudit`, `assessProject` y `reviewContent`. Generación neuronal y voz conservan `403` ante guardas fallidas y `501` si no existe ejecutor. El manifiesto declara `creator.review`, `audiocore.advanced` y `agent.orchestration`; esa lista no sustituye sesión, consentimiento, cuota ni firma y digest de release aprobados externamente. El resolver de los 37 contratos agrega instrucciones de gobernanza a la revisión, no ejecuta servicios por declarar una dependencia.
 
 Los endpoints de estado, Genesis, auditoría, métricas, proyectos y recibos envían `Cache-Control: no-store`.
 
@@ -256,7 +264,13 @@ Existe un pipeline ejecutable y probado para validar, autorizar, encolar, genera
 - No inventa DSP: `truePeakDb`, `integratedLufs` y `chroma` permanecen `null` si el proveedor no los entrega.
 - Expone métricas Prometheus solo de eventos observados, sin gauges de loudness ficticios.
 
-El worker es in-process (`runOnce()`), no un daemon. No hay proveedor real, Redis, BullMQ, Postgres, bucket MinIO ni Docker Compose de audio conectados; los adaptadores por defecto viven en memoria y no son producción. El detalle está en [docs/AUDIO-PIPELINE.md](docs/AUDIO-PIPELINE.md) y la ruta de integración en [docs/AUDIO-ORCHESTRATION.md](docs/AUDIO-ORCHESTRATION.md).
+El worker es in-process (`runOnce()`), no un daemon. La ruta AudioCore conecta síntesis procedural determinista y DSP TypeScript: LUFS BS.1770-4, pico de muestra y chroma FFT. El nombre heredado `truePeakDb` no implica pico intersample con oversampling; silencio y ventanas insuficientes conservan `null`. No hay síntesis neuronal, voces, cola durable, Postgres ni bucket de audio conectados. Los adaptadores en memoria no son producción. Véanse [pipeline](docs/AUDIO-PIPELINE.md), [orquestación](docs/AUDIO-ORCHESTRATION.md) y [estudio y tutorial](docs/WORKSPACE-AND-STUDIO.md).
+
+### Investigación reproducible y conexiones sociales
+
+El laboratorio `/research` importa un corpus de ocho archivos (20 protocolos, 7 marcos, 22 registros de fuentes) y expone análisis agregado local y expedientes sin resultados. Un prototipo SQLite separado del servidor implementa permisos, reservas, consumo atómico, evidencia y reconciliación con créditos sintéticos. No es una API autenticada, contabilidad real ni validación científica. El contraste de la tesis adicional y los experimentos pendientes se documentan en [Investigación TAMV 5.0](docs/RESEARCH-PROTOCOL-5.md).
+
+El centro social implementa recepción verificada y relay firmado con acuse ligado al evento. No publica posts, no activa OAuth ni cuentas y no proporciona deduplicación durable local; esa responsabilidad exige un receptor externo. [Webhooks sociales](docs/SOCIAL-WEBHOOKS.md) documenta configuración, límites y pruebas negativas.
 
 ## Seguridad e integridad
 
@@ -340,6 +354,10 @@ Configura las integraciones mediante el gestor de secretos del entorno; no copie
 | `SUPABASE_SERVICE_ROLE_KEY`                          | solo servidor    | Operaciones administrativas            |
 | `LOVABLE_API_KEY`                                    | solo servidor    | Gateway de IA                          |
 | `TAMV_ATTRIBUTION_PUBLIC_KEY`                        | despliegue       | Verificación Ed25519 del release       |
+| `TAMV_RELEASE_MANIFEST_SHA256`                      | servidor/release | Digest exacto aprobado fuera del paquete; impide aceptar releases anteriores |
+| `VITE_TAMV_RELEASE_MANIFEST_SHA256`                 | build del cliente | Aprobación pública para verificación del cliente; no sustituye la del servidor |
+| `TAMV_CAPABILITY_QUOTA_KEY_SALT`                        | solo servidor    | Separación de identidades en cuotas de audio/agente |
+| `TAMV_REVIEW_QUOTA_KEY_SALT`                            | solo servidor    | Separación de identidades en cuotas de revisión |
 | `TAMV_CERTIFICATION_REQUIRED`                        | release          | Exige firma en builds certificados     |
 | `TAMV_METRICS_TOKEN`                                 | solo servidor    | Bearer de métricas (≥ 32 caracteres)   |
 | `TAMV_DEPLOYMENT_ENV`                                | despliegue       | Clasificación local/staging/producción |
@@ -379,41 +397,39 @@ El instalador respalda archivos preexistentes en `.tamv/backups/` y registra ope
 
 ## Verificación
 
-Comprobaciones ejecutadas en esta actualización, desde la raíz del repositorio:
+Comprobaciones locales del 2026-11-17 desde la raíz del repositorio. En Windows se invocaron directamente los binarios instalados con Node 24; el preflight de entorno se probó con Bun. Los comandos siguientes son sus equivalentes reproducibles:
 
-| Comando                                                                             | Resultado                                                                                                  |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `npm test`                                                                          | **26 archivos, 276 pruebas, 0 fallos** (~29 s)                                                             |
-| `npx tsc --noEmit`                                                                  | **0 errores** (los 12 errores previos quedaron corregidos)                                                 |
-| `npm run lint`                                                                      | **0 errores, 7 advertencias** `react-refresh/only-export-components`                                       |
-| `node scripts/tamv-certification.mjs --check`                                       | Hashes válidos; aviso de release sin firma                                                                 |
-| `node scripts/validate-skills-sh.mjs`                                               | **4 skills públicas, 37 contratos internos**                                                               |
-| `node scripts/validate-closure-inventory.mjs`                                       | **23 módulos, 4 skills, 37 contratos, 19 capacidades**                                                     |
-| `node scripts/validate-governance-receipts-sql.mjs`                                 | **20 checks estáticos PASS** (no es PostgreSQL vivo)                                                       |
-| `node scripts/validate-documentation-links.mjs`                                     | **11 documentos mantenidos, OK**                                                                           |
-| `node --experimental-strip-types --test tamv-genesis/tests/*.test.ts`               | **105/105 pruebas Genesis**                                                                                |
-| `node --experimental-strip-types tamv-genesis/scripts/v3-seal.mjs --verify`         | `TAMV_SEAL_KEY_MISSING` (exit 1 esperado sin clave)                                                        |
-| `node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --verify` | Cadena válida (2 entradas); checkpoint sin firmar                                                          |
-| `node --experimental-strip-types tamv-genesis/cli/sovereign.mjs audit`              | **20 chequeos K-01..K-20**; `K-02` falla por firma ausente (exit 1 esperado), advertencias `K-04` y `K-10` |
-| `npm run build`                                                                     | **PASS**: certificación `--check` + Vite client/SSR + Nitro (`cloudflare-module`)                          |
+| Comando | Resultado |
+| --- | --- |
+| `node node_modules/vitest/vitest.mjs run --maxWorkers=1` | **38 archivos, 460 pruebas, 0 fallos**; avisos de cierre de workers en Windows |
+| `npm run typecheck` | **0 errores**, sin relajar TypeScript |
+| `npm run lint` | **0 errores, 7 advertencias** `react-refresh/only-export-components` |
+| `node scripts/tamv-certification.mjs --check` | Hashes válidos; aviso de release sin firma |
+| `node scripts/validate-skills-sh.mjs` | Registro público y contratos internos consistentes |
+| `node scripts/validate-closure-inventory.mjs` | Inventario, referencias y cobertura consistentes |
+| `node scripts/validate-governance-receipts-sql.mjs` | **20 checks estáticos PASS**, no PostgreSQL vivo |
+| `node --experimental-strip-types --test tamv-genesis/tests/*.test.ts` | **125/125 pruebas Genesis** |
+| `node scripts/test-research-gateway.mjs` | **17/17 pruebas SQLite**, efectos sintéticos |
+| `bun scripts/test-production-env-check.mjs` | **8 escenarios**, incluida aprobación de digest ausente |
+| `node scripts/test-hypercore-ledger-postgres-guard.mjs` | **8 guardas**, sin abrir conexión a base de datos |
+| `python tamv-pack/scripts/validate-manifest.py` | **37 skills internas, 20 extensiones gobernadas** |
+| `python tamv-pack/scripts/validate-integrity.py` | **63 Git blobs** consistentes |
+| `python scripts/test-audit-migration-validator.py` | Regresiones del validador aprobadas; no migración ejecutada |
+| `python scripts/test-repo-hygiene.py` | Regresiones de higiene aprobadas |
+| `python scripts/validate-repo-hygiene.py` | Índice y versiones de trabajo examinados |
+| `npm run build` | Client/SSR/Nitro `cloudflare-module` construidos; no despliegue |
 
-Comprobaciones que **no** se ejecutaron en este entorno y no se declaran aprobadas: `tamv:check` completo (requiere Bash), `tamv-pack/scripts/validate-pack.sh`, `scripts/validate-repo-hygiene.py`, `scripts/validate-audit-migration.py`, `scripts/test-verify-slsa.sh`, ShellCheck, pruebas en navegador y recorrido con un usuario real. El CI del repositorio ejecuta pruebas, lint, validaciones estáticas, typecheck, `tamv:check` y build con Bun y Python 3; las atestaciones SLSA pertenecen al workflow de release firmado, que exige secretos.
+También se validan enlaces documentales con `node scripts/validate-documentation-links.mjs` y su suite, y el inventario del README con `node scripts/test-capability-closure.mjs`. Estos validadores no comprueban la veracidad de resultados científicos ni ejecutan la evidencia citada.
 
-`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. `tamv:verify` exige firma válida y clave pública configurada.
+En navegador local se comprobó tutorial completo/reanudación/reinicio, navegación por búsqueda, temas, búsqueda de protocolos y análisis válido/inválido. Las capturas visuales quedaron limitadas por el viewport de la herramienta; no se declara validación visual exhaustiva ni aceptación autenticada. No se probó con credenciales reales ni se activaron redes sociales.
 
-### Corrección de tipos de esta actualización
+No se ejecutaron aquí `tamv:check` completo, scripts Bash de instalación/SLSA ni ShellCheck por fallo del shell local. Las guardas de PostgreSQL no sustituyen ensayos de concurrencia, roles o recuperación sobre un servidor real. Los workflows de CI contienen validaciones adicionales; sus resultados deben comprobarse para el commit publicado, no heredarse de otro SHA.
 
-`npx tsc --noEmit` fallaba con 12 errores preexistentes. Se corrigieron sin relajar la configuración:
-
-- `sdk/index.d.mts` expone las declaraciones del SDK a las importaciones directas de `sdk/index.mjs` (tres errores `TS7016` y los parámetros implícitos derivados).
-- `src/lib/project-schema.ts` tipa `config` y `assessment` como valores JSON explícitos en lugar de `unknown`, lo que satisface la validación de serialización de TanStack Start sin cambiar el contrato de datos.
-- Los errores en cascada de `governance-projects.tsx` y `use-governed-projects.ts` desaparecieron al restaurar el tipo de retorno de `listProjects`.
-
-`npm run typecheck` ejecuta esta comprobación y el workflow de CI la aplica desde ahora.
+`tamv:check` puede terminar correctamente con la firma ausente: **no equivale a `tamv:verify`**. La verificación certificada exige clave pública externa, firma válida y coincidencia con el digest aprobado independientemente.
 
 ### Firma y recertificación
 
-La firma corresponde al responsable autorizado del release, con las claves suministradas de forma segura:
+La firma corresponde al responsable autorizado del release. Tras firmar, una revisión independiente debe aprobar el digest canónico exacto en `TAMV_RELEASE_MANIFEST_SHA256` antes de verificar/construir. No se copia automáticamente el digest candidato a la configuración confiable. El workflow de release requiere todavía integrar esta aprobación protegida; véase [RELEASE-SIGNING](docs/RELEASE-SIGNING.md).
 
 ```bash
 npm run tamv:hash
@@ -445,7 +461,7 @@ Los bloqueos P0–P6 y sus criterios de aceptación están en [docs/DEPLOYMENT-R
 - **Acceso de creadores (P2):** las rutas y flujos existen, pero falta verificar correo, confirmación y recuperación en el proyecto Supabase alojado, y completar un recorrido con usuario real.
 - **Inferencia (P3):** bloqueada por P1/P2; no hay prueba autenticada de extremo a extremo con el proveedor.
 - **Cuotas (P4):** solo son distribuidas si Redis está configurado; el fallback en memoria es exclusivamente local/test.
-- **Audio, voz, agentes y publicación (P5):** contratos sin ejecutores conectados.
+- **Audio, voz, agentes y publicación (P5):** audio procedural y agentes deterministas locales implementados; generación neuronal, voz, publicación social, cola y almacenamiento durables siguen pendientes.
 - **Auditoría y procedencia (P6):** ledger Hyper-Core y recibos requieren aprovisionamiento; SLSA del runtime sigue `not-integrated`; SBOM/atestaciones del release exacto pendientes.
 - Advertencias de build: `createServerFn().inputValidator()` deprecado, chunks > 500 kB y `vite-tsconfig-paths` sustituible por la opción nativa de Vite.
 - 7 advertencias de lint `react-refresh/only-export-components` en componentes `ui/`.
@@ -455,6 +471,10 @@ Ninguna de estas deudas se presenta como resuelta.
 ## Documentación
 
 - [Referencia operativa](docs/OPERATIONS.md) — revisión, cuotas, catálogo de 37 contratos, Genesis, endpoints, instalación y certificación.
+- [Espacio de trabajo, estudio y tutorial](docs/WORKSPACE-AND-STUDIO.md).
+- [Integraciones y webhooks sociales](docs/SOCIAL-WEBHOOKS.md).
+- [Investigación TAMV 5.0 y contraste de la tesis](docs/RESEARCH-PROTOCOL-5.md).
+- [Firma y aprobación externa del release](docs/RELEASE-SIGNING.md).
 - [Superficie API y contratos de error](docs/API-SURFACE-AND-ERROR-CONTRACTS.md).
 - [Sello, firma y cifrado híbrido v3](docs/SOVEREIGN-V3.md).
 - [Pipeline de audio](docs/AUDIO-PIPELINE.md) y [orquestación de audio](docs/AUDIO-ORCHESTRATION.md).

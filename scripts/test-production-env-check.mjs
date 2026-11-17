@@ -30,7 +30,9 @@ const configuredEnv = {
   UPSTASH_REDIS_REST_URL: "https://example.upstash.io",
   UPSTASH_REDIS_REST_TOKEN: "test-redis-token",
   TAMV_REVIEW_QUOTA_KEY_SALT: "b".repeat(40),
+  TAMV_CAPABILITY_QUOTA_KEY_SALT: "c".repeat(40),
   TAMV_ATTRIBUTION_PUBLIC_KEY: "-----BEGIN PUBLIC KEY-----\\nTEST\\n-----END PUBLIC KEY-----",
+  TAMV_RELEASE_MANIFEST_SHA256: "sha256:" + "a".repeat(64),
   TAMV_CERTIFICATION_REQUIRED: "true",
 };
 const valid = spawnSync(process.execPath, [checker, "--strict"], {
@@ -64,4 +66,16 @@ const unknownVercelTarget = spawnSync(process.execPath, [checker, "--strict"], {
 assert.notEqual(unknownVercelTarget.status, 0, "Vercel runtime with unknown target must not pass strict production preflight");
 assert.match(unknownVercelTarget.stdout, /MISSING_OR_INVALID TAMV_DEPLOYMENT_ENV/);
 
-console.log("Production environment preflight tests passed (6 scenarios).");
+const missingCapabilitySalt = spawnSync(process.execPath, [checker, "--strict"], {
+  cwd: root, encoding: "utf8", env: { ...configuredEnv, TAMV_CAPABILITY_QUOTA_KEY_SALT: "" },
+});
+assert.notEqual(missingCapabilitySalt.status, 0);
+assert.match(missingCapabilitySalt.stdout, /MISSING_OR_INVALID TAMV_CAPABILITY_QUOTA_KEY_SALT/);
+
+const missingApprovedRelease = spawnSync(process.execPath, [checker, "--strict"], {
+  cwd: root, encoding: "utf8", env: { ...configuredEnv, TAMV_RELEASE_MANIFEST_SHA256: "" },
+});
+assert.notEqual(missingApprovedRelease.status, 0);
+assert.match(missingApprovedRelease.stdout, /MISSING_OR_INVALID TAMV_RELEASE_MANIFEST_SHA256/);
+
+console.log("Production environment preflight tests passed (8 scenarios).");

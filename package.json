@@ -13,6 +13,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:ledger-guard": "node scripts/test-hypercore-ledger-postgres-guard.mjs",
+    "test:research": "node scripts/test-research-gateway.mjs",
+    "research:import": "python scripts/import-research-corpus.py",
     "docs:check": "node scripts/validate-documentation-links.mjs",
     "docs:check:test": "node scripts/test-documentation-links.mjs",
     "test:watch": "vitest",
