@@ -52,7 +52,7 @@ BEGIN
     'details', NEW.details,
     'previous_hash', NEW.previous_hash
   );
-  NEW.event_hash := encode(digest(convert_to(payload::text, 'UTF8'), 'sha256'), 'hex');
+  NEW.event_hash := encode(extensions.digest(convert_to(payload::text, 'UTF8'), 'sha256'), 'hex');
   RETURN NEW;
 END;
 $$;
