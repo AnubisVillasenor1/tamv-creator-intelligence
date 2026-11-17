@@ -23,7 +23,7 @@ falsa.
 | Pruebas | `tamv-genesis/tests/audio-gateway.test.ts` | 11 pruebas locales. |
 | Pruebas del pipeline | `tamv-genesis/tests/audio-pipeline.test.ts` | 12 pruebas locales. |
 | Pruebas DSP/síntesis | `tamv-genesis/tests/audio-local-dsp.test.ts` | 10 pruebas: determinismo, vectores de loudness (−6.0206 dBFS, ±3.0103 LU), chroma por clase de altura, silencio → `null`, pipeline extremo a extremo. |
-| Pruebas de la ruta | `src/test/audiocore-advanced.test.ts` | 10 pruebas: certificación, auth, límites de cuerpo/duración, campos desconocidos, consentimiento, FLAC 501, WAV determinista byte a byte. |
+| Pruebas de la ruta | `src/test/audiocore-advanced.test.ts` | 15 pruebas: certificación, auth, límites de cuerpo/duración, campos desconocidos, consentimiento, FLAC 501, WAV determinista byte a byte y cuotas distribuidas (429 con `Retry-After`, tope diario, fail-closed 503, etiqueta `local-development`, decisión malformada). |
 | Registro de cierre | `tamv-genesis/v3/closure.json` | Módulos `audio.gateway.contract` y `audio.pipeline.contract` = `contract`. |
 
 La referencia completa del pipeline está en
@@ -146,19 +146,25 @@ Orden de compuertas, todas fail-closed:
 3. Cuerpo acotado a 16 KiB (413/400).
 4. Autenticación Supabase (401); el actor se deriva con salt
    `TAMV_GOVERNANCE_ACTOR_SALT` y nunca se expone el identificador crudo.
-5. `validateAudioRequest` del contrato génesis: campos desconocidos → 400.
-6. Límite de la ruta: `durationSeconds ≤ 30` (400 `TAMV_AUDIOCORE_DURATION_LIMIT`);
+5. Cuota distribuida por actor (`checkCapabilityQuota`, token bucket de día
+   fijo en Upstash Redis REST): 429 con `Retry-After` al agotar el bucket o el
+   tope diario; 503 fail-closed si no hay backend configurado fuera de
+   desarrollo local. El cupo de concurrencia por proceso devuelve 503
+   `TAMV_AUDIOCORE_BUSY` cuando se satura.
+6. `validateAudioRequest` del contrato génesis: campos desconocidos → 400.
+7. Límite de la ruta: `durationSeconds ≤ 30` (400 `TAMV_AUDIOCORE_DURATION_LIMIT`);
    `format: "flac"` → 501 (el sintetizador local solo produce WAV).
-7. Consentimiento + recertificación dentro del pipeline; sin consentimiento no
+8. Consentimiento + recertificación dentro del pipeline; sin consentimiento no
    se encola nada (403).
-8. Worker in-process (`runUntilIdle`), artefacto en almacenamiento de memoria,
+9. Worker in-process (`runUntilIdle`), artefacto en almacenamiento de memoria,
    análisis DSP local sobre el WAV generado.
 
 Respuesta 200 (`tamv.audiocore.advanced.response.v1`): `submission`, `job`
 (estado, intentos, artefacto con SHA-256, análisis), `audio` (WAV en base64),
 `disclosure` (provider, `neuralModel: false`, `voice: false`, método DSP,
-`actorRef`) y `limits`. Dos peticiones idénticas producen bytes y SHA-256
-idénticos: la síntesis es determinista por diseño.
+`actorRef`, `quota.source` y `quota.remainingToday`) y `limits`. Dos peticiones
+idénticas producen bytes y SHA-256 idénticos: la síntesis es determinista por
+diseño.
 
 `license.features` en `tamv-attribution.json` incluye ahora
 `audiocore.advanced`; la ruta permanece fail-closed hasta que el propietario

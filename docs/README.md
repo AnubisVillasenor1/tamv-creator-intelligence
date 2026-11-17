@@ -18,6 +18,7 @@
 - [Matriz de implementación](IMPLEMENTATION-MATRIX.md): distingue código, contratos, documentación y dependencias bloqueadas.
 - [Catálogo del corpus](CORPUS-CATALOG.md): inventario y organización del paquete.
 - [Pipeline de audio](AUDIO-PIPELINE.md) y [orquestación de audio](AUDIO-ORCHESTRATION.md).
+- [Orquestación local de agentes](AGENT-ORCHESTRATION.md): planes deterministas sin LLM, herramientas locales y efectos externos denegados por defecto.
 - [Recibos de gobernanza](GOVERNANCE-RECEIPTS-OPERATIONS.md): API de intención y condiciones de provisionamiento.
 - [Sello, firma y cifrado v3](SOVEREIGN-V3.md).
 - [Estado de cierre de módulos](../tamv-genesis/v3/closure.json).

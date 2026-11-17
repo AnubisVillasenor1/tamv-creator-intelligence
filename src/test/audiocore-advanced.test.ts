@@ -1,20 +1,35 @@
 import { webcrypto } from "node:crypto";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import {
   AUDIOCORE_MAX_DURATION_SECONDS,
   AUDIOCORE_RESPONSE_SCHEMA,
   handleAudioCoreAdvanced,
   type AudioCoreDeps,
 } from "@/lib/audiocore-advanced.server";
+import type { CapabilityQuotaConfig } from "@/lib/capability-quota.server";
 import { LOCAL_SYNTH_PROVIDER } from "../../tamv-genesis/src/audio/index.ts";
 
 beforeAll(() => {
   Object.defineProperty(globalThis, "crypto", { value: webcrypto, configurable: true });
 });
 
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
+
+function quotaConfig(result: unknown[]): Partial<CapabilityQuotaConfig> {
+  return {
+    redisRestUrl: "https://quota.example.invalid",
+    redisRestToken: "test-only-quota-token",
+    keySalt: "test-only-salt-of-at-least-32-characters",
+    fetcher: async () => Response.json({ result }),
+  };
+}
+
 const allowDeps: AudioCoreDeps = {
   certify: async () => null,
   authenticate: async () => ({ actorRef: "actor-test" }),
+  quotaConfig: quotaConfig([1, "ok", 0, 29]),
 };
 
 function validBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
@@ -116,6 +131,7 @@ describe("audiocore advanced route contract", () => {
     expect(payload.disclosure.neuralModel).toBe(false);
     expect(payload.disclosure.voice).toBe(false);
     expect(payload.disclosure.actorRef).toBe("actor-test");
+    expect(payload.disclosure.quota.source).toBe("redis");
 
     const bytes = Buffer.from(payload.audio.data, "base64");
     expect(bytes.subarray(0, 4).toString("ascii")).toBe("RIFF");
@@ -129,5 +145,57 @@ describe("audiocore advanced route contract", () => {
     const second = await (await post(validBody())).json();
     expect(first.audio.data).toBe(second.audio.data);
     expect(first.job.artifact.sha256).toBe(second.job.artifact.sha256);
+  });
+
+  it("returns 429 with Retry-After when the distributed quota rate-limits", async () => {
+    const response = await post(validBody(), {
+      ...allowDeps,
+      quotaConfig: quotaConfig([0, "rate-limited", 600, 10]),
+    });
+    expect(response.status).toBe(429);
+    expect(response.headers.get("Retry-After")).toBe("600");
+    const payload = await response.json();
+    expect(payload.code).toBe("TAMV_CAPABILITY_QUOTA_DENIED");
+    expect(payload.reason).toBe("rate-limited");
+    expect(payload.quotaSource).toBe("redis");
+  });
+
+  it("returns 429 on the daily cap", async () => {
+    const response = await post(validBody(), {
+      ...allowDeps,
+      quotaConfig: quotaConfig([0, "daily-cap", 3600, 0]),
+    });
+    expect(response.status).toBe(429);
+    expect((await response.json()).reason).toBe("daily-cap");
+  });
+
+  it("fails closed with 503 when no quota backend is configured outside local dev", async () => {
+    const response = await post(validBody(), {
+      certify: async () => null,
+      authenticate: async () => ({ actorRef: "actor-test" }),
+    });
+    expect(response.status).toBe(503);
+    const payload = await response.json();
+    expect(payload.quotaSource).toBe("fail-closed");
+  });
+
+  it("labels the process-local quota as local-development, never distributed", async () => {
+    vi.stubEnv("TAMV_DEPLOYMENT_ENV", "test");
+    const response = await post(validBody(), {
+      certify: async () => null,
+      authenticate: async () => ({ actorRef: "actor-local-quota" }),
+    });
+    expect(response.status).toBe(200);
+    const payload = await response.json();
+    expect(payload.disclosure.quota.source).toBe("local-development");
+  });
+
+  it("denies when the quota backend returns a malformed decision", async () => {
+    const response = await post(validBody(), {
+      ...allowDeps,
+      quotaConfig: quotaConfig(["yes", "ok", 0, 29]),
+    });
+    expect(response.status).toBe(503);
+    expect((await response.json()).quotaSource).toBe("fail-closed");
   });
 });

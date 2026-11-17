@@ -185,6 +185,43 @@
       "note": "LUFS BS.1770-4, true peak de muestra (sin oversampling intersample) y chroma FFT probados con vectores conocidos; silencio o ventanas cortas producen null, nunca estimaciones. La síntesis es procedural determinista, no neuronal y sin voces; FLAC falla cerrado. La ruta permanece 403 hasta firma oficial del release."
     },
     {
+      "id": "agent.orchestration.local",
+      "title": "Orquestación local determinista de planes de agente",
+      "status": "closed",
+      "publicSkills": ["tamv-sovereign-platform"],
+      "capabilities": [],
+      "evidence": [
+        "tamv-genesis/src/agent/contracts.ts",
+        "tamv-genesis/src/agent/engine.ts",
+        "src/lib/agent-orchestration.server.ts",
+        "src/routes/api.agent.ts",
+        "docs/AGENT-ORCHESTRATION.md"
+      ],
+      "tests": [
+        "tamv-genesis/tests/agent-orchestration.test.ts",
+        "src/test/agent-orchestration.test.ts"
+      ],
+      "note": "Planes acotados de 1..8 pasos con herramientas locales (digest.sha256, audio.render), consentimiento obligatorio, efectos externos denegados por defecto, cancelación y auditoría por paso. No hay LLM ni efectos externos; agent.orchestration no es capacidad declarada del pack sellado, por eso capabilities queda vacío. La ruta permanece 403 hasta firma oficial del release."
+    },
+    {
+      "id": "platform.capability-quota",
+      "title": "Cuotas distribuidas por actor y cupo de concurrencia local",
+      "status": "closed",
+      "publicSkills": ["tamv-sovereign-platform"],
+      "capabilities": ["platform.governance"],
+      "evidence": [
+        "src/lib/capability-quota.server.ts",
+        "src/lib/distributed-review-quota.server.ts",
+        "docs/AUDIO-ORCHESTRATION.md"
+      ],
+      "tests": [
+        "src/lib/distributed-review-quota.server.test.ts",
+        "src/test/audiocore-advanced.test.ts",
+        "src/test/agent-orchestration.test.ts"
+      ],
+      "note": "Token bucket de día fijo vía Upstash Redis REST con decisión fail-closed fuera de desarrollo local; 429 con Retry-After y 503 sin backend configurado. El cupo de concurrencia es por proceso y se etiqueta como tal; no se declara cuota distribuida sin Redis."
+    },
+    {
       "id": "audio.metrics.prometheus",
       "title": "Exposición Prometheus sin dependencias",
       "status": "contract",

@@ -17,6 +17,13 @@ import {
   readBoundedResponseText,
 } from "./hypercore-turbo/governance-request-guards";
 import { requireTamvCertification } from "./tamv-certification";
+import {
+  acquireCapabilitySlot,
+  capabilityQuotaResponse,
+  checkCapabilityQuota,
+  releaseCapabilitySlot,
+  type CapabilityQuotaConfig,
+} from "./capability-quota.server";
 
 export const AUDIOCORE_RESPONSE_SCHEMA = "tamv.audiocore.advanced.response.v1";
 export const AUDIOCORE_MAX_BODY_BYTES = 16 * 1024;
@@ -26,6 +33,7 @@ export const AUDIOCORE_FEATURE = "audiocore.advanced";
 export type AudioCoreDeps = {
   certify: (feature: string) => Promise<Response | null>;
   authenticate: (request: Request) => Promise<{ actorRef: string } | Response>;
+  quotaConfig?: Partial<CapabilityQuotaConfig>;
 };
 
 function noStoreHeaders(): HeadersInit {
@@ -42,7 +50,7 @@ function jsonError(message: string, status: number, code?: string): Response {
   );
 }
 
-async function supabaseAuthenticate(request: Request): Promise<{ actorRef: string } | Response> {
+export async function supabaseAuthenticate(request: Request): Promise<{ actorRef: string } | Response> {
   const authorization = request.headers.get("authorization");
   const token = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
   const url = process.env["SUPABASE_URL"];
@@ -151,6 +159,9 @@ export async function handleAudioCoreAdvanced(
   const identity = await authenticate(request);
   if (identity instanceof Response) return identity;
 
+  const quota = await checkCapabilityQuota(AUDIOCORE_FEATURE, identity.actorRef, deps.quotaConfig ?? {});
+  if (!quota.allowed) return capabilityQuotaResponse(quota);
+
   let audioRequest: AudioRequest;
   try {
     audioRequest = validateAudioRequest(raw);
@@ -173,6 +184,9 @@ export async function handleAudioCoreAdvanced(
     );
   }
 
+  if (!acquireCapabilitySlot(AUDIOCORE_FEATURE)) {
+    return jsonError("Too many concurrent renders in this instance", 503, "TAMV_AUDIOCORE_BUSY");
+  }
   try {
     const pipeline = createAudioPipeline({
       certification: {
@@ -241,6 +255,7 @@ export async function handleAudioCoreAdvanced(
           voice: false,
           dsp: "ITU-R BS.1770-4 (ponderacion K), pico de muestra PCM16, chroma FFT 8192",
           actorRef: identity.actorRef,
+          quota: { source: quota.source, remainingToday: quota.remainingToday },
         },
         limits: {
           maxDurationSeconds: AUDIOCORE_MAX_DURATION_SECONDS,
@@ -252,5 +267,7 @@ export async function handleAudioCoreAdvanced(
     );
   } catch (error) {
     return mapAudioError(error);
+  } finally {
+    releaseCapabilitySlot(AUDIOCORE_FEATURE);
   }
 }

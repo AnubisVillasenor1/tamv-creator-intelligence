@@ -103,8 +103,15 @@ Todos llaman a `unavailableTamvCapabilityResponse`; una firma válida no impleme
 > en proceso (síntesis procedural determinista local + DSP medido BS.1770-4) con
 > contrato validado, límites y pruebas; sigue fail-closed (403) hasta la firma
 > oficial del release y no es generación neuronal. Ver
-> [`AUDIO-ORCHESTRATION.md`](AUDIO-ORCHESTRATION.md) §6. Las demás rutas de la
-> tabla permanecen como stubs 501.
+> [`AUDIO-ORCHESTRATION.md`](AUDIO-ORCHESTRATION.md) §6.
+>
+> **Actualización 2026-11-17:** `agent.orchestration` ejecuta planes locales
+> deterministas sin LLM (`digest.sha256`, `audio.render`) con consentimiento,
+> cancelación, auditoría por paso y efectos externos denegados por defecto; ver
+> [`AGENT-ORCHESTRATION.md`](AGENT-ORCHESTRATION.md). Ambas rutas aplican además
+> cuota distribuida por actor (Upstash Redis REST, fail-closed sin backend fuera
+> de desarrollo local). Siguen 403 hasta la firma oficial del release.
+> `/api/generation` y `/api/voice/generate` permanecen como stubs 501.
 
 Para cada integración nueva: validar entrada, exigir sesión si procesa datos o genera costes, comprobar licencia/consentimiento, usar SDK con modelo y superficie compatibles y probar salida real. APIs externas y webhooks nuevos deben vivir bajo `/api/public/` con verificación del llamante dentro del handler; esa ruta no queda protegida por el acceso del sitio. Las funciones internas usan `createServerFn`. Verificar los contratos con el SDK instalado antes de escribir llamadas.
 

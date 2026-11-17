@@ -49,7 +49,7 @@
       "src/routes/api.generation.ts": "sha256:9912afaf6aac51ab5f05c2829fc7a3173d2b8cfe60f2b167510abb6b053c7b31",
       "src/routes/api.voice.generate.ts": "sha256:27d9da9818a067fd3f3b4dd7ced5ee0c5deb3c59dff856883144249953d9642a",
       "src/routes/api.audiocore.advanced.ts": "sha256:3e4489d9995e15ba80876bed5570a42414120f318efcbf393817697259740988",
-      "src/routes/api.agent.ts": "sha256:d940eddd9fecf6478baa1a4247bd6c3c894bdfbb35abfd2d633b0faa9e23b1ee",
+      "src/routes/api.agent.ts": "sha256:2816e884267c708c8237879a8a963ede0f48ab260598f64c658d1f4711889bfd",
       "scripts/tamv-certification.mjs": "sha256:51c28914ab1a64e9dc9e4635295f4c58395e2fa67a5e7a31a7fc25369c9df437",
       "tamv-pack/core/tamv-sovereign-core.ts": "sha256:34854868cf4be2285f28d252108fb67976114010ed73c8630093c455d72215e4",
       "src/lib/hypercore-turbo/policy.ts": "sha256:f5110d4e3a1989777fe02cee1aaf1963164d0db9d2486207cc1bbb81cf003a9b",
@@ -73,7 +73,8 @@
     "commercial": "TAMV-Commercial-1.0",
     "features": [
       "creator.review",
-      "audiocore.advanced"
+      "audiocore.advanced",
+      "agent.orchestration"
     ]
   }
 }

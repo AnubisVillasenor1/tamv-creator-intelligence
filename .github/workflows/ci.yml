@@ -30,11 +30,20 @@ jobs:
         with:
           bun-version: 1.3.5
 
+      - name: Install Node for Genesis contract tests
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
       - name: Install locked dependencies
         run: bun install --frozen-lockfile
 
       - name: Run unit and regression tests
         run: bun run test
+
+      - name: Run Genesis contract and engine tests
+        working-directory: tamv-genesis
+        run: node --experimental-strip-types --test tests/*.test.ts
 
       - name: Verify PostgreSQL ledger probe safety guards
         run: bun run test:ledger-guard
@@ -47,6 +56,18 @@ jobs:
 
       - name: Validate governance receipt SQL invariants
         run: node scripts/validate-governance-receipts-sql.mjs
+
+      - name: Validate pack manifest contracts
+        run: python3 tamv-pack/scripts/validate-manifest.py
+
+      - name: Verify pack Git-blob integrity inventory
+        run: python3 tamv-pack/scripts/validate-integrity.py
+
+      - name: Validate capability closure states and evidence
+        run: node scripts/validate-capability-closure.mjs
+
+      - name: Test capability closure validator
+        run: bun run ops:closure:test
 
       - name: Validate capability closure inventory
         run: node scripts/validate-closure-inventory.mjs
@@ -71,6 +92,9 @@ jobs:
 
       - name: Validate TAMV pack and skill contracts
         run: bun run tamv:check
+
+      - name: Validate repository hygiene
+        run: python3 scripts/validate-repo-hygiene.py
 
       - name: Build production application
         run: bun run build

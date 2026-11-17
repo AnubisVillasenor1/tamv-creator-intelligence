@@ -151,7 +151,7 @@ function isConfigured(config: DistributedReviewQuotaConfig): boolean {
  * absence of Vercel deployment markers. NODE_ENV by itself is not sufficient
  * to authorize an in-memory quota.
  */
-function permitsLocalQuotaFallback(
+export function permitsLocalQuotaFallback(
   env: Record<string, string | undefined> | undefined,
 ): boolean {
   if (!env) return false;
