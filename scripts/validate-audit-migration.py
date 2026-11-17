@@ -268,7 +268,7 @@ def main() -> None:
     )
     if not migration_files:
         fail("no SQL migrations found")
-    sql = "\\n".join(path.read_text(encoding="utf-8") for path in migration_files)
+    sql = "\n".join(path.read_text(encoding="utf-8") for path in migration_files)
     schema = SCHEMA.read_text(encoding="utf-8")
     for label, pattern in REQUIRED_SQL.items():
         if not re.search(pattern, sql, re.IGNORECASE):
