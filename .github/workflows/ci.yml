@@ -38,9 +38,11 @@ jobs:
       - name: Validate Security and Trust governance pack
         run: |
           set -euo pipefail
-          python3 -m py_compile security-trust/governance-pack-v2/mcp_server/fixtures.py security-trust/governance-pack-v2/mcp_server/tamv_audit_mcp.py security-trust/governance-pack-v2/scripts/validate_pack.py security-trust/governance-pack-v2/scripts/generate_manifest.py
+          python3 -m pip install --disable-pip-version-check -r security-trust/governance-pack-v2/requirements-validation.txt
+          python3 -m py_compile security-trust/governance-pack-v2/mcp_server/fixtures.py security-trust/governance-pack-v2/mcp_server/tamv_audit_mcp.py security-trust/governance-pack-v2/scripts/validate_pack.py security-trust/governance-pack-v2/scripts/validate_handoff.py security-trust/governance-pack-v2/scripts/generate_manifest.py
           python3 -m unittest discover -s security-trust/governance-pack-v2/tests -v
           python3 security-trust/governance-pack-v2/scripts/validate_pack.py
+          python3 security-trust/governance-pack-v2/scripts/validate_handoff.py
           python3 security-trust/governance-pack-v2/scripts/generate_manifest.py
           python3 - <<'PY'
           import hashlib, json
