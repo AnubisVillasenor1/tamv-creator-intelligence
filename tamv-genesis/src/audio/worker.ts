@@ -72,14 +72,14 @@ function normalizeArtifact(raw: unknown, request: AudioRequest): AudioGeneratedA
   if (!isRecord(raw)) {
     throw new AudioPipelineError("invalid-output", "provider returned no artifact object.", false);
   }
-  const bytes = raw.bytes;
+  const bytes = raw["bytes"];
   if (!(bytes instanceof Uint8Array) || bytes.byteLength === 0) {
     throw new AudioPipelineError("invalid-output", "provider artifact has no audio bytes.", false);
   }
   if (bytes.byteLength > MAX_ARTIFACT_BYTES) {
     throw new AudioPipelineError("invalid-output", "provider artifact exceeds the byte budget.", false);
   }
-  const contentType = raw.contentType;
+  const contentType = raw["contentType"];
   if (contentType !== expectedContentType(request)) {
     throw new AudioPipelineError(
       "invalid-output",
@@ -87,33 +87,33 @@ function normalizeArtifact(raw: unknown, request: AudioRequest): AudioGeneratedA
       false,
     );
   }
-  if (!Number.isInteger(raw.sampleRate) || raw.sampleRate !== request.sampleRate) {
+  if (!Number.isInteger(raw["sampleRate"]) || raw["sampleRate"] !== request.sampleRate) {
     throw new AudioPipelineError("invalid-output", "provider sample rate does not match the request.", false);
   }
   if (
-    typeof raw.durationSeconds !== "number" ||
-    !Number.isFinite(raw.durationSeconds) ||
-    raw.durationSeconds <= 0 ||
-    raw.durationSeconds > request.durationSeconds + 10
+    typeof raw["durationSeconds"] !== "number" ||
+    !Number.isFinite(raw["durationSeconds"]) ||
+    raw["durationSeconds"] <= 0 ||
+    raw["durationSeconds"] > request.durationSeconds + 10
   ) {
     throw new AudioPipelineError("invalid-output", "provider duration is outside the accepted window.", false);
   }
-  if (typeof raw.provider !== "string" || raw.provider.trim().length === 0 || raw.provider.length > 200) {
+  if (typeof raw["provider"] !== "string" || raw["provider"].trim().length === 0 || raw["provider"].length > 200) {
     throw new AudioPipelineError("invalid-output", "provider name is missing.", false);
   }
   if (
-    raw.model !== undefined &&
-    (typeof raw.model !== "string" || raw.model.trim().length === 0 || raw.model.length > 200)
+    raw["model"] !== undefined &&
+    (typeof raw["model"] !== "string" || raw["model"].trim().length === 0 || raw["model"].length > 200)
   ) {
     throw new AudioPipelineError("invalid-output", "provider model is invalid.", false);
   }
   return {
     bytes,
-    contentType,
-    sampleRate: raw.sampleRate,
-    durationSeconds: raw.durationSeconds,
-    provider: raw.provider,
-    ...(raw.model === undefined ? {} : { model: raw.model }),
+    contentType: contentType as "audio/wav" | "audio/flac",
+    sampleRate: raw["sampleRate"] as number,
+    durationSeconds: raw["durationSeconds"],
+    provider: raw["provider"],
+    ...(raw["model"] === undefined ? {} : { model: raw["model"] }),
   };
 }
 

@@ -100,7 +100,8 @@ export class MemoryAudioQueue implements AudioWorkQueue {
     const now = this.#clock.nowMs();
     const index = this.#entries.findIndex((entry) => entry.availableAt <= now);
     if (index === -1) return null;
-    const [entry] = this.#entries.splice(index, 1);
+    const entry = this.#entries.splice(index, 1)[0];
+    if (!entry) return null;
     return entry.job;
   }
 
@@ -230,7 +231,7 @@ export class MemoryAudioIdempotency {
  */
 export class MetricsAuditSink implements AudioAuditSink {
   readonly #metrics: AudioMetrics;
-  readonly #inner?: AudioAuditSink;
+  readonly #inner: AudioAuditSink | undefined;
 
   constructor(metrics: AudioMetrics, inner?: AudioAuditSink) {
     this.#metrics = metrics;

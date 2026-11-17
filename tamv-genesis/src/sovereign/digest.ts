@@ -49,7 +49,7 @@ export function base64UrlToBytes(value: string): Uint8Array {
 
 export async function sha256Hex(input: string | Uint8Array, provider?: Crypto): Promise<Sha256Digest> {
   const bytes = typeof input === "string" ? encoder.encode(input) : input;
-  const digest = await subtle(provider).digest("SHA-256", bytes);
+  const digest = await subtle(provider).digest("SHA-256", new Uint8Array(bytes));
   return `sha256:${bytesToHex(new Uint8Array(digest))}`;
 }
 

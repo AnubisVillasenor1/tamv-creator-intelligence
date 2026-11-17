@@ -62,7 +62,7 @@ function escapeLabelValue(value: string): string {
 function formatLabels(labels: AudioMetricLabels): string {
   const entries = Object.keys(labels)
     .sort()
-    .map((key) => `${key}="${escapeLabelValue(labels[key])}"`);
+    .map((key) => `${key}="${escapeLabelValue(labels[key] ?? "")}"`);
   return entries.length === 0 ? "" : `{${entries.join(",")}}`;
 }
 

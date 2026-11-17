@@ -124,56 +124,56 @@ export function validateAudioRequest(value: unknown): AudioRequest {
     ["schema", "requestId", "mode", "prompt", "durationSeconds", "sampleRate", "format", "rights", "consent", "metadata"],
     "audio request",
   );
-  if (value.schema !== AUDIO_REQUEST_SCHEMA) {
+  if (value["schema"] !== AUDIO_REQUEST_SCHEMA) {
     throw new TamvAudioError("TAMV_AUDIO_INVALID", `schema must be ${AUDIO_REQUEST_SCHEMA}.`);
   }
-  if (!AUDIO_MODES.includes(value.mode as AudioMode)) {
+  if (!AUDIO_MODES.includes(value["mode"] as AudioMode)) {
     throw new TamvAudioError("TAMV_AUDIO_INVALID", `mode must be one of ${AUDIO_MODES.join(", ")}.`);
   }
-  if (!AUDIO_FORMATS.includes(value.format as AudioFormat)) {
+  if (!AUDIO_FORMATS.includes(value["format"] as AudioFormat)) {
     throw new TamvAudioError("TAMV_AUDIO_INVALID", `format must be one of ${AUDIO_FORMATS.join(", ")}.`);
   }
-  if (!AUDIO_SAMPLE_RATES.includes(value.sampleRate as AudioSampleRate)) {
+  if (!AUDIO_SAMPLE_RATES.includes(value["sampleRate"] as AudioSampleRate)) {
     throw new TamvAudioError("TAMV_AUDIO_INVALID", `sampleRate must be one of ${AUDIO_SAMPLE_RATES.join(", ")}.`);
   }
 
-  if (!isRecord(value.rights)) {
+  if (!isRecord(value["rights"])) {
     throw new TamvAudioError("TAMV_AUDIO_RIGHTS_REQUIRED", "rights is mandatory.");
   }
-  assertKeys(value.rights, ["license", "attestationId", "source"], "rights");
-  if (!AUDIO_LICENSES.includes(value.rights.license as AudioLicense)) {
+  assertKeys(value["rights"], ["license", "attestationId", "source"], "rights");
+  if (!AUDIO_LICENSES.includes(value["rights"]["license"] as AudioLicense)) {
     throw new TamvAudioError("TAMV_AUDIO_RIGHTS_REQUIRED", `rights.license must be one of ${AUDIO_LICENSES.join(", ")}.`);
   }
   const rights = {
-    license: value.rights.license as AudioLicense,
-    attestationId: assertString(value.rights.attestationId, "rights.attestationId", 3, 200),
-    ...(value.rights.source === undefined
+    license: value["rights"]["license"] as AudioLicense,
+    attestationId: assertString(value["rights"]["attestationId"], "rights.attestationId", 3, 200),
+    ...(value["rights"]["source"] === undefined
       ? {}
-      : { source: assertString(value.rights.source, "rights.source", 1, 500) }),
+      : { source: assertString(value["rights"]["source"], "rights.source", 1, 500) }),
   };
 
-  if (!isRecord(value.consent)) {
+  if (!isRecord(value["consent"])) {
     throw new TamvAudioError("TAMV_AUDIO_CONSENT_REQUIRED", "consent is mandatory.");
   }
-  assertKeys(value.consent, ["granted", "subject", "scope"], "consent");
-  if (typeof value.consent.granted !== "boolean") {
+  assertKeys(value["consent"], ["granted", "subject", "scope"], "consent");
+  if (typeof value["consent"]["granted"] !== "boolean") {
     throw new TamvAudioError("TAMV_AUDIO_INVALID", "consent.granted must be a boolean.");
   }
   const consent = {
-    granted: value.consent.granted,
-    subject: assertString(value.consent.subject, "consent.subject", 1, 200),
-    scope: assertString(value.consent.scope, "consent.scope", 1, 200),
+    granted: value["consent"]["granted"],
+    subject: assertString(value["consent"]["subject"], "consent.subject", 1, 200),
+    scope: assertString(value["consent"]["scope"], "consent.scope", 1, 200),
   };
 
-  if (!isRecord(value.metadata)) {
+  if (!isRecord(value["metadata"])) {
     throw new TamvAudioError("TAMV_AUDIO_INVALID", "metadata is mandatory.");
   }
-  assertKeys(value.metadata, ["title", "language"], "metadata");
+  assertKeys(value["metadata"], ["title", "language"], "metadata");
   const metadata = {
-    title: assertString(value.metadata.title, "metadata.title", 1, 200),
-    ...(value.metadata.language === undefined
+    title: assertString(value["metadata"]["title"], "metadata.title", 1, 200),
+    ...(value["metadata"]["language"] === undefined
       ? {}
-      : { language: assertString(value.metadata.language, "metadata.language", 2, 35) }),
+      : { language: assertString(value["metadata"]["language"], "metadata.language", 2, 35) }),
   };
   if (metadata.language && !/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(metadata.language)) {
     throw new TamvAudioError("TAMV_AUDIO_INVALID", "metadata.language must look like a BCP-47 tag.");
@@ -181,14 +181,14 @@ export function validateAudioRequest(value: unknown): AudioRequest {
 
   return {
     schema: AUDIO_REQUEST_SCHEMA,
-    ...(value.requestId === undefined
+    ...(value["requestId"] === undefined
       ? {}
-      : { requestId: assertString(value.requestId, "requestId", 3, 120) }),
-    mode: value.mode as AudioMode,
-    prompt: assertString(value.prompt, "prompt", 1, 4000),
-    durationSeconds: assertInteger(value.durationSeconds, "durationSeconds", 5, 600),
-    sampleRate: value.sampleRate as AudioSampleRate,
-    format: value.format as AudioFormat,
+      : { requestId: assertString(value["requestId"], "requestId", 3, 120) }),
+    mode: value["mode"] as AudioMode,
+    prompt: assertString(value["prompt"], "prompt", 1, 4000),
+    durationSeconds: assertInteger(value["durationSeconds"], "durationSeconds", 5, 600),
+    sampleRate: value["sampleRate"] as AudioSampleRate,
+    format: value["format"] as AudioFormat,
     rights,
     consent,
     metadata,
@@ -222,22 +222,22 @@ export function normalizeAudioAnalysis(input: AudioAnalysisInput | null | undefi
     throw new TamvAudioError("TAMV_AUDIO_ANALYSIS_INVALID", "An analysis report must be an object.");
   }
   assertKeys(input, ["truePeakDb", "integratedLufs", "chroma", "notes"], "analysis");
-  const truePeakDb = finiteOrNull(input.truePeakDb, "truePeakDb");
-  const integratedLufs = finiteOrNull(input.integratedLufs, "integratedLufs");
+  const truePeakDb = finiteOrNull(input["truePeakDb"], "truePeakDb");
+  const integratedLufs = finiteOrNull(input["integratedLufs"], "integratedLufs");
   let chroma: number[] | null = null;
-  if (input.chroma !== undefined && input.chroma !== null) {
-    if (!Array.isArray(input.chroma) || input.chroma.length !== 12) {
+  if (input["chroma"] !== undefined && input["chroma"] !== null) {
+    if (!Array.isArray(input["chroma"]) || input["chroma"].length !== 12) {
       throw new TamvAudioError("TAMV_AUDIO_ANALYSIS_INVALID", "chroma must contain 12 finite values or be null.");
     }
-    chroma = input.chroma.map((value, index) => {
+    chroma = input["chroma"].map((value, index) => {
       if (typeof value !== "number" || !Number.isFinite(value)) {
         throw new TamvAudioError("TAMV_AUDIO_ANALYSIS_INVALID", `chroma[${index}] must be a finite number.`);
       }
       return value;
     });
   }
-  const notes = Array.isArray(input.notes)
-    ? input.notes.map((note) => assertString(note, "analysis note", 1, 300))
+  const notes = Array.isArray(input["notes"])
+    ? input["notes"].map((note) => assertString(note, "analysis note", 1, 300))
     : [];
   const computed = truePeakDb !== null || integratedLufs !== null || chroma !== null;
   return {

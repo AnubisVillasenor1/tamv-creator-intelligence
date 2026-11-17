@@ -136,7 +136,7 @@
         "docs/AUDIO-ORCHESTRATION.md"
       ],
       "tests": ["tamv-genesis/tests/audio-gateway.test.ts"],
-      "note": "Valida, exige consentimiento/derechos, autoriza por sello y encola. No hay proveedor real ni cola durable; el worker in-process vive en audio.pipeline.contract. truePeakDb y chroma permanecen null si el proveedor no los devuelve."
+      "note": "Valida, exige consentimiento/derechos, autoriza por sello y encola. El proveedor conectado es síntesis procedural local (no neuronal); no hay cola durable; el worker in-process vive en audio.pipeline.contract. truePeakDb y chroma permanecen null si el proveedor no los devuelve."
     },
     {
       "id": "audio.lifecycle",
@@ -162,7 +162,27 @@
         "docs/AUDIO-PIPELINE.md"
       ],
       "tests": ["tamv-genesis/tests/audio-pipeline.test.ts"],
-      "note": "Genera, valida artefacto, guarda con SHA-256, analiza si hay puerto y aplica reintentos. No hay proveedor real, cola durable, Postgres, MinIO ni daemon; los adaptadores en memoria no son producción."
+      "note": "Genera, valida artefacto, guarda con SHA-256, analiza si hay puerto y aplica reintentos. La ruta /api/audiocore/advanced lo ejecuta en proceso con síntesis procedural local y DSP medido; no hay cola durable, Postgres, MinIO ni daemon; los adaptadores en memoria no son producción."
+    },
+    {
+      "id": "audio.local-dsp",
+      "title": "DSP local medido y síntesis procedural determinista",
+      "status": "closed",
+      "publicSkills": ["tamv-audio-intelligence"],
+      "capabilities": ["audio.mastering", "audio.production"],
+      "evidence": [
+        "tamv-genesis/src/audio/local-dsp.ts",
+        "tamv-genesis/src/audio/local-synth.ts",
+        "tamv-genesis/src/audio/wav.ts",
+        "src/lib/audiocore-advanced.server.ts",
+        "src/routes/api.audiocore.advanced.ts",
+        "docs/AUDIO-ORCHESTRATION.md"
+      ],
+      "tests": [
+        "tamv-genesis/tests/audio-local-dsp.test.ts",
+        "src/test/audiocore-advanced.test.ts"
+      ],
+      "note": "LUFS BS.1770-4, true peak de muestra (sin oversampling intersample) y chroma FFT probados con vectores conocidos; silencio o ventanas cortas producen null, nunca estimaciones. La síntesis es procedural determinista, no neuronal y sin voces; FLAC falla cerrado. La ruta permanece 403 hasta firma oficial del release."
     },
     {
       "id": "audio.metrics.prometheus",

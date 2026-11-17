@@ -99,6 +99,13 @@ La revisión actual vive en memoria de la sesión React. Si se requiere historia
 
 Todos llaman a `unavailableTamvCapabilityResponse`; una firma válida no implementa sus servicios. Sin licencia retornan 403; certificados y autorizados pero no conectados retornan 501. No cambiar estas respuestas por éxitos simulados.
 
+> **Actualización 2026-11-16:** `audiocore.advanced` ya tiene procesamiento real
+> en proceso (síntesis procedural determinista local + DSP medido BS.1770-4) con
+> contrato validado, límites y pruebas; sigue fail-closed (403) hasta la firma
+> oficial del release y no es generación neuronal. Ver
+> [`AUDIO-ORCHESTRATION.md`](AUDIO-ORCHESTRATION.md) §6. Las demás rutas de la
+> tabla permanecen como stubs 501.
+
 Para cada integración nueva: validar entrada, exigir sesión si procesa datos o genera costes, comprobar licencia/consentimiento, usar SDK con modelo y superficie compatibles y probar salida real. APIs externas y webhooks nuevos deben vivir bajo `/api/public/` con verificación del llamante dentro del handler; esa ruta no queda protegida por el acceso del sitio. Las funciones internas usan `createServerFn`. Verificar los contratos con el SDK instalado antes de escribir llamadas.
 
 ## Pendiente P6 — auditoría, métricas y procedencia

@@ -26,7 +26,9 @@
     "slsa:test": "bash scripts/test-verify-slsa.sh",
     "ops:preflight": "node scripts/check-production-env.mjs",
     "ops:preflight:strict": "node scripts/check-production-env.mjs --strict",
-    "ops:preflight:test": "node scripts/test-production-env-check.mjs"
+    "ops:preflight:test": "node scripts/test-production-env-check.mjs",
+    "ops:closure": "node scripts/validate-capability-closure.mjs && node scripts/validate-closure-inventory.mjs",
+    "ops:closure:test": "node scripts/test-capability-closure.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

@@ -48,7 +48,7 @@
       "src/routes/api.tamv.status.ts": "sha256:c32a767d3e4753a7c15c0e40b7899378a2a90db017beb265b884ec314764d363",
       "src/routes/api.generation.ts": "sha256:9912afaf6aac51ab5f05c2829fc7a3173d2b8cfe60f2b167510abb6b053c7b31",
       "src/routes/api.voice.generate.ts": "sha256:27d9da9818a067fd3f3b4dd7ced5ee0c5deb3c59dff856883144249953d9642a",
-      "src/routes/api.audiocore.advanced.ts": "sha256:e39d2c28826d5f16ca5ec7f2d07d415f1944e01788528cbaf6b65ee143618524",
+      "src/routes/api.audiocore.advanced.ts": "sha256:3e4489d9995e15ba80876bed5570a42414120f318efcbf393817697259740988",
       "src/routes/api.agent.ts": "sha256:d940eddd9fecf6478baa1a4247bd6c3c894bdfbb35abfd2d633b0faa9e23b1ee",
       "scripts/tamv-certification.mjs": "sha256:51c28914ab1a64e9dc9e4635295f4c58395e2fa67a5e7a31a7fc25369c9df437",
       "tamv-pack/core/tamv-sovereign-core.ts": "sha256:34854868cf4be2285f28d252108fb67976114010ed73c8630093c455d72215e4",
@@ -72,7 +72,8 @@
     "core": "AGPL-3.0-only",
     "commercial": "TAMV-Commercial-1.0",
     "features": [
-      "creator.review"
+      "creator.review",
+      "audiocore.advanced"
     ]
   }
 }

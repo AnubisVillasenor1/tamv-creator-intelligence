@@ -16,8 +16,14 @@ falsa.
 | Ciclo de vida, worker y reintentos | `tamv-genesis/src/audio/{lifecycle,worker}.ts` | Implementados y probados en proceso. |
 | Métricas Prometheus | `tamv-genesis/src/audio/metrics.ts` | Implementadas y probadas sin dependencias. |
 | Normalización DSP honesta | `tamv-genesis/src/audio/contracts.ts` | Implementada y probada. |
+| Códec WAV PCM16 | `tamv-genesis/src/audio/wav.ts` | Parser estricto (RIFF, PCM 16-bit, mono/estéreo, 44.1/48 kHz) y codificador mono. Probado. |
+| Síntesis procedural local | `tamv-genesis/src/audio/local-synth.ts` | Proveedor determinista sembrado por SHA-256 de la petición; WAV hasta 60 s; FLAC falla cerrado. No es un modelo neuronal. |
+| DSP local real | `tamv-genesis/src/audio/local-dsp.ts` | LUFS integrado ITU-R BS.1770-4 (K-weighting, compuertas −70/−10), true peak de muestra y chroma FFT de 12 clases. Probado con vectores físicos conocidos. |
+| Ruta HTTP | `src/routes/api.audiocore.advanced.ts` + `src/lib/audiocore-advanced.server.ts` | POST autenticado y certificado que ejecuta el pipeline completo en proceso y devuelve el WAV medido. |
 | Pruebas | `tamv-genesis/tests/audio-gateway.test.ts` | 11 pruebas locales. |
 | Pruebas del pipeline | `tamv-genesis/tests/audio-pipeline.test.ts` | 12 pruebas locales. |
+| Pruebas DSP/síntesis | `tamv-genesis/tests/audio-local-dsp.test.ts` | 10 pruebas: determinismo, vectores de loudness (−6.0206 dBFS, ±3.0103 LU), chroma por clase de altura, silencio → `null`, pipeline extremo a extremo. |
+| Pruebas de la ruta | `src/test/audiocore-advanced.test.ts` | 10 pruebas: certificación, auth, límites de cuerpo/duración, campos desconocidos, consentimiento, FLAC 501, WAV determinista byte a byte. |
 | Registro de cierre | `tamv-genesis/v3/closure.json` | Módulos `audio.gateway.contract` y `audio.pipeline.contract` = `contract`. |
 
 La referencia completa del pipeline está en
@@ -37,14 +43,20 @@ Lo que el gateway hace, en orden:
 
 ## 2. Qué no está implementado
 
-- No hay proveedor de generación musical conectado.
+- No hay proveedor de generación **neuronal** conectado. El proveedor local es
+  síntesis procedural determinista (`tamv-local-procedural-synth`): genera WAV
+  real a partir de la petición, pero no es música generada por un modelo, no
+  produce voces y no debe presentarse como tal. La respuesta HTTP lo declara en
+  `disclosure`.
 - No hay worker persistente ni daemon; existe un worker in-process invocado por
-  `runOnce()`, sin Redis ni BullMQ.
+  `runOnce()`/`runUntilIdle()`, sin Redis ni BullMQ.
 - No hay cola durable: el adaptador por defecto vive en memoria.
 - No hay tablas Drizzle/Postgres nuevas ni migraciones.
-- No hay bucket MinIO ni almacenamiento duradero de audio.
+- No hay bucket MinIO ni almacenamiento duradero de audio; la ruta usa
+  almacenamiento en memoria por petición.
 - No hay Docker Compose de audio.
-- No hay cálculo real de true peak, LUFS ni chroma.
+- El DSP local mide sobre PCM de muestra: el true peak es de muestra, no
+  inter-muestra (sin sobre-muestreo 4×). Se declara como tal en las notas.
 
 El gateway devuelve `null` cuando el proveedor no entrega una métrica. Un
 `truePeakDb` ausente **no** se sustituye por una estimación. Si no hay puerto de
@@ -115,10 +127,42 @@ const submission = await gateway.submit({
    exista y esté probado; el contrato no cambia.
 3. **Almacenamiento:** implementar un adaptador MinIO/S3 para los artefactos y
    registrar su digest SHA-256; no se declara almacenamiento hasta que exista.
-4. **DSP:** conectar un proveedor real de true peak/chroma y probar con vectores
-   conocidos. Hasta entonces, las métricas permanecen `null`.
+4. **DSP:** hecho en local (`local-dsp.ts`) con vectores conocidos: LUFS
+   BS.1770-4, true peak de muestra y chroma. El siguiente paso es un proveedor
+   externo o inter-muestra; hasta entonces, lo que no se mide permanece `null`.
 5. **Worker:** solo después de 1–4, y con reintentos, cuotas y auditoría
    verificables.
+
+## 6. Ruta HTTP `POST /api/audiocore/advanced`
+
+Implementada en `src/lib/audiocore-advanced.server.ts` (archivo protegido por
+certificación TAMV; tras editarlo hay que regenerar hashes con
+`npm run tamv:hash` y firmar el release).
+
+Orden de compuertas, todas fail-closed:
+
+1. Certificación TAMV de la feature `audiocore.advanced` (403 sin sello firmado).
+2. `Content-Type: application/json` (415 si no).
+3. Cuerpo acotado a 16 KiB (413/400).
+4. Autenticación Supabase (401); el actor se deriva con salt
+   `TAMV_GOVERNANCE_ACTOR_SALT` y nunca se expone el identificador crudo.
+5. `validateAudioRequest` del contrato génesis: campos desconocidos → 400.
+6. Límite de la ruta: `durationSeconds ≤ 30` (400 `TAMV_AUDIOCORE_DURATION_LIMIT`);
+   `format: "flac"` → 501 (el sintetizador local solo produce WAV).
+7. Consentimiento + recertificación dentro del pipeline; sin consentimiento no
+   se encola nada (403).
+8. Worker in-process (`runUntilIdle`), artefacto en almacenamiento de memoria,
+   análisis DSP local sobre el WAV generado.
+
+Respuesta 200 (`tamv.audiocore.advanced.response.v1`): `submission`, `job`
+(estado, intentos, artefacto con SHA-256, análisis), `audio` (WAV en base64),
+`disclosure` (provider, `neuralModel: false`, `voice: false`, método DSP,
+`actorRef`) y `limits`. Dos peticiones idénticas producen bytes y SHA-256
+idénticos: la síntesis es determinista por diseño.
+
+`license.features` en `tamv-attribution.json` incluye ahora
+`audiocore.advanced`; la ruta permanece fail-closed hasta que el propietario
+firme el release con esa lista.
 
 Estados prohibidos en este repositorio: `completed`, `operational`, `24/7
 running` o un `truePeakDb` inventado. Si no se midió, se declara `null`.

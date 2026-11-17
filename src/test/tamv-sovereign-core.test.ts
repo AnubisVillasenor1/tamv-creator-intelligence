@@ -31,7 +31,8 @@ describe("TAMV sovereign integrity core", () => {
       files,
     }, testOnlySecret, cryptoProvider);
     await expect(verifyIntegrityEnvelope(envelope, testOnlySecret, files, cryptoProvider)).resolves.toBeUndefined();
-  });
+    // 2 derivaciones PBKDF2 de 600k iteraciones; en hardware lento cada una tarda ~4 s.
+  }, 30_000);
 
   it("rejects a changed file and a changed file set", async () => {
     const envelope = await createIntegrityEnvelope({
@@ -46,7 +47,8 @@ describe("TAMV sovereign integrity core", () => {
     await expect(verifyIntegrityEnvelope(
       envelope, testOnlySecret, { "pack.json": files["pack.json"] }, cryptoProvider,
     )).rejects.toBeInstanceOf(TamvSovereigntyBreachError);
-  });
+    // 3 derivaciones PBKDF2 de 600k iteraciones.
+  }, 30_000);
 
   it("rejects an altered attribution in the payload", async () => {
     await expect(createIntegrityEnvelope({
