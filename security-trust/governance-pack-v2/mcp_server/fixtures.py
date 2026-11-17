@@ -15,15 +15,22 @@ _FIXTURES = {
     }
 }
 
+
 def canonical_json(value):
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    """Canonicalize fixture data deterministically for a SHA-256 integrity digest."""
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    ).encode("utf-8")
+
 
 def list_evidence_ids():
     return sorted(_FIXTURES)
 
+
 def get_evidence(evidence_id):
+    """Return an isolated fixture copy; never reflect arbitrary input to callers."""
     if not isinstance(evidence_id, str) or evidence_id not in _FIXTURES:
-        return {"status": "not_found", "evidence_id": str(evidence_id)[:100]}
+        return {"status": "not_found"}
     item = deepcopy(_FIXTURES[evidence_id])
     item["digest_sha256"] = hashlib.sha256(canonical_json(item)).hexdigest()
     return item
