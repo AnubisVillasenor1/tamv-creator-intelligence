@@ -68,34 +68,8 @@ export type Database = {
           sequence_id: number
           trace_id: string
         }
-        Insert: {
-          core: string
-          details?: Json
-          event_hash: string
-          event_id?: string
-          event_name: string
-          input_hash: string
-          lane?: string | null
-          occurred_at: string
-          phase: string
-          previous_hash: string
-          sequence_id?: never
-          trace_id: string
-        }
-        Update: {
-          core?: string
-          details?: Json
-          event_hash?: string
-          event_id?: string
-          event_name?: string
-          input_hash?: string
-          lane?: string | null
-          occurred_at?: string
-          phase?: string
-          previous_hash?: string
-          sequence_id?: never
-          trace_id?: string
-        }
+        Insert: never
+        Update: never
         Relationships: []
       }
       tamv_project_audit: {
@@ -144,6 +118,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      tamv_hypercore_audit_append: {
+        Args: {
+          p_core: string
+          p_details: Json
+          p_event_name: string
+          p_input_hash: string
+          p_lane: string | null
+          p_occurred_at: string
+          p_phase: string
+          p_trace_id: string
+        }
+        Returns: undefined
+      }
       tamv_project_action: {
         Args: {
           p_action: string
