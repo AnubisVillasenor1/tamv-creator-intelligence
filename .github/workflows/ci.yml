@@ -73,8 +73,8 @@ jobs:
       - name: Test static audit-ledger ordering detector
         run: python3 scripts/test-audit-migration-validator.py
 
-      - name: Validate audit-ledger migration invariants (advisory)
-        run: python3 scripts/validate-audit-migration.py
+      - name: Enforce Hyper-Core audit-ledger serialization and SECURITY DEFINER invariants
+        run: python3 scripts/validate-audit-migration.py --strict-order
 
       - name: Validate governance receipt SQL invariants
         run: node scripts/validate-governance-receipts-sql.mjs
