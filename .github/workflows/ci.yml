@@ -35,6 +35,26 @@ jobs:
         with:
           node-version: 24
 
+      - name: Validate Security and Trust governance pack
+        run: |
+          set -euo pipefail
+          python3 -m py_compile security-trust/governance-pack-v2/mcp_server/fixtures.py security-trust/governance-pack-v2/mcp_server/tamv_audit_mcp.py security-trust/governance-pack-v2/scripts/validate_pack.py security-trust/governance-pack-v2/scripts/generate_manifest.py
+          python3 -m unittest discover -s security-trust/governance-pack-v2/tests -v
+          python3 security-trust/governance-pack-v2/scripts/validate_pack.py
+          python3 security-trust/governance-pack-v2/scripts/generate_manifest.py
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path("security-trust/governance-pack-v2")
+          manifest = json.loads((root / "MANIFEST.sha256.json").read_text())
+          assert manifest["integrity_only_not_signature"] is True
+          for name, item in manifest["files"].items():
+              data = (root / name).read_bytes()
+              assert len(data) == item["bytes"], name
+              assert hashlib.sha256(data).hexdigest() == item["sha256"], name
+          print(f"Manifest verified: {len(manifest['files'])} files")
+          PY
+
       - name: Install locked dependencies
         run: bun install --frozen-lockfile
 
