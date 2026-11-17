@@ -1,22 +1,19 @@
-# HyperCore Turbo: gobernanza de ejecución y scheduler adaptativo
+# HyperCore Turbo: scheduler gobernado
 
-**Estado:** implementación local acotada y cubierta por pruebas unitarias; no es una cola durable, aislamiento de proceso, garantía de disponibilidad ni certificación de producción.
+**Estado:** implementación local acotada cubierta por pruebas unitarias. No es una cola durable, aislamiento de proceso, garantía de disponibilidad ni certificación de producción.
 
-## Qué integra
+## Integración nativa
 
-`src/lib/hypercore-turbo/governed-scheduler.ts` añade una capa aditiva sobre el runner canónico existente:
+`governed-scheduler.ts` añade una capa sobre el runner existente:
 
-- Autoriza capacidad, consentimiento y certificación usando Govern Core; rechaza por defecto.
-- Valida identificadores, tamaño máximo de trabajo, dependencias desconocidas, dependencias duplicadas y ciclos antes de auditar o ejecutar.
-- Ejecuta tareas en olas DAG con prioridad estable, límites de concurrencia y un máximo explícito de tareas en memoria.
-- Hace preflight de todos los recibos de intención de cada ola antes de iniciar cualquier tarea de esa ola. Si la escritura de intención falla, esa ola no se ejecuta.
-- Ajusta la concurrencia entre olas con AIMD acotado: reducción multiplicativa al observar error/latencia alta y aumento aditivo tras muestras sanas.
-- Mantiene latencia y tasa de fallo en un buffer circular de tamaño fijo; emite recibos con metadatos mínimos, nunca payloads.
-- Propaga cancelación y conserva reintentos únicamente para tareas explícitamente idempotentes, mediante `runTurboParallel`.
+- deny-by-default, autorización de capacidad y consentimiento;
+- validación de DAG, IDs, prioridad y límite de tareas;
+- olas con concurrencia AIMD acotada;
+- preflight del recibo de intención antes de ejecutar una ola;
+- metadatos de auditoría sin payload creativo;
+- dependencia explícita del resultado de tareas y cancelación cooperativa.
 
-## Contrato de autoridad y uso
-
-El contexto de identidad, consentimiento y certificación debe derivarse en el servidor de fuentes confiables. No debe pasarse como autoridad un valor enviado por el navegador. El adaptador de auditoría debe ser durable si el caso de uso lo requiere; esta implementación solo define y consume su interfaz y no provisiona almacenamiento.
+## Uso
 
 ```ts
 const result = await runGovernedTurbo({
@@ -32,14 +29,10 @@ const result = await runGovernedTurbo({
 });
 ```
 
-La llamada es de concurrencia asíncrona dentro del proceso, no paralelismo de CPU. Las tareas deben respetar `AbortSignal`; un timeout no garantiza la cancelación de sistemas externos. Por eso no se permite inferir exactly-once, rollback, durabilidad o ejecución exitosa en proveedores a partir del scheduler.
+No es exactly-once ni rollback. Los resultados externos no se prueban ni se concilian desde este módulo. El adaptador de auditoría debe ser probado y duradero para que el estado `audit-incomplete` tenga un significado operativo real.
 
-## Criterios de prueba
+## Evidencia y límites
 
-`governed-scheduler.test.ts` cubre denegación, fallos de auditoría antes de ejecutar, orden DAG/prioridad, fallos y dependencias, ciclos, límites de entrada y descenso adaptativo. Ejecutar `bun run test` y `bun run typecheck` desde la raíz.
+Las pruebas cubren denegación, fallo de auditoría previo, DAG, prioridades, dependencias fallidas, ciclos, límites y adaptación tras fallo. Ejecútalas con `bun run test` y `bun run typecheck`.
 
-## Referencias de diseño
-
-La evaluación tomó como referencias conceptuales los proyectos indicados por el solicitante: separación entre política y ejecución/gobernanza explícita (Microsoft Agent Governance Toolkit, FINOS AI Governance Framework), inspección y evidencia operacional (Cisco DefenseClaw), flujos de arquitectura trazables (ArcKit), y estructuras acotadas/telemetría de velocidad (HyperRing, HyperVelocity, Hyperion y HypeRadar). Los demás repositorios citados se consideran referencias de investigación, no dependencias.
-
-No se copió ni incorporó código, archivos, marcas, datasets, políticas textuales o licencias de esos proyectos. La implementación es TypeScript original sobre las APIs TAMV existentes. La mención de una referencia no implica afiliación, aval ni compatibilidad. Debe revisarse la licencia del repositorio correspondiente antes de adoptar código en una futura integración.
+La integración toma patrones conceptuales de los repositorios citados: enforcement determinista, hooks, evidencias verificables, trazabilidad arquitectónica y ejecución acotada. No se incorporó código, marca, archivo, modelo o licencia ajena.
