@@ -87,8 +87,8 @@ if (failures > 0) {
 
 const probeSource = readFileSync(probe, "utf8");
 assert.match(probeSource, /set local role service_role/i, "runtime probe must test the effective service_role");
-assert.match(probeSource, /public\\.tamv_hypercore_audit_append/, "runtime probe must use the serialized append function");
-assert.match(probeSource, /expectServiceRoleWriteDenied\\("UPDATE"/, "runtime probe must test UPDATE denial");
-assert.match(probeSource, /expectServiceRoleWriteDenied\\("DELETE"/, "runtime probe must test DELETE denial");
-assert.match(probeSource, /expectServiceRoleWriteDenied\\("TRUNCATE"/, "runtime probe must test TRUNCATE denial");
+assert.match(probeSource, /public\.tamv_hypercore_audit_append/, "runtime probe must use the serialized append function");
+assert.match(probeSource, /expectServiceRoleWriteDenied\("UPDATE"/, "runtime probe must test UPDATE denial");
+assert.match(probeSource, /expectServiceRoleWriteDenied\("DELETE"/, "runtime probe must test DELETE denial");
+assert.match(probeSource, /expectServiceRoleWriteDenied\("TRUNCATE"/, "runtime probe must test TRUNCATE denial");
 console.log("PASS: runtime probe statically enforces service_role append and mutation-denial coverage.");
