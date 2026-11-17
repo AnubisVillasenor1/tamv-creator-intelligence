@@ -27,7 +27,16 @@ function fail(message) {
 
 async function asServiceRole(operation) {
   return sql.begin(async (tx) => {
-    await tx`set local role service_role`;
+    try {
+      await tx`set local role service_role`;
+    } catch {
+      // Do not let failure to assume the tested role masquerade as a denied write.
+      throw new Error("Cannot assume service_role; the integration probe requires an authorized disposable test connection.");
+    }
+    const identity = await tx`select current_user as effective_role`;
+    if (identity[0]?.effective_role !== "service_role") {
+      throw new Error("The integration probe did not obtain service_role as current_user.");
+    }
     return operation(tx);
   });
 }
