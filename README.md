@@ -47,7 +47,7 @@ El núcleo de gobernanza aplica a **cualquier proyecto con IA**; las cuatro skil
 - Verificar la integridad del paquete antes de habilitar funciones sensibles.
 - Guiar la operación segura en Cloudflare/Vercel, Supabase, colas, almacenamiento y servicios de IA; esos servicios no se aprovisionan ni se despliegan desde este repositorio.
 
-Los contratos describen activación, entradas, reglas y salvaguardas: **no son servicios ejecutándose**. La referencia operativa completa está en [docs/OPERATIONS.md](docs/OPERATIONS.md). Para el inventario verificado de las cuatro skills públicas y los 37 contratos internos, los modos del SDK, la instalación segura y las puertas de producción, consulta el [Manual Operativo de las 37 Skills](docs/OPERATIONS-37-SKILLS.md).
+Los contratos describen activación, entradas, reglas y salvaguardas: **no son servicios ejecutándose**. La referencia operativa completa está en [docs/OPERATIONS.md](docs/OPERATIONS.md).
 
 ## Estándares de excelencia
 
