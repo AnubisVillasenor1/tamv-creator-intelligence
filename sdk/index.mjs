@@ -54,11 +54,9 @@ export function createGovernance({ audit, beforeEvaluate, afterEvaluate } = {}) 
       await afterEvaluate?.({ projectId, decision, mode, executionAllowed });
       if (!executionAllowed) throw new GovernanceDeniedError(decision, mode);
       await audit(event("execution.started"));
+      let result;
       try {
-        const result = await execute();
-        // The effect may already have happened if this final audit write fails.
-        await audit(event("execution.succeeded"));
-        return result;
+        result = await execute();
       } catch (error) {
         try {
           await audit(event("execution.failed"));
@@ -67,6 +65,10 @@ export function createGovernance({ audit, beforeEvaluate, afterEvaluate } = {}) 
         }
         throw error;
       }
+      // A failed success-receipt write is not evidence that execution itself failed.
+      // The side effect may already have happened; production needs outbox/reconciliation.
+      await audit(event("execution.succeeded"));
+      return result;
     },
   };
 }
