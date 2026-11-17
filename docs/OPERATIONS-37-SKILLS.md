@@ -57,10 +57,10 @@ Para consultar o integrar los 37 contratos internos, utiliza el checkout y sus s
 
 ```bash
 bash tamv-pack/scripts/validate-pack.sh
-bash tamv-pack/install.sh --help
+sed -n '1,220p' tamv-pack/install.sh
 ```
 
-No asumas que el instalador acepta `--help`: revisa `tamv-pack/install.sh` y el README del paquete antes de ejecutar cualquier operación. Ejecuta la instalación en una copia de prueba del proyecto, revisa el diff y no sobrescribas archivos del consumidor sin respaldo. Los contratos son documentación gobernada, no 37 ejecutores de software.
+Inspecciona `tamv-pack/install.sh` y el README del paquete antes de ejecutar cualquier operación. Ejecuta la instalación en una copia de prueba del proyecto, revisa el diff y no sobrescribas archivos del consumidor sin respaldo. Los contratos son documentación gobernada, no 37 ejecutores de software.
 
 ## 4. SDK de gobernanza
 
