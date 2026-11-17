@@ -25,3 +25,19 @@ Cinco skills v2.0.0, servidor MCP sintético, esquema handoff, ocho casos advers
 2. Tests y validación estructural reproducibles.
 3. Revisión humana del PR.
 4. Cierre de gates P0 con evidencia separada antes de certificar o desplegar.
+
+
+## Seguimiento de hardening — rama `hardening/security-trust-schema-mcp-v2`
+
+Esta iteración añade controles reproducibles, sin afirmar que cierre los gates de producción:
+
+- **MCP demo:** valida el formato del identificador antes de consultar fixtures; las respuestas de error no reflejan entradas arbitrarias.
+- **Fixtures:** devuelve copias aisladas y no incluye el valor de entrada en respuestas `not_found`.
+- **Handoff:** endurece límites de longitud, cardinalidad, unicidad, clasificación, digest hexadecimal, fecha/hora, campos adicionales y las invariantes `external_sharing=false` y `data_minimization=true`.
+- **JSON Schema:** añade validación real Draft 2020-12 mediante `jsonschema`, comprobación del propio schema, formato `date-time`, rechazo de claves JSON duplicadas y cuatro controles negativos.
+- **Regresión:** agrega pruebas de no-reflexión, estabilidad del digest y aislamiento ante mutaciones.
+- **CI:** instala la dependencia de validación dentro del job, compila el validador y ejecuta las validaciones antes de verificar el manifiesto.
+
+### Límites que permanecen abiertos
+
+La integración MCP sigue siendo una demo sintética sin autenticación/autorización de producción. No se han ejecutado pruebas con PostgreSQL real, RLS multi-tenant, ledger durable, recuperación/restauración, Redis/Upstash, claves de release Ed25519 ni servicios externos. La firma y el digest aprobado de release siguen siendo gates separados. La aprobación de CI no equivale a certificación ni autoriza tráfico productivo.
