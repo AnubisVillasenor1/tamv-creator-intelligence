@@ -6,7 +6,7 @@
   "target_skill": "tamv-control-mapping",
   "request_type": "advisory_control_gap_review",
   "scope": {"product": "synthetic-demo", "asset": "synthetic-access-review", "business_process": "example-only", "jurisdictions": [], "data_classes": ["synthetic"]},
-  "inputs": [{"evidence_id": "EVID-SYNTH-001", "source": "fixed-fixture", "observed_at": "2026-11-17T00:00:00Z", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "classification": "public"}],
+  "inputs": [{"evidence_id": "EVID-SYNTH-001", "source": "fixed-fixture", "observed_at": "2026-11-17T00:00:00Z", "digest": "356e7582ad041db1e266cdbd413a75753f84e023988ead7f2db95999bdd8608b", "classification": "public"}],
   "constraints": {"external_sharing": false, "data_minimization": true},
   "supervision": "review",
   "approver_roles": ["security-reviewer"],

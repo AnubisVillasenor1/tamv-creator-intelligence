@@ -23,12 +23,14 @@ class GovernancePackTests(unittest.TestCase):
         digest = evidence.pop("digest_sha256")
         self.assertEqual(len(digest), 64)
         self.assertEqual(digest, hashlib.sha256(canonical_json(evidence)).hexdigest())
-    def test_schema_and_example_are_parseable(self):
+    def test_handoff_schema_and_example_are_parseable(self):
         schema = json.loads((ROOT / "schemas/handoff.schema.json").read_text())
         example = json.loads((ROOT / "templates/handoff.example.json").read_text())
         self.assertEqual(schema["$schema"], "https://json-schema.org/draft/2020-12/schema")
         self.assertFalse(example["constraints"]["external_sharing"])
         self.assertTrue(example["constraints"]["data_minimization"])
+        evidence = get_evidence(example["inputs"][0]["evidence_id"])
+        self.assertEqual(evidence["digest_sha256"], example["inputs"][0]["digest"])
     def test_adversarial_cases_have_unique_ids(self):
         cases = [json.loads(line) for line in (ROOT / "evals/adversarial-cases.jsonl").read_text().splitlines() if line.strip()]
         ids = [case["case_id"] for case in cases]

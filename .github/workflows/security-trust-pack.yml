@@ -52,3 +52,10 @@ jobs:
               assert hashlib.sha256(data).hexdigest() == item["sha256"], name
           print(f"Manifest verified: {len(manifest['files'])} files")
           PY
+      - name: Upload generated digest manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: tamv-security-trust-v2-manifest
+          path: security-trust/governance-pack-v2/MANIFEST.sha256.json
+          if-no-files-found: error
+          retention-days: 14
