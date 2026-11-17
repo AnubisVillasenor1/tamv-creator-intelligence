@@ -49,9 +49,20 @@ function Dashboard() {
           <h1>TAMV Creator Intelligence</h1>
           <p>Inteligencia soberana. Ecosistemas responsables.</p>
         </div>
-        <span className="protocol-badge">
-          <ShieldCheck size={14} /> HUMAN GOVERNED
-        </span>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="protocol-badge">
+            <ShieldCheck size={14} /> HUMAN GOVERNED
+          </span>
+          <span className="protocol-badge">PACK v1.2.1</span>
+          <a
+            href="https://github.com/AnubisVillasenor1/tamv-creator-intelligence"
+            className="text-xs text-muted-foreground underline-offset-4 hover:text-primary hover:underline"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Repositorio canónico
+          </a>
+        </div>
       </div>
       <section className="command-band">
         <div className="command-copy">
