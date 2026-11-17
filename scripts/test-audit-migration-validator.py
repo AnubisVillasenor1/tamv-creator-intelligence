@@ -69,7 +69,7 @@ class ChainOrderDetectorTests(unittest.TestCase):
 
     def test_repository_migrations_prove_serialized_append_boundary(self) -> None:
         migrations_dir = MODULE.ROOT / "drizzle" / "migrations"
-        migration_sql = "\\n".join(
+        migration_sql = "\n".join(
             path.read_text(encoding="utf-8")
             for path in sorted(migrations_dir.glob("*.sql"))
         )
