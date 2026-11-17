@@ -112,12 +112,10 @@ try {
       await new Promise((resolve) => setTimeout(resolve, delayMs));
       const input = digest(`${traceId}:${index}:${randomUUID()}`);
       return sql`
-        insert into public.tamv_hypercore_audit_events
-          (trace_id, occurred_at, core, event_name, phase, lane, input_hash, details)
-        values
-          (${traceId}, now(), 'verification', 'ledger.concurrent.integration_test',
-           'completed', 'cold', ${input}, ${sql.json({ test: true, ordinal: index })})
-        returning sequence_id, trace_id, previous_hash, event_hash
+        select public.tamv_hypercore_audit_append(
+          ${traceId}, now(), 'verification', 'ledger.concurrent.integration_test',
+          'completed', 'cold', ${input}::char(64), ${sql.json({ test: true, ordinal: index })}::jsonb
+        )
       `;
     }));
 
