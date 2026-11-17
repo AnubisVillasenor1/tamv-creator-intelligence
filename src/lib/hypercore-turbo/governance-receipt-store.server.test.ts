@@ -33,10 +33,9 @@ function response(body: unknown, status = 200): Response {
 
 describe("Supabase governance receipt store", () => {
   it("fails closed if server-side configuration is missing", () => {
-    expect(() => createGovernanceReceiptStore(
-      { supabaseUrl: "", serviceRoleKey: "" },
-      async () => true,
-    )).toThrowError(GovernanceReceiptStoreError);
+    expect(() =>
+      createGovernanceReceiptStore({ supabaseUrl: "", serviceRoleKey: "" }, async () => true),
+    ).toThrowError(GovernanceReceiptStoreError);
   });
 
   it("only allows new operations in pending state", async () => {
@@ -45,9 +44,19 @@ describe("Supabase governance receipt store", () => {
       async () => true,
       vi.fn(),
     );
-    await expect(store.create({ ...base, status: "succeeded", evidence: [{
-      kind: "test", sha256: digest, reference: "evidence-000001",
-    }] })).rejects.toMatchObject({ code: "INITIAL_STATUS_INVALID" });
+    await expect(
+      store.create({
+        ...base,
+        status: "succeeded",
+        evidence: [
+          {
+            kind: "test",
+            sha256: digest,
+            reference: "evidence-000001",
+          },
+        ],
+      }),
+    ).rejects.toMatchObject({ code: "INITIAL_STATUS_INVALID" });
   });
 
   it("sends credentials only in server-side PostgREST headers and inserts pending receipt", async () => {
@@ -59,15 +68,22 @@ describe("Supabase governance receipt store", () => {
     );
     await expect(store.create(base)).resolves.toEqual(base);
     expect(fetcher).toHaveBeenCalledOnce();
-    expect(fetcher.mock.calls[0][0]).toContain("/rest/v1/tamv_governance_receipts");
-    expect(new Headers(fetcher.mock.calls[0]?.[1]?.headers).get("Authorization")).toBe("Bearer server-secret");
-    expect(new Headers(fetcher.mock.calls[0]?.[1]?.headers).get("Prefer")).toBe("resolution=ignore-duplicates,return=representation");
+    expect(fetcher.mock.calls[0]?.[0]).toContain("/rest/v1/tamv_governance_receipts");
+    expect(new Headers(fetcher.mock.calls[0]?.[1]?.headers).get("Authorization")).toBe(
+      "Bearer server-secret",
+    );
+    expect(new Headers(fetcher.mock.calls[0]?.[1]?.headers).get("Prefer")).toBe(
+      "resolution=ignore-duplicates,return=representation",
+    );
   });
 
   it("returns the existing receipt for an exact idempotent retry", async () => {
-    const fetcher = vi.fn()
+    const fetcher = vi
+      .fn()
       .mockResolvedValueOnce(response([]))
-      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]));
+      .mockResolvedValueOnce(
+        response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]),
+      );
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => false,
@@ -78,87 +94,132 @@ describe("Supabase governance receipt store", () => {
   });
 
   it("rejects reuse of an idempotency key for a different target", async () => {
-    const fetcher = vi.fn()
+    const fetcher = vi
+      .fn()
       .mockResolvedValueOnce(response([]))
-      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]));
+      .mockResolvedValueOnce(
+        response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]),
+      );
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => false,
       fetcher,
     );
-    await expect(store.create({ ...base, targetRef: "target-opaque-002" }))
-      .rejects.toMatchObject({ code: "IDEMPOTENCY_CONFLICT" });
+    await expect(store.create({ ...base, targetRef: "target-opaque-002" })).rejects.toMatchObject({
+      code: "IDEMPOTENCY_CONFLICT",
+    });
   });
 
   it("rejects a compare-and-set update when another request changed the state", async () => {
-    const fetcher = vi.fn()
-      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]))
+    const fetcher = vi
+      .fn()
+      .mockResolvedValueOnce(
+        response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]),
+      )
       .mockResolvedValueOnce(response([]));
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => true,
       fetcher,
     );
-    const running = { ...base, status: "running" as const, phase: "execution",
-      recordedAt: "2026-11-15T12:00:02Z" };
-    await expect(store.transition(base.receiptId, "pending", running))
-      .rejects.toMatchObject({ code: "STATE_CONFLICT" });
+    const running = {
+      ...base,
+      status: "running" as const,
+      phase: "execution",
+      recordedAt: "2026-11-15T12:00:02Z",
+    };
+    await expect(store.transition(base.receiptId, "pending", running)).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+    });
   });
 
   it("prevents removal of evidence from a later receipt state", async () => {
     const evidence = [{ kind: "test" as const, sha256: digest, reference: "evidence-000001" }];
-    const running = { ...base, status: "running" as const, phase: "execution",
-      recordedAt: "2026-11-15T12:00:02Z", evidence };
-    const fetcher = vi.fn().mockResolvedValueOnce(
-      response([{ receipt_id: base.receiptId, status: "running", receipt: running }]),
-    );
+    const running = {
+      ...base,
+      status: "running" as const,
+      phase: "execution",
+      recordedAt: "2026-11-15T12:00:02Z",
+      evidence,
+    };
+    const fetcher = vi
+      .fn()
+      .mockResolvedValueOnce(
+        response([{ receipt_id: base.receiptId, status: "running", receipt: running }]),
+      );
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => true,
       fetcher,
     );
-    const failed = { ...running, status: "failed" as const, phase: "postflight",
-      recordedAt: "2026-11-15T12:00:03Z", evidence: [] };
-    await expect(store.transition(base.receiptId, "running", failed))
-      .rejects.toMatchObject({ code: "RECEIPT_INVALID" });
+    const failed = {
+      ...running,
+      status: "failed" as const,
+      phase: "postflight",
+      recordedAt: "2026-11-15T12:00:03Z",
+      evidence: [],
+    };
+    await expect(store.transition(base.receiptId, "running", failed)).rejects.toMatchObject({
+      code: "RECEIPT_INVALID",
+    });
     expect(fetcher).toHaveBeenCalledOnce();
   });
 
   it("rejects success transitions unless independent evidence verification succeeds", async () => {
-    const running = { ...base, status: "running" as const, phase: "execution",
-      recordedAt: "2026-11-15T12:00:02Z" };
-    const fetcher = vi.fn()
-      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "running", receipt: running }]));
+    const running = {
+      ...base,
+      status: "running" as const,
+      phase: "execution",
+      recordedAt: "2026-11-15T12:00:02Z",
+    };
+    const fetcher = vi
+      .fn()
+      .mockResolvedValueOnce(
+        response([{ receipt_id: base.receiptId, status: "running", receipt: running }]),
+      );
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => false,
       fetcher,
     );
-    const succeeded = { ...running, status: "succeeded" as const, phase: "postflight",
+    const succeeded = {
+      ...running,
+      status: "succeeded" as const,
+      phase: "postflight",
       recordedAt: "2026-11-15T12:00:03Z",
-      evidence: [{ kind: "test" as const, sha256: digest, reference: "evidence-000001" }] };
-    await expect(store.transition(base.receiptId, "running", succeeded))
-      .rejects.toMatchObject({ code: "EVIDENCE_UNVERIFIED" });
+      evidence: [{ kind: "test" as const, sha256: digest, reference: "evidence-000001" }],
+    };
+    await expect(store.transition(base.receiptId, "running", succeeded)).rejects.toMatchObject({
+      code: "EVIDENCE_UNVERIFIED",
+    });
     expect(fetcher).toHaveBeenCalledOnce();
   });
 
   it("uses compare-and-set in the update URL to prevent lost transitions", async () => {
-    const running = { ...base, status: "running" as const, phase: "execution",
-      recordedAt: "2026-11-15T12:00:02Z" };
-    const fetcher = vi.fn()
-      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]))
-      .mockResolvedValueOnce(response([{ receipt_id: base.receiptId, status: "running", receipt: running }]));
+    const running = {
+      ...base,
+      status: "running" as const,
+      phase: "execution",
+      recordedAt: "2026-11-15T12:00:02Z",
+    };
+    const fetcher = vi
+      .fn()
+      .mockResolvedValueOnce(
+        response([{ receipt_id: base.receiptId, status: "pending", receipt: base }]),
+      )
+      .mockResolvedValueOnce(
+        response([{ receipt_id: base.receiptId, status: "running", receipt: running }]),
+      );
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => true,
       fetcher,
     );
     await expect(store.transition(base.receiptId, "pending", running)).resolves.toEqual(running);
-    expect(fetcher.mock.calls[1][0]).toContain("status=eq.pending");
-    expect(fetcher.mock.calls[1][1].method).toBe("PATCH");
+    expect(fetcher.mock.calls[1]?.[0]).toContain("status=eq.pending");
+    expect(fetcher.mock.calls[1]?.[1]?.method).toBe("PATCH");
   });
 });
-
 
 describe("PostgREST response size and parse boundaries", () => {
   it("rejects oversized successful responses before parsing", async () => {
@@ -168,10 +229,12 @@ describe("PostgREST response size and parse boundaries", () => {
         controller.close();
       },
     });
-    const fetcher = vi.fn().mockResolvedValue(new Response(body, {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    }));
+    const fetcher = vi.fn().mockResolvedValue(
+      new Response(body, {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => false,
@@ -186,10 +249,12 @@ describe("PostgREST response size and parse boundaries", () => {
   });
 
   it("fails closed when a successful backend response contains malformed JSON", async () => {
-    const fetcher = vi.fn().mockResolvedValue(new Response("{not-json", {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    }));
+    const fetcher = vi.fn().mockResolvedValue(
+      new Response("{not-json", {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
     const store = createGovernanceReceiptStore(
       { supabaseUrl: "https://project.supabase.co", serviceRoleKey: "server-secret" },
       async () => false,

@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { GovernanceShell } from "../components/governance-shell";
 import { TamvAttribution } from "../components/branding/TamvAttribution";
 
 function NotFoundComponent() {
@@ -83,15 +84,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "TAMV Creator Intelligence" },
-      { name: "description", content: "PLAY & GO: Creator Operating System de TAMV ONLINE NETWORK." },
+      { name: "description", content: "Gobernanza agnóstica de IA de TAMV ONLINE NETWORK." },
       { name: "author", content: "TAMV ONLINE NETWORK" },
       { property: "og:title", content: "TAMV Creator Intelligence" },
-      { property: "og:description", content: "Inteligencia creativa con gobernanza y control humano." },
+      {
+        property: "og:description",
+        content: "Inteligencia creativa con gobernanza y control humano.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
@@ -126,7 +133,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <GovernanceShell>
+        <Outlet />
+      </GovernanceShell>
     </QueryClientProvider>
   );
 }

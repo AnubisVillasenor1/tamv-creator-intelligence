@@ -1,29 +1,30 @@
 const MAX_BEARER_TOKEN_LENGTH = 8192;
 
-const SUPABASE_USER_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const SUPABASE_USER_ID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /** Validate untrusted JSON from the identity provider before property access. */
 export function isValidSupabaseIdentityPayload(value: unknown): value is { id: string } {
-  return value !== null
-    && typeof value === "object"
-    && !Array.isArray(value)
-    && "id" in value
-    && typeof value.id === "string"
-    && SUPABASE_USER_ID_PATTERN.test(value.id);
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    "id" in value &&
+    typeof value.id === "string" &&
+    SUPABASE_USER_ID_PATTERN.test(value.id)
+  );
 }
 
 /** Accept application/json, optionally followed by valid media-type parameters. */
 export function isJsonContentType(value: string | null): boolean {
   if (!value) return false;
-  const mediaType = value.split(";", 1)[0].trim().toLowerCase();
+  const mediaType = (value.split(";", 1)[0] ?? "").trim().toLowerCase();
   return mediaType === "application/json";
 }
 
 /** Bound auth-header work before forwarding a bearer token to the identity provider. */
 export function isBearerTokenWithinLimit(token: string | undefined): boolean {
-  return typeof token === "string"
-    && token.length > 0
-    && token.length <= MAX_BEARER_TOKEN_LENGTH;
+  return typeof token === "string" && token.length > 0 && token.length <= MAX_BEARER_TOKEN_LENGTH;
 }
 
 /**
@@ -89,7 +90,6 @@ export async function readBoundedRequestBody(
     reader.releaseLock();
   }
 }
-
 
 /**
  * Reads a response body with a hard UTF-8 byte ceiling. Use for all remote

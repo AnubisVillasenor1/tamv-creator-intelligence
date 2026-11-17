@@ -24,7 +24,11 @@ const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/;
 const SHA256_PATTERN = /^[a-f0-9]{64}$/i;
 const COMMIT_PATTERN = /^[a-f0-9]{40}$/i;
 const OPERATIONS = new Set<GovernanceOperation>([
-  "install", "resume", "update", "redeploy", "rollback",
+  "install",
+  "resume",
+  "update",
+  "redeploy",
+  "rollback",
 ]);
 
 function noStoreHeaders(): HeadersInit {
@@ -49,7 +53,8 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
     return jsonError("Governance authentication is not configured", 503);
   }
   if (!token) return jsonError("Authentication required", 401);
-  if (!isBearerTokenWithinLimit(token)) return jsonError("Authentication token exceeds the accepted size", 401);
+  if (!isBearerTokenWithinLimit(token))
+    return jsonError("Authentication token exceeds the accepted size", 401);
 
   let authResponse: Response;
   try {
@@ -79,13 +84,17 @@ async function authenticate(request: Request): Promise<{ actorRef: string } | Re
     "SHA-256",
     new TextEncoder().encode(`${actorSalt}:${user.id}`),
   );
-  const actorHash = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  const actorHash = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
   return { actorRef: `actor-${actorHash.slice(0, 32)}` };
 }
 
 async function stableId(prefix: string, value: string): Promise<string> {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
-  const hex = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  const hex = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join(
+    "",
+  );
   return `${prefix}-${hex.slice(0, 32)}`;
 }
 
@@ -114,9 +123,11 @@ export const Route = createFileRoute("/api/governance/receipts")({
         }
         const declaredLength = request.headers.get("content-length");
         if (!isDeclaredContentLengthWithinLimit(declaredLength, MAX_BODY_BYTES)) {
-          const declaredAsDecimal = declaredLength !== null && /^(0|[1-9]\d*)$/.test(declaredLength);
+          const declaredAsDecimal =
+            declaredLength !== null && /^(0|[1-9]\d*)$/.test(declaredLength);
           const declaredBytes = declaredAsDecimal ? Number(declaredLength) : Number.NaN;
-          const status = Number.isSafeInteger(declaredBytes) && declaredBytes > MAX_BODY_BYTES ? 413 : 400;
+          const status =
+            Number.isSafeInteger(declaredBytes) && declaredBytes > MAX_BODY_BYTES ? 413 : 400;
           return jsonError("Invalid or oversized Content-Length", status);
         }
 
@@ -146,15 +157,20 @@ export const Route = createFileRoute("/api/governance/receipts")({
         if (!ID_PATTERN.test(idempotencyKey)) {
           return jsonError("A valid Idempotency-Key header is required", 400);
         }
-        if (typeof input.operation !== "string" || !OPERATIONS.has(input.operation as GovernanceOperation)) {
+        if (
+          typeof input["operation"] !== "string" ||
+          !OPERATIONS.has(input["operation"] as GovernanceOperation)
+        ) {
           return jsonError("Unsupported governance operation", 400);
         }
-        if (typeof input.targetRef !== "string"
-          || typeof input.sourceCommitSha !== "string"
-          || typeof input.artifactSha256 !== "string"
-          || !ID_PATTERN.test(input.targetRef)
-          || !COMMIT_PATTERN.test(input.sourceCommitSha)
-          || !SHA256_PATTERN.test(input.artifactSha256)) {
+        if (
+          typeof input["targetRef"] !== "string" ||
+          typeof input["sourceCommitSha"] !== "string" ||
+          typeof input["artifactSha256"] !== "string" ||
+          !ID_PATTERN.test(input["targetRef"]) ||
+          !COMMIT_PATTERN.test(input["sourceCommitSha"]) ||
+          !SHA256_PATTERN.test(input["artifactSha256"])
+        ) {
           return jsonError("Target, source commit or artifact digest is invalid", 400);
         }
 
@@ -162,7 +178,7 @@ export const Route = createFileRoute("/api/governance/receipts")({
         if (!policyValidation.valid) return jsonError("Governance policy validation failed", 503);
 
         const now = new Date().toISOString();
-        const operation = input.operation as GovernanceOperation;
+        const operation = input["operation"] as GovernanceOperation;
         // Persist only an actor-scoped digest. A globally unique database
         // constraint must not let one actor reserve another actor's raw key.
         const binding = `${identity.actorRef}:${idempotencyKey}`;
@@ -175,9 +191,9 @@ export const Route = createFileRoute("/api/governance/receipts")({
           phase: "intent",
           status: "pending",
           actorRef: identity.actorRef,
-          targetRef: input.targetRef,
-          sourceCommitSha: input.sourceCommitSha,
-          artifactSha256: input.artifactSha256,
+          targetRef: input["targetRef"],
+          sourceCommitSha: input["sourceCommitSha"],
+          artifactSha256: input["artifactSha256"],
           policyVersion: GOVERN_CORE_POLICY.version,
           idempotencyKey: scopedIdempotencyKey,
           startedAt: now,

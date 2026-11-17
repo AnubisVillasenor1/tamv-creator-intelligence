@@ -1,5 +1,11 @@
 # Actualización TAMV
 
+## Integración agnóstica (2026-11-17)
+- [ ] SDK independiente con controles, hooks, API y ejemplos.
+- [ ] Proyectos privados, evaluación AI Gateway y auditoría persistente exportable.
+- [ ] Logotipo oficial, monitor tecnológico y páginas de integración, IA y marketplace.
+- [ ] Pruebas, verificación y documentación de límites de activación.
+
 - [x] Comparación de main y correcciones previas registradas en la entrega anterior; no se repitió la importación.
 - [x] Correcciones de certificación pendientes de la auditoría resueltas; trabajo externo restante detallado en el manual de despliegue.
 

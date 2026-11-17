@@ -8,6 +8,13 @@
       "when": 1794670000000,
       "tag": "0000_hypercore_audit_ledger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794874943285,
+      "tag": "0001_tamv_project_governance",
+      "breakpoints": true
     }
   ]
 }

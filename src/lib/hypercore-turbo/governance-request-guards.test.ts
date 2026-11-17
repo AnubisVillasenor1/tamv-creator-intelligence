@@ -8,6 +8,10 @@ import {
   readBoundedResponseText,
 } from "./governance-request-guards";
 
+function streamingRequest(url: string, init: RequestInit & { duplex: "half" }) {
+  return new Request(url, init);
+}
+
 describe("governance API request boundary guards", () => {
   it("accepts application/json with optional parameters", () => {
     expect(isJsonContentType("application/json")).toBe(true);
@@ -22,7 +26,9 @@ describe("governance API request boundary guards", () => {
   });
 
   it("validates identity-provider JSON shape and UUID before property access", () => {
-    expect(isValidSupabaseIdentityPayload({ id: "550e8400-e29b-41d4-a716-446655440000" })).toBe(true);
+    expect(isValidSupabaseIdentityPayload({ id: "550e8400-e29b-41d4-a716-446655440000" })).toBe(
+      true,
+    );
     expect(isValidSupabaseIdentityPayload(null)).toBe(false);
     expect(isValidSupabaseIdentityPayload([])).toBe(false);
     expect(isValidSupabaseIdentityPayload("null")).toBe(false);
@@ -87,12 +93,16 @@ describe("bounded request body reader", () => {
         controller.close();
       },
     });
-    const request = new Request("https://example.test", { method: "POST", body, duplex: "half" });
+    const request = streamingRequest("https://example.test", {
+      method: "POST",
+      body,
+      duplex: "half",
+    });
     await expect(readBoundedRequestBody(request, 4)).resolves.toEqual({
       ok: true,
       text: "ábc",
     });
-    const second = new Request("https://example.test", {
+    const second = streamingRequest("https://example.test", {
       method: "POST",
       duplex: "half",
       body: new ReadableStream<Uint8Array>({
@@ -116,16 +126,21 @@ describe("bounded request body reader", () => {
         controller.close();
       },
     });
-    const request = new Request("https://example.test", { method: "POST", body, duplex: "half" });
+    const request = streamingRequest("https://example.test", {
+      method: "POST",
+      body,
+      duplex: "half",
+    });
     await expect(readBoundedRequestBody(request, 8)).resolves.toEqual({
       ok: false,
       reason: "unreadable",
     });
-    await expect(readBoundedRequestBody(new Request("https://example.test"), 0))
-      .resolves.toEqual({ ok: false, reason: "unreadable" });
+    await expect(readBoundedRequestBody(new Request("https://example.test"), 0)).resolves.toEqual({
+      ok: false,
+      reason: "unreadable",
+    });
   });
 });
-
 
 describe("bounded remote response reader", () => {
   it("accepts a response at the exact byte limit", async () => {
@@ -139,8 +154,9 @@ describe("bounded remote response reader", () => {
         controller.close();
       },
     });
-    await expect(readBoundedResponseText(new Response(body), 8))
-      .rejects.toThrow("Response body exceeds configured size limit");
+    await expect(readBoundedResponseText(new Response(body), 8)).rejects.toThrow(
+      "Response body exceeds configured size limit",
+    );
   });
 
   it("rejects invalid UTF-8 and invalid response limits", async () => {
@@ -151,7 +167,8 @@ describe("bounded remote response reader", () => {
       },
     });
     await expect(readBoundedResponseText(new Response(body), 8)).rejects.toThrow();
-    await expect(readBoundedResponseText(new Response("x"), 0))
-      .rejects.toThrow("Invalid response size limit");
+    await expect(readBoundedResponseText(new Response("x"), 0)).rejects.toThrow(
+      "Invalid response size limit",
+    );
   });
 });

@@ -14,13 +14,145 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      tamv_ai_projects: {
+        Row: {
+          approved_version: number | null
+          assessment: Json | null
+          config: Json
+          created_at: string
+          id: string
+          name: string
+          owner_id: string
+          updated_at: string
+          use_case: string
+          version: number
+        }
+        Insert: {
+          approved_version?: number | null
+          assessment?: Json | null
+          config?: Json
+          created_at?: string
+          id?: string
+          name: string
+          owner_id?: string
+          updated_at?: string
+          use_case: string
+          version?: number
+        }
+        Update: {
+          approved_version?: number | null
+          assessment?: Json | null
+          config?: Json
+          created_at?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          updated_at?: string
+          use_case?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      tamv_hypercore_audit_events: {
+        Row: {
+          core: string
+          details: Json
+          event_hash: string
+          event_id: string
+          event_name: string
+          input_hash: string
+          lane: string | null
+          occurred_at: string
+          phase: string
+          previous_hash: string
+          sequence_id: number
+          trace_id: string
+        }
+        Insert: {
+          core: string
+          details?: Json
+          event_hash: string
+          event_id?: string
+          event_name: string
+          input_hash: string
+          lane?: string | null
+          occurred_at: string
+          phase: string
+          previous_hash: string
+          sequence_id?: never
+          trace_id: string
+        }
+        Update: {
+          core?: string
+          details?: Json
+          event_hash?: string
+          event_id?: string
+          event_name?: string
+          input_hash?: string
+          lane?: string | null
+          occurred_at?: string
+          phase?: string
+          previous_hash?: string
+          sequence_id?: never
+          trace_id?: string
+        }
+        Relationships: []
+      }
+      tamv_project_audit: {
+        Row: {
+          actor_id: string
+          created_at: string
+          details: Json
+          id: string
+          kind: string
+          policy_version: string
+          project_id: string
+          project_version: number
+        }
+        Insert: {
+          actor_id: string
+          created_at?: string
+          details: Json
+          id?: string
+          kind: string
+          policy_version?: string
+          project_id: string
+          project_version: number
+        }
+        Update: {
+          actor_id?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          kind?: string
+          policy_version?: string
+          project_id?: string
+          project_version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tamv_project_audit_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "tamv_ai_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      tamv_project_action: {
+        Args: {
+          p_action: string
+          p_expected_version?: number
+          p_payload?: Json
+          p_project_id?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

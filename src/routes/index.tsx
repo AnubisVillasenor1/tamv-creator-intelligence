@@ -1,59 +1,251 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from 'react';
-import { Activity, ArrowDown, ArrowUpRight, AudioLines, Blocks, BookOpen, Check, ChevronRight, CircleHelp, GitBranch, Github, LayoutDashboard, Search, ShieldCheck, Sparkles, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { CreatorReview } from '@/components/creator-review';
-import { ModelExplorer } from '@/components/model-explorer';
-import { skillRegistry } from '@/lib/skill-registry';
-import { AuthStatus } from '@/components/auth-status';
-import sculpture from '@/assets/sound-sculpture.jpg';
-
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Activity,
+  ArrowRight,
+  ArrowUpRight,
+  Bot,
+  Braces,
+  Check,
+  FileClock,
+  GitBranch,
+  Network,
+  ShieldCheck,
+  Workflow,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useGovernedProjects } from "@/hooks/use-governed-projects";
+import { skillRegistry } from "@/lib/skill-registry";
+import { CORE_CONTROLS } from "../../sdk/index.mjs";
+import logo from "@/assets/tamv-online-official.jpg.asset.json";
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [
-    { title: 'TAMV — PLAY & GO · Creator Intelligence' },
-    { name: 'description', content: 'PLAY & GO, sistema operativo para creadores musicales: formación, creación y análisis de audio con gobernanza TAMV y 37 contratos de skill.' },
-    { property: 'og:title', content: 'TAMV — PLAY & GO · Creator Intelligence' },
-    { property: 'og:description', content: 'Aprende. Crea. Analiza. Publica. Inteligencia gobernada para creadores musicales.' },
-    { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' },
-  ] }),
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "TAMV Creator Intelligence · Centro de gobernanza" },
+      {
+        name: "description",
+        content:
+          "Centro de control TAMV para integrar gobernanza ética, transparente y profesional en proyectos de IA de cualquier sector o proveedor.",
+      },
+      { property: "og:title", content: "TAMV Creator Intelligence · Gobernanza agnóstica de IA" },
+      {
+        property: "og:description",
+        content: "Proyectos, políticas, evaluación IA, SDK y auditoría con supervisión humana.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Dashboard,
 });
-function Index() {
-  const [view, setView] = useState('Monitor general');
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('Todos');
-  const [selected, setSelected] = useState<(typeof skillRegistry)[number]>();
-  const [reviews, setReviews] = useState(0);
-  const [info, setInfo] = useState(false);
-  const nav = [{ name: 'Monitor general', icon: LayoutDashboard }, { name: 'Revisión creativa', icon: Sparkles }, { name: 'Red de skills', icon: Blocks }, { name: 'Modelos y costes', icon: Activity }, { name: 'Gobernanza', icon: ShieldCheck }, { name: 'Documentación', icon: BookOpen }];
-  const filtered = skillRegistry.filter(s => (category === 'Todos' || s.category === category) && `${s.name} ${s.description} ${s.id}`.toLowerCase().includes(search.toLowerCase()));
-  function go(name: string) { setView(name); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-  return <div className="app-shell">
-    <aside className="app-sidebar">
-      <div className="brand"><AudioLines className="text-primary" size={28}/><div>TAMV<span>ONLINE NETWORK</span></div></div>
-      <div className="workspace-label">CREATOR WORKSPACE</div>
-      <nav aria-label="Navegación principal">{nav.map(({ name, icon: Icon }) => <Button key={name} variant="ghost" className={`nav-item ${view === name ? 'nav-active' : ''}`} onClick={() => go(name)}><Icon size={18}/><span>{name}</span>{view === name && <span className="nav-indicator"/>}</Button>)}</nav>
-      <div className="sidebar-bottom"><div className="flex gap-2 items-center text-sm"><ShieldCheck size={17} className="text-primary"/>Gobernanza TAMV</div><p>Control humano. Creación responsable.</p><div className="mt-3"><AuthStatus/></div><div className="sidebar-profile"><span className="avatar">AV</span><div>Anubis Villaseñor<span>Creator workspace</span></div><Button variant="ghost" size="icon" title="Acerca del espacio" aria-label="Acerca del espacio" onClick={() => setInfo(true)}><CircleHelp/></Button></div></div>
-    </aside>
-    <main className="main-content">
-      <header className="topbar"><div className="flex gap-2 items-center"><span className="text-muted-foreground">Workspace</span><ChevronRight size={13}/><span>{view}</span></div><div className="flex items-center gap-5"><a href="/sovereignty" className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/10" aria-label="Abrir panel de soberanía"><ShieldCheck size={15}/>Soberanía</a><a href="/hypercore" className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/10" aria-label="Abrir auditoría total del proyecto"><ShieldCheck size={15}/>Auditoría total</a><span className="status-label"><span className="status-dot"/>PACK v1.2.1</span><Button variant="ghost" size="icon" aria-label="Abrir repositorio en GitHub" title="Repositorio en GitHub" asChild><a href="https://github.com/AnubisVillasenor1/tamv-creator-intelligence" target="_blank" rel="noreferrer"><Github/></a></Button></div></header>
-      <div className="page-body">
-        {(view === 'Monitor general' || view === 'Revisión creativa') && <>
-          <div className="page-title"><div><div className="eyebrow">PLAY & GO / SISTEMA OPERATIVO PARA CREADORES MUSICALES</div><h1>{view === 'Monitor general' ? 'Monitor general' : 'Revisión creativa'}</h1><p>Formación, creación y análisis con control humano.</p></div><Button variant="outline" onClick={() => go('Red de skills')}><GitBranch/>Explorar skills<ArrowUpRight/></Button></div>
-          {view === 'Monitor general' && <>
-            <section className="creative-banner"><img src={sculpture} width={1536} height={1024} alt="Escultura de ondas de sonido en metal plateado"/><div className="banner-content"><span className="eyebrow">SISTEMA OPERATIVO PARA CREADORES MUSICALES</span><h2>PLAY & GO<span>Aprende. Crea.<br/>Analiza. Publica.</span></h2><Button onClick={() => document.getElementById('review')?.scrollIntoView({ behavior: 'smooth' })}>Revisar un borrador<ArrowUpRight/></Button></div><span className="banner-caption">CREATIVE INTELLIGENCE / TAMV</span></section>
-            <section className="stats-strip" aria-label="Resumen del monitor">{[{ label: 'Skills en el paquete', value: '37', note: '17 originales + 20 nuevos', icon: Blocks },{ label: 'Conexiones gobernadas', value: String(new Set(skillRegistry.flatMap(s => s.dependencies.map(d => `${s.id}:${d}`))).size), note: 'Dependencias declaradas', icon: GitBranch },{ label: 'Revisiones de esta sesión', value: String(reviews).padStart(2,'0'), note: 'Sin publicación automática', icon: Activity },{ label: 'Control creativo', value: 'Humano', note: 'Confirmación y consentimiento', icon: ShieldCheck }].map(s => <div className="stat" key={s.label}><div className="stat-label">{s.label}<s.icon size={16}/></div><div className="stat-value">{s.value}</div><div className="stat-note">{s.note}</div></div>)}</section>
-          </>}
-          <CreatorReview onComplete={() => setReviews(v => v+1)}/>
-          {view === 'Monitor general' && <section className="network-preview"><div className="section-heading"><div><span className="eyebrow">UN ECOSISTEMA, CONECTADO</span><h2>La red detrás de cada idea.</h2></div><Button variant="ghost" onClick={() => go('Red de skills')}>Ver los 37 skills<ArrowUpRight/></Button></div><div className="workflow-band">{['Gobernanza','Derechos y seguridad','Revisión creativa','Control de calidad'].map((s,i) => <div key={s}><span className="workflow-number">0{i+1}</span><span>{s}</span>{i < 3 && <ChevronRight size={18}/>}</div>)}</div></section>}
-        </>}
-        {view === 'Red de skills' && <><div className="page-title"><div><span className="eyebrow">ECOSISTEMA TAMV</span><h1>Red de skills</h1><p>37 especialidades. Una gobernanza compartida.</p></div><span className="quiet-label"><GitBranch size={16}/>20 nuevos</span></div><div className="skill-toolbar"><div className="search-field"><Search size={17}/><input aria-label="Buscar skills" placeholder="Buscar una especialidad…" value={search} onChange={e => setSearch(e.target.value)}/></div><select aria-label="Filtrar por categoría" className="field" value={category} onChange={e => setCategory(e.target.value)}>{['Todos','Contenido','Crecimiento','Educación','Operación','Gobernanza','Base'].map(c => <option key={c}>{c}</option>)}</select></div><div className="skill-grid">{filtered.map((s,i) => <Button variant="ghost" key={s.id} className="skill-tile" onClick={() => setSelected(s)}><div className="flex justify-between w-full"><span className="eyebrow">{s.category}</span><ArrowUpRight size={16}/></div><h2>{s.name}</h2><p>{s.description}</p><div className="skill-foot"><GitBranch size={13}/>{s.dependencies.length} dependencias<span>{String(i+1).padStart(2,'0')}</span></div></Button>)}</div>{filtered.length === 0 && <p className="py-12 text-muted-foreground">No hay skills con esos criterios.</p>}</>}
-        <div hidden={view !== 'Modelos y costes'}><ModelExplorer/></div>
-        {view === 'Gobernanza' && <><div className="page-title"><div><span className="eyebrow">ALGORITHMIC GOVERNANCE V1</span><h1>El creador tiene el control.</h1><p>Los permisos no se heredan entre skills.</p></div><ShieldCheck size={36} className="text-primary"/></div><div className="governance-list">{['Consentimiento explícito antes de enviar contenido a IA.','Derechos de autor e identidad protegidos; sin imitación de voces o artistas.','Claves privadas fuera del navegador.','Propuestas, no decisiones legales, fiscales o financieras definitivas.','Trazabilidad por revisión: identificador, fecha, modelo y SHA-256.','El borrador y la propuesta no se guardan ni se publican automáticamente.','La aprobación de la persona es necesaria para cualquier acción sensible.'].map((r,i) => <div key={r}><span className="eyebrow">0{i+1}</span><p>{r}</p><Check size={17} className="text-primary"/></div>)}</div><p className="text-muted-foreground text-sm mt-8">La red declara dependencias y contratos de colaboración; no ejecuta automáticamente servicios locales de audio ni acciones externas.</p></>}
-        {view === 'Documentación' && <><div className="page-title"><div><span className="eyebrow">CREATOR INTELLIGENCE PACK</span><h1>Instalación y actualización</h1><p>Tu repositorio, tu control.</p></div><BookOpen size={30} className="text-primary"/></div><div className="docs-body"><h2>Instalar en un proyecto existente</h2><p>Clona el paquete fuera de tu proyecto, revisa sus scripts y ejecuta el instalador desde la carpeta del proyecto destino. La instalación pide tu consentimiento y conserva la atribución.</p><pre>git clone https://github.com/AnubisVillasenor1/tamv-creator-intelligence.git /tmp/tamv-source<br/>bash /tmp/tamv-source/tamv-pack/scripts/validate-pack.sh<br/># Desde tu proyecto destino:<br/>bash /tmp/tamv-source/tamv-pack/install.sh</pre><h2>Actualizar sin perder cambios</h2><p>Guarda tus modificaciones primero. Descarga una nueva copia en una carpeta separada, compara el paquete y reemplaza solo los archivos revisados. Vuelve a validar antes de instalar. El README incluye los pasos completos y la alternativa para repositorios con el paquete en la raíz.</p><h2>Comprobaciones automáticas</h2><p>GitHub Actions valida el manifiesto, las 37 carpetas, las dependencias y los scripts en cada push y solicitud de cambios. El monitor no recibe resultados de GitHub en tiempo real.</p><Button variant="outline" asChild><a href="https://github.com/AnubisVillasenor1/tamv-creator-intelligence" target="_blank" rel="noreferrer"><Github/>Abrir repositorio<ArrowUpRight/></a></Button></div></>}
-        <footer className="app-footer"><div><AudioLines size={18}/><span>Este proyecto usa tecnología creada por <strong>TAMV ONLINE NETWORK.</strong><br/>Orgullosamente Realmontenses.</span></div><span>CREATED WITH PURPOSE.</span></footer>
+function Dashboard() {
+  const { projects, session } = useGovernedProjects();
+  const approved = projects.filter((p) => p.approved_version === p.version).length;
+  const connections = skillRegistry.reduce((sum, s) => sum + s.dependencies.length, 0);
+  return (
+    <>
+      <div className="page-heading dashboard-heading">
+        <div>
+          <span className="eyebrow">TAMV / GOVERNANCE COMMAND CENTER</span>
+          <h1>TAMV Creator Intelligence</h1>
+          <p>Inteligencia soberana. Ecosistemas responsables.</p>
+        </div>
+        <span className="protocol-badge">
+          <ShieldCheck size={14} /> HUMAN GOVERNED
+        </span>
       </div>
-    </main>
-    {(selected || info) && <div className="modal-overlay" onClick={() => { setSelected(undefined); setInfo(false); }}><section role="dialog" aria-modal="true" aria-label={selected?.name ?? 'Acerca de TAMV'} className="detail-modal" onClick={e => e.stopPropagation()}><Button variant="ghost" size="icon" className="modal-close" aria-label="Cerrar detalle" onClick={() => { setSelected(undefined); setInfo(false); }}><X/></Button><span className="eyebrow">{selected?.category ?? 'TAMV ONLINE NETWORK'}</span><h2>{selected?.name ?? 'Creator Intelligence'}</h2><p>{selected?.description ?? 'PLAY & GO · Aprende. Crea. Analiza. Publica.'}</p>{selected && <><h3>Entradas</h3><p>{selected.inputs}</p><h3>Entregable</h3><p>{selected.outputs}</p><h3>Dependencias</h3><ul>{selected.dependencies.map(d => <li key={d} className="break-all">{d}</li>)}</ul><p className="text-xs text-muted-foreground mt-5">Contrato del paquete. La ejecución de servicios externos requiere una integración autorizada.</p></>}</section></div>}
-  </div>;
+      <section className="command-band">
+        <div className="command-copy">
+          <span className="text-primary text-xs flex gap-2 items-center">
+            <Network size={15} /> UNIVERSAL AI GOVERNANCE
+          </span>
+          <h2>
+            Tu IA, bajo control.
+            <br />
+            <span>Sin fronteras de sector.</span>
+          </h2>
+          <p>Profesional · Ética · Transparente · Gobernada</p>
+          <div className="flex flex-wrap gap-3 mt-7">
+            <Button asChild>
+              <Link to="/projects">
+                <Bot />
+                Integrar proyecto
+                <ArrowUpRight />
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to="/sdk">
+                <Braces />
+                Explorar SDK
+              </Link>
+            </Button>
+          </div>
+          <div className="command-foot">
+            <span>CONTROL HUMANO</span>
+            <span>PROVEEDOR AGNÓSTICO</span>
+            <span>FAIL CLOSED</span>
+          </div>
+        </div>
+        <img
+          className="official-logo"
+          src={logo.url}
+          alt="TAMV ONLINE — Tecnología Avanzada Mexicana Versátil"
+        />
+      </section>
+      <div className="command-metrics">
+        {[
+          {
+            label: "Proyectos integrados",
+            value: session.status === "authenticated" ? String(projects.length) : "—",
+            note:
+              session.status === "authenticated" ? "Tus proyectos privados" : "Sesión requerida",
+            icon: Bot,
+          },
+          {
+            label: "Contratos de skills",
+            value: String(skillRegistry.length),
+            note: "Inventario validado del paquete",
+            icon: Workflow,
+          },
+          {
+            label: "Conexiones gobernadas",
+            value: String(connections),
+            note: "Dependencias entre contratos",
+            icon: GitBranch,
+          },
+          {
+            label: "Versiones aprobadas",
+            value: session.status === "authenticated" ? String(approved) : "—",
+            note: "Aprobaciones del responsable",
+            icon: ShieldCheck,
+          },
+        ].map((m) => (
+          <div key={m.label}>
+            <div className="metric-label">
+              {m.label}
+              <m.icon size={15} />
+            </div>
+            <strong>{m.value}</strong>
+            <span>{m.note}</span>
+          </div>
+        ))}
+      </div>
+      <div className="dashboard-grid">
+        <section>
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">POLICY ENGINE</span>
+              <h2>Mapa de control</h2>
+            </div>
+            <span className="quiet-label">
+              <Activity size={13} /> {CORE_CONTROLS.length} controles
+            </span>
+          </div>
+          <div className="govern-map">
+            <div className="map-core">
+              <ShieldCheck size={30} />
+              <strong>TAMV CORE</strong>
+              <span>DENY BY DEFAULT</span>
+            </div>
+            <div className="map-controls">
+              {CORE_CONTROLS.map((c, i) => (
+                <div key={c.id}>
+                  <span className="map-index">{String(i + 1).padStart(2, "0")}</span>
+                  <span>{c.title}</span>
+                  <Check size={12} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="pipeline-strip">
+            {["Identidad", "Políticas", "Evidencia", "Decisión"].map((p, i) => (
+              <div key={p}>
+                <span>{String(i + 1).padStart(2, "0")}</span>
+                {p}
+                {i < 3 && <ArrowRight size={12} />}
+              </div>
+            ))}
+          </div>
+        </section>
+        <section>
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">PROJECT WORKSPACE</span>
+              <h2>Proyectos recientes</h2>
+            </div>
+            <Button asChild variant="ghost" size="icon" title="Ver proyectos">
+              <Link to="/projects" aria-label="Ver proyectos">
+                <ArrowUpRight />
+              </Link>
+            </Button>
+          </div>
+          <div className="recent-projects">
+            {projects.length ? (
+              projects.slice(0, 4).map((p) => (
+                <Link to="/projects" key={p.id} className="recent-project">
+                  <Bot size={19} />
+                  <div>
+                    <strong>{p.name}</strong>
+                    <span>
+                      Versión {p.version} ·{" "}
+                      {p.approved_version === p.version ? "Aprobada" : "Revisión pendiente"}
+                    </span>
+                  </div>
+                  <ArrowUpRight size={15} />
+                </Link>
+              ))
+            ) : (
+              <div className="project-empty">
+                <Bot size={30} />
+                <h3>
+                  {session.status === "authenticated" ? "Tu primer proyecto" : "Workspace privado"}
+                </h3>
+                <p>
+                  {session.status === "authenticated"
+                    ? "Integra un caso de uso para comenzar."
+                    : "Inicia sesión para ver tus proyectos."}
+                </p>
+                <Button asChild variant="outline" size="sm">
+                  <Link to="/projects">
+                    Integrar proyecto
+                    <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </div>
+          <div className="audit-shortcut">
+            <FileClock size={23} />
+            <div>
+              <h3>Evidencia de cada decisión</h3>
+              <p>Políticas, cambios y aprobaciones.</p>
+            </div>
+            <Button variant="ghost" size="icon" asChild>
+              <Link to="/audit" aria-label="Abrir auditoría">
+                <ArrowUpRight />
+              </Link>
+            </Button>
+          </div>
+        </section>
+      </div>
+      <section className="integration-strip">
+        <div>
+          <span className="eyebrow">INTEGRATION LAYER</span>
+          <h2>Un ecosistema conectado</h2>
+        </div>
+        {[
+          { to: "/sdk", label: "SDK & hooks", icon: Braces },
+          { to: "/marketplace", label: "Marketplace", icon: Workflow },
+          { to: "/models", label: "Modelos de IA", icon: Bot },
+        ].map((item) => (
+          <Button key={item.to} variant="outline" asChild>
+            <Link to={item.to}>
+              <item.icon size={16} />
+              {item.label}
+              <ArrowUpRight size={13} />
+            </Link>
+          </Button>
+        ))}
+      </section>
+    </>
+  );
 }

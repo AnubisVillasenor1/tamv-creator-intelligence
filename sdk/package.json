@@ -1,0 +1,19 @@
+{
+  "name": "@tamv/governance-sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Provider-neutral TAMV governance controls and authenticated project API client",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs"
+    }
+  },
+  "files": [
+    "index.mjs",
+    "index.d.ts",
+    "README.md",
+    "examples"
+  ],
+  "license": "SEE LICENSE IN ../LICENSE"
+}
