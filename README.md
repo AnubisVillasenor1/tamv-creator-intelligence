@@ -429,10 +429,11 @@ No desactives verificaciones para conseguir un build ni sustituyas `UNSIGNED_REL
 
 `npm run build` produce un artefacto Nitro con preset `cloudflare-module` en `.output/` (cliente, SSR y worker). El repositorio también documenta la ruta Vercel.
 
-Estado real de despliegue en este SHA:
+Estado real de despliegue:
 
-- **No hay evidencia de un despliegue aceptado** en Vercel ni en otro alojamiento.
-- El check de Vercel registrado en el estado de release del 15 de noviembre quedó en `failure` por `build-rate-limit` del scope del propietario: es un bloqueo externo de cuenta/plan, no un fallo de las puertas del repositorio.
+- **No hay evidencia de aceptación funcional ni de promoción a producción.** Al 2026-11-16, el check de Vercel del commit `1678fe3` reportó `success` con la descripción «Deployment has completed». Ese check acredita que la plataforma terminó su build, no que la URL sea accesible, que la aplicación funcione ni que el despliegue sea producción.
+- El 15 de noviembre el mismo check había quedado en `failure` por `build-rate-limit` del scope del propietario: un bloqueo externo de cuenta/plan.
+- No se obtuvo la URL pública del despliegue ni se ejecutó una prueba funcional contra ella.
 - No se ejecutó una prueba con usuario real, ni se aprovisionó auditoría durable, Redis, colas, almacenamiento ni atestaciones del release.
 - Un build verde o un `200` de `/api/tamv/status` **no** demuestran producción ni certificación; hay que leer `certified` y la evidencia ligada al artefacto exacto.
 
