@@ -127,17 +127,6 @@ function ExagonPage() {
           </div>
         </section>
 
-        <footer className="mt-8 border-t border-border pt-5 text-xs leading-5 text-muted-foreground">
-          <span className="font-semibold text-foreground">TAMV ONLINE NETWORK · Tecnología con responsabilidad</span>
-          <div className="mt-2 flex gap-4">
-            <Link to="/sovereignty" className="text-primary hover:underline">
-              Soberanía
-            </Link>
-            <Link to="/hypercore" className="text-primary hover:underline">
-              Diagnóstico
-            </Link>
-          </div>
-        </footer>
       </div>
     </main>
   );

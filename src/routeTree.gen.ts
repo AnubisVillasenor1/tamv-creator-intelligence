@@ -21,6 +21,7 @@ import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as ModelsRouteImport } from './routes/models'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as ReviewRouteImport } from './routes/review'
 import { Route as SdkRouteImport } from './routes/sdk'
 import { Route as SovereigntyRouteImport } from './routes/sovereignty'
 import { Route as StudioRouteImport } from './routes/studio'
@@ -95,6 +96,11 @@ const ProjectsRoute = ProjectsRouteImport.update({
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewRoute = ReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SdkRoute = SdkRouteImport.update({
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/models': typeof ModelsRoute
   '/projects': typeof ProjectsRoute
   '/research': typeof ResearchRoute
+  '/review': typeof ReviewRoute
   '/sdk': typeof SdkRoute
   '/sovereignty': typeof SovereigntyRoute
   '/studio': typeof StudioRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/models': typeof ModelsRoute
   '/projects': typeof ProjectsRoute
   '/research': typeof ResearchRoute
+  '/review': typeof ReviewRoute
   '/sdk': typeof SdkRoute
   '/sovereignty': typeof SovereigntyRoute
   '/studio': typeof StudioRoute
@@ -245,6 +253,7 @@ export interface FileRoutesById {
   '/models': typeof ModelsRoute
   '/projects': typeof ProjectsRoute
   '/research': typeof ResearchRoute
+  '/review': typeof ReviewRoute
   '/sdk': typeof SdkRoute
   '/sovereignty': typeof SovereigntyRoute
   '/studio': typeof StudioRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/models'
     | '/projects'
     | '/research'
+    | '/review'
     | '/sdk'
     | '/sovereignty'
     | '/studio'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/models'
     | '/projects'
     | '/research'
+    | '/review'
     | '/sdk'
     | '/sovereignty'
     | '/studio'
@@ -334,6 +345,7 @@ export interface FileRouteTypes {
     | '/models'
     | '/projects'
     | '/research'
+    | '/review'
     | '/sdk'
     | '/sovereignty'
     | '/studio'
@@ -364,6 +376,7 @@ export interface RootRouteChildren {
   ModelsRoute: typeof ModelsRoute
   ProjectsRoute: typeof ProjectsRoute
   ResearchRoute: typeof ResearchRoute
+  ReviewRoute: typeof ReviewRoute
   SdkRoute: typeof SdkRoute
   SovereigntyRoute: typeof SovereigntyRoute
   StudioRoute: typeof StudioRoute
@@ -465,6 +478,13 @@ declare module '@tanstack/react-router' {
       path: '/research'
       fullPath: '/research'
       preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review': {
+      id: '/review'
+      path: '/review'
+      fullPath: '/review'
+      preLoaderRoute: typeof ReviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sdk': {
@@ -588,6 +608,7 @@ const rootRouteChildren: RootRouteChildren = {
   ModelsRoute: ModelsRoute,
   ProjectsRoute: ProjectsRoute,
   ResearchRoute: ResearchRoute,
+  ReviewRoute: ReviewRoute,
   SdkRoute: SdkRoute,
   SovereigntyRoute: SovereigntyRoute,
   StudioRoute: StudioRoute,

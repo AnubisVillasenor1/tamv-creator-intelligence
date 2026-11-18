@@ -1,4 +1,5 @@
 import {
+  Activity,
   AudioWaveform,
   Blocks,
   Bot,
@@ -10,6 +11,8 @@ import {
   Hexagon,
   LayoutDashboard,
   PlugZap,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
 export const workspaceNavigation = [
@@ -33,6 +36,13 @@ export const workspaceNavigation = [
     description: "Audio procedural y planes locales",
     group: "Crear",
     icon: AudioWaveform,
+  },
+  {
+    to: "/review",
+    label: "Revisión creativa",
+    description: "Revisión de borradores con IA y trazabilidad",
+    group: "Crear",
+    icon: Sparkles,
   },
   {
     to: "/integrations",
@@ -68,6 +78,20 @@ export const workspaceNavigation = [
     description: "Aprobación y evidencia bajo control humano",
     group: "Gobernar",
     icon: Hexagon,
+  },
+  {
+    to: "/hypercore",
+    label: "Diagnóstico HyperCore",
+    description: "Estado del núcleo y controles de ejecución",
+    group: "Gobernar",
+    icon: Activity,
+  },
+  {
+    to: "/sovereignty",
+    label: "Soberanía",
+    description: "Evidencia y límites de TAMV ONLINE",
+    group: "Gobernar",
+    icon: ShieldCheck,
   },
   {
     to: "/sdk",

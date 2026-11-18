@@ -2,6 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { createRouter, rootRouteId } from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
 
+import { workspaceNavigation } from "@/lib/workspace-navigation";
 import { routeTree } from "@/routeTree.gen";
 
 // Match routes without running loaders or rendering: loaders may need a server or
@@ -26,4 +27,20 @@ describe("App routing", () => {
       expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
     },
   );
+
+  it("resolves every sidebar destination to a real route", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+
+    for (const item of workspaceNavigation) {
+      const matches = router.matchRoutes(item.to);
+
+      expect(matches.at(-1)?.routeId, item.to).not.toBe(rootRouteId);
+    }
+  });
+
+  it("only uses navigation groups rendered by the workspace shell", () => {
+    for (const item of workspaceNavigation) {
+      expect(["Crear", "Conectar", "Gobernar", "Aprender"], item.to).toContain(item.group);
+    }
+  });
 });
