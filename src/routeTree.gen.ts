@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthCallbackRouteImport } from './routes/auth-callback'
+import { Route as ExagonRouteImport } from './routes/exagon'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
@@ -54,6 +55,11 @@ const AuthRoute = AuthRouteImport.update({
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth-callback',
   path: '/auth-callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExagonRoute = ExagonRouteImport.update({
+  id: '/exagon',
+  path: '/exagon',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuideRoute = GuideRouteImport.update({
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
+  '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
+  '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
+  '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
@@ -259,6 +268,7 @@ export interface FileRouteTypes {
     | '/audit'
     | '/auth'
     | '/auth-callback'
+    | '/exagon'
     | '/guide'
     | '/hypercore'
     | '/integrations'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/audit'
     | '/auth'
     | '/auth-callback'
+    | '/exagon'
     | '/guide'
     | '/hypercore'
     | '/integrations'
@@ -315,6 +326,7 @@ export interface FileRouteTypes {
     | '/audit'
     | '/auth'
     | '/auth-callback'
+    | '/exagon'
     | '/guide'
     | '/hypercore'
     | '/integrations'
@@ -344,6 +356,7 @@ export interface RootRouteChildren {
   AuditRoute: typeof AuditRoute
   AuthRoute: typeof AuthRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  ExagonRoute: typeof ExagonRoute
   GuideRoute: typeof GuideRoute
   HypercoreRoute: typeof HypercoreRoute
   IntegrationsRoute: typeof IntegrationsRoute
@@ -396,6 +409,13 @@ declare module '@tanstack/react-router' {
       path: '/auth-callback'
       fullPath: '/auth-callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exagon': {
+      id: '/exagon'
+      path: '/exagon'
+      fullPath: '/exagon'
+      preLoaderRoute: typeof ExagonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guide': {
@@ -560,6 +580,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuditRoute: AuditRoute,
   AuthRoute: AuthRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  ExagonRoute: ExagonRoute,
   GuideRoute: GuideRoute,
   HypercoreRoute: HypercoreRoute,
   IntegrationsRoute: IntegrationsRoute,

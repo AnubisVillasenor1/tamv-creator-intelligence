@@ -15,7 +15,7 @@ describe("App routing", () => {
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
 
-  it.each(["/auth", "/auth?mode=recovery", "/auth-callback?code=abc"])(
+  it.each(["/exagon", "/auth", "/auth?mode=recovery", "/auth-callback?code=abc"])(
     "matches the dedicated access route for %s",
     (href) => {
       const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });

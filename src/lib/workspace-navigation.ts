@@ -7,6 +7,7 @@ import {
   FileClock,
   FlaskConical,
   GraduationCap,
+  Hexagon,
   LayoutDashboard,
   PlugZap,
 } from "lucide-react";
@@ -60,6 +61,13 @@ export const workspaceNavigation = [
     description: "Evidencia de tus decisiones",
     group: "Gobernar",
     icon: FileClock,
+  },
+  {
+    to: "/exagon",
+    label: "Exagon",
+    description: "Aprobación y evidencia bajo control humano",
+    group: "Gobernar",
+    icon: Hexagon,
   },
   {
     to: "/sdk",
