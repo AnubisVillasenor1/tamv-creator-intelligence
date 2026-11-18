@@ -15,6 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TamvLogo } from "@/components/branding/TamvLogo";
 import { useGovernedProjects } from "@/hooks/use-governed-projects";
 import { skillRegistry } from "@/lib/skill-registry";
 import { CORE_CONTROLS } from "../../sdk/index.mjs";
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Organiza proyectos, crea audio y conecta tu ecosistema con gobernanza y control humano.",
+          "Organiza proyectos, crea audio y conecta tu ecosistema con gobernanza agnóstica de sector y proveedor y control humano.",
       },
       { property: "og:title", content: "TAMV Creator Intelligence" },
       {
@@ -58,8 +59,9 @@ function Dashboard() {
       <section className="workspace-hero">
         <div className="hero-editorial">
           <span className="hero-kicker">
+            <TamvLogo className="h-5 w-5 rounded object-contain" size={20} priority />
             <span />
-            TAMV CREATOR INTELLIGENCE
+            TAMV ONLINE NETWORK · CREATOR INTELLIGENCE
           </span>
           <h2>
             Grandes ideas.
@@ -69,6 +71,10 @@ function Dashboard() {
           <p>
             Tu centro de trabajo para proyectos de IA, creación sonora y conexiones sociales. Cada
             herramienta, con sus reglas. Cada decisión, en tus manos.
+          </p>
+          <p className="hero-agnostic">
+            Agnóstico de sector y proveedor: nació en el ecosistema PLAY &amp; GO, pero no está
+            limitado a él. Cualquier proyecto de IA puede integrarse.
           </p>
           <div className="hero-actions">
             <Button asChild>
@@ -96,9 +102,9 @@ function Dashboard() {
           <div className="orbit orbit-one" />
           <div className="orbit orbit-two" />
           <div className="orbit-center">
-            <Layers3 size={44} strokeWidth={1.2} />
+            <TamvLogo className="h-16 w-16 rounded-xl object-contain" size={64} priority />
             <strong>TAMV</strong>
-            <span>CREATIVE WORKSPACE</span>
+            <span>ONLINE NETWORK · CREATIVE WORKSPACE</span>
           </div>
           <div className="orbit-label orbit-idea">
             <Sparkles size={17} />
@@ -168,6 +174,7 @@ function Dashboard() {
               title: "Dale sonido a tu idea",
               description:
                 "Renderiza audio procedural, consulta su análisis y descarga un WAV verificable.",
+              image: "/brand/sections/dale-sonido-a-tu-idea.jpg",
               to: "/studio",
               tone: "mint",
               action: "Abrir estudio",
@@ -178,6 +185,7 @@ function Dashboard() {
               title: "Acerca tu ecosistema",
               description:
                 "Explora los receptores de eventos y prepara conexiones seguras con tus canales.",
+              image: "/brand/sections/acerca-tu-ecosistema.jpg",
               to: "/integrations",
               tone: "blue",
               action: "Ver integraciones",
@@ -188,12 +196,18 @@ function Dashboard() {
               title: "Haz visible cada decisión",
               description:
                 "Revisa políticas, versiones y aprobaciones de tus proyectos en un solo lugar.",
+              image: "/brand/sections/haz-visible-cada-decision.jpg",
               to: "/audit",
               tone: "gold",
               action: "Consultar auditoría",
             },
           ].map((item) => (
-            <Link key={item.title} to={item.to} className={`action-card action-${item.tone}`}>
+            <Link
+              key={item.title}
+              to={item.to}
+              className={`action-card action-${item.tone} has-art`}
+              style={{ backgroundImage: `url("${item.image}")` }}
+            >
               <div className="action-card-top">
                 <span className="feature-icon">
                   <item.icon size={25} />

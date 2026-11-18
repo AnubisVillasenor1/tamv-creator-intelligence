@@ -331,6 +331,12 @@ button:disabled {
   font-size: 13px;
   line-height: 1.85;
 }
+.hero-editorial > p.hero-agnostic {
+  margin-top: 10px;
+  color: var(--primary);
+  font-size: 11px;
+  line-height: 1.7;
+}
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -502,6 +508,29 @@ button:disabled {
 }
 .action-gold {
   --action-color: var(--authority);
+}
+.action-card.has-art {
+  position: relative;
+  isolation: isolate;
+  min-height: 330px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.action-card.has-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--card) 24%, transparent) 0%,
+    color-mix(in oklch, var(--card) 62%, transparent) 58%,
+    color-mix(in oklch, var(--card) 84%, transparent) 100%
+  );
+}
+.action-card.has-art .feature-icon {
+  background: color-mix(in oklch, var(--card) 72%, transparent);
 }
 .action-card-top {
   display: flex;
