@@ -33,6 +33,7 @@ export const Route = createFileRoute("/")({
         content: "Un espacio para crear, conectar y decidir con responsabilidad.",
       },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: Dashboard,

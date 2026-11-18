@@ -1,3 +1,4 @@
+export { evaluateExecutionPermit, createPermitGovernance, PERMIT_POLICY_VERSION } from "./permit.mjs";
 export const POLICY_VERSION = "tamv.governance.v1";
 export const CORE_CONTROLS = Object.freeze([
   { id: "consent", title: "Consentimiento y finalidad", evidence: "Consentimiento vigente para la operación y su finalidad." },

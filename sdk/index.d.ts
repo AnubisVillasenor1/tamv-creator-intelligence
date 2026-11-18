@@ -1,3 +1,4 @@
+export * from "./permit.js";
 export const POLICY_VERSION: string;
 export const CORE_CONTROLS: ReadonlyArray<{ id: string; title: string; evidence: string }>;
 export type ExecutionMode = "certified" | "draft" | "local";

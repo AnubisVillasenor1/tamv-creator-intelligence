@@ -1,5 +1,10 @@
 # Actualización TAMV
 
+## Cableado GovCore y cierre funcional (2026-11-18)
+- [ ] Corregir el bloqueo del scheduler y verificar las regresiones de gobernanza.
+- [ ] Integrar los controles ejecutables de la referencia GovCore con el SDK y la app, sin sustituir autorización real por datos declarados.
+- [ ] Verificar proyectos, auditoría, navegación y documentar los bloqueos externos restantes.
+
 ## Workspace, estudio e integraciones (2026-11-17)
 - [x] Navegación Crear/Conectar/Gobernar/Aprender, búsqueda, tema claro/oscuro y menú móvil.
 - [x] Tutorial de seis pasos con progreso local y reinicio; no certifica cuentas ni ejecuta capacidades.

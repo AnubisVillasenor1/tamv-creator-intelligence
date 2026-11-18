@@ -172,9 +172,12 @@ export async function runGovernedTurbo<T>(input: GovernedSchedulerInput<T>): Pro
     waves += 1;
     maxObservedConcurrency = Math.max(maxObservedConcurrency, ready.length);
     const batchResults = await runTurboParallel(ready.map(({ task }) => ({
-      id: task.id, critical: task.critical, idempotent: task.idempotent, maxAttempts: task.maxAttempts,
+      id: task.id,
+      ...(task.critical === undefined ? {} : { critical: task.critical }),
+      ...(task.idempotent === undefined ? {} : { idempotent: task.idempotent }),
+      ...(task.maxAttempts === undefined ? {} : { maxAttempts: task.maxAttempts }),
       run: task.run,
-    })), { maxConcurrency: concurrency, failFast: true });
+    })), { maxConcurrency: concurrency, failFast: true, ...(input.signal ? { signal: input.signal } : {}) });
 
     for (const result of batchResults) {
       const entry = pending.get(result.id);

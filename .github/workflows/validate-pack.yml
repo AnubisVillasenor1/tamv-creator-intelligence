@@ -91,5 +91,8 @@ jobs:
       - name: Run unit and routing tests
         run: bun run test
 
+      - name: Test provider-neutral SDK and execution permits
+        run: node --test sdk/tests/*.test.mjs
+
       - name: Build production application
         run: bun run build

@@ -7,6 +7,10 @@ import { useGovernedProjects } from "@/hooks/use-governed-projects";
 import { readProjectAudit } from "@/lib/project.functions";
 import { downloadJson } from "@/components/governance-projects";
 export const Route = createFileRoute("/audit")({
+  validateSearch: (search: Record<string, unknown>): { projectId?: string } => {
+    const projectId = search["projectId"];
+    return typeof projectId === "string" && /^[a-f0-9-]{36}$/i.test(projectId) ? { projectId } : {};
+  },
   head: () => ({
     meta: [
       { title: "Auditoría de proyectos · TAMV" },
@@ -34,9 +38,10 @@ const labels: Record<string, string> = {
   "policy.evaluated": "Políticas evaluadas",
 };
 function Audit() {
+  const search = Route.useSearch();
   const { projects, session } = useGovernedProjects();
   const read = useServerFn(readProjectAudit);
-  const [id, setId] = useState("");
+  const [id, setId] = useState(search.projectId ?? "");
   const [events, setEvents] = useState<Awaited<ReturnType<typeof readProjectAudit>>>([]);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);

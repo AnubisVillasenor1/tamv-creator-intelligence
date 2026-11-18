@@ -5,6 +5,25 @@ const approved = { actorId: "user-1", capability: "agent.orchestration" as const
 function auditLog(events: GovernedAuditEvent[]) { return async (event: GovernedAuditEvent) => { events.push(event); }; }
 
 describe("HyperCore governed adaptive scheduler", () => {
+  it("forwards caller cancellation to running tasks and skips dependent waves", async () => {
+    const controller = new AbortController();
+    let observedAbort = false;
+    let dependentRuns = 0;
+    const result = await runGovernedTurbo({
+      ...approved, signal: controller.signal, audit: async () => {},
+      tasks: [
+        { id: "active", run: async ({ signal }) => new Promise<number>((_resolve, reject) => {
+          signal.addEventListener("abort", () => { observedAbort = true; reject(new Error("cancelled")); }, { once: true });
+          controller.abort();
+        }) },
+        { id: "dependent", dependsOn: ["active"], run: async () => ++dependentRuns },
+      ],
+    });
+    expect(result.status).toBe("cancelled");
+    expect(observedAbort).toBe(true);
+    expect(dependentRuns).toBe(0);
+    expect(result.results.find(row => row.id === "dependent")?.status).toBe("skipped");
+  });
   it("denies by default and emits a denial receipt", async () => {
     const events: GovernedAuditEvent[] = [];
     const result = await runGovernedTurbo({ ...approved, consentGranted: false, runId: "run-denied", tasks: [{ id: "write", run: async () => "must not run" }], audit: auditLog(events) });

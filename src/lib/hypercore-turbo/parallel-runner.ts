@@ -16,6 +16,7 @@ export interface TurboResult<T> {
 }
 
 export interface TurboOptions {
+  signal?: AbortSignal;
   maxConcurrency?: number;
   timeoutMs?: number;
   failFast?: boolean;
@@ -55,7 +56,7 @@ function retryable(error: unknown): boolean {
 
 async function execute<T>(
   task: TurboTask<T>,
-  options: Required<TurboOptions>,
+  options: Required<Omit<TurboOptions, "signal">>,
   parentSignal: AbortSignal,
 ): Promise<TurboResult<T>> {
   const startedAt = performance.now();
@@ -131,7 +132,7 @@ export async function runTurboParallel<T>(
   tasks: TurboTask<T>[],
   input: TurboOptions = {},
 ): Promise<TurboResult<T>[]> {
-  const options: Required<TurboOptions> = {
+  const options: Required<Omit<TurboOptions, "signal">> = {
     maxConcurrency: input.maxConcurrency ?? 8,
     timeoutMs: input.timeoutMs ?? 30000,
     failFast: input.failFast ?? true,
@@ -153,6 +154,9 @@ export async function runTurboParallel<T>(
   }
 
   const controller = new AbortController();
+  const forwardAbort = () => controller.abort();
+  if (input.signal?.aborted) controller.abort();
+  else input.signal?.addEventListener("abort", forwardAbort, { once: true });
   const results: Array<TurboResult<T> | undefined> = new Array(tasks.length);
   let cursor = 0;
   let criticalFailure = false;
@@ -173,15 +177,19 @@ export async function runTurboParallel<T>(
     }
   }
 
-  await Promise.all(
-    Array.from({ length: Math.min(options.maxConcurrency, tasks.length) }, () => worker()),
-  );
+  try {
+    await Promise.all(
+      Array.from({ length: Math.min(options.maxConcurrency, tasks.length) }, () => worker()),
+    );
+  } finally {
+    input.signal?.removeEventListener("abort", forwardAbort);
+  }
 
   return tasks.map((task, index) => results[index] ?? {
     id: task.id,
     status: "skipped" as const,
     attempts: 0,
     durationMs: 0,
-    error: "Not scheduled after critical failure",
+    error: input.signal?.aborted ? "Cancelled by caller" : "Not scheduled after critical failure",
   });
 }

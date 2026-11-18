@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useGovernedProjects } from "@/hooks/use-governed-projects";
 import { assessProject, changeProject } from "@/lib/project.functions";
 import { assessmentSchema, type GovernedProject } from "@/lib/project-schema";
+import { ProjectPolicyCheck } from "@/components/project-policy-check";
 
 export function downloadJson(value: unknown, name: string) {
   const url = URL.createObjectURL(
@@ -181,6 +182,7 @@ function ProjectDetail({
           <p className="text-xs text-muted-foreground mt-3">
             Aprobación interna; no equivale a certificación TAMV ni cumplimiento legal.
           </p>
+          <ProjectPolicyCheck project={project} onChange={onChange} />
         </div>
         <div className="assessment-area">
           <h3 className="section-subtitle">
@@ -261,7 +263,7 @@ function ProjectDetail({
         </p>
       )}
       <Button asChild variant="link" className="mt-5 px-0">
-        <Link to="/audit">
+        <Link to="/audit" search={{ projectId: project.id }}>
           <FileClock />
           Ver auditoría del proyecto
         </Link>
@@ -288,8 +290,10 @@ export function GovernanceProjects() {
       await refresh();
       setName("");
       setUseCase("");
-    } catch {
-      setFailure("Inicia sesión para integrar tu proyecto. Tu caso de uso se conserva.");
+    } catch (err) {
+      setFailure(session.status === "anonymous"
+        ? "Inicia sesión para integrar tu proyecto. Tu caso de uso se conserva."
+        : err instanceof Error ? err.message : "No se pudo guardar el proyecto. Tu caso de uso se conserva.");
     } finally {
       setBusy(false);
     }

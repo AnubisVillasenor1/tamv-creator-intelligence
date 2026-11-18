@@ -38,3 +38,5 @@ use the editor.
 - Compare upstream archives without importing repository metadata or managed files; this preserves local work and the platform's Git history.
 - Return ArrayBuffer-backed typed arrays to Web Crypto and omit absent optional fields; this preserves strict typing without weakening verification.
 - Validate the generated skill registry and the independent Genesis test suite in CI; this keeps dashboard contracts and evidence checks aligned with the package.
+- Keep execution-permit adapters provider-neutral and require an atomic host claim that revalidates trusted state; declarative snapshots alone cannot grant authority or guarantee exactly-once effects.
+- Keep policy checks in the project UI advisory and persist their evidence through the existing authenticated action service; owner configuration approval is not independent execution approval.
