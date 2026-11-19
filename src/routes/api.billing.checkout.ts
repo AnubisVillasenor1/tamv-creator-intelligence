@@ -70,7 +70,7 @@ export const Route = createFileRoute("/api/billing/checkout")({
           return fail("La solicitud debe incluir únicamente planKey.", 400, "BILLING_CHECKOUT_INPUT_INVALID");
         }
         const planKey = (input as Record<string, unknown>)["planKey"];
-        if (typeof planKey !== "string" || !(planKey in plans)) return fail("El plan solicitado no está permitido.", 400, "BILLING_CHECKOUT_PLAN_INVALID");
+        if (typeof planKey !== "string" || !Object.hasOwn(plans, planKey)) return fail("El plan solicitado no está permitido.", 400, "BILLING_CHECKOUT_PLAN_INVALID");
         const priceId = process.env[plans[planKey as keyof typeof plans]];
         if (!priceId || !/^price_[A-Za-z0-9]+$/.test(priceId)) return fail("El precio de este plan no está configurado.", 503, "BILLING_CHECKOUT_PRICE_NOT_CONFIGURED");
 
