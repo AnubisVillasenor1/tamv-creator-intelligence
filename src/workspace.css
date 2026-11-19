@@ -1970,3 +1970,73 @@ pre { max-width: 100%; overflow-x: auto; }
   html { scroll-behavior: auto; }
   .govern-nav:hover, button:not(:disabled):active { transform: none; }
 }
+
+/* Branded recovery states: useful, legible and consistent with the workspace shell. */
+.tamv-system-state {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  padding: clamp(20px, 5vw, 64px);
+  background:
+    radial-gradient(ellipse at 18% 10%, color-mix(in oklch, var(--signal) 12%, transparent), transparent 42%),
+    radial-gradient(ellipse at 86% 90%, color-mix(in oklch, var(--tamv-ion-pink) 8%, transparent), transparent 38%),
+    var(--background);
+}
+.tamv-system-state-card {
+  position: relative;
+  width: min(100%, 560px);
+  padding: clamp(28px, 5vw, 52px);
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--border) 70%, var(--tamv-platinum) 30%);
+  border-radius: 22px;
+  background: linear-gradient(145deg, color-mix(in oklch, var(--card) 94%, white 6%), color-mix(in oklch, var(--background) 88%, var(--card)));
+  text-align: center;
+  box-shadow: 0 32px 90px oklch(.02 .02 255 / .28), inset 0 1px 0 #ffffff12;
+}
+.tamv-system-state-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tamv-platinum), var(--tamv-electric-blue), var(--tamv-ion-pink), transparent);
+}
+.tamv-system-state-code {
+  margin: 0;
+  color: transparent;
+  background: linear-gradient(100deg, var(--tamv-platinum), var(--tamv-electric-blue) 52%, var(--tamv-ion-pink));
+  background-clip: text;
+  font: 700 clamp(64px, 12vw, 100px)/1 var(--font-display);
+  letter-spacing: -.07em;
+}
+.tamv-system-state-title {
+  margin: 12px 0 0;
+  color: var(--foreground);
+  font: 600 clamp(22px, 4vw, 30px)/1.25 var(--font-display);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.tamv-system-state-copy {
+  max-width: 42ch;
+  margin: 12px auto 0;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.tamv-system-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 26px;
+}
+.tamv-system-state-actions > a,
+.tamv-system-state-actions > button {
+  min-height: 44px;
+  border-radius: 11px;
+}
+:root[data-workspace-theme="light"] .tamv-system-state-card {
+  background: linear-gradient(145deg, #ffffff, #f2f6fb);
+  box-shadow: 0 24px 70px oklch(.3 .02 255 / .09), inset 0 1px 0 #ffffff;
+}
