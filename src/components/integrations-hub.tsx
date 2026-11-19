@@ -40,6 +40,12 @@ export function IntegrationsHub() {
       setFeedback("No se pudo copiar. Selecciona la URL y cópiala manualmente.");
     }
   }
+  const iconSlug: Record<string, string> = { facebook: "facebook", instagram: "instagram", tiktok: "tiktok", threads: "threads", whatsapp: "whatsapp", telegram: "telegram", linkedin: "linkedin", github: "github", twitter: "x" };
+  const iconColor: Record<string, string> = { facebook: "1877F2", instagram: "E4405F", tiktok: "FFFFFF", threads: "FFFFFF", whatsapp: "25D366", telegram: "26A5E4", linkedin: "0A66C2", github: "FFFFFF", twitter: "FFFFFF" };
+  function ProviderMark({ id, monogram }: { id: string; monogram: string }) {
+    const slug = iconSlug[id];
+    return slug ? <img className={`provider-official-icon provider-icon-${id}`} src={`https://cdn.simpleicons.org/${slug}/${iconColor[id]}`} alt="" aria-hidden="true" loading="lazy" decoding="async" /> : <span>{monogram}</span>;
+  }
   return (
     <>
       <div className="page-heading dashboard-heading">
@@ -113,7 +119,7 @@ export function IntegrationsHub() {
               >
                 <div className="connector-top">
                   <span className={`provider-monogram provider-${item.id}`} aria-hidden="true">
-                    {item.monogram}
+                    <ProviderMark id={item.id} monogram={item.monogram} />
                   </span>
                   <span>{item.category}</span>
                 </div>
@@ -153,7 +159,7 @@ export function IntegrationsHub() {
         <section className="connector-detail" aria-label={`Configurar ${provider.name}`}>
           <div className="connector-detail-heading">
             <span className={`provider-monogram provider-${provider.id}`} aria-hidden="true">
-              {provider.monogram}
+              <ProviderMark id={provider.id} monogram={provider.monogram} />
             </span>
             <div>
               <span className="eyebrow">GUÍA DE CONEXIÓN</span>
