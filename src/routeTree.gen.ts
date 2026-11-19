@@ -36,8 +36,6 @@ import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
 import { Route as ApiGuideRouteImport } from './routes/api.guide'
 import { Route as ApiBillingWebhookRouteImport } from './routes/api.billing.webhook'
-import { Route as ApiBillingCheckoutRouteImport } from './routes/api.billing.checkout'
-import { Route as ApiAdminMembershipsRouteImport } from './routes/api.admin.memberships'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
 import { Route as ApiStudioMetricsRouteImport } from './routes/api.studio.metrics'
@@ -179,6 +177,11 @@ const ApiGuideRoute = ApiGuideRouteImport.update({
   path: '/api/guide',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiBillingWebhookRoute = ApiBillingWebhookRouteImport.update({
+  id: '/api/billing/webhook',
+  path: '/api/billing/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAudiocoreAdvancedRoute = ApiAudiocoreAdvancedRouteImport.update({
   id: '/api/audiocore/advanced',
   path: '/api/audiocore/advanced',
@@ -272,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/guide': typeof ApiGuideRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
@@ -515,6 +519,7 @@ export interface RootRouteChildren {
   ApiAgentRoute: typeof ApiAgentRoute
   ApiGenerationRoute: typeof ApiGenerationRoute
   ApiGuideRoute: typeof ApiGuideRoute
+  ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
   ApiAudiocoreAdvancedRoute: typeof ApiAudiocoreAdvancedRoute
   ApiGovernanceReceiptsRoute: typeof ApiGovernanceReceiptsRoute
   ApiStudioMetricsRoute: typeof ApiStudioMetricsRoute
@@ -707,6 +712,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/billing/webhook': {
+      id: '/api/billing/webhook'
+      path: '/api/billing/webhook'
+      fullPath: '/api/billing/webhook'
+      preLoaderRoute: typeof ApiBillingWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/audiocore/advanced': {
       id: '/api/audiocore/advanced'
       path: '/api/audiocore/advanced'
@@ -835,6 +847,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAgentRoute: ApiAgentRoute,
   ApiGenerationRoute: ApiGenerationRoute,
   ApiGuideRoute: ApiGuideRoute,
+  ApiBillingWebhookRoute: ApiBillingWebhookRoute,
   ApiAudiocoreAdvancedRoute: ApiAudiocoreAdvancedRoute,
   ApiGovernanceReceiptsRoute: ApiGovernanceReceiptsRoute,
   ApiStudioMetricsRoute: ApiStudioMetricsRoute,

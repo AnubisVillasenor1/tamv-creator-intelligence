@@ -1,8 +1,7 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { createHash } from "node:crypto";
-import { readBoundedResponseText } from "../lib/bounded-response.server";
-import { readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
+import { isJsonContentType, readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   STRIPE_WEBHOOK_MAX_BODY_BYTES,
   verifyStripeWebhookSignature,
@@ -38,6 +37,16 @@ export const Route = createFileRoute("/api/billing/webhook")({
           return errorResponse("La URL de almacenamiento no es válida.", 503, "BILLING_WEBHOOK_STORAGE_CONFIG_INVALID");
         }
 
+        if (!isJsonContentType(request.headers.get("content-type"))) return errorResponse("Content-Type debe ser application/json.", 415, "BILLING_WEBHOOK_CONTENT_TYPE");
+
+        let databaseUrl: URL;
+        try {
+          databaseUrl = new URL(supabaseUrl);
+          if (databaseUrl.protocol !== "https:" || databaseUrl.username || databaseUrl.password || databaseUrl.search || databaseUrl.hash) throw new Error("invalid database URL");
+        } catch {
+          return errorResponse("La URL de base de datos del servidor no es válida.", 503, "BILLING_WEBHOOK_STORAGE_CONFIG");
+        }
+
         const declaredLength = request.headers.get("content-length");
         if (declaredLength !== null && (!/^(0|[1-9][0-9]*)$/.test(declaredLength) || Number(declaredLength) > STRIPE_WEBHOOK_MAX_BODY_BYTES)) {
           return errorResponse("El cuerpo del webhook supera el límite permitido.", 413, "BILLING_WEBHOOK_BODY_LIMIT");
@@ -61,7 +70,9 @@ export const Route = createFileRoute("/api/billing/webhook")({
         }
 
         const payloadHash = createHash("sha256").update(body.text, "utf8").digest("hex");
-        let processResponse: Response;
+        const endpoint = new URL("/rest/v1/tamv_billing_webhook_events", databaseUrl);
+        endpoint.searchParams.set("on_conflict", "provider,event_id");
+        let persistResponse: Response;
         try {
           processResponse = await fetch(new URL("/rest/v1/rpc/process_tamv_stripe_billing_event", baseUrl), {
             method: "POST",
