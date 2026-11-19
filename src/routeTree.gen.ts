@@ -391,6 +391,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   ExagonRoute: typeof ExagonRoute
   GuideRoute: typeof GuideRoute
+  AtlasRoute: typeof AtlasRoute
   HypercoreRoute: typeof HypercoreRoute
   IntegrationsRoute: typeof IntegrationsRoute
   MarketplaceRoute: typeof MarketplaceRoute
