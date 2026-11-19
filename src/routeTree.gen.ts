@@ -29,6 +29,7 @@ import { Route as SovereigntyRouteImport } from './routes/sovereignty'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
+import { Route as ApiGuideRouteImport } from './routes/api.guide'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
 import { Route as ApiStudioMetricsRouteImport } from './routes/api.studio.metrics'
@@ -140,6 +141,11 @@ const ApiGenerationRoute = ApiGenerationRouteImport.update({
   path: '/api/generation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiGuideRoute = ApiGuideRouteImport.update({
+  id: '/api/guide',
+  path: '/api/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAudiocoreAdvancedRoute = ApiAudiocoreAdvancedRouteImport.update({
   id: '/api/audiocore/advanced',
   path: '/api/audiocore/advanced',
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
+  '/api/guide': typeof ApiGuideRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
@@ -309,6 +316,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/api/agent'
     | '/api/generation'
+    | '/api/guide'
     | '/api/audiocore/advanced'
     | '/api/governance/receipts'
     | '/api/studio/metrics'
@@ -404,6 +412,7 @@ export interface RootRouteChildren {
   StudioRoute: typeof StudioRoute
   ApiAgentRoute: typeof ApiAgentRoute
   ApiGenerationRoute: typeof ApiGenerationRoute
+  ApiGuideRoute: typeof ApiGuideRoute
   ApiAudiocoreAdvancedRoute: typeof ApiAudiocoreAdvancedRoute
   ApiGovernanceReceiptsRoute: typeof ApiGovernanceReceiptsRoute
   ApiStudioMetricsRoute: typeof ApiStudioMetricsRoute
@@ -558,6 +567,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGenerationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/guide': {
+      id: '/api/guide'
+      path: '/api/guide'
+      fullPath: '/api/guide'
+      preLoaderRoute: typeof ApiGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/audiocore/advanced': {
       id: '/api/audiocore/advanced'
       path: '/api/audiocore/advanced'
@@ -652,6 +668,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudioRoute: StudioRoute,
   ApiAgentRoute: ApiAgentRoute,
   ApiGenerationRoute: ApiGenerationRoute,
+  ApiGuideRoute: ApiGuideRoute,
   ApiAudiocoreAdvancedRoute: ApiAudiocoreAdvancedRoute,
   ApiGovernanceReceiptsRoute: ApiGovernanceReceiptsRoute,
   ApiStudioMetricsRoute: ApiStudioMetricsRoute,
