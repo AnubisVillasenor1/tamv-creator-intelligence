@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Bot, LoaderCircle, Send, ShieldCheck, UserRound } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -20,9 +21,11 @@ export function AtlasAiAssistant() {
     setError("");
     setLoading(true);
     try {
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !sessionData.session?.access_token) throw new Error("Inicia sesión para utilizar el asistente conversacional.");
       const response = await fetch("/api/guide", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionData.session.access_token },
         body: JSON.stringify({ message, history: prior, context: "Pantalla Atlas de TAMV Creator Intelligence; guía y catálogo de skills." }),
       });
       const payload: unknown = await response.json().catch(() => null);
