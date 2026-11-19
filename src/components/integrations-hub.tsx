@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { socialIntegrations, webhookPath, type SocialProvider } from "@/lib/social-integrations";
+import { SocialBrandIcon } from "@/components/integrations/social-brand-icon";
 
 export function IntegrationsHub() {
   const [query, setQuery] = useState("");
