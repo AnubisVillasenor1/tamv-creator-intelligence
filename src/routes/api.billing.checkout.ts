@@ -66,10 +66,13 @@ export const Route = createFileRoute("/api/billing/checkout")({
         if (!body.ok) return fail("La solicitud es inválida o demasiado grande.", body.reason === "too-large" ? 413 : 400, "BILLING_CHECKOUT_BODY_INVALID");
         let input: unknown;
         try { input = JSON.parse(body.text); } catch { return fail("JSON inválido.", 400, "BILLING_CHECKOUT_JSON_INVALID"); }
-        if (!input || typeof input !== "object" || Array.isArray(input) || Object.keys(input).some((key) => key !== "planKey")) {
+        if (!input || typeof input !== "object" || Array.isArray(input) || Object.keys(input).some((key) => !["planKey", "requestId"].includes(key))) {
           return fail("La solicitud debe incluir únicamente planKey.", 400, "BILLING_CHECKOUT_INPUT_INVALID");
         }
-        const planKey = (input as Record<string, unknown>)["planKey"];
+        const inputRecord = input as Record<string, unknown>;
+        const planKey = inputRecord["planKey"];
+        const requestId = inputRecord["requestId"];
+        if (typeof requestId !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(requestId)) return fail("Identificador de solicitud inválido.", 400, "BILLING_CHECKOUT_REQUEST_ID_INVALID");
         if (typeof planKey !== "string" || !Object.hasOwn(plans, planKey)) return fail("El plan solicitado no está permitido.", 400, "BILLING_CHECKOUT_PLAN_INVALID");
         const priceId = process.env[plans[planKey as keyof typeof plans]];
         if (!priceId || !/^price_[A-Za-z0-9]+$/.test(priceId)) return fail("El precio de este plan no está configurado.", 503, "BILLING_CHECKOUT_PRICE_NOT_CONFIGURED");
@@ -90,7 +93,7 @@ export const Route = createFileRoute("/api/billing/checkout")({
         try {
           stripeResponse = await fetch("https://api.stripe.com/v1/checkout/sessions", {
             method: "POST",
-            headers: { Authorization: `Bearer ${stripeKey}`, "Content-Type": "application/x-www-form-urlencoded" },
+            headers: { Authorization: `Bearer ${stripeKey}`, "Content-Type": "application/x-www-form-urlencoded", "Idempotency-Key": `tamv-checkout-${user.id}-${requestId}` },
             body: form.toString(),
             cache: "no-store",
             signal: AbortSignal.timeout(10_000),
