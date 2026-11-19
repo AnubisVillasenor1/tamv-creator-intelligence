@@ -50,6 +50,13 @@
       "when": 1795100000000,
       "tag": "0006_billing_webhook_event_intake",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795105000000,
+      "tag": "0007_billing_memberships_processor",
+      "breakpoints": true
     }
   ]
 }
