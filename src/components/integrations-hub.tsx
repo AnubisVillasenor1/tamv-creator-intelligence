@@ -12,6 +12,16 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { socialIntegrations, webhookPath, type SocialProvider } from "@/lib/social-integrations";
+import { SocialBrandIcon } from "@/components/integrations/social-brand-icon";
+
+const supportedProviders = ["facebook", "instagram", "tiktok", "threads", "whatsapp", "telegram", "linkedin", "longe", "github", "twitter"] as const;
+type SupportedProvider = (typeof supportedProviders)[number];
+function ProviderMark({ id, monogram }: { id: string; monogram: string }) {
+  if (supportedProviders.includes(id as SupportedProvider)) {
+    return <SocialBrandIcon provider={id as SupportedProvider} className="provider-official-icon" />;
+  }
+  return <span>{monogram}</span>;
+}
 
 export function IntegrationsHub() {
   const [query, setQuery] = useState("");
@@ -113,7 +123,7 @@ export function IntegrationsHub() {
               >
                 <div className="connector-top">
                   <span className={`provider-monogram provider-${item.id}`} aria-hidden="true">
-                    {item.monogram}
+                    <ProviderMark id={item.id} monogram={item.monogram} />
                   </span>
                   <span>{item.category}</span>
                 </div>
@@ -153,7 +163,7 @@ export function IntegrationsHub() {
         <section className="connector-detail" aria-label={`Configurar ${provider.name}`}>
           <div className="connector-detail-heading">
             <span className={`provider-monogram provider-${provider.id}`} aria-hidden="true">
-              {provider.monogram}
+              <ProviderMark id={provider.id} monogram={provider.monogram} />
             </span>
             <div>
               <span className="eyebrow">GUÍA DE CONEXIÓN</span>

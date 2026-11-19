@@ -48,12 +48,12 @@ function Dashboard() {
       <div className="page-heading dashboard-heading">
         <div>
           <span className="eyebrow">TU WORKSPACE / VISTA GENERAL</span>
-          <h1>Un espacio para lo que sigue.</h1>
-          <p>Crea con intención. Conecta con criterio. Tú decides.</p>
+          <h1>Un entorno para crear con criterio.</h1>
+          <p>Proyectos, herramientas y conexiones con gobernanza humana y trazabilidad.</p>
         </div>
         <span className="status-pill">
           <ShieldCheck size={14} />
-          Human governed
+          Gobernanza humana
         </span>
       </div>
       <section className="workspace-hero">
@@ -61,7 +61,7 @@ function Dashboard() {
           <span className="hero-kicker">
             <TamvLogo className="h-5 w-5 rounded object-contain" size={20} priority />
             <span />
-            TAMV ONLINE NETWORK · TECNOLOGÍA AVANZADA MEXICANA VERSATIL
+            TAMV ONLINE NETWORK · TECNOLOGÍA AVANZADA MEXICANA VERSÁTIL
           </span>
           <h2>
             Grandes ideas.
@@ -69,8 +69,7 @@ function Dashboard() {
             <em>Decisiones conscientes.</em>
           </h2>
           <p>
-            Tu centro de trabajo para proyectos de IA, creación sonora y conexiones sociales. Cada
-            herramienta, con sus reglas. Cada decisión, en tus manos.
+            Tu centro de trabajo para proyectos de IA, creación sonora y conexiones sociales. Herramientas con límites explícitos. Decisiones bajo control humano.
           </p>
           <p className="hero-agnostic">
             Agnóstico de sector y proveedor: nació en el ecosistema PLAY &amp; GO, pero no está
@@ -79,28 +78,38 @@ function Dashboard() {
           <div className="hero-actions">
             <Button asChild>
               <Link to="/projects">
-                Crear mi proyecto
+                Crear un proyecto
                 <ArrowUpRight size={18} />
               </Link>
             </Button>
             <Button variant="ghost" asChild>
               <Link to="/guide">
                 <BookOpen size={18} />
-                Conocer la plataforma
+                Explorar la plataforma
               </Link>
             </Button>
           </div>
           <div className="hero-footnote">
             <LockKeyhole size={13} />
-            Orgullosamente Latinoamericanos · Privacidad por diseño · Sin publicación automática
+            Tecnología latinoamericana · Privacidad por diseño · Sin publicación automática
           </div>
         </div>
         <div
           className="hero-orchestration"
           aria-label="Flujo conceptual: idea, creación y revisión humana"
         >
+          <div className="atom-halo" aria-hidden="true" />
           <div className="orbit orbit-one" />
           <div className="orbit orbit-two" />
+          <div className="orbit orbit-three" />
+          <div className="orbit orbit-four" />
+          <div className="orbit orbit-five" />
+          <div className="atom-particle particle-one" />
+          <div className="atom-particle particle-two" />
+          <div className="atom-particle particle-three" />
+          <div className="atom-particle particle-four" />
+          <div className="atom-particle particle-five" />
+          <div className="atom-particle particle-six" />
           <div className="orbit-center">
             <TamvLogo className="h-16 w-16 rounded-xl object-contain" size={64} priority />
             <strong>TAMV</strong>
@@ -120,6 +129,30 @@ function Dashboard() {
           </div>
           <span className="concept-label">UN FLUJO, NO UNA MÉTRICA EN VIVO</span>
         </div>
+      </section>
+      <section className="executive-principles" aria-label="Principios operativos de TAMV">
+        <div className="executive-principles-heading">
+          <span className="eyebrow">MARCO OPERATIVO</span>
+          <span className="executive-principles-caption">Tres principios. Un mismo estándar.</span>
+        </div>
+        <div className="executive-principles-grid">
+          <article className="executive-principle">
+            <span className="executive-principle-index">01</span>
+            <div className="executive-principle-icon"><ShieldCheck size={19} /></div>
+            <div><h3>Gobernanza</h3><p>Autoridad humana, límites explícitos y decisiones revisables.</p></div>
+          </article>
+          <article className="executive-principle">
+            <span className="executive-principle-index">02</span>
+            <div className="executive-principle-icon"><LockKeyhole size={19} /></div>
+            <div><h3>Integridad</h3><p>Controles verificables, privacidad por diseño y trazabilidad.</p></div>
+          </article>
+          <article className="executive-principle">
+            <span className="executive-principle-index">03</span>
+            <div className="executive-principle-icon"><ArrowRight size={19} /></div>
+            <div><h3>Agilidad</h3><p>Flujos claros que reducen fricción sin omitir la revisión.</p></div>
+          </article>
+        </div>
+        <p className="executive-principles-footnote">Rápido cuando es seguro. Fail-closed cuando hay riesgo. Auditable siempre.</p>
       </section>
       <section className="workspace-stats" aria-label="Resumen de tu espacio">
         {[
