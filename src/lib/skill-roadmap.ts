@@ -87,6 +87,7 @@ export const skillRoadmap: SkillBlueprint[] = proposals.map(([slug, name, catego
 export const skillCatalogMeta = {
   target: 100,
   currentImplementedContracts: 41,
-  blueprintCount: skillRoadmap.length,
+  blueprintCount: 59,
+  additionalIdeasInBacklog: skillRoadmap.length - 59,
   note: "Los contratos existentes siguen siendo los únicos declarados en tamv-pack/pack.json. Los blueprints se presentan como diseños, no como capacidades ejecutables certificadas."
 } as const;
