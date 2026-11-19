@@ -53,7 +53,7 @@ function Dashboard() {
         </div>
         <span className="status-pill">
           <ShieldCheck size={14} />
-          Human governed
+          Gobernanza humana
         </span>
       </div>
       <section className="workspace-hero">
@@ -139,17 +139,17 @@ function Dashboard() {
           <article className="executive-principle">
             <span className="executive-principle-index">01</span>
             <div className="executive-principle-icon"><ShieldCheck size={19} /></div>
-            <div><h3>Govern</h3><p>Autoridad humana, límites explícitos y decisiones revisables.</p></div>
+            <div><h3>Gobernanza</h3><p>Autoridad humana, límites explícitos y decisiones revisables.</p></div>
           </article>
           <article className="executive-principle">
             <span className="executive-principle-index">02</span>
             <div className="executive-principle-icon"><LockKeyhole size={19} /></div>
-            <div><h3>Integrity</h3><p>Controles verificables, privacidad por diseño y trazabilidad.</p></div>
+            <div><h3>Integridad</h3><p>Controles verificables, privacidad por diseño y trazabilidad.</p></div>
           </article>
           <article className="executive-principle">
             <span className="executive-principle-index">03</span>
             <div className="executive-principle-icon"><ArrowRight size={19} /></div>
-            <div><h3>Velocity</h3><p>Flujos claros que reducen fricción sin omitir la revisión.</p></div>
+            <div><h3>Agilidad</h3><p>Flujos claros que reducen fricción sin omitir la revisión.</p></div>
           </article>
         </div>
         <p className="executive-principles-footnote">Rápido cuando es seguro. Fail-closed cuando hay riesgo. Auditable siempre.</p>
