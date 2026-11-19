@@ -13,6 +13,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { socialIntegrations, webhookPath, type SocialProvider } from "@/lib/social-integrations";
 
+const iconSlug: Record<string, string> = { facebook: "facebook", instagram: "instagram", tiktok: "tiktok", threads: "threads", whatsapp: "whatsapp", telegram: "telegram", linkedin: "linkedin", github: "github", twitter: "x" };
+const iconColor: Record<string, string> = { facebook: "1877F2", instagram: "E4405F", tiktok: "FFFFFF", threads: "FFFFFF", whatsapp: "25D366", telegram: "26A5E4", linkedin: "0A66C2", github: "FFFFFF", twitter: "FFFFFF" };
+function ProviderMark({ id, monogram }: { id: string; monogram: string }) {
+  const slug = iconSlug[id];
+  return slug ? <img className={`provider-official-icon provider-icon-${id}`} src={`https://cdn.simpleicons.org/${slug}/${iconColor[id]}`} alt="" aria-hidden="true" loading="lazy" decoding="async" /> : <span>{monogram}</span>;
+}
+
 export function IntegrationsHub() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Todas");
@@ -39,12 +46,6 @@ export function IntegrationsHub() {
     } catch {
       setFeedback("No se pudo copiar. Selecciona la URL y cópiala manualmente.");
     }
-  }
-  const iconSlug: Record<string, string> = { facebook: "facebook", instagram: "instagram", tiktok: "tiktok", threads: "threads", whatsapp: "whatsapp", telegram: "telegram", linkedin: "linkedin", github: "github", twitter: "x" };
-  const iconColor: Record<string, string> = { facebook: "1877F2", instagram: "E4405F", tiktok: "FFFFFF", threads: "FFFFFF", whatsapp: "25D366", telegram: "26A5E4", linkedin: "0A66C2", github: "FFFFFF", twitter: "FFFFFF" };
-  function ProviderMark({ id, monogram }: { id: string; monogram: string }) {
-    const slug = iconSlug[id];
-    return slug ? <img className={`provider-official-icon provider-icon-${id}`} src={`https://cdn.simpleicons.org/${slug}/${iconColor[id]}`} alt="" aria-hidden="true" loading="lazy" decoding="async" /> : <span>{monogram}</span>;
   }
   return (
     <>
