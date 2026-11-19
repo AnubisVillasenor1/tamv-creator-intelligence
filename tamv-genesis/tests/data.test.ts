@@ -11,6 +11,7 @@ import { compileScorecard } from "../src/scorecard.ts";
 import { auditLedger, verifyLedger } from "../src/workledger.ts";
 import { auditProfiles } from "../src/profiles.ts";
 import { sensitivePolicyHolds } from "../src/corpus.ts";
+import { skillRoadmap, skillCatalogMeta } from "../../src/lib/skill-roadmap.ts";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 const read = (path: string) => readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -201,4 +202,15 @@ test("the committed corpus summary respects the withholding policy", () => {
   assert.equal(content, summary.files);
   assert.ok(summary.exclusions.includes("node_modules"));
   assert.ok(summary.exclusions.includes("_audit-tci"));
+});
+
+
+test("initial skill atlas separates 41 existing contracts from 59 blueprints", () => {
+  const initial = skillRoadmap.slice(0, skillCatalogMeta.blueprintCount);
+  assert.equal(skillCatalogMeta.target, 100);
+  assert.equal(skillCatalogMeta.currentImplementedContracts, pack.skills.length);
+  assert.equal(pack.skills.length, 41);
+  assert.equal(initial.length, 59);
+  assert.equal(new Set(initial.map((skill) => skill.id)).size, 59);
+  assert.ok(initial.every((skill) => skill.stage === "blueprint"));
 });
