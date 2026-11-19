@@ -31,10 +31,12 @@ import { Route as ReviewRouteImport } from './routes/review'
 import { Route as SdkRouteImport } from './routes/sdk'
 import { Route as SovereigntyRouteImport } from './routes/sovereignty'
 import { Route as StudioRouteImport } from './routes/studio'
+import { Route as AdminMembershipsRouteImport } from './routes/admin.memberships'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
 import { Route as ApiGuideRouteImport } from './routes/api.guide'
 import { Route as ApiBillingWebhookRouteImport } from './routes/api.billing.webhook'
+import { Route as ApiBillingCheckoutRouteImport } from './routes/api.billing.checkout'
 import { Route as ApiAdminMembershipsRouteImport } from './routes/api.admin.memberships'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
@@ -90,6 +92,11 @@ const AtlasRoute = AtlasRouteImport.update({
 const BillingRoute = BillingRouteImport.update({
   id: '/billing',
   path: '/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMembershipsRoute = AdminMembershipsRouteImport.update({
+  id: '/admin/memberships',
+  path: '/admin/memberships',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -227,6 +234,11 @@ const ApiBillingWebhookRoute = ApiBillingWebhookRouteImport.update({
   path: '/api/billing/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiBillingCheckoutRoute = ApiBillingCheckoutRouteImport.update({
+  id: '/api/billing/checkout',
+  path: '/api/billing/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminMembershipsRoute = ApiAdminMembershipsRouteImport.update({
   id: '/api/admin/memberships',
   path: '/api/admin/memberships',
@@ -243,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/guide': typeof GuideRoute
   '/atlas': typeof AtlasRoute
   '/billing': typeof BillingRoute
+  '/admin/memberships': typeof AdminMembershipsRoute
   '/faq': typeof FaqRoute
   '/settings': typeof SettingsRoute
   '/wiki': typeof WikiRoute
@@ -270,8 +283,10 @@ export interface FileRoutesByFullPath {
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/admin/memberships': typeof ApiAdminMembershipsRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRoutesByTo {
@@ -284,6 +299,7 @@ export interface FileRoutesByTo {
   '/guide': typeof GuideRoute
   '/atlas': typeof AtlasRoute
   '/billing': typeof BillingRoute
+  '/admin/memberships': typeof AdminMembershipsRoute
   '/faq': typeof FaqRoute
   '/settings': typeof SettingsRoute
   '/wiki': typeof WikiRoute
@@ -310,6 +326,7 @@ export interface FileRoutesByTo {
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRoutesById {
@@ -345,6 +362,7 @@ export interface FileRoutesById {
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRouteTypes {
@@ -359,6 +377,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/atlas'
     | '/billing'
+    | '/admin/memberships'
     | '/faq'
     | '/settings'
     | '/wiki'
@@ -386,8 +405,10 @@ export interface FileRouteTypes {
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
     | '/api/billing/webhook'
+    | '/api/billing/checkout'
     | '/api/admin/memberships'
     | '/api/billing/webhook'
+    | '/api/billing/checkout'
     | '/api/admin/memberships'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -400,6 +421,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/atlas'
     | '/billing'
+    | '/admin/memberships'
     | '/faq'
     | '/settings'
     | '/wiki'
@@ -426,6 +448,7 @@ export interface FileRouteTypes {
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
     | '/api/billing/webhook'
+    | '/api/billing/checkout'
     | '/api/admin/memberships'
   id:
     | '__root__'
@@ -438,6 +461,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/atlas'
     | '/billing'
+    | '/admin/memberships'
     | '/faq'
     | '/settings'
     | '/wiki'
@@ -464,6 +488,7 @@ export interface FileRouteTypes {
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
     | '/api/billing/webhook'
+    | '/api/billing/checkout'
     | '/api/admin/memberships'
   fileRoutesById: FileRoutesById
 }
@@ -476,6 +501,7 @@ export interface RootRouteChildren {
   ExagonRoute: typeof ExagonRoute
   GuideRoute: typeof GuideRoute
   AtlasRoute: typeof AtlasRoute
+  AdminMembershipsRoute: typeof AdminMembershipsRoute
   HypercoreRoute: typeof HypercoreRoute
   IntegrationsRoute: typeof IntegrationsRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -764,6 +790,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminMembershipsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/memberships': {
+      id: '/admin/memberships'
+      path: '/admin/memberships'
+      fullPath: '/admin/memberships'
+      preLoaderRoute: typeof AdminMembershipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/billing/checkout': {
+      id: '/api/billing/checkout'
+      path: '/api/billing/checkout'
+      fullPath: '/api/billing/checkout'
+      preLoaderRoute: typeof ApiBillingCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -777,6 +817,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuideRoute: GuideRoute,
   AtlasRoute: AtlasRoute,
   BillingRoute: BillingRoute,
+  AdminMembershipsRoute: AdminMembershipsRoute,
   FaqRoute: FaqRoute,
   SettingsRoute: SettingsRoute,
   WikiRoute: WikiRoute,
