@@ -45,11 +45,6 @@ function Dashboard() {
   const approved = projects.filter((p) => p.approved_version === p.version).length;
   return (
     <>
-      <div className="tamv-matrix-banner" role="img" aria-label="TAMV ONLINE NETWORK — identidad digital con código Matrix">
-        <div className="matrix-code" aria-hidden="true">01010100 01000001 01001101 01010110<br />01001111 01001110 01001100 01001001<br />01001110 01000101 00100000 01001110 01000101 01010100 01010111 01001111 01010010 01001011</div>
-        <div className="matrix-brand"><span className="matrix-live-dot" /><span>TAMV ONLINE NETWORK</span><small>TECNOLOGÍA AVANZADA MEXICANA VERSÁTIL</small></div>
-        <span className="matrix-index">TAMV / 01 — CREATOR INTELLIGENCE</span>
-      </div>
       <div className="page-heading dashboard-heading">
         <div>
           <span className="eyebrow">TU WORKSPACE / VISTA GENERAL</span>
