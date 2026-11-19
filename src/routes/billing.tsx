@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CircleDollarSign, HeartHandshake, ShieldCheck, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ export const Route = createFileRoute("/billing")({
 function BillingPage() {
   const [busyPlan, setBusyPlan] = useState<PlanKey | null>(null);
   const [checkoutError, setCheckoutError] = useState("");
+  const checkoutKeys = useRef<Partial<Record<PlanKey, string>>>({});
 
   async function startCheckout(planKey: PlanKey) {
     if (busyPlan) return;
@@ -23,10 +24,12 @@ function BillingPage() {
       const { data, error } = await supabase.auth.getSession();
       const token = data.session?.access_token;
       if (error || !token) throw new Error("Inicia sesión antes de solicitar una sesión de pago.");
+      const requestId = checkoutKeys.current[planKey] ?? crypto.randomUUID();
+      checkoutKeys.current[planKey] = requestId;
       const response = await fetch("/api/billing/checkout", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ planKey }),
+        body: JSON.stringify({ planKey, requestId }),
         cache: "no-store",
       });
       const payload = await response.json() as { checkoutUrl?: string; error?: string };
