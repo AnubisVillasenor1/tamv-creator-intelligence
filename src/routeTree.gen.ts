@@ -526,6 +526,7 @@ export interface RootRouteChildren {
   ApiTamvHypercoreAuditRoute: typeof ApiTamvHypercoreAuditRoute
   ApiTamvHypercoreMetricsRoute: typeof ApiTamvHypercoreMetricsRoute
   ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
+  ApiBillingCheckoutRoute: typeof ApiBillingCheckoutRoute
   ApiAdminMembershipsRoute: typeof ApiAdminMembershipsRoute
 }
 
@@ -845,6 +846,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiTamvHypercoreAuditRoute: ApiTamvHypercoreAuditRoute,
   ApiTamvHypercoreMetricsRoute: ApiTamvHypercoreMetricsRoute,
   ApiBillingWebhookRoute: ApiBillingWebhookRoute,
+  ApiBillingCheckoutRoute: ApiBillingCheckoutRoute,
   ApiAdminMembershipsRoute: ApiAdminMembershipsRoute,
 }
 export const routeTree = rootRouteImport
