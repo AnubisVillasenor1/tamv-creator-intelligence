@@ -15,4 +15,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      // Vercel Sandbox proxies the dev server through immutable *.vercel.run hosts.
+      // Allow those subdomains without disabling Vite's host check globally.
+      allowedHosts: [".vercel.run", "sb-va0kpw08faww.vercel.run"],
+    },
+  },
 });
