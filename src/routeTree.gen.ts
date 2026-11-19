@@ -34,6 +34,8 @@ import { Route as StudioRouteImport } from './routes/studio'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
 import { Route as ApiGuideRouteImport } from './routes/api.guide'
+import { Route as ApiBillingWebhookRouteImport } from './routes/api.billing.webhook'
+import { Route as ApiAdminMembershipsRouteImport } from './routes/api.admin.memberships'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
 import { Route as ApiStudioMetricsRouteImport } from './routes/api.studio.metrics'
@@ -220,6 +222,16 @@ const ApiTamvHypercoreMetricsRoute = ApiTamvHypercoreMetricsRouteImport.update({
   path: '/api/tamv/hypercore/metrics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiBillingWebhookRoute = ApiBillingWebhookRouteImport.update({
+  id: '/api/billing/webhook',
+  path: '/api/billing/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminMembershipsRoute = ApiAdminMembershipsRouteImport.update({
+  id: '/api/admin/memberships',
+  path: '/api/admin/memberships',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -257,6 +269,8 @@ export interface FileRoutesByFullPath {
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -365,6 +379,8 @@ export interface FileRouteTypes {
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
+    | '/api/billing/webhook'
+    | '/api/admin/memberships'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -471,6 +487,8 @@ export interface RootRouteChildren {
   ApiPublicTamvProjectsRoute: typeof ApiPublicTamvProjectsRoute
   ApiTamvHypercoreAuditRoute: typeof ApiTamvHypercoreAuditRoute
   ApiTamvHypercoreMetricsRoute: typeof ApiTamvHypercoreMetricsRoute
+  ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
+  ApiAdminMembershipsRoute: typeof ApiAdminMembershipsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -720,6 +738,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTamvHypercoreMetricsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/billing/webhook': {
+      id: '/api/billing/webhook'
+      path: '/api/billing/webhook'
+      fullPath: '/api/billing/webhook'
+      preLoaderRoute: typeof ApiBillingWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/memberships': {
+      id: '/api/admin/memberships'
+      path: '/api/admin/memberships'
+      fullPath: '/api/admin/memberships'
+      preLoaderRoute: typeof ApiAdminMembershipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -759,6 +791,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicTamvProjectsRoute: ApiPublicTamvProjectsRoute,
   ApiTamvHypercoreAuditRoute: ApiTamvHypercoreAuditRoute,
   ApiTamvHypercoreMetricsRoute: ApiTamvHypercoreMetricsRoute,
+  ApiBillingWebhookRoute: ApiBillingWebhookRoute,
+  ApiAdminMembershipsRoute: ApiAdminMembershipsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
