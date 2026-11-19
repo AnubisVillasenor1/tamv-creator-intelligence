@@ -1,0 +1,1193 @@
+Voy a revisar los adjuntos (tesis, zip de skills, docx), traer el repositorio y retomar el prototipo para integrarlo y auditarlo.
+
+Estoy clonando el repositorio y leyendo la tesis y el compendio para auditar el proyecto completo; sigo con eso.
+
+Solicitud
+mkdir -p /home/claude/anubisvillasenor1 && cd /home/claude/anubisvillasenor1 && GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/AnubisVillasenor1/tamv-creator-intelligence tamv-creator-intelligence 2>&1 | tail -5; cd tamv-creator-intelligence && git log --oneline | head -3 && ls -la && find . -path ./.git -prune -o -type f -print | wc -l
+Respuesta
+fatal: destination path 'tamv-creator-intelligence' already exists and is not an empty directory.
+9088b3e Verify Hyper-Core ledger write restrictions
+total 448
+drwxr-xr-x 18 root root   4096 Nov 17 14:02 .
+drwxr-xr-x  3 root root   4096 Nov 17 14:02 ..
+-rw-r--r--  1 root root   1458 Nov 17 14:02 .env.example
+drwxr-xr-x  8 root root   4096 Nov 17 14:02 .git
+drwxr-xr-x  2 root root   4096 Nov 17 14:02 .githooks
+drwxr-xr-x  3 root root   4096 Nov 17 14:02 .github
+-rw-r--r--  1 root root    909 Nov 17 14:02 .gitignore
+drwxr-xr-x  3 root root   4096 Nov 17 14:02 .lovable
+-rw-r--r--  1 root root     92 Nov 17 14:02 .prettierignore
+-rw-r--r--  1 root root     90 Nov 17 14:02 .prettierrc
+-rw-r--r--  1 root root   2594 Nov 17 14:02 AGENTS.md
+-rw-r--r--  1 root root    501 Nov 17 14:02 ATTRIBUTION.md
+-rw-r--r--  1 root root   2584 Nov 17 14:02 GOVERNANCE.md
+-rw-r--r--  1 root root  34523 Nov 17 14:02 LICENSE
+-rw-r--r--  1 root root   2632 Nov 17 14:02 LICENSE-MAP.md
+-rw-r--r--  1 root root   1666 Nov 17 14:02 NOTICE
+-rw-r--r--  1 root root  45012 Nov 17 14:02 README.md
+-rw-r--r--  1 root root   2919 Nov 17 14:02 SECURITY.md
+-rw-r--r--  1 root root 198692 Nov 17 14:02 bun.lock
+-rw-r--r--  1 root root    407 Nov 17 14:02 bunfig.toml
+-rw-r--r--  1 root root    443 Nov 17 14:02 components.json
+drwxr-xr-x  6 root root   4096 Nov 17 14:02 docs
+drwxr-xr-x  3 root root   4096 Nov 17 14:02 drizzle
+-rw-r--r--  1 root root    245 Nov 17 14:02 drizzle.config.ts
+-rw-r--r--  1 root root   1155 Nov 17 14:02 eslint.config.js
+drwxr-xr-x  4 root root   4096 Nov 17 14:02 hypercore
+drwxr-xr-x  2 root root   4096 Nov 17 14:02 node_modules
+-rw-r--r--  1 root root   4757 Nov 17 14:02 package.json
+drwxr-xr-x  4 root root   4096 Nov 17 14:05 public
+-rw-r--r--  1 root root   6149 Nov 17 14:02 roadmap.md
+drwxr-xr-x  3 root root   4096 Nov 17 14:06 scripts
+drwxr-xr-x  3 root root   4096 Nov 17 14:02 sdk
+drwxr-xr-x  3 root root   4096 Nov 17 14:02 security-trust
+-rw-r--r--  1 root root    988 Nov 17 14:02 skills.sh.json
+drwxr-xr-x 10 root root   4096 Nov 17 14:02 src
+drwxr-xr-x  2 root root   4096 Nov 17 14:02 supabase
+-rw-r--r--  1 root root   4342 Nov 17 14:02 tamv-attribution.json
+-rw-r--r--  1 root root     25 Nov 17 14:02 tamv-attribution.sig
+drwxr-xr-x  9 root root   4096 Nov 17 14:02 tamv-genesis
+drwxr-xr-x  8 root root   4096 Nov 17 14:02 tamv-pack
+-rw-r--r--  1 root root    882 Nov 17 14:02 tsconfig.json
+-rw-r--r--  1 root root   1049 Nov 17 14:02 vite.config.ts
+-rw-r--r--  1 root root    396 Nov 17 14:02 vitest.config.ts
+505
+Solicitud
+cd /mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/ && echo "--- manifest check (SHA-512 declared vs actual) ---" && python3 - <<'EOF'
+import json,hashlib,os
+m=json.load(open('3b7c5a4c-Manifiesto_integridad_5_0.json'))
+names={'Bibliografia_nucleo_5_0.bib':'120c23d7-Bibliografia_nucleo_5_0.bib','Matriz_normativa_y_limites.csv':'66cca8db-Matriz_normativa_y_limites.csv','Matriz_fuentes_e_identificadores_5_0.csv':'df6c58b3-Matriz_fuentes_e_identificadores_5_0.csv','Manual_Investigacion_TAMV_Compendio_5_0.md':None,'Protocolos_experimentales_TAMV.csv':'d3ae3afd-Protocolos_experimentales_TAMV.csv'}
+for k,v in m['files'].items():
+    f=names.get(k)
+    if not f: print(k,'-> no .md adjunto (solo .docx); declarado',v['bytes'],'bytes'); continue
+    b=open(f,'rb').read(); h=hashlib.sha512(b).hexdigest()
+    print(k,'bytes',len(b),'vs',v['bytes'],'| hash','OK' if h==v['sha512'] else 'MISMATCH')
+EOF
+head -c 6000 bd749930-tesis_doctoral_y_caso_de_estudio_gobernanza_tamv.md
+Respuesta
+--- manifest check (SHA-512 declared vs actual) ---
+Bibliografia_nucleo_5_0.bib bytes 3753 vs 3753 | hash OK
+Matriz_normativa_y_limites.csv bytes 1022 vs 1022 | hash OK
+Matriz_fuentes_e_identificadores_5_0.csv bytes 2412 vs 2412 | hash OK
+Manual_Investigacion_TAMV_Compendio_5_0.md -> no .md adjunto (solo .docx); declarado 68076 bytes
+Protocolos_experimentales_TAMV.csv bytes 6199 vs 6199 | hash OK
+# TESIS DOCTORAL Y CASO DE ESTUDIO DE ARQUITECTURA SOCIO-TÉCNICA
+
+## Gobernanza Algorítmica, Soberanía Tecnológica y Blindaje Jurídico-Criptográfico en Sistemas Multi-Agente: El Paradigma Heptafederado de *TAMV Online Network* y *TAMV Creator Intelligence* (MD-X4 / Isabella AI)
+
+* **Autor:** Edwin Oswaldo Castillo Trejo (Firma Técnica: Anubis Villaseñor / Vector de Código: OsoPanda1)
+* **Identificadores Persistentes:** ORCID `0009-0008-5050-1539` | ISNI `0000-0005-3169-9229`
+* **Afiliación Declarada y Nodo Territorial:** TAMV Online Network — Nodo Cero, Mineral del Monte (Real del Monte), Hidalgo, México
+* **Corpus Documental Base:** DOIs `10.5281/zenodo.19436662` (MD-X4), `10.5281/zenodo.20071455` (TAMV/Isabella), `10.5281/zenodo.24259962` (Creator Intelligence), `10.6084/m9.figshare.32135386`, `10.6084/m9.figshare.32337309`, `10.5281/zenodo.23034324`, `10.5281/zenodo.22939783`, `10.5281/zenodo.21400908`
+* **Clasificación Temática (ACM CCS / UNESCO):** *Computing methodologies $\rightarrow$ Artificial intelligence $\rightarrow$ Distributed artificial intelligence*; *Security and privacy $\rightarrow$ Formal methods and theory of security*; *Social and professional topics $\rightarrow$ Computing / technology policy*.
+* **Declaración de Integridad Epistémica:** Este manuscrito constituye una monografía doctoral de investigación arquitectónica, análisis jurídico-normativo y protocolo experimental reproducible bajo los principios FAIR y POSI. Ninguna especificación arquitectónica o escenario de prueba simulado se presenta como certificación externa de terceros; las métricas de validación se delimitan explícitamente entre capacidades implementadas en el repositorio canónico (`tamv-creator-intelligence`), especificaciones contractuales y protocolos experimentales preregistrados (ISA-FLOW).
+
+---
+
+## PRÓLOGO / ÉXODO EPISTÉMICO: DE LA PERIFERIA EXTRACTIVA A LA ARQUITECTURA SOBERANA
+
+Durante las primeras dos décadas del siglo XXI, la arquitectura global de la red y de los sistemas de inteligencia artificial se consolidó bajo un modelo oligopólico de centralización computacional. En este esquema, las regiones del Sur Global fueron relegadas estructuralmente a una doble condición subalterna: fungir como canteras de extracción masiva de datos lingüísticos, culturales y conductuales, y operar como mercados cautivos de consumo de interfaces propietarias cuya lógica interna, gobernanza y custodia criptográfica residen en jurisdicciones extracomunitarias.
+
+El presente trabajo nace como un **éxodo epistémico y técnico** frente a dicha subordinación. Concebido y desarrollado de manera independiente en el **Nodo Cero** (Mineral del Monte, Hidalgo, México) a lo largo de más de 22,000 horas de ingeniería de sistemas, **TAMV Online Network** (*Tecnología Avanzada Mexicana Versátil*) y su capa especializada de coordinación de agentes, **TAMV Creator Intelligence** (junto con el núcleo cognitivo **Isabella Villaseñor AI / TINA**), postulan una tesis central: *toda infraestructura de software contiene una constitución política implícita, y la única vía para garantizar los derechos fundamentales, la autoría intelectual y la autonomía territorial en la era de los modelos fundacionales consiste en trasladar las garantías jurídicas desde el plano meramente declarativo hacia invariantes arquitectónicos ejecutables en tiempo de cómputo*.
+
+Lejos de recurrir al solucionismo tecnológico ingenuo o a la opacidad promocional, esta investigación asume la máxima exigencia metodológica exigida por la ciencia abierta contemporánea: separar estrictamente lo observado de lo especificado, lo implementad
+
+Salida truncada
+
+Checking whether the repository is already cloned.
+
+Reviewing the repository’s recent file changes.
+
+Solicitud
+cd /home/claude/anubisvillasenor1/tamv-creator-intelligence && git status --short | head -20; echo ---; cat package.json | head -70; echo ---; find . -path ./.git -prune -o -path ./node_modules -prune -o -type d -print | grep -v '^./docs/.*/.*/' | head -80
+Respuesta
+ M src/lib/workspace-navigation.ts
+?? docs/audit/2026-11-17/CLAIMS-VS-CODE.generated.md
+?? public/hcu/
+?? scripts/build-hcu.mjs
+?? scripts/validate-thesis-claims.mjs
+?? src/lib/hcu/
+?? src/routes/api.tamv.hcu.ts
+?? src/routes/api.tamv.hcu.verify.ts
+?? src/routes/atlas.tsx
+?? src/test/hcu-core.test.ts
+---
+{
+  "name": "tamv-creator-intelligence",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "node scripts/tamv-certification.mjs --check && vite build",
+    "build:dev": "vite build --mode development",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:ledger-guard": "node scripts/test-hypercore-ledger-postgres-guard.mjs",
+    "test:research": "node scripts/test-research-gateway.mjs",
+    "research:import": "python scripts/import-research-corpus.py",
+    "docs:check": "node scripts/validate-documentation-links.mjs",
+    "docs:check:test": "node scripts/test-documentation-links.mjs",
+    "test:watch": "vitest",
+    "tamv:check": "node scripts/tamv-certification.mjs --check && bash tamv-pack/scripts/validate-pack.sh && node scripts/validate-skills-sh.mjs",
+    "tamv:hash": "node scripts/tamv-certification.mjs --update-hashes",
+    "tamv:sign": "node scripts/tamv-certification.mjs --sign",
+    "tamv:verify": "node scripts/tamv-certification.mjs --check --require-signature",
+    "tamv:keygen": "bash scripts/generate-tamv-ed25519-keypair.sh",
+    "hooks:install": "bash scripts/install-git-hooks.sh",
+    "hooks:test": "bash scripts/test-git-hooks.sh && python3 scripts/test-repo-hygiene.py",
+    "slsa:test": "bash scripts/test-verify-slsa.sh",
+    "ops:preflight": "node scripts/check-production-env.mjs",
+    "ops:preflight:strict": "node scripts/check-production-env.mjs --strict",
+    "ops:preflight:test": "node scripts/test-production-env-check.mjs",
+    "ops:closure": "node scripts/validate-capability-closure.mjs && node scripts/validate-closure-inventory.mjs",
+    "ops:closure:test": "node scripts/test-capability-closure.mjs"
+  },
+  "overrides": {
+    "rolldown": "1.2.1"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@lovable.dev/ai-gateway": "^0.1.11",
+    "@radix-ui/react-accordion": "^1.2.12",
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-aspect-ratio": "^1.1.8",
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-checkbox": "^1.3.3",
+    "@radix-ui/react-collapsible": "^1.1.12",
+    "@radix-ui/react-context-menu": "^2.2.16",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-hover-card": "^1.1.15",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-menubar": "^1.1.16",
+    "@radix-ui/react-navigation-menu": "^1.2.14",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-progress": "^1.1.8",
+    "@radix-ui/react-radio-group": "^1.3.8",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-separator": "^1.1.8",
+    "@radix-ui/react-slider": "^1.3.6",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-switch": "^1.2.6",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@radix-ui/react-toggle": "^1.1.10",
+    "@radix-ui/react-toggle-group": "^1.1.11",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "@supabase/supabase-js": "^2.119.0",
+    "@tailwindcss/vite": "^4.2.1",
+    "@tanstack/react-query": "^5.101.1",
+    "@tanstack/react-router": "1.170.41",
+---
+.
+./src
+./src/generated
+./src/generated/ai-gateway
+./src/components
+./src/components/ui
+./src/components/branding
+./src/hooks
+./src/assets
+./src/test
+./src/integrations
+./src/integrations/supabase
+./src/lib
+./src/lib/hypercore-turbo
+./src/lib/hcu
+./src/lib/hcu/instrument
+./src/routes
+./public
+./public/brand
+./public/hcu
+./tamv-genesis
+./tamv-genesis/src
+./tamv-genesis/src/agent
+./tamv-genesis/src/audio
+./tamv-genesis/src/sovereign
+./tamv-genesis/dist
+./tamv-genesis/scripts
+./tamv-genesis/cli
+./tamv-genesis/tests
+./tamv-genesis
+
+Salida truncada
+
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && python3 -c "
+import docx
+a=docx.Document('/mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/d2ede5d1-Manual_Investigacion_TAMV_Compendio_5_0.docx')
+open('docx2.txt','w').write('\n'.join(p.text for p in a.paragraphs if p.text.strip()))
+t=a.tables[0]
+print([c.text for c in t.rows[0].cells], len(t.rows))
+" ; cmp docx.txt docx2.txt && echo TEXT_IDENTICAL; head -c 3500 docx.txt; echo; grep -n -i -E "^(#|[0-9]+\.|Capítulo|CAPÍTULO|Parte|PARTE)" docx.txt | head -60
+Respuesta
+['Campo', 'Declaración'] 14
+TEXT_IDENTICAL
+COMPENDIO CIVILIZATORIO 5.0
+Manual metodológico y protocolo de investigación
+Arquitectura, gobernanza, gobernabilidad y soberanía tecnológica en TAMV Online Network e Isabella Villaseñor AI
+Estudio documental crítico y programa de evaluación reproducible de sistemas de agentes
+Declaración de alcance e integridad
+Esta edición fusiona el desarrollo conceptual del chat, el análisis del documento de trabajo aportado y fuentes públicas seleccionadas. No es una revisión exhaustiva de toda la web ni una revisión sistemática completada. Ninguna simulación, cifra ilustrativa, propuesta o especificación se presenta como resultado observado.
+El término «institucional» identifica la función organizativa pretendida por el autor. No implica personalidad jurídica, acreditación universitaria o aprobación por organismos externos. «Soberano», «heptafederado», «cognitivo» y «civilizatorio» se utilizan con definiciones operativas y límites explícitos. La extensión del texto no demuestra calidad; la calidad debe juzgarse por la precisión de sus afirmaciones y la posibilidad de contrastarlas.
+El manual no busca confrontación con plataformas o personas. Examina dependencias y asimetrías sin atribuir conductas universales ni intenciones no demostradas. El archivo anterior contiene afirmaciones absolutas y cuantitativas sin anexos experimentales suficientes: se transforman aquí en preguntas y objetivos de validación, no en hechos consolidados. [file:92]
+Resumen ejecutivo
+Se propone un programa de investigación socio-técnica sobre autorización, trazabilidad y autonomía tecnológica en TAMV Online Network. Su objeto comprende la relación entre MD-X4, Isabella y Creator Intelligence, la separación entre capacidades y permisos, la gobernanza del aprendizaje y la evaluación de efectos reales sobre usuarios y comunidades. La base empírica documental incluye tres registros primarios de Zenodo: MD-X4, de abril; el documento maestro TAMV/Isabella, de mayo; y Creator Intelligence, de noviembre de 2026. Esos registros acreditan publicación y descripción, no seguridad ni eficacia. [web:101][web:103][web:102]
+La arquitectura propuesta distingue siete dominios de responsabilidad, cinco funciones cognitivas y catorce fronteras operativas. No presume que sean servicios desplegados ni un protocolo de consenso. Se incorporan un gateway externo al modelo, permisos delimitados, revocación, reservas económicas, evidencia durable y conciliación de incertidumbre. EOCT se especifica como recomposición semántica controlada, no como algoritmo que resuelve toda la ética. La interpretabilidad mecanística se separa del camino crítico de producción cuando no hay acceso o evidencia suficiente.
+El diseño metodológico combina análisis documental, diseño de artefactos, experimentos controlados y un piloto territorial condicionado a resultados. Se definen hipótesis, comparadores, métricas, criterios de promoción, protección de participantes y procedimientos de preservación. La contribución actual es un programa evaluable: no se comunica una validación experimental ya realizada.
+Palabras clave: gobernanza de IA; gobernabilidad; autorización de agentes; evidencia; soberanía tecnológica; EOCT; interpretabilidad; evaluación reproducible; TAMV.
+Abstract
+This manual specifies a research program for the architecture, governance, governability and technological sovereignty of TAMV Online Network, Isabella Villaseñor AI and Creator
+16:PARTE I. FUNDAMENTACIÓN Y DISEÑO DE LA INVESTIGACIÓN
+17:1. Problema y delimitación
+21:2. Gobernanza, gobernabilidad y gestión
+26:3. Posicionamiento epistemológico
+30:4. Identidad, autoría y territorio
+33:5. Objetivos
+37:6. Preguntas e hipótesis
+52:7. Estrategia metodológica
+55:PARTE II. FUENTES, CRÍTICA DOCUMENTAL Y ESTADO DEL ARTE
+56:8. Base documental primaria
+61:9. Identificadores pendientes y contradicciones
+64:10. Literatura externa y atribución
+68:11. Hegemonía y dependencia como variables
+72:12. Ética de la crítica instit
+
+Salida truncada
+
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/zip/tamv-governance-pack && cat README.md | head -80; echo ======; head -c 2500 skills/tamv-assurance-gate/SKILL.md; echo ======; wc -l mcp_server/tamv_audit_mcp.py evals/adversarial-cases.jsonl schemas/handoff.schema.json
+Respuesta
+# TAMV Security & Trust Skills — paquete de diseño
+
+Estado: propuesta v2.0.0. No desplegado, no evaluado, no compatible aún con un runtime MCP concreto.
+
+## Principios de implementación
+
+- Aplicar el principio CAPABILITY ≠ AUTHORITY ≠ EXECUTION ≠ EVIDENCE ≠ LEARNING ≠ PRODUCTION.
+- Skills enfocadas, con frontmatter mínimo interoperable; metadatos internos en `metadata` como valores string.
+- El runtime (no el texto de la skill) impone permisos, allowlists, aprobación y límites de red.
+- MCP tools son inputs no confiables; resolver identidad/tenant y autorización en servidor.
+- No declarar SOC 2, NIST, FAIR, ISO o cumplimiento legal por generar un mapeo.
+- Validar esquema/CLI, fixtures, ausencia de PII y actualización de fuentes antes de publicar.
+
+## Árbol
+
+- `skills/tamv-fair-risk-quantification/`
+- `skills/tamv-ciso-governance/`
+- `skills/tamv-control-mapping/`
+- `skills/tamv-creator-trust-governance/`
+- `skills/tamv-assurance-gate/`
+- `mcp_server/tamv_audit_mcp.py`: servidor ilustrativo JSON-RPC sobre stdio, solo lectura.
+- `schemas/handoff.schema.json`
+- `evals/soc2-nist-eval.md`
+- `evals/adversarial-cases.jsonl`
+- `templates/`
+
+## Instalación
+
+No ejecutar el servidor con secretos ni contra sistemas reales hasta revisión de dependencias, aislamiento y permisos. El cliente MCP, proveedor de identidad y auditor deben autorizar individualmente las herramientas.
+
+Validación local sugerida, después de instalar dependencias revisadas:
+
+```sh
+python -m py_compile mcp_server/tamv_audit_mcp.py
+python -m unittest discover -s tests
+```
+
+Ninguna prueba se declara pasada en la generación de este paquete.
+======
+---
+name: tamv-assurance-gate
+description: Reviews evidence, approvals, versions and limitations before a TAMV governance package is marked ready for human decision. Use as a read-only release assurance check; it cannot approve production or certify compliance.
+license: Proprietary; see LICENSE.txt
+metadata:
+  owner: TAMV Security and Trust
+  version: "2.0.0"
+  supervision: "independent-review"
+  risk_class: "high"
+  output_binding: "advisory"
+---
+
+# Assurance gate
+
+Check schema, source/version, evidence freshness, scope, owner, authorization, unresolved gaps, test status, licenses and human approvals. Do not infer `approved` from a digital signature, DOI, status string or high score. Report `READY_FOR_REVIEW`, `BLOCKED` or `INCOMPLETE`; never return `PRODUCTION_APPROVED`.
+
+A release is blocked by missing required evidence, conflicting licenses, unsigned required artifacts, unreviewed critical gaps or mismatched parameters. Human authority decides advancement.
+======
+  41 mcp_server/tamv_audit_mcp.py
+   8 evals/adversarial-cases.jsonl
+ 163 schemas/handoff.schema.json
+ 212 total
+Shell cwd was reset to /home/claude
+
+Checking untracked files left from an earlier session.
+
+Working out whether the untracked files predate this session.
+
+Solicitud
+cd /home/claude/anubisvillasenor1/tamv-creator-intelligence && git diff --stat; echo; find src/lib/hcu public/hcu docs/audit scripts/build-hcu.mjs scripts/validate-thesis-claims.mjs src/routes/api.tamv.hcu*.ts src/routes/atlas.tsx src/test/hcu-core.test.ts -type f -exec wc -l {} + ; echo ---; git diff src/lib/workspace-navigation.ts; echo ---; cat docs/audit/2026-11-17/CLAIMS-VS-CODE.generated.md | head -80
+Respuesta
+ src/lib/workspace-navigation.ts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+   389 src/lib/hcu/hcu-core.mjs
+    26 src/lib/hcu/hcu-core.d.mts
+   388 src/lib/hcu/instrument/body.html
+   625 src/lib/hcu/instrument/app.js
+   208 src/lib/hcu/instrument/style.css
+  1619 public/hcu/index.html
+   228 docs/audit/2026-11-15/README.md
+    88 docs/audit/2026-11-15/DEEP-AUDIT-IMPLEMENTATION-REPORT.md
+    39 docs/audit/2026-11-13/BIAS-REGISTER.md
+    57 docs/audit/2026-11-13/README.md
+   125 docs/audit/2026-11-13/EVIDENCE-INDEX.md
+    61 docs/audit/2026-11-13/FINDINGS.md
+    83 docs/audit/2026-11-13/EXECUTIVE-SUMMARY.md
+    73 docs/audit/2026-11-13/REMEDIATION.md
+    61 docs/audit/2026-11-13/THREAT-MODEL.md
+    39 docs/audit/2026-11-13/CONSISTENCY-MATRIX.md
+    81 docs/audit/2026-11-13/WORK-LEDGER.md
+   121 docs/audit/2026-11-13/GENERATED.md
+   135 docs/audit/2026-11-13/TRIPLE-HARDENING-REVIEW.md
+    29 docs/audit/2026-11-17/HYPERCORE-LEDGER-HARDENING.md
+    27 docs/audit/2026-11-17/CLAIMS-VS-CODE.generated.md
+    43 docs/audit/2026-11-17/GENERAL-AUDIT-AND-REMEDIATION.md
+    37 scripts/build-hcu.mjs
+    84 scripts/validate-thesis-claims.mjs
+    58 src/routes/api.tamv.hcu.ts
+    54 src/routes/api.tamv.hcu.verify.ts
+    42 src/routes/atlas.tsx
+   111 src/test/hcu-core.test.ts
+  4931 total
+---
+diff --git a/src/lib/workspace-navigation.ts b/src/lib/workspace-navigation.ts
+index 2cb9a17..1f2424d 100644
+--- a/src/lib/workspace-navigation.ts
++++ b/src/lib/workspace-navigation.ts
+@@ -8,6 +8,7 @@ import {
+   FlaskConical,
+   GraduationCap,
+   LayoutDashboard,
++  Orbit,
+   PlugZap,
+ } from "lucide-react";
+ 
+@@ -82,4 +83,11 @@ export const workspaceNavigation = [
+     group: "Aprender",
+     icon: GraduationCap,
+   },
++  {
++    to: "/atlas",
++    label: "Atlas HCU",
++    description: "Hipergrafo 2026–2050, escenarios y evidencia",
++    group: "Aprender",
++    icon: Orbit,
++  },
+ ] as const;
+---
+# Tesis/manual vs. código (generado)
+
+Generado por `scripts/validate-thesis-claims.mjs`. Heurística de búsqueda textual: una coincidencia no prueba funcionalidad (puede ser una cadena de UI); una ausencia sí prueba que no hay componente con ese nombre.
+
+| ID | Afirmación declarada | Fuente | Código | Pruebas | Docs | HCU | Estado (heurístico) |
+|---|---|---|---:|---:|---:|---:|---|
+| C01 | Libro mayor BookPI append-only con SHA3-512 encadenado | Manual §4; Tesis §3.4.E | 0 | 0 | 1 | 4 | **solo en módulo HCU (nuevo)** |
+| C02 | Hash BLAKE3 de entrada/salida por bloque | Manual §4 (fórmula B_n) | 0 | 0 | 0 | 0 | **AUSENTE** |
+| C03 | BookPI (nombre del componente) como módulo | Manual §4; Tesis §6.1 cond. D | 0 | 0 | 1 | 0 | **SOLO documentado** |
+| C04 | Canonicalización JCS RFC 8785 | Manual §4; Tesis §6.1 | 0 | 0 | 0 | 0 | **AUSENTE** |
+| C05 | ARGUS Sentinel con veto ALLOW/FLAG/DENY | Manual §4 | 0 | 0 | 1 | 0 | **SOLO documentado** |
+| C06 | SOPHIA: niveles E0–E4 y puerta ERI ≥ 95 | Manual §4 | 0 | 0 | 1 | 0 | **SOLO documentado** |
+| C07 | Tubería síncrona de 14 capas L01–L14 con parada ⊥HALT | Manual §4; Tesis §3.3 | 0 | 0 | 1 | 0 | **SOLO documentado** |
+| C08 | Protocolo TAP v1.0 (schemas y transporte) | Manual §5 (TRL 5) | 0 | 0 | 0 | 0 | **AUSENTE** |
+| C09 | Criptografía poscuántica ML-KEM / ML-DSA / SLH-DSA | Manual §4 (CTH) | 0 | 0 | 2 | 0 | **SOLO documentado** |
+| C10 | Autoencoders Dispersos (SAE) sobre activaciones | Manual §4; Tesis §3.4.C | 0 | 1 | 3 | 0 | **SOLO documentado** |
+| C11 | EOCT / recomposición semántica controlada | Tesis §3.4.B; T14–T15 | 1 | 0 | 3 | 0 | **mencionado en código, sin pruebas** |
+| C12 | Merkle State Root (MSR) y pruebas de inclusión | Manual §5 (TRL 3) | 2 | 1 | 6 | 0 | **mencionado en código y pruebas** |
+| C13 | Métricas de equidad: paridad demográfica / equalized odds | Manual §4 | 1 | 1 | 1 | 0 | **mencionado en código y pruebas** |
+| C14 | Consentimiento ARCO persistido (L03) | Manual §3–§4 | 0 | 0 | 1 | 0 | **SOLO documentado** |
+| C15 | Identidad descentralizada DID / Nubiwallet | Manual §4–§5 | 5 | 2 | 0 | 0 | **mencionado en código y
+
+Salida truncada
+
+Checking the test suite and build status.
+Solicitud
+ls node_modules | head; which bun node npm; node -v; cat docs/audit/2026-11-17/GENERAL-AUDIT-AND-REMEDIATION.md; echo =====; cat docs/audit/2026-11-13/FINDINGS.md | head -70
+Respuesta
+/root/.bun/bin/bun
+/opt/node22/bin/node
+/opt/node22/bin/npm
+v22.23.4
+# Auditoría general y remediación inicial — TAMV Creator Intelligence
+
+Fecha de corte: 17 de noviembre de 2026. Base revisada: main, commit 6ac86430015bc31ae907501a901e3c2f072c856b, workflows de CI y release, documentación de gates de producción y ZIP adjunto TAMV Governance Skills Pack v2. Revisión estática; no es pentest, certificación ni validación del despliegue real.
+
+## Resumen
+El repositorio tiene aplicación y CI amplios. El workflow principal para el SHA revisado finalizó con success. El README declara 460 pruebas de aplicación, 125 de Genesis y 17 del prototipo SQLite, además de typecheck, lint y build. Esas cifras son declaraciones del README y no sustituyen logs de las suites ni pruebas de producción.
+
+La documentación identifica gates abiertos: firma del release, probes contra PostgreSQL desechable, roles/RLS, persistencia/restauración y evidencia de infraestructura. El documento de firma aclara correctamente que una firma válida no certifica cumplimiento legal, calidad del modelo ni seguridad de proveedores.
+
+## Hallazgos priorizados
+| ID | Prioridad | Hallazgo | Remediación en esta rama | Cierre pendiente |
+|---|---|---|---|---|
+| AUD-001 | P0 | CI verde no certifica un release. | No se fabrica firma ni se desbloquean capacidades. | El propietario configura secretos seguros, aprueba digest por canal independiente y ejecuta release etiquetado. |
+| AUD-002 | P0 | No hay evidencia suficiente de ledger/RLS/restauración en infraestructura real. | El nuevo paquete no conecta a datos reales. | Ejecutar probes en PostgreSQL desechable y adjuntar SHA, versiones y logs redactados. |
+| AUD-003 | P1 | El MCP demo no implementa autorización de producción. | Fixtures fijas, solo lectura, sin cliente de red; pruebas locales añadidas. | Validar interoperabilidad MCP y threat model antes de conectar fuentes reales. |
+| AUD-004 | P1 | El handoff original no imponía digest hexadecimal estricto. | Esquema integrado exige 64 caracteres hexadecimales. | Ejecutar un validador completo JSON Schema Draft 2020-12. |
+| AUD-005 | P1 | El paquete no tenía suite reproducible en el repo. | Tests, validador y workflow independiente añadidos. | Confirmar CI verde del PR. |
+| AUD-006 | P2 | SHA-256 no es firma ni prueba de autoría. | Generador de manifiesto declara sus límites. | Firmar mediante proceso separado autorizado si se requiere autenticidad.
+
+## Alcance de la implementación
+Cinco skills v2.0.0, servidor MCP sintético, esquema handoff, ocho casos adversariales, tests stdlib, validador, generador de manifiesto y workflow dedicado. No se modifican conectores de producción, base de datos ni firma de release.
+
+## Aceptación
+1. Workflow del paquete verde en el SHA del PR.
+2. Tests y validación estructural reproducibles.
+3. Revisión humana del PR.
+4. Cierre de gates P0 con evidencia separada antes de certificar o desplegar.
+
+
+## Seguimiento de hardening — rama `hardening/security-trust-schema-mcp-v2`
+
+Esta iteración añade controles reproducibles, sin afirmar que cierre los gates de producción:
+
+- **MCP demo:** valida el formato del identificador antes de consultar fixtures; las respuestas de error no reflejan entradas arbitrarias.
+- **Fixtures:** devuelve copias aisladas y no incluye el valor de entrada en respuestas `not_found`.
+- **Handoff:** endurece límites de longitud, cardinalidad, unicidad, clasificación, digest hexadecimal, fecha/hora, campos adicionales y las invariantes `external_sharing=false` y `data_minimization=true`.
+- **JSON Schema:** añade validación real Draft 2020-12 mediante `jsonschema`, comprobación del propio schema, formato `date-time`, rechazo de claves JSON duplicadas y cuatro controles negativos.
+- **Regresión:** agrega pruebas de no-reflexión, estabilidad del digest y aislamiento ante mutaciones.
+- **CI:** instala la dependencia de validación dentro del job, compila el validador y ejecuta las validaciones antes de verificar el manifiesto.
+
+### Límites que permanecen abiertos
+
+La integración MCP
+
+Salida truncada
+
+Solicitud
+cat src/routes/api.tamv.hcu.ts src/routes/api.tamv.hcu.verify.ts src/routes/atlas.tsx scripts/build-hcu.mjs | head -220
+Respuesta
+import { createFileRoute } from "@tanstack/react-router";
+import Core from "@/lib/hcu/hcu-core.mjs";
+
+const HEADERS = { "Cache-Control": "no-store, max-age=0", "X-Content-Type-Options": "nosniff" };
+const NOTICE =
+  "Modelo ilustrativo y determinista. Pesos, rezagos y parámetros de escenario son hipótesis de trabajo, no mediciones ni pronósticos. No certifica ni valida nada.";
+
+/** Parse a bounded integer query parameter; reject anything else. */
+function intParam(v: string | null, def: number, lo: number, hi: number): number | null {
+  if (v === null) return def;
+  if (!/^\d{1,4}$/.test(v)) return null;
+  const n = Number(v);
+  return n >= lo && n <= hi ? n : null;
+}
+
+export const Route = createFileRoute("/api/tamv/hcu")({
+  server: {
+    handlers: {
+      GET: async ({ request }: { request: Request }) => {
+        const url = new URL(request.url);
+        const scen = url.searchParams.get("scenario") ?? "B";
+        const year = intParam(url.searchParams.get("year"), 2032, Core.Y0, Core.Y0 + Core.T);
+        if (!["A", "B", "C"].includes(scen) || year === null) {
+          return Response.json(
+            { error: "invalid_parameters", detail: "scenario ∈ {A,B,C}; year ∈ [2026, 2050]" },
+            { status: 400, headers: HEADERS },
+          );
+        }
+        const S = Core.seedState();
+        const M = Core.build(S);
+        const sim = Core.simulate(M, S.shocks, S.quar, scen as "A" | "B" | "C");
+        const t = year - Core.Y0;
+        const nodes = M.nodes.map((n) => ({
+          id: n.id,
+          name: n.name,
+          kind: n.kind,
+          activation: Number((sim.a[t]?.[M.idx[n.id] as number] ?? 0).toFixed(4)),
+        }));
+        return Response.json(
+          {
+            model: "tamv-hcu",
+            scenario: scen,
+            year,
+            nodes,
+            hyperedges: M.H.length,
+            invalidHyperedges: M.invalid.length,
+            tension: Number(Core.tension(M, sim, t).toFixed(4)),
+            sealRoot: Core.rootOf(Core.atomHashes(S, M)),
+            sealEmitted: false,
+            certified: false,
+            notice: NOTICE,
+          },
+          { status: 200, headers: HEADERS },
+        );
+      },
+    },
+  },
+});
+import { createFileRoute } from "@tanstack/react-router";
+import Core from "@/lib/hcu/hcu-core.mjs";
+import { isDeclaredContentLengthWithinLimit, isJsonContentType, readBoundedRequestBody } from "@/lib/hypercore-turbo/governance-request-guards";
+
+const MAX_BYTES = 256 * 1024;
+const MAX_ENTRIES = 2000;
+const HEADERS = { "Cache-Control": "no-store, max-age=0", "X-Content-Type-Options": "nosniff" };
+const HEX = /^[0-9a-f]{128}$/;
+
+function isEntry(e: unknown): boolean {
+  if (e === null || typeof e !== "object" || Array.isArray(e)) return false;
+  const r = e as Record<string, unknown>;
+  return Number.isSafeInteger(r.seq) && typeof r.t === "string" && typeof r.actor === "string" && typeof r.act === "string" && typeof r.det === "string" && typeof r.prev === "string" && typeof r.hash === "string" && HEX.test(r.hash);
+}
+
+/**
+ * POST { ledger: {seq,t,actor,act,det,prev,hash}[] } → verifica la cadena SHA3-512 del libro local del instrumento.
+ * Función pura: no persiste, no autentica, no emite sellos. Detecta alteración de campos,
+ * eliminación intermedia y reordenamiento; NO detecta truncado de cola ni sustitución total
+ * de la cadena sin un ancla externa (protocolo T13).
+ */
+export const Route = createFileRoute("/api/tamv/hcu/verify")({
+  server: {
+    handlers: {
+      POST: async ({ request }: { request: Request }) => {
+        if (!isJsonContentType(request.headers.get("content-type"))) {
+          return Response.json({ error: "unsupported_media_type" }, { status: 415, headers: HEADERS });
+        }
+        if (!isDeclaredContentLengthWithinLimit(request.headers.get("content-length"), MAX_BYTES)) {
+          return Response.json({ error: "payload_too_large" }, { status: 413, headers: HEADERS });
+        }
+        const body = await readBoundedRequestBody(request, MAX_BYTES);
+        if (!body.ok) {
+          return Response.json({ error: body.reaso
+
+Salida truncada
+
+Checking the repository's existing integration work.
+Solicitud
+(time bun install --frozen-lockfile 2>&1 | tail -8)
+Respuesta
+error: DNSResolveFailed downloading tarball @types/d3-shape@3.1.8
+
+error: DNSResolveFailed downloading tarball ufo@1.6.4
+
+error: DNSResolveFailed downloading tarball d3-timer@3.0.1
+
+error: DNSResolveFailed downloading tarball graceful-fs@4.2.11
+
+real	0m44.408s
+user	0m0.151s
+sys	0m0.290s
+Solicitud
+ls docs docs/*/ | head -80; grep -ril "manual maestro\|MASTER" docs | head
+Respuesta
+docs:
+ACADEMIC-EVALUATION.md
+AGENT-ORCHESTRATION.md
+AIDP-GOVERNANCE-INTEGRATION.md
+API-SURFACE-AND-ERROR-CONTRACTS.md
+ARCHITECTURE-REFERENCE.md
+AUDIO-ORCHESTRATION.md
+AUDIO-PIPELINE.md
+AUDIT-TECHNICAL-2026-11-13.md
+CAPABILITY-CLOSURE-VALIDATION.md
+CORPUS-CATALOG.md
+CROSS-REPOSITORY-ADOPTION-REGISTER.md
+DEPLOYMENT-ENVIRONMENT-ISOLATION.md
+DEPLOYMENT-READINESS-2026-11-15.md
+DOCUMENTATION-COVERAGE-MATRIX.md
+GOVERNANCE-RECEIPTS-OPERATIONS.md
+HYPER-CORE-OMEGA.md
+HYPERCORE-AUDIT-LEDGER.md
+HYPERCORE-VERCEL-INTEGRATION.md
+IMPLEMENTATION-MATRIX.md
+OPERATIONS.md
+PRODUCT-POSITIONING.md
+PRODUCTION-ENVIRONMENT.md
+PRODUCTION-EVIDENCE-GATES.md
+PRODUCTION-HARDENING-PLAN.md
+PROFILES.md
+PUBLIC-FOOTPRINT.md
+PUBLIC-PROJECT-DISCLOSURE.md
+PUBLIC-TECHNICAL-OVERVIEW.md
+PUBLISHING.md
+README.md
+RELEASE-SIGNING.md
+RELEASE-STATE-2026-11-15.md
+RESEARCH-PROTOCOL-5.md
+SCHEMA-CHANGE-REQUEST-HYPERCORE-LEDGER.md
+SECURITY-OPERATIONS-AND-INCIDENT-PLAYBOOK.md
+SOCIAL-WEBHOOKS.md
+SOVEREIGN-V3.md
+TAMV-CREATOR-OS-UNIFIED-ARCHITECTURE.md
+TECHNICAL-AUDIT-AND-DEBT-REGISTER.md
+UNIFIED-RELEASE-ARCHITECTURE.md
+WORKSPACE-AND-STUDIO.md
+adr
+audit
+legal
+sql
+
+docs/adr/:
+ADR-002-governed-operation-evidence.md
+ADR-003-environment-isolation-and-evidence.md
+
+docs/audit/:
+2026-11-13
+2026-11-15
+2026-11-17
+
+docs/legal/:
+AI-GOVERNANCE-POLICY.md
+DATA-PROTECTION-AND-CREATOR-RIGHTS.md
+LEGAL-IMPLEMENTATION-REGISTER.md
+REGULATORY-MATRIX.md
+
+docs/sql/:
+tamv-governance-receipts.sql
+docs/TAMV-CREATOR-OS-UNIFIED-ARCHITECTURE.md
+docs/OPERATIONS.md
+docs/PRODUCT-POSITIONING.md
+
+Checking why package downloads are failing.
+
+Weighing a fallback that tests the core directly.
+
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && mkdir -p vt && cd vt && npm init -y >/dev/null && (time npm install vitest@3 typescript@5 --no-audit --no-fund --loglevel=error 2>&1 | tail -5); ls node_modules/.bin | grep -E "vitest|tsc"
+Respuesta
+npm error network In most cases you are behind a proxy or have bad network settings.
+npm error network
+npm error network If you are behind a proxy, please make sure that the
+npm error network 'proxy' config is set properly.  See: 'npm help config'
+npm error A complete log of this run can be found in: /home/claude/.npm/_logs/2026-11-18T01_52_34_126Z-debug-0.log
+
+real	0m4.710s
+user	0m0.279s
+sys	0m0.067s
+ls: cannot access 'node_modules/.bin': No such file or directory
+Solicitud
+cat /root/.ccr/README.md | head -60; curl -sS "$HTTPS_PROXY/__agentproxy/status" | head -30; env | grep -i -E "proxy|npm_config" | sed 's/=.*@/=***@/'
+Respuesta
+# Claude Code agent proxy
+
+Outbound HTTPS from this session goes through a local proxy at http://127.0.0.1:40831
+(set via HTTPS_PROXY) which tunnels to a policy-enforcing egress proxy. TLS is
+re-terminated there, so every tool must trust the CA bundle at
+/root/.ccr/ca-bundle.crt. The standard CA environment variables, the system trust
+store (where possible), a JVM truststore, the Bazel system bazelrc, the
+browser NSS store, and gsutil's boto config are already set up.
+
+## Quick diagnosis
+
+1. Run: curl -sS http://127.0.0.1:40831/__agentproxy/status
+   It reports proxy state, which trust and git accommodations are active
+   (javaTrustStorePath, toolTrustFailureCodes, gitSshRewrite,
+   gitConfigConflicts), and the most recent proxy-side failures.
+2. Find the failure class below and apply the matching fix; gitConfigConflicts
+   codes map to the git section, toolTrustFailureCodes to the JVM section.
+3. Never disable TLS verification, never unset HTTPS_PROXY, and do not retry
+   policy denials (403/407) — report them instead.
+
+## Failure classes and fixes
+
+### "certificate verify failed" / "self-signed certificate in chain" / PKIX errors
+
+The failing tool is not reading the pre-set CA configuration. In order:
+
+- If the tool has a CA flag or env var, point it at /root/.ccr/ca-bundle.crt
+  (examples: --cacert, SSL_CERT_FILE, NODE_EXTRA_CA_CERTS, REQUESTS_CA_BUNDLE,
+  AWS_CA_BUNDLE, DENO_CERT, CARGO_HTTP_CAINFO, PIP_CERT, GIT_SSL_CAINFO,
+  BUNDLE_SSL_CA_CERT, HEX_CACERTS_PATH, NIX_SSL_CERT_FILE).
+- Tool config files override environment variables. If one of these sets its
+  own CA or disables verification, point it at the bundle instead:
+  pip.conf "cert", npm "cafile" (npm config get cafile), ~/.curlrc "cacert",
+  .wgetrc "ca_certificate", conda "ssl_verify", git "http.sslCAInfo",
+  gradle.properties / MAVEN_OPTS "-Djavax.net.ssl.trustStore".
+- JVM tools (Maven, Gradle, plain Java): when a JDK is present,
+  JAVA_TOOL_OPTIONS points JVMs at a truststore that holds the proxy CA: the
+  JDK's own store if the system trust install already added the CA there,
+  otherwise /root/.ccr/java-truststore.p12 (password "changeit"). Confirm
+  javaTrustStorePath is set in the status output before pointing a build at it
+  (toolTrustFailureCodes explains why it is missing). If the image or the
+  build sets its own trustStore, that one wins — import the proxy CA into it
+  with
+  keytool -importcert -noprompt -alias ccr-agent-proxy -file /root/.ccr/agent-proxy-ca.crt -keystore <their store>
+  or point the build at the ready-made one. Bazel reads the managed block in
+  /etc/bazel.bazelrc rather than JAVA_TOOL_OPTIONS.
+
+### "405 Method Not Allowed" from the proxy
+
+The tool sent a plain-HTTP (non-CONNECT) request: usually axios older than
+1.16.1 (upgrade it) or a tool configured with HTTP_PROXY (unset HTTP_PROXY for
+that tool — only HTTPS_PROXY is supported).
+
+### 403 / 407 from the proxy
+
+Most often the destination host is not allowed for this session. Do not retry
+or route around it — report the blocked host.
+Note: curl hides response bodies on failed CONNECTs; the status endpoint
+records the reason.
+
+{
+  "enabled": true,
+  "port": 40831,
+  "caBundlePath": "/root/.ccr/ca-bundle.crt",
+  "hasSystemCa": true,
+  "bundleCoversEveryHost": true,
+  "noProxy": "localhost,127.0.0.1,::1,127.0.0.0/8,0.0.0.0/8,::,169.254.0.0/16,api.anthropic.com,api-staging.anthropic.com,api-pr-preview.anthropic.com,mcp-proxy.anthropic.com,mcp-proxy-staging.anthropic.com,registry.npmjs.org,jsr.io,npm.jsr.io,pypi.org,files.pythonhosted.org,index.crates.io,proxy.golang.org,host.docker.internal,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,.svc.cluster.local,*.svc.cluster.local",
+  "selective": false,
+  "governedGitTools": false,
+  "installedProxyPreconfiguredClis": [
+    "bq",
+    "gcloud",
+    "gh",
+    "gsutil"
+  ],
+  "javaTrustStorePath": "/etc/ssl/certs/java/cacerts",
+  "javaTrustStoreType": "JKS",
+  "readmePath": "/root/.ccr/README.md",
+  "gitConfigInjection": true,
+  "gitSshRewrite": true,
+  "recentRelayFailures": [],
+  "downloadQueuedBytes": 0,
+  "downloadQu
+
+Salida truncada
+
+Solicitud
+cat /root/.npmrc 2>/dev/null | sed 's/_authToken=.*/_authToken=***/'; npm config get registry; getent hosts registry.npmjs.org || echo "no DNS for registry.npmjs.org"; curl -sS -m 10 -o /dev/null -w "%{http_code}\n" https://registry.npmjs.org/vitest 2>&1 | tail -1; tail -5 /home/claude/.npm/_logs/*debug-0.log | tail -8
+Respuesta
+https://registry.npmjs.org/
+no DNS for registry.npmjs.org
+000
+tail: option used in invalid context -- 5
+Estoy probando si el registro npm es accesible a través del proxy para poder ejecutar las pruebas del repo.
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/vt && NO_PROXY="" no_proxy="" curl -sS -m 15 -o /dev/null -w "curl via proxy: %{http_code}\n" https://registry.npmjs.org/vitest 2>&1 | tail -1; NO_PROXY="" no_proxy="" npm_config_noproxy="" npm install vitest@3 typescript@5 --no-audit --no-fund --loglevel=error 2>&1 | tail -4; ls node_modules/.bin 2>/dev/null | grep -E "^(vitest|tsc)$"
+Respuesta
+curl via proxy: 000
+npm error 403 In most cases, you or one of your dependencies are requesting
+npm error 403 a package version that is forbidden by your security policy, or
+npm error 403 on a server you do not have access to.
+npm error A complete log of this run can be found in: /home/claude/.npm/_logs/2026-11-18T01_52_47_181Z-debug-0.log
+
+Blocked registry access, so switching to a plain node test run.
+
+Running the core logic check with plain node.
+
+Verificando con Node nativo y Playwright tras bloqueo de npm
+Solicitud
+grep -o "expect([^)]*)\.[a-zA-Z.]*" src/test/hcu-core.test.ts | sed 's/expect([^)]*)//' | sort | uniq -c; sed -n 1,25p src/test/hcu-core.test.ts; node scripts/build-hcu.mjs --check; node scripts/validate-thesis-claims.mjs >/dev/null 2>&1; echo "claims-script exit=$?"; git status --short | head
+Respuesta
+      3 .ok
+      1 .seal
+      1 .st
+      2 .toBe
+      2 .toBeLessThanOrEqual
+      1 .toHaveLength
+import { createHash } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import Core from "@/lib/hcu/hcu-core.mjs";
+
+const scen = ["A", "B", "C"] as const;
+
+describe("HCU · SHA3-512 (FIPS 202)", () => {
+  it.each(["", "abc", "a".repeat(71), "a".repeat(72), "a".repeat(73), "Ω∞ átomo ñ", "x".repeat(500)])(
+    "coincide con node:crypto (len %#)",
+    (s) => expect(Core.sha3(s)).toBe(createHash("sha3-512").update(s).digest("hex")),
+  );
+});
+
+describe("HCU · identificadores", () => {
+  it("valida checksum ISO 7064 de ORCID", () => {
+    expect(Core.orcid("0009-0008-5050-1539")).toBe(true);
+    expect(Core.orcid("0000-0002-1825-0097")).toBe(true); // ID de ejemplo oficial de ORCID
+    expect(Core.orcid("0000-0002-1825-0098")).toBe(false);
+  });
+  it("valida ISNI, DOI y TRI solo por formato (no resuelve en red)", () => {
+    expect(Core.isni("0000 0005 3169 9229")).toBe(true);
+    expect(Core.doi("10.5281/zenodo.19436662")).toBe(true);
+    expect(Core.tri("TRI-TAMV-2026-0001")).toBe(true);
+    expect(Core.tri("TRI-TAMV-26-1")).toBe(false);
+  });
+HCU_BUILD_OK
+claims-script exit=0
+ M src/lib/workspace-navigation.ts
+?? docs/audit/2026-11-17/CLAIMS-VS-CODE.generated.md
+?? public/hcu/
+?? scripts/build-hcu.mjs
+?? scripts/validate-thesis-claims.mjs
+?? src/lib/hcu/
+?? src/routes/api.tamv.hcu.ts
+?? src/routes/api.tamv.hcu.verify.ts
+?? src/routes/atlas.tsx
+?? src/test/hcu-core.test.ts
+Writing a minimal test shim.
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && mkdir -p shim && cat > shim/vitest-shim.mjs <<'EOF'
+let fails=0,passes=0,cur=[];
+const fmt=(t,a)=>t.replace(/%#|%s|%d/g,()=>String(a[0]).slice(0,30));
+export const describe=(n,f)=>{cur.push(n);f();cur.pop();};
+const run=(n,f,args)=>{try{f(...args);passes++;}catch(e){fails++;console.log("FAIL",cur.join(" > "),n,"::",e.message);}};
+export const it=(n,f)=>run(n,f,[]);
+it.each=(rows)=>(n,f)=>rows.forEach((r,i)=>run(n.replace('%#',i),f,[].concat(r)));
+export const expect=(v)=>{
+ const m={toBe:(x)=>{if(!Object.is(v,x))throw new Error(`expected ${JSON.stringify(x)} got ${JSON.stringify(v)}`)},
+ toEqual:(x)=>{if(JSON.stringify(v)!==JSON.stringify(x))throw new Error(`toEqual ${JSON.stringify(v)} vs ${JSON.stringify(x)}`)},
+ toHaveLength:(n)=>{if(v.length!==n)throw new Error(`length ${v.length}!=${n}`)},
+ toBeLessThanOrEqual:(n)=>{if(!(v<=n))throw new Error(`${v} > ${n}`)},
+ toBeLessThan:(n)=>{if(!(v<n))throw new Error(`${v} >= ${n}`)},
+ toBeGreaterThan:(n)=>{if(!(v>n))throw new Error(`${v} <= ${n}`)},
+ toBeTruthy:()=>{if(!v)throw new Error("falsy")},toBeFalsy:()=>{if(v)throw new Error("truthy")},
+ toContain:(x)=>{if(!v.includes(x))throw new Error("no contain")}};
+ m.not=new Proxy({}, {get:(_,k)=>(...a)=>{let ok=true;try{m[k](...a)}catch{ok=false}if(ok)throw new Error("not."+k)}});
+ return m;};
+process.on('exit',()=>console.log(`\nSHIM RESULT: ${passes} passed, ${fails} failed`));
+EOF
+cat > shim/hooks.mjs <<'EOF'
+import {pathToFileURL} from 'node:url';
+const REPO='/home/claude/anubisvillasenor1/tamv-creator-intelligence';
+export async function resolve(spec,ctx,next){
+ if(spec==='vitest') return {url:pathToFileURL('/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/shim/vitest-shim.mjs').href,shortCircuit:true};
+ if(spec.startsWith('@/')) return next(pathToFileURL(REPO+'/src/'+spec.slice(2)).href,ctx);
+ return next(spec,ctx);}
+EOF
+… (+8 more rows)
+Respuesta
+FAIL HCU · libro encadenado (T13) detecta edición de un campo :: expect(...).toMatchObject is not a function
+
+SHIM RESULT: 19 passed, 1 failed
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && python3 - <<'EOF'
+p='shim/vitest-shim.mjs';s=open(p).read()
+s=s.replace(" toBeTruthy:"," toMatchObject:(x)=>{for(const k in x){if(JSON.stringify(v[k])!==JSON.stringify(x[k]))throw new Error('toMatchObject '+k+': '+JSON.stringify(v[k])+' vs '+JSON.stringify(x[k]))}},\n toBeTruthy:",1)
+open(p,'w').write(s)
+EOF
+cd /home/claude/anubisvillasenor1/tamv-creator-intelligence && node --experimental-strip-types --import /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/shim/reg.mjs src/test/hcu-core.test.ts 2>&1 | grep -v ExperimentalWarning | tail -5; ls /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/*.js | head; sed -n 1,40p /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/pw2.js
+Respuesta
+SHIM RESULT: 20 passed, 0 failed
+/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/app.js
+/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/core.js
+/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/pw.js
+/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/pw2.js
+/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/pw3.js
+/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/hcu/test_core.js
+const { chromium } = require('playwright');
+(async()=>{
+  const b = await chromium.launch(); const errs=[];
+  const p = await (await b.newContext({viewport:{width:1440,height:900}})).newPage();
+  p.on('pageerror',e=>errs.push('PAGEERROR '+e.message)); p.on('console',m=>{if(m.type()==='error'&&!/ERR_TUNNEL/.test(m.text()))errs.push(m.text())});
+  await p.goto('file://'+process.cwd()+'/page.html'); await p.waitForTimeout(800);
+  const st=()=>p.evaluate(()=>{const s=window.__hcu&&window.__hcu.state?window.__hcu.state():null;return s&&{sel:s.ui.sel,scen:s.ui.scen,year:s.ui.year,layer:s.ui.layer,shocks:s.shocks.length,quar:Object.keys(s.quar||{}).length,ledger:(s.ledger||[]).length}});
+  console.log('hook', Object.keys(await p.evaluate(()=>window.__hcu||{})));
+  const log=async(n)=>console.log(n, JSON.stringify(await st()));
+  await log('init');
+  // scenario C, layer toggles, slider
+  await p.click('#scSeg button:nth-child(3)'); await log('scenC');
+  for (const i of [2,3,4,5]) { await p.click(`#layerSeg button:nth-child(${i})`); }
+  await p.fill('#year','2045'); await p.dispatchEvent('#year','input'); await log('year');
+  // search
+  await p.fill('#q','ciberseguridad y fraude'); await p.waitForTimeout(300);
+  console.log('search results:', await p.$$eval('#qres > *',e=>e.length), (await p.textContent('#qres')).slice(0,200).replace(/\s+/g,' '));
+  // shock
+  await p.click('#tab-shock, [data-tab="t-shock"], button:has-text("Choque")').catch(()=>{});
+  // canvas click center-ish
+  await p.screenshot({path:'shot_after.png'});
+  // seal + export
+  await p.click('#bSeal').catch(e=>errs.push('bSeal '+e.message)); await p.waitForTimeout(500);
+  console.log('seal info:', (await p.textContent('#sealInfo')).replace(/\s+/g,' ').slice(0,200));
+  await p.click('#bVerify').catch(()=>{}); console.log('lStatus:', await p.textContent('#lStatus'));
+  await p.click('#bLd').catch(()=>{}); await p.waitForTimeout(300);
+  console.log('out:', (await p.inputValue('#out').catch(()=>p.textContent('#out'))).slice(0,150));
+  await log('end'); console.log(errs.length?errs.join('\n'):'NO JS ERRORS'); await b.close();
+})();
+Running a browser render check on the page.
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && mkdir -p pw && cat > pw/run.js <<'EOF'
+const { chromium } = require('playwright');
+const URL='file:///home/claude/anubisvillasenor1/tamv-creator-intelligence/public/hcu/index.html';
+(async()=>{
+ const b=await chromium.launch(); const errs=[];
+ for (const [name,vp,mobile] of [['desk',{width:1440,height:900},false],['mob',{width:390,height:844},true]]) {
+  const ctx=await b.newContext({viewport:vp,deviceScaleFactor:1,isMobile:mobile,hasTouch:mobile});
+  const p=await ctx.newPage();
+  p.on('pageerror',e=>errs.push(name+' PAGEERROR '+e.message));
+  p.on('console',m=>{if(m.type()==='error')errs.push(name+' console: '+m.text())});
+  await p.goto(URL); await p.waitForTimeout(900);
+  const hs=await p.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,h:document.documentElement.scrollHeight}));
+  console.log(name,'overflowX:',hs.sw>hs.cw,hs);
+  await p.screenshot({path:`pw/${name}_top.png`});
+  await p.locator('#cv').scrollIntoViewIfNeeded(); await p.waitForTimeout(500);
+  await p.screenshot({path:`pw/${name}_cv.png`});
+  if(!mobile){
+   const st=()=>p.evaluate(()=>{const s=window.__hcu.state();return {sel:s.ui.sel,scen:s.ui.scen,year:s.ui.year,layer:s.ui.layer,shocks:s.shocks.length,quar:Object.keys(s.quar||{}).length,ledger:(s.ledger||[]).length,atoms:s.atoms.length,hyp:s.hyper?s.hyper.length:undefined}});
+   console.log('init',JSON.stringify(await st()));
+   await p.click('#scSeg button:nth-child(3)'); await p.fill('#year','2045'); await p.dispatchEvent('#year','input');
+   await p.click('#layerSeg button:nth-child(3)');
+   console.log('after',JSON.stringify(await st()));
+   await p.fill('#q','ciberseguridad y fraude'); await p.waitForTimeout(300);
+   console.log('search:',(await p.textContent('#qres')).replace(/\s+/g,' ').slice(0,160));
+   await p.click('#bSeal'); await p.waitForTimeout(400);
+   console.log('seal:',(await p.textContent('#sealInfo')).replace(/\s+/g,' ').slice(0,220));
+   await p.click('#bVerify'); console.log('ledger:',(await p.textContent('#lStatus')).replace(/\s+/g,' ').slice(0,120));
+… (+12 more rows)
+Respuesta
+desk overflowX: false { sw: 1440, cw: 1440, h: 13081 }
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.evaluate: TypeError: window.__hcu.state is not a function
+    at eval (eval at evaluate (:311:30), <anonymous>:1:27)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at st (/tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/pw/run.js:17:19)
+    at /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad/pw/run.js:18:44 {
+  log: []
+}
+
+Node.js v22.23.4
+Shell cwd was reset to /home/claude
+Solicitud
+cd /home/claude/anubisvillasenor1/tamv-creator-intelligence && grep -n "__hcu" src/lib/hcu/instrument/app.js | head
+Respuesta
+624:window.__hcu={S:function(){return S;},M:function(){return M;},derive:derive,select:select,el:function(){return el;},tq:function(){return tq;},pl:function(){return pl;}};
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && sed -i 's/window.__hcu.state()/window.__hcu.S()/; s/s.hyper?s.hyper.length:undefined/s.edges?s.edges.length:Object.keys(s).join(",")/' pw/run.js && node pw/run.js 2>&1 | tail -30
+Respuesta
+desk overflowX: false { sw: 1440, cw: 1440, h: 13081 }
+init {"sel":"ia","scen":"B","year":2032,"layer":"dom","shocks":1,"quar":0,"ledger":0,"atoms":26,"hyp":"v,atoms,hyp,shocks,quar,seal,ledger,reviews,actor,exp,ui"}
+after {"sel":"ia","scen":"C","year":2045,"layer":"ev","shocks":1,"quar":0,"ledger":0,"atoms":26,"hyp":"v,atoms,hyp,shocks,quar,seal,ledger,reviews,actor,exp,ui"}
+search: 
+seal: Último sello: 2026-11-18 01:53 · raíz 5e9bccdffd42c32c25c0ac57fbdf25e9… · 26 átomos.
+ledger: Cadena íntegra: 1 entradas verificadas con SHA3-512.
+jsonld: { "@context": "https://schema.org", "@type": "Dataset", "name": "TAMV Ω∞ HCU — modelo de transformación sistémica", "description": "Hipe
+mob overflowX: false { sw: 390, cw: 390, h: 24655 }
+NO JS ERRORS
+Shell cwd was reset to /home/claude
+Revisando por qué la búsqueda de ciberseguridad no devuelve resultados.
+Solicitud
+cd /home/claude/anubisvillasenor1/tamv-creator-intelligence && grep -n "renderSearch\|qres\|SYN" src/lib/hcu/instrument/app.js | head -20
+Respuesta
+171:var SYN={ia:["agentes","memoria","razonamiento","educacion","trabajo","economia"],educacion:["ia","aprendizaje","investigacion","trabajo","salud mental"],clima:["energia","biodiversidad","salud","economia circular","riesgo"],riesgo:["ciberseguridad","guerra hibrida","gobernanza","evidencia","resiliencia"],economia:["mercados","creditos","finanzas","gobernanza","ia"],salud:["biotecnologia","prevencion","clima","memoria","bienestar"],fraude:["ciberseguridad","ciberdelito","seguridad","identidad","evidencia"],delito:["ciberdelito","seguridad","gobernanza"],hackeo:["ciberseguridad","ciberdelito"],energia:["clima","economia","infraestructura"],guerra:["guerra hibrida","seguridad","gobernanza"]};
+180:  terms.forEach(function(t){var k=norm(t);Object.keys(SYN).forEach(function(key){if(k===key)SYN[key].forEach(function(e){if(exp.indexOf(e)<0)exp.push(e);});});});
+194:function renderSearch(){
+196:  if(!q.trim()){hl=null;$("qres").innerHTML="";$("qHint").textContent="";return;}
+199:  $("qres").innerHTML=r.res.slice(0,10).map(function(x){return '<button type="button" data-go="'+esc(x.n.id)+'"><span><b>'+esc(x.n.name)+'</b> <span class="cap2">'+esc(x.n.kind==="domain"?"dominio":Core.DOMS[x.n.dom][0])+'</span></span><span class="mono">'+x.sc.toFixed(1)+'</span></button>';}).join("");
+305:  renderStatusbar();renderLayers();renderTqaf();renderPipeline();renderReviews();renderSeal();renderLedger();renderConsole();renderSearch();renderCaption();renderControls();renderDetail();renderAff();
+396:  $("q").addEventListener("input",renderSearch);
+
+Checking the rendered image for overlapping labels.
+
+Spotting a label collision in the render.
+
+Solicitud
+sed -n 172,200p src/lib/hcu/instrument/app.js
+Respuesta
+var hl=null;
+function words(s){return norm(s).split(/[^a-z0-9]+/).filter(Boolean);}
+function hit(ws,tok){return ws.some(function(w){return tok.length<3?w===tok:w.indexOf(tok)===0;});}
+function phraseIn(ws,phrase){var tk=words(phrase);return tk.length&&tk.every(function(t){return hit(ws,t);});}
+function search(q){
+  var terms=q.split(/\+|,/).map(function(t){return t.trim();}).filter(Boolean);
+  if(!terms.length)return {res:[],exp:[]};
+  var exp=[],res=[];
+  terms.forEach(function(t){var k=norm(t);Object.keys(SYN).forEach(function(key){if(k===key)SYN[key].forEach(function(e){if(exp.indexOf(e)<0)exp.push(e);});});});
+  M.nodes.forEach(function(n){
+    if(n.kind==="core")return;
+    var wn=words(n.name),wd=words(n.kind==="domain"?n.name:Core.DOMS[n.dom][0]),wt=words(n.note||""),sc=0,why=[];
+    terms.forEach(function(t){
+      var s=(phraseIn(wn,t)?3:0)+(phraseIn(wd,t)?2:0)+(phraseIn(wt,t)?1:0);
+      if(s){sc+=s;why.push(t);}
+    });
+    exp.forEach(function(e){if(phraseIn(wn,e)||phraseIn(wd,e)||phraseIn(wt,e)){sc+=.5;}});
+    if(sc>0)res.push({n:n,sc:sc,why:why});
+  });
+  res.sort(function(a,b){return b.sc-a.sc;});
+  return {res:res,exp:exp};
+}
+function renderSearch(){
+  var q=$("q").value,r=search(q);
+  if(!q.trim()){hl=null;$("qres").innerHTML="";$("qHint").textContent="";return;}
+  hl={};r.res.forEach(function(x){hl[x.n.id]=true;});
+  $("qHint").textContent=r.res.length+" coincidencia(s)."+(r.exp.length?" Expansión semántica aplicada: "+r.exp.join(" · ")+".":"");
+  $("qres").innerHTML=r.res.slice(0,10).map(function(x){return '<button type="button" data-go="'+esc(x.n.id)+'"><span><b>'+esc(x.n.name)+'</b> <span class="cap2">'+esc(x.n.kind==="domain"?"dominio":Core.DOMS[x.n.dom][0])+'</span></span><span class="mono">'+x.sc.toFixed(1)+'</span></button>';}).join("");
+}
+
+Diagnosing why multi-word search queries return nothing.
+
+Planning token-based search that drops connector words.
+
+Solicitud
+python3 - <<'EOF'
+p='src/lib/hcu/instrument/app.js';s=open(p).read()
+a='var terms=q.split(/\\+|,/).map(function(t){return t.trim();}).filter(Boolean);'
+assert a in s
+s=s.replace(a,'var terms=q.split(/\\+|,|\\s+(?:y|e|o|u|and|or)\\s+/i).map(function(t){return t.trim();}).filter(Boolean);')
+b='terms.forEach(function(t){var k=norm(t);Object.keys(SYN).forEach(function(key){if(k===key)SYN[key].forEach(function(e){if(exp.indexOf(e)<0)exp.push(e);});});});'
+assert b in s
+s=s.replace(b,'terms.forEach(function(t){words(t).concat([norm(t)]).forEach(function(k){Object.keys(SYN).forEach(function(key){if(k===key)SYN[key].forEach(function(e){if(exp.indexOf(e)<0)exp.push(e);});});});});')
+open(p,'w').write(s)
+EOF
+grep -n "transversal\|domain label\|fillText" src/lib/hcu/instrument/app.js | head -20
+Respuesta
+548:      if(nd.kind==="atom"&&S.seal){var ok=ss.mod.indexOf(nd.id)<0&&ss.add.indexOf(nd.id)<0;ctx.fillStyle=ok?PAL.ok:PAL.danger;ctx.font="600 11px IBM Plex Sans,sans-serif";ctx.fillText(ok?"✓":"!",nd.sx+r+9,nd.sy-r-3);}}
+572:    ctx.lineWidth=3;ctx.strokeStyle=PAL.fig;ctx.lineJoin="round";ctx.strokeText(lb.t,x,y);ctx.fillStyle=lb.c;ctx.fillText(lb.t,x,y);
+Solicitud
+sed -n 549,575p src/lib/hcu/instrument/app.js
+Respuesta
+    if(L==="q"&&nd.kind!=="core"){ctx.fillStyle=PAL.fg;ctx.beginPath();ctx.arc(nd.sx+Math.cos(nd.psi+tm*(RM?0:.6+Core.coherence(nd,S.ui.year)))*(r+7),nd.sy+Math.sin(nd.psi+tm*(RM?0:.6+Core.coherence(nd,S.ui.year)))*(r+7),2,0,7);ctx.fill();}
+    if(Math.abs(e)>.04){ctx.strokeStyle=PAL.accent;ctx.lineWidth=1.5+Math.abs(e)*3.5;ctx.setLineDash(e<0?[4,3]:[]);ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+4+Math.abs(e)*7+(L==="ev"?6:0),0,7);ctx.stroke();ctx.setLineDash([]);}
+    if(qd){ctx.strokeStyle=PAL.danger;ctx.lineWidth=1.6;ctx.setLineDash([2,2]);ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+3,0,7);ctx.stroke();ctx.setLineDash([]);line(nd.sx-r*.7,nd.sy-r*.7,nd.sx+r*.7,nd.sy+r*.7);line(nd.sx-r*.7,nd.sy+r*.7,nd.sx+r*.7,nd.sy-r*.7);}
+    if(k===si){ctx.globalAlpha=1;ctx.strokeStyle=PAL.fg;ctx.lineWidth=2;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+11,0,7);ctx.stroke();}
+    else if(k===hover){ctx.globalAlpha=1;ctx.strokeStyle=PAL.fg;ctx.lineWidth=1;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+8,0,7);ctx.stroke();}
+    ctx.globalAlpha=1;
+    var pr=-1,txt="",fnt="500 12px IBM Plex Sans,sans-serif",colr=PAL.fg;
+    if(nd.kind==="core"){pr=100;txt="Ω CORE";fnt="600 12px IBM Plex Mono,monospace";}
+    else if(nd.kind==="domain"){pr=90;txt=nd.name.toUpperCase();fnt="600 11px IBM Plex Mono,monospace";colr=c;}
+    else if(k===si){pr=95;txt=nd.name;fnt="600 12.5px IBM Plex Sans,sans-serif";}
+    else if(k===hover){pr=94;txt=nd.name;}
+    else if(hl&&hl[nd.id]){pr=70;txt=nd.name;}
+    else if(Math.abs(e)>.12){pr=40+Math.abs(e)*20;txt=nd.name+" "+sg(e,2);}
+    if(pr>0&&!dim)labels.push({t:txt,x:nd.sx+r+(L==="ev"?14:9),y:nd.sy+4,pr:pr,f:fnt,c:colr,right:nd.sx>Wd-150,r:r});
+  });
+  hubLabels.forEach(function(h){labels.push({t:h.t,x:h.x,y:h.y,pr:60,f:"italic 11px IBM Plex Sans,sans-serif",c:PAL.accent2,center:true});});
+  hubLabels=[];
+  labels.sort(function(a,b){return b.pr-a.pr;});
+  var boxes=[];
+  labels.forEach(function(lb){
+    ctx.font=lb.f;var w=ctx.measureText(lb.t).width,x=lb.center?lb.x-w/2:(lb.right?lb.x-2*(lb.r+9)-w:lb.x),y=lb.y,b={x0:x-2,x1:x+w+2,y0:y-11,y1:y+4},hit2=false;
+    boxes.forEach(function(o){if(!(b.x1<o.x0||b.x0>o.x1||b.y1<o.y0||b.y0>o.y1))hit2=true;});
+    if(hit2&&lb.pr<90)return;boxes.push(b);
+    ctx.lineWidth=3;ctx.strokeStyle=PAL.fig;ctx.lineJoin="round";ctx.strokeText(lb.t,x,y);ctx.fillStyle=lb.c;ctx.fillText(lb.t,x,y);
+  });
+}
+var hubLabels=[];
+Refining overlap handling for high-priority items.
+Solicitud
+python3 - <<'EOF'
+p='src/lib/hcu/instrument/app.js';s=open(p).read()
+old=s[s.index("    ctx.font=lb.f;var w=ctx.measureText(lb.t).width,x=lb.center"):s.index("    ctx.lineWidth=3;ctx.strokeStyle=PAL.fig;ctx.lineJoin=\"round\";ctx.strokeText(lb.t,x,y);")]
+new='''    ctx.font=lb.f;var w=ctx.measureText(lb.t).width,x=lb.center?lb.x-w/2:(lb.right?lb.x-2*(lb.r+9)-w:lb.x),y=lb.y,b,placed=false;
+    function clash(bb){return boxes.some(function(o){return !(bb.x1<o.x0||bb.x0>o.x1||bb.y1<o.y0||bb.y0>o.y1);});}
+    var offs=[0,-14,14,-28,28,-42,42];
+    for(var oi=0;oi<offs.length&&!placed;oi++){b={x0:x-2,x1:x+w+2,y0:y+offs[oi]-11,y1:y+offs[oi]+4};if(!clash(b)){y=y+offs[oi];placed=true;}}
+    if(!placed){if(lb.pr<95)return;b={x0:x-2,x1:x+w+2,y0:y-11,y1:y+4};}
+    boxes.push(b);
+'''
+s=s.replace(old,new);open(p,'w').write(s)
+EOF
+node --check src/lib/hcu/instrument/app.js && node scripts/build-hcu.mjs && cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && node pw/run.js 2>&1 | grep -E "search|NO JS|PAGEERR|console"
+Respuesta
+HCU_BUILD_WRITTEN 141324 bytes
+search: Ciberseguridad Seguridad5.5VETRA Governance Gobernanza1.0Ciberdelito Seguridad1.0Soberanía Digital Seguridad1.0Gobernanza dominio0.5Clima y Biosfera dominio0.5S
+NO JS ERRORS
+Shell cwd was reset to /home/claude
+
+Checking screenshot labels before moving to the audit.
+
+Planning the manual from existing audits and agent sweeps.
+
+Lanzando revisiones paralelas de solo lectura sobre el código
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Se ejecutó un comando
+Solicitud
+cd /tmp/claude-0/-home-claude/d9fcff9f-5783-52b5-93cb-71fd099425b4/scratchpad && echo "=== DOIs/identificadores por documento ===" && for f in /mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/bd749930-tesis_doctoral_y_caso_de_estudio_gobernanza_tamv.md /mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/8e695cac-manual-metodologico-protocolo-doctorado-tamv.md docx.txt; do echo "-- $(basename $f)"; grep -o -E "10\.[0-9]{4,5}/[A-Za-z0-9._/-]+" $f | sort -u | tr '\n' ' '; echo; done; echo; echo "=== ISNI / ORCID ==="; grep -h -o -E "0000[ -]?000[0-9][ -]?[0-9]{4}[ -]?[0-9]{3}[0-9X]|0009-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]" /mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/*.md docx.txt | sort | uniq -c; echo; echo "=== horas / cifras ==="; grep -h -o -i -E "[0-9]{2},?[0-9]{3} horas|[0-9]+ (módulos|contratos|skills|capacidades|pruebas|federaciones|capas)" /mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/*.md docx.txt | sort | uniq -c | sort -rn | head -20; echo; echo "=== fechas de calendario ==="; grep -n -E "Enero 2026|Febrero 2026|Marzo 2026|Q4 2026" /mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/8e695cac-manual-metodologico-protocolo-doctorado-tamv.md | head; echo; echo "=== TRL en tesis/docx ==="; grep -n -i -E "TRL ?[0-9]" /mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/bd749930-tesis_doctoral_y_caso_de_estudio_gobernanza_tamv.md docx.txt | cut -c1-200 | head -12
+Respuesta
+=== DOIs/identificadores por documento ===
+-- bd749930-tesis_doctoral_y_caso_de_estudio_gobernanza_tamv.md
+10.1038/s42256-019-0088-2 10.1038/sdata.2016.18 10.1145/3351095.3372873 10.14763/2020.4.1532 10.17487/RFC8785 10.48550/arXiv.1705.07874 10.48550/arXiv.2309.08600 10.5281/zenodo.19436662 10.5281/zenodo.20071455 10.5281/zenodo.21400908 10.5281/zenodo.22939783 10.5281/zenodo.23034324 10.5281/zenodo.24259962 10.6028/NIST.AI.100-1 10.6028/NIST.FIPS.203 10.6028/NIST.FIPS.204 10.6084/m9.figshare.32135386 10.6084/m9.figshare.32337309 10.6084/m9.figshare.32508306 
+-- 8e695cac-manual-metodologico-protocolo-doctorado-tamv.md
+10.17605/OSF.IO/T3WMY 10.5281/zenodo.20071455 10.5281/zenodo.20606361 10.6084/m9.figshare.32135386 
+-- docx.txt
+10.1038/s42256-019-0088-2. 10.1038/sdata.2016.18 10.1145/3351095.3372873 10.14763/2020.4.1532 10.17605/OSF.IO/T3WMY 10.3991/ijim.v19i14.56981 10.48550/arXiv.1705.07874. 10.5281/zenodo.19436662. 10.5281/zenodo.20071455. 10.5281/zenodo.20606361 10.5281/zenodo.23034325 10.5281/zenodo.24259962. 10.6028/NIST.AI.100-1 10.6084/m9.figshare.32135386. 
+
+=== ISNI / ORCID ===
+      1 0000 0005 3169 9229
+      1 0000-0005-3169-9229
+      4 0009-0008-5050-1539
+
+=== horas / cifras ===
+      7 23 módulos
+      6 37 contratos
+      4 41 capacidades
+      1 7 Federaciones
+      1 4 skills
+      1 4 SKILLS
+      1 37 Contratos
+      1 22,000 horas
+      1 20 pruebas
+      1 14 capas
+      1 14 Capas
+      1 11 contratos
+
+=== fechas de calendario ===
+295:Enero 2026: Depósito del Marco Metodológico y Datasets Sintéticos en Zenodo y OSF (Asignación de DOI)
+298:Febrero 2026: Difusión de Pre-prints en FigShare y ResearchGate & Captura de Retroalimentación de Pares
+301:Marzo 2026: Envío Formal del Manuscrito Doctoral a Frontiers in Artificial Intelligence / Frontiers in Big Data
+304:Q4 2026: Despliegue de Testnet Federada y Evaluación de Conformidad Transfronteriza
+
+=== TRL en tesis/docx ===
+/mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/bd749930-tesis_doctoral_y_caso_de_estudio_gobernanza_tamv.md:331:2. **Discrepancia entre Documentación Conceptual y Nivel de Madurez Te
+/mnt/user-data/attachments/d9fcff9f-5783-52b5-93cb-71fd099425b4/bd749930-tesis_doctoral_y_caso_de_estudio_gobernanza_tamv.md:402:Con estricto apego a la honestidad científica, se declara que la valid
+docx.txt:214:TRL 7 exige demostración de un prototipo de sistema en entorno operacional; publicar documentos o DOI no satisface ese criterio. NASA proporciona descripciones y criterios de evidencia q
+Shell cwd was reset to /home/claude
+Te quedaste sin mensajes gratuitos hasta mañana a las 12:40 a.m.

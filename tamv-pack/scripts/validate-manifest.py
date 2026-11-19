@@ -7,8 +7,8 @@ import sys
 from pathlib import Path
 
 PACK_ROOT = Path(__file__).resolve().parents[1]
-REQUIRED_SKILLS = 37
-REQUIRED_EXTENSIONS = 20
+REQUIRED_SKILLS = 41
+REQUIRED_EXTENSIONS = 24
 REQUIRED_GUARDS = {"tamv-core-governance", "tamv-rights-safety-guard"}
 CANONICAL_ATTRIBUTION = (
     "Proyecto impulsado con colaboración de tecnología latinoamericana "

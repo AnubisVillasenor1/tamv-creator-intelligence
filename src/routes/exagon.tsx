@@ -4,6 +4,7 @@ import { Activity, ArrowRight, Fingerprint, Gauge, ShieldCheck } from "lucide-re
 import { TamvLogo } from "@/components/branding/TamvLogo";
 import { Button } from "@/components/ui/button";
 import { useAuthSession } from "@/hooks/use-auth-session";
+import { GovernanceWorkspace } from "@/components/governance-workspace";
 
 export const Route = createFileRoute("/exagon")({
   head: () => ({
@@ -127,6 +128,7 @@ function ExagonPage() {
           </div>
         </section>
 
+        <GovernanceWorkspace key={session.status} signedIn={session.status === "authenticated"} />
       </div>
     </main>
   );

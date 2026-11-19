@@ -439,5 +439,65 @@ export const skillRegistry = [
     ],
     "inputs": "Objetivo, entradas y skills necesarias",
     "outputs": "Plan ordenado, traspasos y confirmaciones"
+  },
+  {
+    "id": "tamv-creator-os",
+    "name": "Creator Os",
+    "category": "Coordinación",
+    "description": "Sistema operativo del creador TAMV para estrategia, oferta, validación de demanda, contenido, video, lanzamientos, comunidad y decisiones supervisadas.",
+    "dependencies": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-workflow-orchestrator",
+      "tamv-content-review",
+      "tamv-launch-strategist"
+    ],
+    "inputs": "Brief, datos autorizados y aprobación humana",
+    "outputs": "Entregable local, decisión y recibo de evidencia"
+  },
+  {
+    "id": "tamv-audio-intelligence",
+    "name": "Audio Intelligence",
+    "category": "Coordinación",
+    "description": "Inteligencia auditiva y audiovisual TAMV para música local, voz característica, DSP, video, animación, localización, mezcla y masterización.",
+    "dependencies": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-audiocore-dsp",
+      "tamv-voice-identity",
+      "tamv-release-readiness"
+    ],
+    "inputs": "Brief, datos autorizados y aprobación humana",
+    "outputs": "Entregable local, decisión y recibo de evidencia"
+  },
+  {
+    "id": "tamv-growth-engine",
+    "name": "Growth Engine",
+    "category": "Coordinación",
+    "description": "Motor de crecimiento TAMV para validación de demanda, investigación, SEO, AI SEO, contenido, conversión, monetización ética, analítica y narrativa de datos.",
+    "dependencies": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-experiment-design",
+      "tamv-campaign-measurement",
+      "tamv-seo-discoverability"
+    ],
+    "inputs": "Brief, datos autorizados y aprobación humana",
+    "outputs": "Entregable local, decisión y recibo de evidencia"
+  },
+  {
+    "id": "tamv-sovereign-platform",
+    "name": "Sovereign Platform",
+    "category": "Coordinación",
+    "description": "Plataforma soberana TAMV para gobernanza, seguridad, integridad, sellado, memoria auditable, Skills Bridge y operación controlada de agentes.",
+    "dependencies": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-consent-ledger",
+      "tamv-metadata-provenance",
+      "tamv-quality-gate"
+    ],
+    "inputs": "Brief, datos autorizados y aprobación humana",
+    "outputs": "Entregable local, decisión y recibo de evidencia"
   }
 ] as const;

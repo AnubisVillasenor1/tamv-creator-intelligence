@@ -1,5 +1,19 @@
 # Actualización TAMV
 
+## Unificación Isabella / Horizon y aceptación
+- [ ] Incorporar controles de Isabella y acciones de Horizon en una experiencia única.
+- [ ] Añadir pruebas E2E reproducibles de aprobación, evidencia, consentimiento y sellado.
+- [ ] Conectar servicios externos disponibles y comprobar respuestas reales.
+- [ ] Verificación autenticada: requiere una cuenta registrada y correo verificado.
+- [ ] Migrar datos de proyectos de origen: requiere exportaciones CSV de sus respectivos chats.
+
+## Integración funcional del ZIP
+- [ ] Unificar cuatro coordinadoras, tres HyperCores y flujos Exagon con el proyecto existente.
+- [ ] Implementar controles de política, permisos, evidencia e idempotencia sin debilitar la certificación.
+- [ ] Integrar y probar sellado SHA-512 + Ed25519 del proyecto unificado.
+- [ ] Verificar pruebas y flujos visibles; documentar conexiones externas pendientes.
+
+- [x] Comparación de main y correcciones previas registradas en la entrega anterior; no se repitió la importación.
 ## Cableado GovCore y cierre funcional (2026-11-18)
 - [ ] Corregir el bloqueo del scheduler y verificar las regresiones de gobernanza.
 - [ ] Integrar los controles ejecutables de la referencia GovCore con el SDK y la app, sin sustituir autorización real por datos declarados.

@@ -40,3 +40,7 @@ use the editor.
 - Validate the generated skill registry and the independent Genesis test suite in CI; this keeps dashboard contracts and evidence checks aligned with the package.
 - Keep execution-permit adapters provider-neutral and require an atomic host claim that revalidates trusted state; declarative snapshots alone cannot grant authority or guarantee exactly-once effects.
 - Keep policy checks in the project UI advisory and persist their evidence through the existing authenticated action service; owner configuration approval is not independent execution approval.
+- Integrate governance-pack contracts under src/core/governance and distributable coordinators under tamv-pack; keeping one registry prevents parallel application runtimes.
+- Execute only local Exagon artifacts through the atomic Cloud RPC; external effects remain certification-gated and cannot inherit authority from a skill or release signature.
+- Store project approvals against exact artifact digests and consume local permits transactionally with append-only evidence; changed proposals and concurrent retries must not duplicate effects.
+- Keep the unified SHA-512/Ed25519 signing CLI separate from application authorization; package integrity never substitutes for user approval or external audit.

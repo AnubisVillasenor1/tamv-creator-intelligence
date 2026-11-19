@@ -1,0 +1,93 @@
+{
+  "schema": "tamv.governance-manifest.v1",
+  "issuer": "TAMV ONLINE NETWORK",
+  "product": "TAMV Creator Intelligence",
+  "pack": "tamv-creator-intelligence",
+  "packVersion": "3.0.0",
+  "appliesTo": "any project using AI, regardless of domain or stack",
+  "excellenceStandards": ["governance", "observability", "transparency", "ethics", "protection"],
+  "originProject": "PLAY & GO",
+  "governance": {
+    "policy": "tamv-algorithmic-governance-v3",
+    "framework": "NIST-CSF-2.0",
+    "functions": ["govern", "identify", "protect", "detect", "respond", "recover"],
+    "consentRequired": true,
+    "audit": true,
+    "rightsProtection": true,
+    "destructiveActions": false,
+    "humanOversight": true,
+    "transparency": true
+  },
+  "policyDecisionPoint": {
+    "version": "tamv.genesis.pdp/2.0.0",
+    "denyByDefault": true,
+    "defaultMinimumMaturity": "M3-tested",
+    "baseline": "governance/policies/baseline.json"
+  },
+  "integrity": {
+    "hash": "SHA-256",
+    "signature": "Ed25519",
+    "hybridEncryption": "X25519 + HKDF-SHA256 + AES-256-GCM",
+    "failClosed": true,
+    "unsignedBehavior": "deny",
+    "seal": {
+      "source": "tamv-genesis/v3/seals/pack-seal.json",
+      "schema": "tamv.pack-seal.v2",
+      "root": "sha256:3519d34593e1a01f6685f77c8d3dbc0a3a8a87d75de95c679644e33a17b7b487",
+      "manifestCanonicalSha256": "sha256:72bbfc90de6cde7c957fbc0fd36b5854d8db6e7194031a73f9ab11485156e985",
+      "signatureState": "UNSIGNED_RELEASE_PENDING"
+    },
+    "transparency": {
+      "schema": "tamv.seal-transparency.v1",
+      "checkpointState": "UNSIGNED_RELEASE_PENDING"
+    },
+    "note": "La firma ausente bloquea las capacidades certificadas. Este manifiesto no fabrica ni simula una firma; scripts/sign-governance-pack.ts firma y verifica con una clave Ed25519 de release mantenida fuera de Git."
+  },
+  "license": {
+    "core": "AGPL-3.0-only",
+    "utilities": "Apache-2.0",
+    "commercial": "TAMV-Commercial-1.0",
+    "attributionRequired": true
+  },
+  "publicSkills": [
+    {
+      "id": "tamv-creator-os",
+      "name": "TAMV Creator OS",
+      "version": "3.0.0",
+      "path": "skills/tamv-creator-os",
+      "requiresConsent": false,
+      "capabilities": ["creator.community", "creator.content", "creator.launch", "creator.learning", "creator.strategy"]
+    },
+    {
+      "id": "tamv-audio-intelligence",
+      "name": "TAMV Audio Intelligence",
+      "version": "3.0.0",
+      "path": "skills/tamv-audio-intelligence",
+      "requiresConsent": true,
+      "capabilities": ["audio.mastering", "audio.production", "audio.visuals", "audio.voice"]
+    },
+    {
+      "id": "tamv-growth-engine",
+      "name": "TAMV Growth Engine",
+      "version": "3.0.0",
+      "path": "skills/tamv-growth-engine",
+      "requiresConsent": false,
+      "capabilities": ["growth.analytics", "growth.content", "growth.conversion", "growth.pricing", "growth.seo"]
+    },
+    {
+      "id": "tamv-sovereign-platform",
+      "name": "TAMV Sovereign Platform",
+      "version": "3.0.0",
+      "path": "skills/tamv-sovereign-platform",
+      "requiresConsent": false,
+      "capabilities": ["platform.audit", "platform.data", "platform.frontend", "platform.governance", "platform.integrity"]
+    }
+  ],
+  "internalContracts": {
+    "path": "tamv-pack/skills",
+    "count": 37,
+    "public": false,
+    "note": "Biblioteca de contratos internos del repositorio de origen. No se publica como skills independientes; las cuatro skills públicas la referencian."
+  },
+  "attribution": "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses."
+}

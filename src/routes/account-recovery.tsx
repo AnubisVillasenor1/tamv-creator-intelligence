@@ -1,0 +1,7 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+export const Route=createFileRoute('/account-recovery')({head:()=>({meta:[{title:'TAMV — Recuperar acceso'},{name:'description',content:'Restablece tu contraseña para acceder al espacio TAMV.'},{property:'og:title',content:'TAMV — Recuperar acceso'},{property:'og:description',content:'Recuperación segura de acceso al espacio TAMV.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary'}]}),component:Recovery});
+function Recovery(){const [password,setPassword]=useState('');const [message,setMessage]=useState('');return <main className="max-w-lg mx-auto p-8 space-y-5"><h1 className="text-2xl font-semibold">TAMV · Nueva contraseña</h1><form className="space-y-4" onSubmit={async e=>{e.preventDefault();const {error}=await supabase.auth.updateUser({password});setMessage(error?'El enlace venció o no pudo cambiarse la contraseña.':'Contraseña actualizada.');}}><Input aria-label="Nueva contraseña" type="password" minLength={8} required value={password} onChange={e=>setPassword(e.target.value)}/><Button type="submit">Guardar contraseña</Button></form><p role="status">{message}</p><Button variant="outline" asChild><a href="/">Volver a TAMV</a></Button></main>;}

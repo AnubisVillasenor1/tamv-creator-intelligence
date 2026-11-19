@@ -21,7 +21,7 @@ test -f TAMV_ATTRIBUTION.md
 test -f TAMV_GOVERNANCE.md
 test -f .tamv/install.log
 test -f .tamv/pack.json
-test "$(find .agents/skills -name SKILL.md | wc -l)" -eq 37
+test "$(find .agents/skills -name SKILL.md | wc -l)" -eq 41
 grep -q 'Contenido propio' README.md
 grep -q 'version=1.2.1' .tamv/install.log
 grep -qF "$CANONICAL_ATTRIBUTION" TAMV_ATTRIBUTION.md

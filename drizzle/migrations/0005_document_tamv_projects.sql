@@ -1,0 +1,1 @@
+COMMENT ON TABLE public.tamv_ai_projects IS 'TAMV governed AI projects (owner-scoped).';

@@ -57,7 +57,11 @@
     "tamv-consent-ledger",
     "tamv-privacy-minimization",
     "tamv-quality-gate",
-    "tamv-workflow-orchestrator"
+    "tamv-workflow-orchestrator",
+    "tamv-creator-os",
+    "tamv-audio-intelligence",
+    "tamv-growth-engine",
+    "tamv-sovereign-platform"
   ],
   "dependencies": {
     "recommended": [
@@ -168,6 +172,34 @@
     "tamv-workflow-orchestrator": [
       "tamv-core-governance",
       "tamv-rights-safety-guard"
+    ],
+    "tamv-creator-os": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-workflow-orchestrator",
+      "tamv-content-review",
+      "tamv-launch-strategist"
+    ],
+    "tamv-audio-intelligence": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-audiocore-dsp",
+      "tamv-voice-identity",
+      "tamv-release-readiness"
+    ],
+    "tamv-growth-engine": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-experiment-design",
+      "tamv-campaign-measurement",
+      "tamv-seo-discoverability"
+    ],
+    "tamv-sovereign-platform": [
+      "tamv-core-governance",
+      "tamv-rights-safety-guard",
+      "tamv-consent-ledger",
+      "tamv-metadata-provenance",
+      "tamv-quality-gate"
     ]
   },
   "orchestration": {

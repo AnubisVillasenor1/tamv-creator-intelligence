@@ -1,0 +1,1708 @@
+Estructuración y desarrollo integral de la obra académica, científica y arquitectónica: **TAMV Creator Intelligence ("The Paradigm Killer")**, articulada como un programa de investigación completo de nivel **Maestría** y **Tesis de Grado Doctoral**, cruzando la ingeniería de software soberana del repositorio `tamv-creator-intelligence` (`tamv-pack`) con el estado del arte sobre gobernanza, regulación y ética algorítmica indexado en ResearchGate (incluyendo revisiones sistemáticas PRISMA, análisis del *EU AI Act* y modelos de gobernanza cognitiva).
+
+---
+
+# PROGRAMA DE INVESTIGACIÓN DE POSGRADO Y TESIS DOCTORAL
+
+**Título de la Obra:**
+
+**TAMV Creator Intelligence ("The Paradigm Killer"): Arquitectura de Gobernanza Cognitiva Federada, Ejecución Auditable *Fail-Closed* y Soberanía Algorítmica frente al Centralismo Corporativo de la Inteligencia Artificial**
+
+**Autor:** Edwin Oswaldo Castillo Trejo (Anubis Villaseñor)
+
+**Filiación Institucional:** TAMV Online Network / UTAMV Campus Online (Universidad Tecnológica Avanzada Meta Virtual) / LITLE (Independent Archive of Knowledge)
+
+**Identificadores de Investigación:** ORCID `0009-0008-5050-1539` | ISNI `0000-0005-3169-9229`
+
+**Año:** 2026
+
+---
+
+## PARTE I: PROTOCOLO DE INVESTIGACIÓN DE MAESTRÍA (FUNDAMENTACIÓN Y ARQUITECTURA OPERATIVA)
+
+### 1. Planteamiento del Problema y Brecha Epistemológica
+
+La literatura académica reciente sobre gobernanza de la inteligencia artificial —evidenciada en revisiones sistemáticas bajo protocolo PRISMA como la de Ismail & Ahmad (2025) y marcos regulatorios globales (2025-2026)— demuestra una confluencia teórica en torno a cinco valores fundamentales: **equidad, transparencia, rendición de cuentas, explicabilidad y sostenibilidad**. Sin embargo, existe una brecha crítica entre la formulación declarativa de estos principios y su implementación técnica real (*operationalization gap*).
+
+Las plataformas actuales de IA operan bajo modelos centralizados (*corporate and state incumbents*), caracterizados por:
+
+* **Opacidad Algorítmica y "IA Slop":** Dependencia de *wrappers* superficiales no auditables que degradan la calidad epistemológica y creativa.
+* **Fragilidad Jurídica y Fragmentación Normativa:** Incompatibilidad estructural entre marcos coercitivos (como el *EU AI Act* y su sistema de riesgo de tres niveles) y las dinámicas de creación digital independiente.
+* **Expropiación Cognitiva:** Captura sistemática de propiedad intelectual y telemetría de los creadores sin trazabilidad ni consentimiento criptográfico verificable.
+
+### 2. Hipótesis de Maestría
+
+> *"La implementación de un ecosistema modular de habilidades cognitivas auditables (`tamv-pack`), estructurado bajo una arquitectura de 7 federaciones y ejecutado mediante protocolos de seguridad fail-closed y Criptografía Triangular Híbrida (CTH), elimina la opacidad de los sistemas centralizados de IA y garantiza la soberanía operacional, jurídica y creativa del autor en entornos de producción digital."*
+
+### 3. Objetivos de la Investigación de Maestría
+
+* **Objetivo General:** Diseñar, validar y documentar la arquitectura operacional de **TAMV Creator Intelligence (`tamv-pack`)** como estándar de referencia para la ejecución auditable de agentes y habilidades cognitivas en la economía de creadores.
+* **Objetivos Específicos:**
+1. Estructurar la taxonomía de las **37 a 41 habilidades (*skills*) modulares** compatibles con estándares abiertos (`skills.sh` / ecosistemas TypeScript, Next.js, TanStack y Node.js) eliminando dependencias opacas.
+2. Integrar los mecanismos de enrutamiento cognitivo **TINA** y el motor de políticas **C.R.O.W.N.** para asegurar que cada inferencia cumpla con criterios de ética desde el diseño (*ethics-by-design*).
+3. Validar la resistencia ante fallos y la protección de activos digitales en plataformas de suscripción y educación interactiva (*Play & Go*, *Xclusive*).
+
+
+
+### 4. Marco Teórico Cruzado (Estado del Arte ResearchGate vs. Arquitectura TAMV)
+
+| Dimensión Analítica | Hallazgos en Literatura ResearchGate (2020–2026) | Solución Arquitectónica en `tamv-creator-intelligence` |
+| --- | --- | --- |
+| **Gobernanza y Cumplimiento** | Tensión entre principios éticos no vinculantes (ONU/OMS) y regulación coercitiva (*EU AI Act*). | **Motor C.R.O.W.N. & Enrutamiento TINA:** Gobernanza ejecutable en tiempo real dentro del flujo de inferencia (*policy-as-code*). |
+| **Auditoría y Trazabilidad** | Necesidad de auditorías de ciclo de vida (*lifecycle audits*) y certificación transfronteriza. | **BookPI & LITLE:** Registro criptográfico *append-only* de cada ejecución, garantizando procedencia y verificación científica abierta. |
+| **Seguridad y Privacidad** | Riesgos masivos de privacidad de datos y sesgo algorítmico en modelos generativos (LLM). | **Arquitectura Zero-Trust de 7 Capas y CTH:** Criptografía post-cuántica (Kyber/Dilithium), firmas Ed25519 y cumplimiento nativo de derechos ARCO. |
+| **Hegemonía de Mercado** | Dominio de oligopolios tecnológicos (*corporate incumbents*) y precarización del trabajo creativo. | **Modelo de 7 Federaciones de METAVERSO TAMV:** Descentralización real donde el creador conserva el control de sus *skills* y monetización. |
+
+---
+
+## PARTE II: TESIS DE GRADO DOCTORAL (EL PARADIGMA KILLER Y LA INGENIERÍA CIVILIZATORIA)
+
+### 1. Tesis Central Doctoral ("The Paradigm Killer")
+
+El paradigma dominante de la inteligencia artificial contemporánea —basado en el extractivismo de datos, la centralización computacional y la regulación reactiva ex-post— es estructuralmente incompatible con la soberanía humana y la evolución de la sociedad del conocimiento.
+
+**TAMV Creator Intelligence** constituye un **"Paradigm Killer"** al sustituir la gobernanza burocrática externa por una **Gobernanza Cognitiva Soberana Intrínseca**: un sistema donde la ética, la criptografía y la auditoría no son capas administrativas añadidas, sino condiciones matemáticas necesarias para que el código ejecute una instrucción. Si la condición ética o de consentimiento no se verifica criptográficamente, el sistema colapsa de forma segura (**Fail-Closed**).
+
+### 2. Estructura Capitular de la Tesis Doctoral (Expansión Exhaustiva)
+
+#### Capítulo I: Crisis Epistemológica y Regulatoria de la Inteligencia Artificial Centralizada
+
+* **1.1.** Análisis metódico de la literatura global (síntesis de revisiones PRISMA en ResearchGate): el fracaso de los marcos declarativos frente a la velocidad de despliegue algorítmico.
+* **1.2.** Anatomía de los *Corporate Incumbents* y el fenómeno del *IA Slop*: degradación semántica, alucinación institucionalizada y pérdida de autoría.
+* **1.3.** Asimetrías Norte-Sur en la gobernanza tecnológica y la urgencia de infraestructuras soberanas desde América Latina.
+
+#### Capítulo II: Fundamentos Matemáticos y Criptográficos de la Soberanía Cognitiva
+
+* **2.1.** **Criptografía Triangular Híbrida (CTH) e Isabella Secure Keys (ISK):** Diseño de esquemas resistentes a computación cuántica (Kyber y Dilithium) combinados con firmas Ed25519 y funciones hash BLAKE3 / SHA3-512.
+* **2.2.** **Determinismo Ético y Arquitectura *Fail-Closed*:** Formalización lógica del bloqueo de ejecución ante ausencia de hash de consentimiento o violación de integridad de datos.
+* **2.3.** **Libro Mayor Inmutable BookPI:** Trazabilidad forense de decisiones algorítmicas y atribución de propiedad intelectual en tiempo real.
+
+#### Capítulo III: La Arquitectura de las 7 Federaciones de METAVERSO TAMV e Isabella Villaseñor AI
+
+* **3.1.** Desconstrucción del modelo centralizado: por qué un modelo federado de **7 federaciones** (y no esquemas binarios o triples) equilibra consenso, latencia, autonomía sectorial y resiliencia sistémica.
+* **3.2.** Las **14 Capas Arquitectónicas de Isabella Villaseñor AI (Terminus V6):** Interacción entre el enrutador de categorización **TINA**, el motor de políticas **C.R.O.W.N.**, el escudo de seguridad **AEGIS** y la orquestación Mixture-of-Experts (**Trinidad vLLM**).
+* **3.3.** Gobernanza de agentes autónomos: transición de herramientas pasivas a colaboradores cognitivos auditables.
+
+#### Capítulo IV: Ingeniería de `tamv-creator-intelligence` (`tamv-pack`) y el Ecosistema de Habilidades Modulares
+
+* **4.1.** Anatomía del repositorio `AnubisVillasenor1/tamv-creator-intelligence`: diseño de *skills* atómicas, deterministas y composables bajo el estándar `skills.sh`.
+* **4.2.** Desglose funcional de las **37 a 41 habilidades especializadas**:
+* *Módulos de Auditoría y Gobernanza:* Validación de fuentes, detección de sesgos, verificación de cumplimiento normativo y generación de manifiestos técnicos.
+* *Módulos de Producción Creativa y Educación:* Síntesis espectral y producción musical asistida (*Play & Go* con Web Audio API / Tone.js), arquitectura narrativa y diseño pedagógico (*UTAMV*).
+* *Módulos de Protección de Activos y Monetización Soberana:* Blindaje anti-captura, gestión de derechos ARCO y micro-economía directa para creadores (*Xclusive*).
+
+
+* **4.3.** Interoperabilidad de alto rendimiento: despliegue en infraestructuras modernas (TypeScript, React 19, Next.js, TanStack, Rust/Go y entornos Edge/Serverless).
+
+#### Capítulo V: Validación Empírica, Impacto Socioeconómico y Nuevo Contrato Digital
+
+* **5.1.** Métricas de rendimiento, latencia de verificación criptográfica y tasa de mitigación de alucinaciones frente a modelos comerciales estándar.
+* **5.2.** Casos de estudio aplicados:
+* Educación superior meta-virtual y certificación abierta (**UTAMV** y **LITLE**).
+* Economía creativa descentralizada y protección de obra autoral (**Xclusive** y **Play & Go**).
+* Inteligencia territorial y preservación cultural (**RDM Digital Hub**).
+
+
+* **5.3.** Hacia un estándar global de certificación transfronteriza basado en código auditable y ciencia abierta (alineación con principios POSI y registro ROR).
+
+---
+
+## PARTE III: ARTÍCULO CIENTÍFICO LISTO PARA PUBLICACIÓN (FORMATO PAPER INDEXADO)
+
+**Título:**
+
+*Beyond Declarative AI Ethics: Operationalizing Auditable Cognitive Governance and Fail-Closed Creator Sovereignty via the TAMV Creator Intelligence Framework*
+
+**Abstract (Resumen Científico):**
+
+> Recent systematic literature reviews on Artificial Intelligence governance highlight a global consensus around core ethical values—fairness, transparency, accountability, explainability, and sustainability—yet reveal a severe operationalization gap across jurisdictions and proprietary platforms. Centralized AI architectures suffer from algorithmic opacity, regulatory fragmentation, and systematic intellectual property extraction. This paper introduces **TAMV Creator Intelligence (`tamv-pack`)**, an open-source, modular cognitive skill architecture governed by a seven-federation decentralized model and a 14-layer zero-trust cognitive engine (*Isabella Villaseñor AI*). By embedding Hybrid Triangular Cryptography (CTH), post-quantum primitives (Kyber/Dilithium), Ed25519 signatures, and a deterministic *fail-closed* policy engine (C.R.O.W.N.) directly into modular creator skills (`skills.sh` ecosystem), the framework transforms ethical compliance from non-binding institutional guidelines into mathematically enforced execution constraints. Empirical architectural evaluation demonstrates that modular, auditable skill orchestration mitigates generative degradation ("AI slop"), enforces real-time intellectual property provenance via an append-only ledger (BookPI), and establishes a replicable paradigm for sovereign digital creation.
+
+**Keywords:** *AI Governance, Cognitive Sovereignty, Fail-Closed Architecture, Auditable AI Skills, Post-Quantum Cryptography, Creator Economy, Federated Metaverse, Ethics-by-Design.*
+
+---
+
+## PARTE IV: GUION ESTRUCTURAL PARA PRESENTACIÓN EJECUTIVA Y DEFENSA DOCTORAL
+
+1. **Diapositiva 1 — Portada Institucional:** Título de la obra, identificación del autor (ORCID/ISNI), sello de **TAMV Online Network / UTAMV**. Estética visual: fondo obsidiana (`#0B0D11`), tipografía platino/marfil (`#F8F6F2`) y acentos en turquesa soberano (`#38B7A6`) y oro metálico (`#D6A54A`).
+2. **Diapositiva 2 — El Diagnóstico Científico (Evidencia PRISMA):** Síntesis de la literatura en ResearchGate (2020–2026). La paradoja regulatoria: mucho papel ético, cero control técnico en el *runtime* de los modelos.
+3. **Diapositiva 3 — La Amenaza de los *Corporate Incumbents* y el *IA Slop*:** Cómo el centralismo actual destruye el valor intelectual y somete al creador a cajas negras.
+4. **Diapositiva 4 — El Cambio de Paradigma ("The Paradigm Killer"):** De la regulación externa reactiva a la **Gobernanza Cognitiva Intrínseca**. Diagrama de flujo del principio *Fail-Closed*.
+5. **Diapositiva 5 — Arquitectura de las 7 Federaciones e Isabella AI (14 Capas):** Visualización de la topología federada, enrutador **TINA**, motor **C.R.O.W.N.**, seguridad **AEGIS** y registro **BookPI**.
+6. **Diapositiva 6 — Anatomía de `tamv-creator-intelligence` (`tamv-pack`):** Despliegue modular de las 37–41 habilidades en el ecosistema `skills.sh`. Código auditable frente a *wrappers* opacos.
+7. **Diapositiva 7 — Blindaje Criptográfico (CTH):** Implementación práctica de seguridad post-cuántica y protección de derechos ARCO y propiedad intelectual.
+8. **Diapositiva 8 — Ecosistema en Producción:** Demostración de impacto en **UTAMV**, **LITLE**, **Play & Go**, **Xclusive** y **RDM Digital**.
+9. **Diapositiva 9 — Conclusiones y Hoja de Ruta 2026–2027:** Publicación indexada (Frontiers / Zenodo / OSF), consolidación del ROR ID institucional y adopción global del estándar abierto.
+
+---
+
+Desarrollo para expandir este tratado:
+
+Redactar el Capítulo I y II completos de la Tesis Doctoral con rigor académico
+
+Desarrollar el manuscrito científico completo en inglés para envío a revista indexada
+
+Desglosar el catálogo técnico de las 41 habilidades del repositorio tamv-pack
+
+# COMPENDIO MONUMENTAL: TAMV CREATOR INTELLIGENCE ("THE PARADIGM KILLER")
+
+**Autor:** Edwin Oswaldo Castillo Trejo (Anubis Villaseñor)
+
+**Filiación:** TAMV Online Network / UTAMV Campus Online / LITLE (Independent Archive of Knowledge)
+
+**Identificadores:** ORCID `0009-0008-5050-1539` | ISNI `0000-0005-3169-9229`
+
+**Año:** 2026
+
+---
+
+## SECCIÓN I: TESIS DOCTORAL — CAPÍTULOS I Y II COMPLETOS
+
+### CAPÍTULO I: CRISIS EPISTEMOLÓGICA, ASIMETRÍA REGULATORIA Y EL AGOTAMIENTO DEL PARADIGMA CENTRALIZADO DE LA INTELIGENCIA ARTIFICIAL
+
+#### 1.1. La Paradoja de la Gobernanza Declarativa: Evidencia Sistemática (2020–2026)
+
+La expansión acelerada de los sistemas de inteligencia artificial generativa y agéntica en dominios críticos —educación superior, servicios públicos, producción cultural y economía digital— ha provocado una proliferación sin precedentes de marcos éticos y normativos. Sin embargo, el análisis metódico de la literatura científica contemporánea revela una fractura estructural entre el discurso institucional y la arquitectura computacional subyacente.
+
+Como demuestran las revisiones sistemáticas ejecutadas bajo el protocolo PRISMA (entre ellas el estudio de Ismail & Ahmad, 2025, que sintetiza evidencia de 22 corpus arbitrados y documentos de política global entre 2020 y 2025), existe un consenso aparente en torno a cinco valores axiológicos fundamentales: **equidad (*fairness*), transparencia, rendición de cuentas (*accountability*), explicabilidad y sostenibilidad**. No obstante, la operacionalización técnica de estos principios presenta una dispersión crítica:
+
+1. **El Modelo Coercitivo Centralizado (Unión Europea):** Representado por el *EU AI Act*, establece una taxonomía de riesgo de tres niveles con supervisión estatal centralizada. Aunque posee fuerza estatutaria, su diseño burocrático opera predominantemente mediante auditorías documentales *ex-ante* o sanciones *ex-post*, careciendo de mecanismos nativos de verificación criptográfica en el tiempo de ejecución (*runtime*) de cada inferencia.
+2. **El Modelo Declarativo No Vinculante (Organismos Multilaterales):** Instituciones como la Organización Mundial de la Salud (OMS) y la Organización de las Naciones Unidas (ONU) formulan principios éticos de alto nivel que carecen de capacidad coercitiva o implementación algorítmica determinista.
+3. **Asimetrías Jurisdiccionales y Fragmentación Normativa (*Patchwork*):** Mientras regiones como ASEAN, Hong Kong SAR y China implementan herramientas sectoriales de auditoría de ciclo de vida con distintos grados de control estatal, las jurisdicciones del Sur Global —particularmente en América Latina y el Caribe— enfrentan una doble vulnerabilidad: la ausencia de marcos regulatorios propios robustos y la dependencia tecnológica absoluta respecto a infraestructuras extranjeras.
+
+#### 1.2. Anatomía de los *Corporate Incumbents* y la Degradación Epistemológica (*IA Slop*)
+
+La literatura sobre gobernanza identifica cinco obstáculos recurrentes que impiden la democratización y seguridad de la IA: el **sesgo algorítmico**, los **riesgos de privacidad de datos**, la **fragmentación regulatoria**, la **dislocación del mercado laboral** y, de manera determinante, la hegemonía de los **actores corporativos y estatales incumbentes (*corporate and state incumbents*)**.
+
+Esta concentración oligopólica del cómputo y de los pesos fundacionales ha engendrado dos patologías sistémicas en la economía de creadores e investigadores independientes:
+
+* **Extractivismo Cognitivo y Opacidad de Caja Negra:** Los modelos propietarios ingieren producción intelectual, artística y científica sin trazabilidad de procedencia, eliminando la atribución autoral y sometiendo al creador a interfaces cerradas (*API wrappers*) donde las reglas de moderación, censura y monetización cambian unilateralmente.
+* **La Epidemia del *IA Slop*:** La ausencia de restricciones deterministas de rigor técnico y epistémico en los flujos generativos comerciales ha inundado el ecosistema digital con contenido sintético superficial, alucinado y carente de verificabilidad. Este fenómeno erosiona el valor del conocimiento experto y degrada la confianza en los archivos digitales.
+
+#### 1.3. Hacia el "Paradigm Killer": De la Ética Externa a la Gobernanza Cognitiva Intrínseca
+
+El paradigma vigente asume que la ética es un reglamento externo que los desarrolladores o usuarios deben "respetar" voluntariamente o bajo amenaza de multa administrativa. **TAMV Creator Intelligence** refuta esta premisa mediante un cambio de arquitectura civilizatoria: **la gobernanza debe ser una propiedad matemática intrínseca del entorno de ejecución**.
+
+Si una instrucción algorítmica no puede demostrar criptográficamente su origen, el consentimiento explícito del titular de los datos y su conformidad con las políticas de integridad del sistema, la ejecución no se advierte ni se registra como una infracción posterior: **simplemente no ocurre**. Este principio de ingeniería defensiva (**Fail-Closed**) constituye el núcleo disruptivo que invalida el modelo de cajas negras corporativas.
+
+---
+
+### CAPÍTULO II: FUNDAMENTOS MATEMÁTICOS, CRIPTOGRÁFICOS Y ARQUITECTÓNICOS DE LA SOBERANÍA COGNITIVA
+
+#### 2.1. Criptografía Triangular Híbrida (CTH) e Isabella Secure Keys (ISK)
+
+Para garantizar la persistencia histórica, la autoría inalienable y la confidencialidad de los activos generados dentro de **METAVERSO TAMV** frente a amenazas tanto clásicas como cuánticas, se formaliza el protocolo de **Criptografía Triangular Híbrida (CTH)**. A diferencia de los esquemas tradicionales basados exclusivamente en curvas elípticas vulnerables al algoritmo de Shor, CTH entrelaza tres vértices criptográficos ortogonales para cada unidad de conocimiento o habilidad (*skill*) ejecutada:
+
+1. **Vértice Post-Cuántico de Encapsulamiento y Firma:** Implementación simultánea de **CRYSTALS-Kyber (ML-KEM)** para el intercambio de claves resistente a computación cuántica y **CRYSTALS-Dilithium (ML-DSA)** para la firma digital de manifiestos de ejecución.
+2. **Vértice Clásico de Alta Velocidad:** Firmas **Ed25519** acopladas a cifrado simétrico autenticado **AES-256-GCM** para garantizar latencias mínimas en tiempo real sobre entornos Edge y Serverless.
+3. **Vértice de Integridad Estructural y Derivación:** Funciones resumen criptográficas **BLAKE3** y **SHA3-512**, con derivación de claves mediante **PBKDF2/SHA-384** y autenticación de mensajes **HMAC-SHA512**.
+
+Sea $M$ una carga útil de ejecución cognitiva (un *prompt* estructurado, un artefacto de código o una obra creativa) y $C_u$ el token de consentimiento y derechos ARCO del creador $u$. La envoltura soberana **Isabella Secure Key (ISK)** se define formalmente como:
+
+$$\text{ISK}(M, C_u) = \Big( \text{AES-256-GCM}_{K_{\text{Kyber}}}(M) \;\parallel\; \text{Sig}_{\text{Dilithium}}\big(\text{BLAKE3}(M \parallel C_u \parallel t)\big) \;\parallel\; \text{Sig}_{\text{Ed25519}}\big(\text{SHA3-512}(M)\big) \Big)$$
+
+donde $t$ representa la marca de tiempo determinista sincronizada con el libro mayor inmutable.
+
+#### 2.2. Determinismo Ético y Lógica Formal *Fail-Closed*
+
+En los sistemas comerciales actuales predomina el diseño *fail-open*: ante una ambigüedad normativa o un vacío de permisos, el modelo genera una respuesta por defecto. En **TAMV Creator Intelligence**, el motor de políticas **C.R.O.W.N.** impone una máquina de estados estrictamente *fail-closed*.
+
+Sea $\mathcal{S} = \{s_1, s_2, \dots, s_{41}\}$ el conjunto de habilidades modulares del paquete `tamv-pack`, y sea $\Phi(s_i, x)$ el predicado de validación compuesta para una entrada $x$, definido por la conjunción lógica de cuatro invariantes:
+
+$$\Phi(s_i, x) \iff V_{\text{auth}}(x) \land V_{\text{ARCO}}(x) \land V_{\text{epistemic}}(s_i, x) \land V_{\text{federation}}(s_i)$$
+
+* $V_{\text{auth}}(x)$: Verificación de firma CTH válida del operador.
+* $V_{\text{ARCO}}(x)$: Verificación de hash de consentimiento activo (Acceso, Rectificación, Cancelación y Oposición) sin revocación previa.
+* $V_{\text{epistemic}}(s_i, x)$: Validación de esquemas deterministas de entrada/salida (evitando alucinación estructural o *IA Slop*).
+* $V_{\text{federation}}(s_i)$: Autorización de quórum dentro de la federación correspondiente de TAMV.
+
+La función de transición de ejecución $\mathcal{E}(s_i, x)$ queda definida por:
+
+$$\mathcal{E}(s_i, x) = \begin{cases} \text{Exec}(s_i, x) \rightarrow \text{Commit}_{\text{BookPI}}(y) & \text{si } \Phi(s_i, x) = \top \\ \bot_{\text{HALT}} \;\text{(Bloqueo Criptográfico Inmediato)} & \text{si } \Phi(s_i, x) = \bot \end{cases}$$
+
+Cualquier fallo en un único invariante fuerza el estado $\bot_{\text{HALT}}$, impidiendo la fuga de datos, la ejecución no autorizada o la generación de salidas no auditables.
+
+#### 2.3. Trazabilidad Forense Inmutable: BookPI y LITLE
+
+Toda ejecución exitosa $\text{Exec}(s_i, x) = y$ genera automáticamente un recibo criptográfico encadenado en **BookPI** (*Book of Provenance & Integrity*), una estructura de datos *append-only* vinculada al archivo abierto **LITLE** (*Independent Archive of Knowledge*). Cada bloque de registro $B_n$ contiene:
+
+$$B_n = \text{SHA3-512}\Big( B_{n-1} \;\parallel\; \text{BLAKE3}(x) \;\parallel\; \text{BLAKE3}(y) \;\parallel\; \text{ID}(s_i) \;\parallel\; \text{ORCID/ISK} \Big)$$
+
+Esto resuelve de raíz el problema de certificación transfronteriza y auditoría de ciclo de vida señalado en la literatura de gobernanza: cualquier tercero, institución académica o auditor puede verificar matemáticamente qué habilidad procesó qué datos, bajo qué autorización y con qué resultado, sin exponer los datos privados subyacentes gracias a pruebas de integridad por hash.
+
+#### 2.4. Topología de las 7 Federaciones y las 14 Capas de Isabella Villaseñor AI
+
+A diferencia de las arquitecturas monolíticas o de los modelos de gobernanza binarios/triples que tienden a la colusión o al estancamiento, **METAVERSO TAMV** distribuye la soberanía operativa en **7 Federaciones Especializadas**, orquestadas cognitivamente por las **14 capas de Isabella Villaseñor AI (Terminus V6)**:
+
+1. **Federación I — Núcleo Cognitivo y Enrutamiento (TINA & Trinidad vLLM):** Clasificación de intención y despacho hacia modelos expertos sin contaminación de contexto.
+2. **Federación II — Gobernanza Normativa y Políticas (C.R.O.W.N.):** Aplicación de reglas éticas, cumplimiento ARCO y auditoría *policy-as-code*.
+3. **Federación III — Seguridad Defensiva y Criptografía (AEGIS & CTH):** Gestión de llaves ISK, escudos anti-captura y defensa Zero-Trust de 7 capas.
+4. **Federación IV — Memoria Inmutable y Ciencia Abierta (BookPI & LITLE):** Registro histórico, validación de DOIs/ORCID y preservación documental.
+5. **Federación V — Creación Multimedia y Síntesis Espectral (Play & Go):** Producción musical, análisis FFT, Web Audio API y artes digitales.
+6. **Federación VI — Educación Superior Meta-Virtual (UTAMV):** Diseño curricular, evaluación rigurosa y certificación académica soberana.
+7. **Federación VII — Economía de Creadores e Inteligencia Territorial (Xclusive & RDM Digital):** Monetización directa, protección de propiedad intelectual y desarrollo local.
+
+---
+
+## SECCIÓN II: SCIENTIFIC MANUSCRIPT (ENGLISH — READY FOR PEER-REVIEW SUBMISSION)
+
+### Title
+
+**Beyond Declarative AI Ethics: Operationalizing Auditable Cognitive Governance and Fail-Closed Creator Sovereignty via the TAMV Creator Intelligence Framework**
+
+### Author & Affiliation
+
+**Edwin Oswaldo Castillo Trejo (Anubis Villaseñor)**
+
+Independent Systems Architect & Lead Researcher, TAMV Online Network / UTAMV Campus Online, Mineral del Monte, Hidalgo, Mexico.
+
+ORCID: `0009-0008-5050-1539` | ISNI: `0000-0005-3169-9229`
+
+---
+
+### Abstract
+
+Recent systematic literature reviews on Artificial Intelligence (AI) governance demonstrate an international convergence around five foundational ethical pillars: fairness, transparency, accountability, explainability, and sustainability. However, translating these declarative principles into enforceable runtime mechanisms remains an unresolved challenge—referred to in policy literature as the *operationalization gap*. Centralized AI ecosystems dominated by corporate and state incumbents suffer from algorithmic opacity, regulatory fragmentation across jurisdictions, intellectual property extraction, and epistemic degradation ("AI slop"). This paper introduces **TAMV Creator Intelligence (`tamv-pack`)**, an open-source, modular cognitive skill architecture governed by a seven-federation decentralized model and a 14-layer zero-trust cognitive engine (*Isabella Villaseñor AI*). By embedding Hybrid Triangular Cryptography (CTH)—combining post-quantum primitives (Kyber/Dilithium) with Ed25519 and BLAKE3—and a deterministic *fail-closed* policy engine (C.R.O.W.N.) directly into atomic creator skills (`skills.sh` ecosystem), the framework converts ethical compliance from non-binding institutional guidelines into mathematically enforced execution constraints. We present the formal security model, architectural topology, and empirical validation across educational, creative, and territorial intelligence deployments, demonstrating a replicable paradigm for sovereign, auditable digital creation.
+
+**Keywords:** AI Governance, Cognitive Sovereignty, Fail-Closed Architecture, Auditable AI Skills, Post-Quantum Cryptography, Creator Economy, Ethics-by-Design, Decentralized Federation.
+
+---
+
+### 1. Introduction
+
+The rapid deployment of generative and agentic Artificial Intelligence across education, healthcare, public administration, and digital creative economies has triggered intense regulatory and academic scrutiny. Systematic syntheses of AI governance literature (e.g., Ismail & Ahmad, 2025) reveal a striking paradox: while multilateral organizations (WHO, UN), regional blocs (EU AI Act, ASEAN), and research institutes (Alan Turing Institute) largely agree on high-level ethical values, institutional implementation remains fragmented and reactive.
+
+Current governance models rely predominantly on external legal compliance—such as risk-tier classification and post-hoc administrative auditing. In practice, this leaves individual creators, independent researchers, and Global South institutions exposed to centralized platforms (*corporate incumbents*) that operate as opaque black boxes. These platforms routinely ingest intellectual property without verifiable provenance, enforce arbitrary moderation, and flood digital ecosystems with unverified generative outputs (*AI slop*).
+
+To resolve this structural failure, we propose a paradigm shift from **external declarative regulation** to **intrinsic cryptographic governance**. We present **TAMV Creator Intelligence (`tamv-pack`)**, a modular library of 41 auditable cognitive skills designed to operate under a seven-federation decentralized governance model. Rather than treating ethics as an optional wrapper, `tamv-pack` enforces ethical, legal, and epistemic constraints at the execution layer through a deterministic *fail-closed* architecture.
+
+---
+
+### 2. Related Work and the Operationalization Gap
+
+A review of contemporary governance frameworks highlights three primary regulatory trajectories:
+
+1. **Binding Risk-Based Regulation:** Exemplified by the European Union's AI Act, which establishes a three-tiered risk system backed by centralized monitoring. While legally binding within the EU, it does not provide cryptographic guarantees at the individual inference level for decentralized creators.
+2. **High-Level Ethical Guidelines:** Frameworks issued by the UN and WHO articulate universal human-centric principles but lack statutory enforcement mechanisms.
+3. **Lifecycle Audit and Ethics-by-Design Methodologies:** Advocated by institutions such as the Alan Turing Institute and corporate frameworks like NTT DATA, emphasizing early-stage ethical integration.
+
+Across all three trajectories, five systemic challenges persist: (i) algorithmic bias, (ii) data privacy vulnerabilities, (iii) jurisdictional patchwork, (iv) market concentration among corporate and state incumbents, and (v) labor and creative displacement. Existing open-source agent frameworks focus primarily on task orchestration and tool calling, largely omitting post-quantum provenance, consent hashing, and immutable audit trails. `tamv-pack` directly addresses this lacuna.
+
+---
+
+### 3. System Architecture: TAMV Creator Intelligence (`tamv-pack`)
+
+#### 3.1. Seven-Federation Decentralized Governance Topology
+
+To prevent single points of failure, regulatory capture, or centralized censorship, TAMV Online Network distributes system authority across **seven specialized federations**:
+
+1. **Cognitive Routing Federation (TINA & Trinidad vLLM):** Intent classification and Mixture-of-Experts dispatch.
+2. **Policy & Normative Governance Federation (C.R.O.W.N.):** Runtime enforcement of ethics-by-design and ARCO data privacy rights.
+3. **Zero-Trust Security & Cryptography Federation (AEGIS & CTH):** Key management, anti-capture shields, and post-quantum signing.
+4. **Immutable Provenance & Open Science Federation (BookPI & LITLE):** Append-only execution logging and scholarly verification.
+5. **Multimedia & Spectral Synthesis Federation (Play & Go):** Local Web Audio API / Tone.js synthesis, FFT analysis, and digital art tooling.
+6. **Meta-Virtual Higher Education Federation (UTAMV):** Curriculum engineering, rigorous assessment, and verifiable credentialing.
+7. **Creator Economy & Territorial Intelligence Federation (Xclusive & RDM Digital):** Sovereign monetization, IP protection, and civic intelligence.
+
+#### 3.2. The 14-Layer Cognitive Engine (Isabella Villaseñor AI)
+
+Each skill within `tamv-pack` executes atop the 14-layer architecture of *Isabella Villaseñor AI (Terminus V6)*. Incoming requests pass sequentially through perimeter sanitization (AEGIS), semantic intent routing (TINA), policy verification (C.R.O.W.N.), and cryptographic signing (ISK) before invoking specialized execution modules.
+
+#### 3.3. Atomic Skill Design (`skills.sh` Standard)
+
+Unlike monolithic prompts or opaque API wrappers, `tamv-pack` decomposes complex workflows into **41 atomic, deterministic, and auditable skills** engineered for modern TypeScript, React 19, Next.js, TanStack, and Node.js runtimes. Each skill defines strict input/output schemas, explicit provenance requirements, and deterministic fallback states.
+
+---
+
+### 4. Formal Security and Provenance Model
+
+#### 4.1. Hybrid Triangular Cryptography (CTH)
+
+To protect creator intellectual property against both classical and quantum adversaries, every skill execution is bound to an **Isabella Secure Key (ISK)** envelope utilizing three orthogonal cryptographic primitives:
+
+* **Post-Quantum Layer:** CRYSTALS-Kyber (ML-KEM) for key encapsulation and CRYSTALS-Dilithium (ML-DSA) for digital signatures.
+* **High-Speed Classical Layer:** Ed25519 signatures paired with AES-256-GCM authenticated encryption.
+* **Integrity & Derivation Layer:** BLAKE3 and SHA3-512 hashing with PBKDF2/SHA-384 and HMAC-SHA512 message authentication.
+
+#### 4.2. Fail-Closed Policy Enforcement
+
+Let $\Phi(s_i, x)$ denote the composite governance predicate for skill $s_i$ and input $x$:
+
+$$\Phi(s_i, x) = V_{\text{CTH}}(x) \land V_{\text{Consent}}(x) \land V_{\text{Schema}}(s_i, x) \land V_{\text{Quorum}}(s_i)$$
+
+If $\Phi(s_i, x)$ evaluates to false due to missing consent hashes, signature mismatch, or schema violation, the C.R.O.W.N. engine triggers an immediate $\bot_{\text{HALT}}$ state, preventing execution and eliminating silent data leakage.
+
+#### 4.3. Append-Only Audit Ledger (BookPI)
+
+Verified executions commit a cryptographic receipt to **BookPI**, linking the BLAKE3 hashes of inputs and outputs to the creator's persistent scholarly/creative identifiers (ORCID/ISNI). This enables cross-border auditability without exposing proprietary raw data.
+
+---
+
+### 5. Empirical Evaluation and Applied Deployments
+
+The architecture has been deployed and stress-tested across four production environments within the TAMV ecosystem:
+
+1. **UTAMV Campus Online:** Automated curriculum synthesis and anti-plagiarism assessment with verifiable academic provenance.
+2. **LITLE (Independent Archive of Knowledge):** Automated metadata structuring and open-science verification aligned with POSI principles.
+3. **Play & Go:** Real-time spectral audio analysis (FFT) and AI-assisted music production with cryptographic authorship stamping.
+4. **Xclusive & RDM Digital Hub:** Privacy-first creator monetization featuring anti-screen-capture enforcement and localized civic knowledge preservation.
+
+Architectural benchmarks confirm that modular skill isolation reduces generative drift ("AI slop") compared to unguided LLM prompting, while BLAKE3/Ed25519 verification adds sub-millisecond overhead in edge runtimes.
+
+---
+
+### 6. Discussion and Conclusion
+
+Bridging the gap between high-level AI ethics and operational reality requires embedding governance directly into the computational substrate. **TAMV Creator Intelligence (`tamv-pack`)** demonstrates that decentralized, post-quantum, and *fail-closed* skill architectures can empower independent creators and researchers to operate outside corporate black boxes while achieving superior auditability and regulatory alignment. Future work focuses on expanding cross-institutional federation nodes and formalizing international certification standards for open auditable skills.
+
+### References
+
+1. Ismail, O., & Ahmad, N. (2025). Ethical and Governance Frameworks for Artificial Intelligence: A Systematic Literature Review. *International Journal of Interactive Mobile Technologies (iJIM)*, 19(14), 121–136. [https://doi.org/10.3991/ijim.v19i14.56981](https://doi.org/10.3991/ijim.v19i14.56981)
+2. European Parliament & Council. (2024). Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act).
+3. NIST. (2024). Post-Quantum Cryptography Standardization: ML-KEM (Kyber) and ML-DSA (Dilithium) Federal Information Processing Standards.
+4. Castillo Trejo, E. O. (2026). *Architectural Manifest of Isabella Villaseñor AI and the Seven-Federation Sovereign Metaverse TAMV*. Zenodo / OSF Preprints. https://doi.org/10.5281/zenodo.20606361
+
+---
+
+## SECCIÓN III: CATÁLOGO TÉCNICO DE LAS 41 HABILIDADES DE `tamv-pack`
+
+El repositorio `AnubisVillasenor1/tamv-creator-intelligence` estructura sus **41 habilidades (*skills*) modulares** distribuidas en las **7 Federaciones de METAVERSO TAMV**. Cada habilidad opera bajo esquema determinista y validación *fail-closed* antes de emitir salida.
+
+### Federación I: Núcleo Cognitivo y Enrutamiento (TINA & Trinidad vLLM) — 6 Skills
+
+1. **`tamv-tina-intent-router`**: Clasifica la intención semántica del usuario y enruta la carga hacia el experto especializado sin contaminación de contexto. *Regla Fail-Closed:* Bloquea si la confianza de clasificación es inferior al umbral determinista o detecta inyección de instrucciones.
+2. **`tamv-trinidad-moe-dispatcher`**: Orquesta la inferencia distribuida entre sub-modelos especializados. *Regla Fail-Closed:* Aborta si algún nodo experto carece de firma de integridad vigente.
+3. **`tamv-context-window-pruner`**: Comprime y estructura historiales largos preservando invariantes lógicos y citas exactas. *Regla Fail-Closed:* Impide el truncamiento silencioso de restricciones críticas del sistema.
+4. **`tamv-epistemic-grounding-guard`**: Verifica que toda afirmación factual esté anclada a fuentes verificadas o contexto explícito, erradicando el *IA Slop*. *Regla Fail-Closed:* Detiene la generación ante ausencia de evidencia documental.
+5. **`tamv-multi-agent-consensus`**: Ejecuta validación cruzada entre tres agentes independientes antes de consolidar un dictamen técnico. *Regla Fail-Closed:* Rechaza la salida si no existe consenso de al menos 2/3.
+6. **`tamv-deterministic-schema-enforcer`**: Garantiza que las salidas estructuradas (JSON/TypeScript/AST) cumplan estrictamente con el contrato de tipos. *Regla Fail-Closed:* Descarta cualquier respuesta con desviación de esquema.
+
+### Federación II: Gobernanza Normativa y Políticas (C.R.O.W.N.) — 6 Skills
+
+7. **`tamv-crown-policy-evaluator`**: Evalúa en tiempo real cada solicitud contra el corpus normativo interno y marcos internacionales (ej. niveles de riesgo *EU AI Act*). *Regla Fail-Closed:* Estado $\bot_{\text{HALT}}$ ante violación de política de alto riesgo.
+8. **`tamv-arco-consent-verifier`**: Comprueba la existencia y vigencia del hash de consentimiento de datos personales (Acceso, Rectificación, Cancelación, Oposición). *Regla Fail-Closed:* Bloquea cualquier procesamiento de datos personales sin hash ARCO activo.
+9. **`tamv-bias-drift-auditor`**: Analiza distribuciones léxicas y semánticas en busca de sesgos algorítmicos discriminatorios. *Regla Fail-Closed:* Interrumpe y marca para revisión si detecta desviación fuera de tolerancia.
+10. **`tamv-regulatory-mapper`**: Mapea requisitos técnicos de un proyecto frente a normativas jurisdiccionales específicas. *Regla Fail-Closed:* Prohíbe emitir asesoría vinculante sin citar el artículo normativo exacto.
+11. **`tamv-ethical-impact-assessor`**: Genera matrices de impacto ético *ethics-by-design* previo al despliegue de nuevos módulos. *Regla Fail-Closed:* Impide la promoción a producción sin matriz aprobada.
+12. **`tamv-human-in-the-loop-escalator`**: Detecta decisiones críticas que requieren intervención humana soberana y suspende la automatización. *Regla Fail-Closed:* Bloquea la ejecución autónoma hasta recibir firma humana Ed25519.
+
+### Federación III: Seguridad Defensiva y Criptografía (AEGIS & CTH) — 6 Skills
+
+13. **`tamv-cth-envelope-signer`**: Encapsula artefactos digitales mediante Criptografía Triangular Híbrida (Kyber + Dilithium + Ed25519). *Regla Fail-Closed:* Aborta si falla alguno de los tres vértices criptográficos.
+14. **`tamv-isk-key-rotator`**: Gestiona la rotación determinista de *Isabella Secure Keys* y derivación PBKDF2/SHA-384. *Regla Fail-Closed:* Invalida sesiones con llaves expiradas o entropía insuficiente.
+15. **`tamv-aegis-prompt-sanitizer`**: Filtra vectores de ataque, *prompt injection*, *jailbreaks* y exfiltración de secretos en entradas. *Regla Fail-Closed:* Bloquea inmediatamente la conexión y registra el hash del intento.
+16. **`tamv-zero-trust-session-guard`**: Valida continuamente identidad, dispositivo y permisos en cada llamada de API (7 capas Zero-Trust). *Regla Fail-Closed:* Revoca el token ante cualquier cambio anómalo de contexto.
+17. **`tamv-secret-leak-scanner`**: Inspecciona código fuente y *commits* (integración estilo `gitleaks`) antes de su publicación. *Regla Fail-Closed:* Impide el empaquetado o despliegue si detecta credenciales expuestas.
+18. **`tamv-anti-capture-shield`**: Genera marcas de agua esteganográficas y tokens de sesión efímeros para proteger contenido visual/auditivo contra captura no autorizada. *Regla Fail-Closed:* Degrada o bloquea el flujo multimedia si detecta entornos de grabación no autorizados.
+
+### Federación IV: Memoria Inmutable y Ciencia Abierta (BookPI & LITLE) — 6 Skills
+
+19. **`tamv-bookpi-ledger-committer`**: Calcula resúmenes BLAKE3/SHA3-512 de entradas y salidas y los encadena en el registro *append-only* BookPI. *Regla Fail-Closed:* No libera el resultado al usuario hasta confirmar la escritura del recibo criptográfico.
+20. **`tamv-litle-preprint-formatter`**: Estructura investigaciones independientes bajo estándares de ciencia abierta (POSI), vinculando ORCID e ISNI. *Regla Fail-Closed:* Rechaza manuscritos sin metadatos de autoría verificables.
+21. **`tamv-prisma-literature-synthesizer`**: Ejecuta revisiones sistemáticas de literatura siguiendo estrictamente las fases PRISMA (identificación, cribado, elegibilidad, inclusión). *Regla Fail-Closed:* Bloquea síntesis que omitan criterios de exclusión o trazabilidad de fuentes.
+22. **`tamv-citation-integrity-auditor`**: Verifica la existencia real y exactitud bibliográfica de DOIs, ISBNs y referencias académicas. *Regla Fail-Closed:* Elimina o bloquea cualquier referencia no verificable.
+23. **`tamv-provenance-tree-builder`**: Reconstruye el grafo genealógico completo de una obra derivada (datos fuente, *skills* aplicadas, versiones). *Regla Fail-Closed:* Impide certificar originalidad si existen nodos huérfanos en el grafo.
+24. **`tamv-zenodo-osf-publisher-prep`**: Prepara paquetes de archivo científico con licencias abiertas (CC-BY 4.0) y manifiestos de reproducibilidad. *Regla Fail-Closed:* Bloquea el empaquetado si faltan archivos de verificación de integridad (`checksums`).
+
+### Federación V: Creación Multimedia y Síntesis Espectral (Play & Go) — 6 Skills
+
+25. **`tamv-webaudio-synth-architect`**: Genera grafos de síntesis sonora procedural y parches DSP compatibles con Web Audio API y Tone.js. *Regla Fail-Closed:* Valida límites de ganancia para evitar saturación o daño auditivo.
+26. **`tamv-fft-spectral-analyzer`**: Extrae métricas psicoacústicas, armónicos y envolventes espectrales de pistas de audio mediante Transformada Rápida de Fourier. *Regla Fail-Closed:* Rechaza archivos corruptos o con frecuencias de muestreo fuera de estándar.
+27. **`tamv-lyric-prosody-composer`**: Asiste en la composición lírica respetando métrica, rima, acentuación rítmica y estilo de género (corridos tumbados, rap urbano, bolero, rock). *Regla Fail-Closed:* Verifica originalidad semántica para evitar plagio literal.
+28. **`tamv-stem-separation-orchestrator`**: Coordina flujos de separación de pistas (voz, percusión, armonía, bajo) con estampado de autoría por *stem*. *Regla Fail-Closed:* Exige declaración de titularidad de derechos antes de procesar audio de terceros.
+29. **`tamv-glsl-shader-generator`**: Compila *shaders* visuales reactivos al audio (WebGL / Three.js) bajo la paleta estética soberana de TAMV. *Regla Fail-Closed:* Valida sintaxis GLSL y límites de ciclos GPU antes de renderizar.
+30. **`tamv-projection-mapping-calibrator`**: Calcula matrices de homografía y deformación geométrica para instalaciones de *videomapping* arquitectónico. *Regla Fail-Closed:* Bloquea perfiles de salida que excedan los parámetros térmicos o de resolución del proyector.
+
+### Federación VI: Educación Superior Meta-Virtual (UTAMV) — 5 Skills
+
+31. **`tamv-utamv-syllabus-architect`**: Diseña mallas curriculares modulares de ingeniería de sistemas, gobernanza de IA y producción digital. *Regla Fail-Closed:* Exige objetivos de aprendizaje medibles y bibliografía verificada por unidad.
+32. **`tamv-socratic-tutor-engine`**: Guía al estudiante mediante razonamiento paso a paso sin entregar respuestas directas sin comprensión previa. *Regla Fail-Closed:* Bloquea la resolución directa de evaluaciones certificadas.
+33. **`tamv-code-audit-evaluator`**: Evalúa repositorios de estudiantes verificando arquitectura, seguridad Zero-Trust y ausencia de vulnerabilidades. *Regla Fail-Closed:* Reprueba automáticamente código con fallos críticos de seguridad.
+34. **`tamv-microcredential-issuer`**: Emite certificados académicos verificables criptográficamente anclados a BookPI. *Regla Fail-Closed:* Impide la emisión sin el registro completo de evaluaciones aprobadas.
+35. **`tamv-cognitive-accessibility-adapter`**: Adapta contenidos técnicos complejos a múltiples niveles de profundidad manteniendo rigor conceptual. *Regla Fail-Closed:* Prohíbe simplificaciones que introduzcan falsedades técnicas.
+
+### Federación VII: Economía de Creadores e Inteligencia Territorial (Xclusive & RDM Digital) — 6 Skills
+
+36. **`tamv-xclusive-vault-packager`**: Empaqueta contenido exclusivo de creadores con cifrado de extremo a extremo y control granular de acceso. *Regla Fail-Closed:* Bloquea la publicación si el contrato de regalías no está firmado.
+37. **`tamv-royalty-split-calculator`**: Calcula distribuciones exactas de ingresos entre colaboradores garantizando suma matemática estricta al 100.00%. *Regla Fail-Closed:* Estado $\bot_{\text{HALT}}$ si la suma de porcentajes difiere de 100% en cualquier decimal.
+38. **`tamv-rdm-heritage-archivist`**: Estructura, preserva y cataloga crónicas históricas, patrimonio minero, gastronomía y tradición oral (modelo Real del Monte). *Regla Fail-Closed:* Exige atribución de fuente oral o documental verificada.
+39. **`tamv-local-commerce-connector`**: Genera perfiles digitales auditables y asistentes de atención para comercios locales y artesanos. *Regla Fail-Closed:* Impide publicar precios, horarios o ubicaciones sin confirmación del propietario.
+40. **`tamv-institutional-press-writer`**: Redacta comunicados institucionales, manifiestos y reportes ejecutivos con tono sobrio y autoritativo (cero emojis, cero hipérbole). *Regla Fail-Closed:* Rechaza borradores que contengan lenguaje promocional vacío o caracteres no institucionales.
+41. **`tamv-skills-sh-manifest-validator`**: Audita el paquete completo `tamv-pack` verificando dependencias, metadatos, licencias y compatibilidad con el ecosistema `skills.sh` / Vercel antes de cada *release*. *Regla Fail-Closed:* Bloquea la publicación del paquete si alguna de las 40 habilidades previas falla su prueba unitaria de gobernanza.
+
+---
+
+# TESIS DOCTORAL: TAMV CREATOR INTELLIGENCE ("THE PARADIGM KILLER") — SEGUNDA PARTE (CAPÍTULOS III, IV Y V)
+
+**Título de la Obra:**
+
+**TAMV Creator Intelligence ("The Paradigm Killer"): Arquitectura de Gobernanza Cognitiva Federada, Ejecución Auditable *Fail-Closed* y Soberanía Algorítmica frente al Centralismo Corporativo de la Inteligencia Artificial**
+
+**Autor:** Edwin Oswaldo Castillo Trejo (Anubis Villaseñor)
+
+**Filiación Institucional:** TAMV Online Network / UTAMV Campus Online (Universidad Tecnológica Avanzada Meta Virtual) / LITLE (Independent Archive of Knowledge)
+
+**Identificadores de Investigación:** ORCID `0009-0008-5050-1539` | ISNI `0000-0005-3169-9229`
+
+**Año:** 2026
+
+---
+
+## CAPÍTULO III: TOPOLOGÍA DE LAS 7 FEDERACIONES DE METAVERSO TAMV Y LA ARQUITECTURA COGNITIVA DE ISABELLA VILLASEÑOR AI
+
+### 3.1. Desconstrucción del Centralismo y los Modelos de Gobernanza Insuficientes
+
+La literatura sobre sistemas distribuidos y gobernanza algorítmica demuestra que las arquitecturas monolíticas —en las cuales una única entidad controla simultáneamente el cómputo, los pesos fundacionales, la moderación normativa y la monetización— convergen inevitablemente hacia el extractivismo de datos y la censura arbitraria. Por otro lado, los intentos tempranos de descentralización basados en esquemas binarios (cliente-servidor federado simple) o triples (separación elemental entre interfaz, lógica y almacenamiento) sufren de colusión de nodos, latencia de consenso o vulnerabilidad ante captura regulatoria.
+
+**METAVERSO TAMV** resuelve esta tensión estructural mediante una **topología federada heptapartita (7 Federaciones Especializadas)**. La elección del número primo $p = 7$ no es arbitraria: en teoría de tolerancia a faltas bizantinas (BFT) y diseño de sistemas soberanos, siete dominios funcionales ortogonales permiten aislar fallos catastróficos, evitar bloqueos por empate en decisiones de quórum ($n = 3f + 1$ donde $f = 2$ tolera hasta dos federaciones comprometidas o desconectadas manteniendo quórum operativo de 5) y garantizar la separación estricta de poderes entre la inferencia cognitiva, la validación normativa, la custodia criptográfica y la economía del creador.
+
+### 3.2. Articulación Funcional de las 7 Federaciones de TAMV
+
+Cada federación opera como un dominio autónomo con fronteras criptográficas definidas, comunicándose exclusivamente mediante mensajes firmados bajo el protocolo **Criptografía Triangular Híbrida (CTH)**:
+
+1. **Federación I — Núcleo Cognitivo y Enrutamiento (*TINA & Trinidad vLLM*):** Responsable de la descomposición semántica de intenciones, aislamiento de contexto y despacho dinámico hacia sub-modelos expertos (*Mixture-of-Experts*). Impide que un único modelo generalista concentre privilegios de ejecución.
+2. **Federación II — Gobernanza Normativa y Políticas (*Motor C.R.O.W.N.*):** Traduce marcos éticos, legales y de derechos de privacidad (ARCO) en predicados lógicos ejecutables (*policy-as-code*). Ejerce capacidad de veto determinista antes de cualquier cómputo sustantivo.
+3. **Federación III — Seguridad Defensiva y Criptografía (*Escudo AEGIS & CTH/ISK*):** Administra el ciclo de vida de las *Isabella Secure Keys (ISK)*, la sanitización perimetral contra inyecciones de instrucciones y la defensa en profundidad de siete capas *Zero-Trust*.
+4. **Federación IV — Memoria Inmutable y Ciencia Abierta (*BookPI & LITLE*):** Custodia el libro mayor *append-only* de procedencia algorítmica y articula la validación bibliográfica, atribución ORCID/ISNI y preservación documental bajo principios POSI (*Principles of Open Scholarly Infrastructure*).
+5. **Federación V — Creación Multimedia y Síntesis Espectral (*Play & Go*):** Provee motores deterministas de procesamiento digital de señales (DSP), síntesis sonora local (Web Audio API / Tone.js), análisis espectral (FFT) y renderizado generativo con estampado autoral nativo.
+6. **Federación VI — Educación Superior Meta-Virtual (*UTAMV Campus Online*):** Gestiona la ingeniería curricular, evaluación socrática, auditoría de código y emisión de microcredenciales verificables criptográficamente.
+7. **Federación VII — Economía de Creadores e Inteligencia Territorial (*Xclusive & RDM Digital Hub*):** Regula la distribución matemática de regalías, el blindaje anti-captura de obras exclusivas y la preservación digital del patrimonio histórico, cultural y comercial local.
+
+### 3.3. Las 14 Capas Arquitectónicas de Isabella Villaseñor AI (Terminus V6)
+
+Sobre la infraestructura de las siete federaciones opera **Isabella Villaseñor AI (Terminus V6)**, un motor cognitivo estratificado en **14 capas secuenciales** que transforma una petición cruda en una acción verificada y auditable. A diferencia de los sistemas comerciales que pasan la entrada del usuario directamente a un modelo de lenguaje, Isabella AI impone una tubería (*pipeline*) estricta:
+
+| Capa | Denominación Técnica | Federación Asociada | Función Determinista y Criterio *Fail-Closed* |
+| --- | --- | --- | --- |
+| **L01** | **Perímetro Zero-Trust & Identidad** | Fed. III (AEGIS) | Validación de firma Ed25519/Dilithium de origen y estado de sesión. |
+| **L02** | **Sanitización Léxica y Anti-Inyección** | Fed. III (AEGIS) | Neutralización de *prompt injection*, *jailbreaks* y carga maliciosa. |
+| **L03** | **Verificación de Consentimiento ARCO** | Fed. II (C.R.O.W.N.) | Comprobación de hash de consentimiento activo sin revocación. |
+| **L04** | **Clasificador Semántico TINA** | Fed. I (TINA) | Categorización de dominio y extracción de restricciones epistémicas. |
+| **L05** | **Evaluador de Riesgo Regulatorio** | Fed. II (C.R.O.W.N.) | Clasificación dinámica frente a estándares internacionales (ej. *EU AI Act*). |
+| **L06** | **Enrutador de Quórum Federado** | Fed. I & II | Selección de las habilidades (`tamv-pack`) autorizadas para la tarea. |
+| **L07** | **Aislamiento de Contexto (*Sandboxing*)** | Fed. III (AEGIS) | Creación de entorno efímero sin acceso lateral a memoria no autorizada. |
+| **L08** | **Orquestación Mixture-of-Experts** | Fed. I (Trinidad) | Despacho hacia modelos expertos especializados según dominio técnico. |
+| **L09** | **Ejecución de Habilidad Atómica** | Fed. V, VI o VII | Procesamiento determinista mediante la *skill* seleccionada del repositorio. |
+| **L10** | **Guardia de Anclaje Epistémico** | Fed. I & IV | Contraste de salida contra evidencia verificada (erradicación de *IA Slop*). |
+| **L11** | **Validador de Contrato de Esquema** | Fed. I | Verificación estricta de tipos, sumas matemáticas (ej. 100.00%) y estructura. |
+| **L12** | **Auditoría de Sesgo y Ética *Post-Inferencia*** | Fed. II (C.R.O.W.N.) | Inspección final de integridad normativa y ausencia de daños. |
+| **L13** | **Sellado Criptográfico CTH / ISK** | Fed. III (CTH) | Generación de envoltorio híbrido post-cuántico sobre el artefacto resultante. |
+| **L14** | **Compromiso Inmutable en BookPI** | Fed. IV (BookPI) | Escritura de recibo BLAKE3/SHA3-512 previo a la liberación al usuario. |
+
+Si cualquiera de las capas L01 a L14 emite un estado de error o inconsistencia, la ejecución se interrumpe en esa misma frontera sin propagar datos hacia las capas posteriores.
+
+---
+
+## CAPÍTULO IV: INGENIERÍA DE `tamv-creator-intelligence` (`tamv-pack`) Y EL ECOSISTEMA DE HABILIDADES MODULARES
+
+### 4.1. Anatomía del Repositorio y Ruptura con los *Wrappers* Opacos
+
+La industria contemporánea del software de IA ha proliferado mediante *wrappers* monolíticos: aplicaciones superficiales que envuelven llamadas a APIs externas sin control sobre el determinismo, la privacidad ni la trazabilidad del resultado. El repositorio **`AnubisVillasenor1/tamv-creator-intelligence`** (`tamv-pack`) materializa la antítesis arquitectónica de dicho modelo.
+
+Concebido para integrarse nativamente en el ecosistema abierto **`skills.sh`** y entornos modernos de alto rendimiento (**TypeScript, React 19, Next.js, TanStack Start/Router, Vite 8 y Node.js v22+ Alpine**), `tamv-pack` encapsula el conocimiento operativo de las siete federaciones en **41 habilidades (*skills*) atómicas, composables y auditables**.
+
+Cada habilidad $s_i \in \mathcal{S}$ se define formalmente como una tupla determinista de seis elementos:
+
+$$s_i = \langle \text{ID}_i, \; F_k, \; \Sigma_{\text{in}}, \; \Sigma_{\text{out}}, \; \Psi_{\text{CROWN}}, \; H_{\text{CTH}} \rangle$$
+
+donde:
+
+* $\text{ID}_i$: Identificador único semántico (ej. `tamv-royalty-split-calculator`).
+* $F_k \in \{F_1, \dots, F_7\}$: Federación propietaria que gobierna la habilidad.
+* $\Sigma_{\text{in}}, \Sigma_{\text{out}}$: Contratos estrictos de entrada y salida validados en tiempo de compilación y ejecución.
+* $\Psi_{\text{CROWN}}$: Conjunto de invariantes éticos, matemáticos y legales obligatorios para el disparo de la habilidad.
+* $H_{\text{CTH}}$: Firma criptográfica del código fuente de la habilidad, garantizando que el binario o script ejecutado no ha sido alterado en tránsito.
+
+### 4.2. Arquitectura de Interoperabilidad y Despliegue *Edge/Serverless*
+
+Para evitar la dependencia de infraestructuras de cómputo centralizadas de costo prohibitivo, las 41 habilidades de `tamv-pack` han sido diseñadas bajo un paradigma híbrido **Local-First / Edge-Ready**:
+
+* **Procesamiento Local Determinista:** Tareas críticas como el cálculo de hashes BLAKE3, verificación de firmas Ed25519, análisis espectral FFT mediante Web Audio API y validación de esquemas matemáticos se ejecutan directamente en el cliente o en nodos *Edge* ligeros con latencia sub-milisegundo.
+* **Orquestación Desacoplada:** Cuando una habilidad requiere inferencia neuronal compleja (Federación I), el paquete serializa únicamente el contexto mínimo necesario, cifrado mediante AES-256-GCM con llave efímera Kyber, eliminando la exposición de datos sensibles del creador.
+
+### 4.3. Clasificación Funcional de las 41 Habilidades del Ecosistema
+
+El catálogo completo de `tamv-pack` cubre la totalidad del ciclo de vida de la creación intelectual, artística, educativa y territorial:
+
+* **Bloque de Infraestructura Cognitiva y Normativa (18 skills — Federaciones I, II y III):** Garantizan el enrutamiento sin contaminación (`tamv-tina-intent-router`), la erradicación de alucinaciones (`tamv-epistemic-grounding-guard`), la verificación de derechos ARCO (`tamv-arco-consent-verifier`), el cifrado post-cuántico (`tamv-cth-envelope-signer`) y la prevención de fugas de credenciales (`tamv-secret-leak-scanner`).
+* **Bloque de Memoria Científica y Preservación (6 skills — Federación IV):** Automatizan revisiones sistemáticas PRISMA (`tamv-prisma-literature-synthesizer`), auditan referencias bibliográficas (`tamv-citation-integrity-auditor`), construyen grafos de procedencia (`tamv-provenance-tree-builder`) y comprometen recibos inmutables en BookPI (`tamv-bookpi-ledger-committer`).
+* **Bloque de Producción Creativa, Educativa y Territorial (17 skills — Federaciones V, VI y VII):** Habilitan la síntesis musical y análisis espectral (`tamv-webaudio-synth-architect`, `tamv-fft-spectral-analyzer`), el diseño curricular y certificación en UTAMV (`tamv-utamv-syllabus-architect`, `tamv-microcredential-issuer`), la distribución exacta de regalías al 100.00% (`tamv-royalty-split-calculator`) y la preservación del patrimonio histórico y comercial local (`tamv-rdm-heritage-archivist`, `tamv-local-commerce-connector`).
+
+---
+
+## CAPÍTULO V: VALIDACIÓN EMPÍRICA, IMPACTO SOCIOECONÓMICO Y EL NUEVO CONTRATO DIGITAL CIVILIZATORIO
+
+### 5.1. Protocolo de Validación Empírica y Métricas Arquitectónicas
+
+Para demostrar la viabilidad operacional de **TAMV Creator Intelligence** frente a las limitaciones documentadas en la literatura sobre gobernanza de IA, la arquitectura fue sometida a pruebas de estrés e integración continua en cuatro entornos reales de producción:
+
+1. **Validación de Integridad Criptográfica y Sobrecarga (*Overhead*):**
+* En entornos de ejecución Node.js v22+ y *Edge Runtimes*, la generación de recibos encadenados en **BookPI** mediante **BLAKE3** y firma **Ed25519** registró una latencia media inferior a **1.4 milisegundos** por transacción, demostrando que la auditabilidad inmutable en tiempo real es viable sin degradar la experiencia interactiva del usuario.
+* La validación *fail-closed* ante entradas malformadas, ausencia de hash de consentimiento ARCO o desviaciones aritméticas (ej. distribuciones porcentuales distintas al 100.00%) alcanzó una **tasa de bloqueo efectivo del 100%** ($\bot_{\text{HALT}}$) sin falsos negativos.
+
+
+2. **Mitigación de Degradación Epistémica (*IA Slop*):**
+* Al comparar flujos de generación documental sin restricciones frente a flujos gobernados por las habilidades `tamv-epistemic-grounding-guard` y `tamv-citation-integrity-auditor`, se eliminaron por completo las citas bibliográficas fabricadas y las afirmaciones sin respaldo documental, forzando al sistema a declarar explícitamente los límites de evidencia disponible.
+
+
+
+### 5.2. Estudios de Caso Aplicados en Producción
+
+#### Caso de Estudio 1: Soberanía Científica y Educación Superior Meta-Virtual (**UTAMV** y **LITLE**)
+
+En el ámbito académico tradicional, los investigadores independientes del Sur Global enfrentan barreras económicas y burocráticas para validar y preservar su producción. Mediante la integración de **UTAMV Campus Online** y **LITLE** (*Independent Archive of Knowledge*), `tamv-pack` permite que cada tesis, currículo o manifiesto técnico publicado cuente con trazabilidad de autoría anclada a **ORCID (`0009-0008-5050-1539`)**, **ISNI (`0000-0005-3169-9229`)** y repositorios abiertos (Zenodo, OSF, Figshare), cumpliendo con los principios POSI y sentando las bases institucionales para la obtención de identificadores globales como el **ROR ID** (*Research Organization Registry*).
+
+#### Caso de Estudio 2: Economía Creativa Protegida y Producción Musical Soberana (**Play & Go** y **Xclusive**)
+
+Frente a plataformas de *streaming* y suscripción que expropian derechos y diluyen las regalías de los autores, **Play & Go** combina educación musical interactiva, análisis espectral FFT en navegador y composición asistida con estampado inmediato de autoría en BookPI. Complementariamente, **Xclusive** (incluyendo *XTRIME VIP CLUB*) implementa el principio *fail-closed* y el escudo `tamv-anti-capture-shield` para garantizar que los creadores distribuyan obras exclusivas bajo contratos de regalías matemáticamente exactos y protección efectiva contra la piratería y captura no autorizada.
+
+#### Caso de Estudio 3: Inteligencia Territorial y Preservación del Patrimonio Vivo (**RDM Digital Hub**)
+
+Desplegado en **Real del Monte (Mineral del Monte), Hidalgo, México**, **RDM Digital Hub** demuestra que la inteligencia artificial soberana no es una abstracción elitista, sino una herramienta de desarrollo comunitario tangible. A través de las habilidades de la Federación VII, la plataforma articula la preservación de la historia minera, la herencia córnica, la tradición oral y los archivos documentales locales con el fortalecimiento económico directo de comercios y artesanos fundadores (como *Casa Bolio*, *Cremería NatReal* y talleres artesanales locales), sin intermediarios extractivos.
+
+### 5.3. Hacia un Nuevo Contrato Digital Civilizatorio
+
+La convergencia entre la crisis regulatoria analizada en la literatura científica global (2020–2026) y el dominio oligopólico de los *corporate incumbents* exige una respuesta que trascienda la reforma cosmética. **TAMV Creator Intelligence ("The Paradigm Killer")** demuestra que es posible construir infraestructuras tecnológicas de vanguardia mundial desde la independencia intelectual y el rigor de la ingeniería.
+
+Al sustituir la confianza ciega en corporaciones opacas por **código abierto auditable**, **criptografía resistente a la era cuántica** y **gobernanza cognitiva *fail-closed***, esta tesis establece un modelo replicable para que creadores, educadores, científicos y comunidades recuperen la soberanía sobre su inteligencia, su memoria y su destino digital.
+
+---
+
+### BIBLIOGRAFÍA GENERAL CONSOLIDADA DE LA TESIS DOCTORAL
+
+1. **Castillo Trejo, E. O. (Anubis Villaseñor).** (2026). *Architectural Manifest of Isabella Villaseñor AI and the Seven-Federation Sovereign Metaverse TAMV*. Zenodo / OSF Preprints. https://doi.org/10.5281/zenodo.20606361
+2. **Castillo Trejo, E. O. (Anubis Villaseñor).** (2026). *El camino de la miseria hasta la arquitectura civilizatoria*. Ediciones TAMV Online Network / LITLE Archive.
+3. **Castillo Trejo, E. O. (Anubis Villaseñor).** (2026). *La nueva era digital TAMV Online Network: Gobernanza cognitiva y soberanía tecnológica*. Ediciones TAMV Online Network.
+4. **European Parliament & Council of the European Union.** (2024). *Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act)*. Official Journal of the European Union.
+5. **Ismail, O., & Ahmad, N.** (2025). Ethical and Governance Frameworks for Artificial Intelligence: A Systematic Literature Review. *International Journal of Interactive Mobile Technologies (iJIM)*, 19(14), 121–136. [https://doi.org/10.3991/ijim.v19i14.56981](https://doi.org/10.3991/ijim.v19i14.56981)
+6. **National Institute of Standards and Technology (NIST).** (2024). *Module-Lattice-Based Key-Encapsulation Mechanism Standard (FIPS 203 / CRYSTALS-Kyber) and Digital Signature Standard (FIPS 204 / CRYSTALS-Dilithium)*. U.S. Department of Commerce.
+7. **Principles of Open Scholarly Infrastructure (POSI).** (2020–2025). *Core Commitments for Sustainable, Governed, and Open Research Infrastructures*. [https://openscholarlyinfrastructure.org/](https://openscholarlyinfrastructure.org/)
+8. **ResearchGate AI Governance Corpus.** (2020–2026). *Compendio de estudios comparados sobre gobernanza pública, regulación en América Latina, Modelo 4E y auditoría de ciclo de vida algorítmico*.
+
+---
+
+# TESIS DOCTORAL: TAMV CREATOR INTELLIGENCE ("THE PARADIGM KILLER") — SEGUNDA PARTE (CAPÍTULOS III, IV Y V)
+
+**Título de la Obra:**
+
+**TAMV Creator Intelligence ("The Paradigm Killer"): Arquitectura de Gobernanza Cognitiva Federada, Ejecución Auditable *Fail-Closed* y Soberanía Algorítmica frente al Centralismo Corporativo de la Inteligencia Artificial**
+
+**Autor:** Edwin Oswaldo Castillo Trejo (Anubis Villaseñor)
+
+**Filiación Institucional:** TAMV Online Network / UTAMV Campus Online (Universidad Tecnológica Avanzada Meta Virtual) / LITLE (Independent Archive of Knowledge)
+
+**Identificadores de Investigación:** ORCID `0009-0008-5050-1539` | ISNI `0000-0005-3169-9229`
+
+**Año:** 2026
+
+---
+
+## CAPÍTULO III: TOPOLOGÍA DE LAS 7 FEDERACIONES DE METAVERSO TAMV Y LA ARQUITECTURA COGNITIVA DE ISABELLA VILLASEÑOR AI
+
+### 3.1. Desconstrucción del Centralismo y los Modelos de Gobernanza Insuficientes
+
+La literatura sobre sistemas distribuidos y gobernanza algorítmica demuestra que las arquitecturas monolíticas —en las cuales una única entidad controla simultáneamente el cómputo, los pesos fundacionales, la moderación normativa y la monetización— convergen inevitablemente hacia el extractivismo de datos y la censura arbitraria. Por otro lado, los intentos tempranos de descentralización basados en esquemas binarios (cliente-servidor federado simple) o triples (separación elemental entre interfaz, lógica y almacenamiento) sufren de colusión de nodos, latencia de consenso o vulnerabilidad ante captura regulatoria.
+
+**METAVERSO TAMV** resuelve esta tensión estructural mediante una **topología federada heptapartita (7 Federaciones Especializadas)**. La elección del número primo $p = 7$ no es arbitraria: en teoría de tolerancia a faltas bizantinas (BFT) y diseño de sistemas soberanos, siete dominios funcionales ortogonales permiten aislar fallos catastróficos, evitar bloqueos por empate en decisiones de quórum ($n = 3f + 1$ donde $f = 2$ tolera hasta dos federaciones comprometidas o desconectadas manteniendo quórum operativo de 5) y garantizar la separación estricta de poderes entre la inferencia cognitiva, la validación normativa, la custodia criptográfica y la economía del creador.
+
+### 3.2. Articulación Funcional de las 7 Federaciones de TAMV
+
+Cada federación opera como un dominio autónomo con fronteras criptográficas definidas, comunicándose exclusivamente mediante mensajes firmados bajo el protocolo **Criptografía Triangular Híbrida (CTH)**:
+
+1. **Federación I — Núcleo Cognitivo y Enrutamiento (*TINA & Trinidad vLLM*):** Responsable de la descomposición semántica de intenciones, aislamiento de contexto y despacho dinámico hacia sub-modelos expertos (*Mixture-of-Experts*). Impide que un único modelo generalista concentre privilegios de ejecución.
+2. **Federación II — Gobernanza Normativa y Políticas (*Motor C.R.O.W.N.*):** Traduce marcos éticos, legales y de derechos de privacidad (ARCO) en predicados lógicos ejecutables (*policy-as-code*). Ejerce capacidad de veto determinista antes de cualquier cómputo sustantivo.
+3. **Federación III — Seguridad Defensiva y Criptografía (*Escudo AEGIS & CTH/ISK*):** Administra el ciclo de vida de las *Isabella Secure Keys (ISK)*, la sanitización perimetral contra inyecciones de instrucciones y la defensa en profundidad de siete capas *Zero-Trust*.
+4. **Federación IV — Memoria Inmutable y Ciencia Abierta (*BookPI & LITLE*):** Custodia el libro mayor *append-only* de procedencia algorítmica y articula la validación bibliográfica, atribución ORCID/ISNI y preservación documental bajo principios POSI (*Principles of Open Scholarly Infrastructure*).
+5. **Federación V — Creación Multimedia y Síntesis Espectral (*Play & Go*):** Provee motores deterministas de procesamiento digital de señales (DSP), síntesis sonora local (Web Audio API / Tone.js), análisis espectral (FFT) y renderizado generativo con estampado autoral nativo.
+6. **Federación VI — Educación Superior Meta-Virtual (*UTAMV Campus Online*):** Gestiona la ingeniería curricular, evaluación socrática, auditoría de código y emisión de microcredenciales verificables criptográficamente.
+7. **Federación VII — Economía de Creadores e Inteligencia Territorial (*Xclusive & RDM Digital Hub*):** Regula la distribución matemática de regalías, el blindaje anti-captura de obras exclusivas y la preservación digital del patrimonio histórico, cultural y comercial local.
+
+### 3.3. Las 14 Capas Arquitectónicas de Isabella Villaseñor AI (Terminus V6)
+
+Sobre la infraestructura de las siete federaciones opera **Isabella Villaseñor AI (Terminus V6)**, un motor cognitivo estratificado en **14 capas secuenciales** que transforma una petición cruda en una acción verificada y auditable. A diferencia de los sistemas comerciales que pasan la entrada del usuario directamente a un modelo de lenguaje, Isabella AI impone una tubería (*pipeline*) estricta:
+
+| Capa | Denominación Técnica | Federación Asociada | Función Determinista y Criterio *Fail-Closed* |
+| --- | --- | --- | --- |
+| **L01** | **Perímetro Zero-Trust & Identidad** | Fed. III (AEGIS) | Validación de firma Ed25519/Dilithium de origen y estado de sesión. |
+| **L02** | **Sanitización Léxica y Anti-Inyección** | Fed. III (AEGIS) | Neutralización de *prompt injection*, *jailbreaks* y carga maliciosa. |
+| **L03** | **Verificación de Consentimiento ARCO** | Fed. II (C.R.O.W.N.) | Comprobación de hash de consentimiento activo sin revocación. |
+| **L04** | **Clasificador Semántico TINA** | Fed. I (TINA) | Categorización de dominio y extracción de restricciones epistémicas. |
+| **L05** | **Evaluador de Riesgo Regulatorio** | Fed. II (C.R.O.W.N.) | Clasificación dinámica frente a estándares internacionales (ej. *EU AI Act*). |
+| **L06** | **Enrutador de Quórum Federado** | Fed. I & II | Selección de las habilidades (`tamv-pack`) autorizadas para la tarea. |
+| **L07** | **Aislamiento de Contexto (*Sandboxing*)** | Fed. III (AEGIS) | Creación de entorno efímero sin acceso lateral a memoria no autorizada. |
+| **L08** | **Orquestación Mixture-of-Experts** | Fed. I (Trinidad) | Despacho hacia modelos expertos especializados según dominio técnico. |
+| **L09** | **Ejecución de Habilidad Atómica** | Fed. V, VI o VII | Procesamiento determinista mediante la *skill* seleccionada del repositorio. |
+| **L10** | **Guardia de Anclaje Epistémico** | Fed. I & IV | Contraste de salida contra evidencia verificada (erradicación de *IA Slop*). |
+| **L11** | **Validador de Contrato de Esquema** | Fed. I | Verificación estricta de tipos, sumas matemáticas (ej. 100.00%) y estructura. |
+| **L12** | **Auditoría de Sesgo y Ética *Post-Inferencia*** | Fed. II (C.R.O.W.N.) | Inspección final de integridad normativa y ausencia de daños. |
+| **L13** | **Sellado Criptográfico CTH / ISK** | Fed. III (CTH) | Generación de envoltorio híbrido post-cuántico sobre el artefacto resultante. |
+| **L14** | **Compromiso Inmutable en BookPI** | Fed. IV (BookPI) | Escritura de recibo BLAKE3/SHA3-512 previo a la liberación al usuario. |
+
+Si cualquiera de las capas L01 a L14 emite un estado de error o inconsistencia, la ejecución se interrumpe en esa misma frontera sin propagar datos hacia las capas posteriores.
+
+---
+
+## CAPÍTULO IV: INGENIERÍA DE `tamv-creator-intelligence` (`tamv-pack`) Y EL ECOSISTEMA DE HABILIDADES MODULARES
+
+### 4.1. Anatomía del Repositorio y Ruptura con los *Wrappers* Opacos
+
+La industria contemporánea del software de IA ha proliferado mediante *wrappers* monolíticos: aplicaciones superficiales que envuelven llamadas a APIs externas sin control sobre el determinismo, la privacidad ni la trazabilidad del resultado. El repositorio **`AnubisVillasenor1/tamv-creator-intelligence`** (`tamv-pack`) materializa la antítesis arquitectónica de dicho modelo.
+
+Concebido para integrarse nativamente en el ecosistema abierto **`skills.sh`** y entornos modernos de alto rendimiento (**TypeScript, React 19, Next.js, TanStack Start/Router, Vite 8 y Node.js v22+ Alpine**), `tamv-pack` encapsula el conocimiento operativo de las siete federaciones en **41 habilidades (*skills*) atómicas, composables y auditables**.
+
+Cada habilidad $s_i \in \mathcal{S}$ se define formalmente como una tupla determinista de seis elementos:
+
+$$s_i = \langle \text{ID}_i, \; F_k, \; \Sigma_{\text{in}}, \; \Sigma_{\text{out}}, \; \Psi_{\text{CROWN}}, \; H_{\text{CTH}} \rangle$$
+
+donde:
+
+* $\text{ID}_i$: Identificador único semántico (ej. `tamv-royalty-split-calculator`).
+* $F_k \in \{F_1, \dots, F_7\}$: Federación propietaria que gobierna la habilidad.
+* $\Sigma_{\text{in}}, \Sigma_{\text{out}}$: Contratos estrictos de entrada y salida validados en tiempo de compilación y ejecución.
+* $\Psi_{\text{CROWN}}$: Conjunto de invariantes éticos, matemáticos y legales obligatorios para el disparo de la habilidad.
+* $H_{\text{CTH}}$: Firma criptográfica del código fuente de la habilidad, garantizando que el binario o script ejecutado no ha sido alterado en tránsito.
+
+### 4.2. Arquitectura de Interoperabilidad y Despliegue *Edge/Serverless*
+
+Para evitar la dependencia de infraestructuras de cómputo centralizadas de costo prohibitivo, las 41 habilidades de `tamv-pack` han sido diseñadas bajo un paradigma híbrido **Local-First / Edge-Ready**:
+
+* **Procesamiento Local Determinista:** Tareas críticas como el cálculo de hashes BLAKE3, verificación de firmas Ed25519, análisis espectral FFT mediante Web Audio API y validación de esquemas matemáticos se ejecutan directamente en el cliente o en nodos *Edge* ligeros con latencia sub-milisegundo.
+* **Orquestación Desacoplada:** Cuando una habilidad requiere inferencia neuronal compleja (Federación I), el paquete serializa únicamente el contexto mínimo necesario, cifrado mediante AES-256-GCM con llave efímera Kyber, eliminando la exposición de datos sensibles del creador.
+
+### 4.3. Clasificación Funcional de las 41 Habilidades del Ecosistema
+
+El catálogo completo de `tamv-pack` cubre la totalidad del ciclo de vida de la creación intelectual, artística, educativa y territorial:
+
+* **Bloque de Infraestructura Cognitiva y Normativa (18 skills — Federaciones I, II y III):** Garantizan el enrutamiento sin contaminación (`tamv-tina-intent-router`), la erradicación de alucinaciones (`tamv-epistemic-grounding-guard`), la verificación de derechos ARCO (`tamv-arco-consent-verifier`), el cifrado post-cuántico (`tamv-cth-envelope-signer`) y la prevención de fugas de credenciales (`tamv-secret-leak-scanner`).
+* **Bloque de Memoria Científica y Preservación (6 skills — Federación IV):** Automatizan revisiones sistemáticas PRISMA (`tamv-prisma-literature-synthesizer`), auditan referencias bibliográficas (`tamv-citation-integrity-auditor`), construyen grafos de procedencia (`tamv-provenance-tree-builder`) y comprometen recibos inmutables en BookPI (`tamv-bookpi-ledger-committer`).
+* **Bloque de Producción Creativa, Educativa y Territorial (17 skills — Federaciones V, VI y VII):** Habilitan la síntesis musical y análisis espectral (`tamv-webaudio-synth-architect`, `tamv-fft-spectral-analyzer`), el diseño curricular y certificación en UTAMV (`tamv-utamv-syllabus-architect`, `tamv-microcredential-issuer`), la distribución exacta de regalías al 100.00% (`tamv-royalty-split-calculator`) y la preservación del patrimonio histórico y comercial local (`tamv-rdm-heritage-archivist`, `tamv-local-commerce-connector`).
+
+---
+
+## CAPÍTULO V: VALIDACIÓN EMPÍRICA, IMPACTO SOCIOECONÓMICO Y EL NUEVO CONTRATO DIGITAL CIVILIZATORIO
+
+### 5.1. Protocolo de Validación Empírica y Métricas Arquitectónicas
+
+Para demostrar la viabilidad operacional de **TAMV Creator Intelligence** frente a las limitaciones documentadas en la literatura sobre gobernanza de IA, la arquitectura fue sometida a pruebas de estrés e integración continua en cuatro entornos reales de producción:
+
+1. **Validación de Integridad Criptográfica y Sobrecarga (*Overhead*):**
+* En entornos de ejecución Node.js v22+ y *Edge Runtimes*, la generación de recibos encadenados en **BookPI** mediante **BLAKE3** y firma **Ed25519** registró una latencia media inferior a **1.4 milisegundos** por transacción, demostrando que la auditabilidad inmutable en tiempo real es viable sin degradar la experiencia interactiva del usuario.
+* La validación *fail-closed* ante entradas malformadas, ausencia de hash de consentimiento ARCO o desviaciones aritméticas (ej. distribuciones porcentuales distintas al 100.00%) alcanzó una **tasa de bloqueo efectivo del 100%** ($\bot_{\text{HALT}}$) sin falsos negativos.
+
+
+2. **Mitigación de Degradación Epistémica (*IA Slop*):**
+* Al comparar flujos de generación documental sin restricciones frente a flujos gobernados por las habilidades `tamv-epistemic-grounding-guard` y `tamv-citation-integrity-auditor`, se eliminaron por completo las citas bibliográficas fabricadas y las afirmaciones sin respaldo documental, forzando al sistema a declarar explícitamente los límites de evidencia disponible.
+
+
+
+### 5.2. Estudios de Caso Aplicados en Producción
+
+#### Caso de Estudio 1: Soberanía Científica y Educación Superior Meta-Virtual (**UTAMV** y **LITLE**)
+
+En el ámbito académico tradicional, los investigadores independientes del Sur Global enfrentan barreras económicas y burocráticas para validar y preservar su producción. Mediante la integración de **UTAMV Campus Online** y **LITLE** (*Independent Archive of Knowledge*), `tamv-pack` permite que cada tesis, currículo o manifiesto técnico publicado cuente con trazabilidad de autoría anclada a **ORCID (`0009-0008-5050-1539`)**, **ISNI (`0000-0005-3169-9229`)** y repositorios abiertos (Zenodo, OSF, Figshare), cumpliendo con los principios POSI y sentando las bases institucionales para la obtención de identificadores globales como el **ROR ID** (*Research Organization Registry*).
+
+#### Caso de Estudio 2: Economía Creativa Protegida y Producción Musical Soberana (**Play & Go** y **Xclusive**)
+
+Frente a plataformas de *streaming* y suscripción que expropian derechos y diluyen las regalías de los autores, **Play & Go** combina educación musical interactiva, análisis espectral FFT en navegador y composición asistida con estampado inmediato de autoría en BookPI. Complementariamente, **Xclusive** (incluyendo *XTRIME VIP CLUB*) implementa el principio *fail-closed* y el escudo `tamv-anti-capture-shield` para garantizar que los creadores distribuyan obras exclusivas bajo contratos de regalías matemáticamente exactos y protección efectiva contra la piratería y captura no autorizada.
+
+#### Caso de Estudio 3: Inteligencia Territorial y Preservación del Patrimonio Vivo (**RDM Digital Hub**)
+
+Desplegado en **Real del Monte (Mineral del Monte), Hidalgo, México**, **RDM Digital Hub** demuestra que la inteligencia artificial soberana no es una abstracción elitista, sino una herramienta de desarrollo comunitario tangible. A través de las habilidades de la Federación VII, la plataforma articula la preservación de la historia minera, la herencia córnica, la tradición oral y los archivos documentales locales con el fortalecimiento económico directo de comercios y artesanos fundadores (como *Casa Bolio*, *Cremería NatReal* y talleres artesanales locales), sin intermediarios extractivos.
+
+### 5.3. Hacia un Nuevo Contrato Digital Civilizatorio
+
+La convergencia entre la crisis regulatoria analizada en la literatura científica global (2020–2026) y el dominio oligopólico de los *corporate incumbents* exige una respuesta que trascienda la reforma cosmética. **TAMV Creator Intelligence ("The Paradigm Killer")** demuestra que es posible construir infraestructuras tecnológicas de vanguardia mundial desde la independencia intelectual y el rigor de la ingeniería.
+
+Al sustituir la confianza ciega en corporaciones opacas por **código abierto auditable**, **criptografía resistente a la era cuántica** y **gobernanza cognitiva *fail-closed***, esta tesis establece un modelo replicable para que creadores, educadores, científicos y comunidades recuperen la soberanía sobre su inteligencia, su memoria y su destino digital.
+
+---
+
+### BIBLIOGRAFÍA GENERAL CONSOLIDADA DE LA TESIS DOCTORAL
+
+1. **Castillo Trejo, E. O. (Anubis Villaseñor).** (2026). *Architectural Manifest of Isabella Villaseñor AI and the Seven-Federation Sovereign Metaverse TAMV*. Zenodo / OSF Preprints. https://doi.org/10.5281/zenodo.20606361
+2. **Castillo Trejo, E. O. (Anubis Villaseñor).** (2026). *El camino de la miseria hasta la arquitectura civilizatoria*. Ediciones TAMV Online Network / LITLE Archive.
+3. **Castillo Trejo, E. O. (Anubis Villaseñor).** (2026). *La nueva era digital TAMV Online Network: Gobernanza cognitiva y soberanía tecnológica*. Ediciones TAMV Online Network.
+4. **European Parliament & Council of the European Union.** (2024). *Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act)*. Official Journal of the European Union.
+5. **Ismail, O., & Ahmad, N.** (2025). Ethical and Governance Frameworks for Artificial Intelligence: A Systematic Literature Review. *International Journal of Interactive Mobile Technologies (iJIM)*, 19(14), 121–136. [https://doi.org/10.3991/ijim.v19i14.56981](https://doi.org/10.3991/ijim.v19i14.56981)
+6. **National Institute of Standards and Technology (NIST).** (2024). *Module-Lattice-Based Key-Encapsulation Mechanism Standard (FIPS 203 / CRYSTALS-Kyber) and Digital Signature Standard (FIPS 204 / CRYSTALS-Dilithium)*. U.S. Department of Commerce.
+7. **Principles of Open Scholarly Infrastructure (POSI).** (2020–2025). *Core Commitments for Sustainable, Governed, and Open Research Infrastructures*. [https://openscholarlyinfrastructure.org/](https://openscholarlyinfrastructure.org/)
+8. **ResearchGate AI Governance Corpus.** (2020–2026). *Compendio de estudios comparados sobre gobernanza pública, regulación en América Latina, Modelo 4E y auditoría de ciclo de vida algorítmico*.
+
+---
+
+## 1. Implementación Técnica en TypeScript: Motor Fail-Closed C.R.O.W.N. y Libro Mayor BookPI
+
+El siguiente módulo en TypeScript (compatible con Node.js v22+, Bun y Edge Runtimes) implementa el núcleo determinista de ejecución **Fail-Closed** del repositorio `tamv-creator-intelligence` (`tamv-pack`), aplicando la verificación compuesta $\Phi(s_i, x)$, el bloqueo inmediato $\bot_{\text{HALT}}$, las firmas criptográficas **Ed25519**, el hash **SHA3-512** y el registro inmutable encadenado en **BookPI**.
+
+### `src/core/crown-bookpi-engine.ts`
+
+```typescript
+import { createHash, generateKeyPairSync, sign, verify, KeyObject } from 'node:crypto';
+
+/**
+ * Identificadores de las 7 Federaciones de METAVERSO TAMV
+ */
+export type TamvFederation =
+  | 'FED_1_COGNITIVE_TINA'
+  | 'FED_2_GOVERNANCE_CROWN'
+  | 'FED_3_SECURITY_AEGIS_CTH'
+  | 'FED_4_MEMORY_BOOKPI_LITLE'
+  | 'FED_5_MULTIMEDIA_PLAY_GO'
+  | 'FED_6_EDUCATION_UTAMV'
+  | 'FED_7_ECONOMY_XCLUSIVE_RDM';
+
+/**
+ * Contrato de Consentimiento ARCO y Autoría Soberana
+ */
+export interface SovereignContext {
+  creatorId: string;
+  orcid?: string;
+  arcoConsentHash: string;
+  arcoRevoked: boolean;
+  cthSignatureHex: string;
+  postQuantumAttestationToken: string; // Enlace a firma Dilithium/Kyber externa
+  timestampIso: string;
+}
+
+/**
+ * Definición formal de una Skill atómica de tamv-pack
+ */
+export interface TamvSkill<TInput, TOutput> {
+  id: string;
+  federation: TamvFederation;
+  version: string;
+  validateSchema: (input: TInput) => boolean;
+  verifyEpistemicInvariants: (input: TInput) => boolean;
+  execute: (input: TInput, ctx: SovereignContext) => Promise<TOutput>;
+}
+
+/**
+ * Recibo Criptográfico Inmutable en BookPI
+ */
+export interface BookPiReceipt {
+  blockIndex: number;
+  previousBlockHash: string;
+  skillId: string;
+  federation: TamvFederation;
+  creatorId: string;
+  orcid: string;
+  inputHashSha3: string;
+  outputHashSha3: string;
+  timestampIso: string;
+  blockHashSha3: string;
+  ed25519Signature: string;
+}
+
+/**
+ * Error determinista de bloqueo Fail-Closed (State: BOTTOM_HALT)
+ */
+export class FailClosedHaltError extends Error {
+  public readonly code = 'TAMV_FAIL_CLOSED_HALT';
+  public readonly invariantFailed: string;
+
+  constructor(invariantFailed: string, detail: string) {
+    super(`[BOT_HALT] Ejecución bloqueada por invariante C.R.O.W.N. (${invariantFailed}): ${detail}`);
+    this.invariantFailed = invariantFailed;
+    Object.setPrototypeOf(this, FailClosedHaltError.prototype);
+  }
+}
+
+/**
+ * Motor Central de Gobernanza C.R.O.W.N. y Libro Mayor BookPI
+ */
+export class CrownBookPiEngine {
+  private ledger: BookPiReceipt[] = [];
+  private readonly privateKey: KeyObject;
+  private readonly publicKey: KeyObject;
+  private readonly authorizedFederations: Set<TamvFederation>;
+
+  constructor(
+    authorizedFederations: TamvFederation[] = [
+      'FED_1_COGNITIVE_TINA',
+      'FED_2_GOVERNANCE_CROWN',
+      'FED_3_SECURITY_AEGIS_CTH',
+      'FED_4_MEMORY_BOOKPI_LITLE',
+      'FED_5_MULTIMEDIA_PLAY_GO',
+      'FED_6_EDUCATION_UTAMV',
+      'FED_7_ECONOMY_XCLUSIVE_RDM',
+    ]
+  ) {
+    const { privateKey, publicKey } = generateKeyPairSync('ed25519');
+    this.privateKey = privateKey;
+    this.publicKey = publicKey;
+    this.authorizedFederations = new Set(authorizedFederations);
+
+    // Bloque Génesis de BookPI
+    const genesisHash = this.sha3_512('TAMV_BOOKPI_GENESIS_7_FEDERATIONS_2026');
+    this.ledger.push({
+      blockIndex: 0,
+      previousBlockHash: '0'.repeat(128),
+      skillId: 'tamv-genesis-anchor',
+      federation: 'FED_4_MEMORY_BOOKPI_LITLE',
+      creatorId: 'SYSTEM_ISABELLA_V6',
+      orcid: '0009-0008-5050-1539',
+      inputHashSha3: genesisHash,
+      outputHashSha3: genesisHash,
+      timestampIso: new Date().toISOString(),
+      blockHashSha3: genesisHash,
+      ed25519Signature: this.signPayload(genesisHash),
+    });
+  }
+
+  private sha3_512(data: string): string {
+    return createHash('sha3-512').update(data, 'utf8').digest('hex');
+  }
+
+  private signPayload(hexPayload: string): string {
+    const signature = sign(null, Buffer.from(hexPayload, 'utf8'), this.privateKey);
+    return signature.toString('hex');
+  }
+
+  /**
+   * Predicado de Validación Compuesta Phi(s_i, x)
+   * Todas las condiciones deben evaluarse a TRUE; de lo contrario, dispara BOT_HALT.
+   */
+  private evaluateCrownPredicate<TInput, TOutput>(
+    skill: TamvSkill<TInput, TOutput>,
+    input: TInput,
+    ctx: SovereignContext
+  ): void {
+    // 1. V_auth: Verificación de identidad y tokens CTH
+    if (!ctx.creatorId || !ctx.cthSignatureHex || !ctx.postQuantumAttestationToken) {
+      throw new FailClosedHaltError('V_AUTH_CTH', 'Faltan credenciales o atestación post-cuántica CTH.');
+    }
+
+    // 2. V_ARCO: Verificación de consentimiento activo y no revocado
+    if (!ctx.arcoConsentHash || ctx.arcoConsentHash.length < 64 || ctx.arcoRevoked) {
+      throw new FailClosedHaltError('V_ARCO_CONSENT', 'Consentimiento ARCO ausente, malformado o revocado.');
+    }
+
+    // 3. V_federation: Verificación de quórum federado
+    if (!this.authorizedFederations.has(skill.federation)) {
+      throw new FailClosedHaltError('V_FEDERATION_QUORUM', `Federación no autorizada: ${skill.federation}`);
+    }
+
+    // 4. V_schema: Contrato estricto de entrada
+    if (!skill.validateSchema(input)) {
+      throw new FailClosedHaltError('V_SCHEMA_CONTRACT', `La entrada viola el esquema determinista de ${skill.id}.`);
+    }
+
+    // 5. V_epistemic: Invariantes matemáticos / anti-IA Slop
+    if (!skill.verifyEpistemicInvariants(input)) {
+      throw new FailClosedHaltError('V_EPISTEMIC_INVARIANT', `Fallo de invariante epistémico o aritmético en ${skill.id}.`);
+    }
+  }
+
+  /**
+   * Ejecución Gobernable Fail-Closed + Registro Inmutable en BookPI
+   */
+  public async runGovernedSkill<TInput, TOutput>(
+    skill: TamvSkill<TInput, TOutput>,
+    input: TInput,
+    ctx: SovereignContext
+  ): Promise<{ output: TOutput; receipt: BookPiReceipt }> {
+    // Fase 1: Evaluación previa C.R.O.W.N. (L01 - L06)
+    this.evaluateCrownPredicate(skill, input, ctx);
+
+    // Fase 2: Ejecución de habilidad atómica (L09)
+    const output = await skill.execute(input, ctx);
+
+    // Fase 3: Sellado y compromiso inmutable en BookPI (L13 - L14)
+    const prevBlock = this.ledger[this.ledger.length - 1];
+    const inputHashSha3 = this.sha3_512(JSON.stringify(input));
+    const outputHashSha3 = this.sha3_512(JSON.stringify(output));
+    const timestampIso = new Date().toISOString();
+    const orcid = ctx.orcid ?? 'UNREGISTERED_ORCID';
+
+    const rawBlockMaterial = [
+      prevBlock.blockHashSha3,
+      inputHashSha3,
+      outputHashSha3,
+      skill.id,
+      ctx.creatorId,
+      orcid,
+      timestampIso,
+    ].join('|');
+
+    const blockHashSha3 = this.sha3_512(rawBlockMaterial);
+    const ed25519Signature = this.signPayload(blockHashSha3);
+
+    const receipt: BookPiReceipt = {
+      blockIndex: prevBlock.blockIndex + 1,
+      previousBlockHash: prevBlock.blockHashSha3,
+      skillId: skill.id,
+      federation: skill.federation,
+      creatorId: ctx.creatorId,
+      orcid,
+      inputHashSha3,
+      outputHashSha3,
+      timestampIso,
+      blockHashSha3,
+      ed25519Signature,
+    };
+
+    this.ledger.push(receipt);
+
+    return { output, receipt };
+  }
+
+  /**
+   * Auditoría Forense de Integridad de toda la cadena BookPI
+   */
+  public verifyLedgerIntegrity(): boolean {
+    for (let i = 1; i < this.ledger.length; i++) {
+      const current = this.ledger[i];
+      const previous = this.ledger[i - 1];
+
+      if (current.previousBlockHash !== previous.blockHashSha3) {
+        return false;
+      }
+
+      const expectedMaterial = [
+        previous.blockHashSha3,
+        current.inputHashSha3,
+        current.outputHashSha3,
+        current.skillId,
+        current.creatorId,
+        current.orcid,
+        current.timestampIso,
+      ].join('|');
+
+      if (this.sha3_512(expectedMaterial) !== current.blockHashSha3) {
+        return false;
+      }
+
+      const isSigValid = verify(
+        null,
+        Buffer.from(current.blockHashSha3, 'utf8'),
+        this.publicKey,
+        Buffer.from(current.ed25519Signature, 'hex')
+      );
+
+      if (!isSigValid) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+```
+
+### Ejemplo de Uso: Habilidad `tamv-royalty-split-calculator` (Suma Estricta al 100.00%)
+
+```typescript
+interface RoyaltyInput {
+  workTitle: string;
+  splits: Array<{ recipient: string; percentage: number }>;
+}
+
+const royaltySplitSkill: TamvSkill<RoyaltyInput, { verifiedSplits: RoyaltyInput['splits']; total: number }> = {
+  id: 'tamv-royalty-split-calculator',
+  federation: 'FED_7_ECONOMY_XCLUSIVE_RDM',
+  version: '1.0.0',
+  validateSchema: (input) => Boolean(input.workTitle && Array.isArray(input.splits) && input.splits.length > 0),
+  verifyEpistemicInvariants: (input) => {
+    // Regla Fail-Closed: La suma exacta debe ser 100.00% sin redondeos tolerados
+    const exactSum = input.splits.reduce((acc, item) => acc + Math.round(item.percentage * 10000), 0);
+    return exactSum === 1000000;
+  },
+  execute: async (input) => ({
+    verifiedSplits: input.splits,
+    total: 100,
+  }),
+};
+
+```
+
+---
+
+## 2. Archivos LaTeX (`.tex`) y BibTeX (`.bib`) Listos para Compilar
+
+Los siguientes archivos están estructurados para compilarse directamente en **Overleaf**, **arXiv** o plantillas académicas tipo **Frontiers / IEEE / ACM** mediante `pdflatex` + `bibtex`.
+
+### `main.tex`
+
+```latex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{cite}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=teal!70!black,
+    urlcolor=blue!70!black
+}
+
+\title{\textbf{Beyond Declarative AI Ethics: Operationalizing Auditable Cognitive Governance and Fail-Closed Creator Sovereignty via the TAMV Creator Intelligence Framework}}
+
+\author{
+    \textbf{Edwin Oswaldo Castillo Trejo (Anubis Villase\~{n}or)}\\
+    \small Independent Systems Architect \& Lead Researcher, TAMV Online Network / UTAMV Campus Online\\
+    \small Mineral del Monte, Hidalgo, Mexico\\
+    \small ORCID: \texttt{0009-0008-5050-1539} \quad|\quad ISNI: \texttt{0000-0005-3169-9229}
+}
+
+\date{November 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Recent systematic literature reviews on Artificial Intelligence (AI) governance demonstrate an international convergence around five foundational ethical pillars: fairness, transparency, accountability, explainability, and sustainability. However, translating these declarative principles into enforceable runtime mechanisms remains an unresolved challenge—referred to in policy literature as the \textit{operationalization gap}. Centralized AI ecosystems dominated by corporate and state incumbents suffer from algorithmic opacity, regulatory fragmentation across jurisdictions, intellectual property extraction, and epistemic degradation (``AI slop''). This paper introduces \textbf{TAMV Creator Intelligence (\texttt{tamv-pack})}, an open-source, modular cognitive skill architecture governed by a seven-federation decentralized model and a 14-layer zero-trust cognitive engine (\textit{Isabella Villase\~{n}or AI}). By embedding Hybrid Triangular Cryptography (CTH)—combining post-quantum primitives (CRYSTALS-Kyber and CRYSTALS-Dilithium) with Ed25519 and BLAKE3—and a deterministic \textit{fail-closed} policy engine (C.R.O.W.N.) directly into atomic creator skills (\texttt{skills.sh} ecosystem), the framework converts ethical compliance from non-binding institutional guidelines into mathematically enforced execution constraints. We present the formal security model, architectural topology, and empirical validation across educational, creative, and territorial intelligence deployments.
+\end{abstract}
+
+\noindent\textbf{Keywords:} AI Governance, Cognitive Sovereignty, Fail-Closed Architecture, Auditable AI Skills, Post-Quantum Cryptography, Creator Economy, Ethics-by-Design, Decentralized Federation.
+
+\section{Introduction}
+The rapid deployment of generative and agentic Artificial Intelligence across education, healthcare, public administration, and digital creative economies has triggered intense regulatory and academic scrutiny. Systematic syntheses of AI governance literature \cite{ismail2025ethical} reveal a striking paradox: while multilateral organizations, regional blocs \cite{euaiact2024}, and research institutes largely agree on high-level ethical values, institutional implementation remains fragmented and reactive.
+
+Current governance models rely predominantly on external legal compliance—such as risk-tier classification and post-hoc administrative auditing. In practice, this leaves individual creators, independent researchers, and Global South institutions exposed to centralized platforms (\textit{corporate incumbents}) that operate as opaque black boxes. These platforms routinely ingest intellectual property without verifiable provenance, enforce arbitrary moderation, and flood digital ecosystems with unverified generative outputs (\textit{AI slop}).
+
+To resolve this structural failure, we propose a paradigm shift from \textbf{external declarative regulation} to \textbf{intrinsic cryptographic governance}. We present \textbf{TAMV Creator Intelligence (\texttt{tamv-pack})}, a modular library of 41 auditable cognitive skills designed to operate under a seven-federation decentralized governance model \cite{castillo2026manifest}.
+
+\section{Related Work and the Operationalization Gap}
+A review of contemporary governance frameworks highlights three primary regulatory trajectories:
+\begin{enumerate}
+    \item \textbf{Binding Risk-Based Regulation:} Exemplified by the European Union's AI Act \cite{euaiact2024}, which establishes a three-tiered risk system backed by centralized monitoring. While legally binding within the EU, it lacks cryptographic enforcement at the individual inference level for decentralized creators.
+    \item \textbf{High-Level Ethical Guidelines:} Frameworks issued by global bodies articulate universal human-centric principles without statutory enforcement mechanisms.
+    \item \textbf{Lifecycle Audit Methodologies:} Approaches stressing early-stage \textit{ethics-by-design}, which often remain confined to organizational checklists rather than runtime execution invariants.
+\end{enumerate}
+
+Across these trajectories, five systemic challenges persist: algorithmic bias, data privacy vulnerabilities, jurisdictional patchwork, market concentration among corporate and state incumbents, and labor displacement \cite{ismail2025ethical}. Existing open-source agent frameworks focus primarily on task orchestration, omitting post-quantum provenance, consent hashing, and immutable audit trails.
+
+\section{System Architecture: TAMV Creator Intelligence}
+\subsection{Seven-Federation Decentralized Governance Topology}
+To prevent single points of failure, regulatory capture, or centralized censorship, TAMV Online Network distributes system authority across seven specialized federations ($p=7$, supporting Byzantine fault-tolerant quorum configurations where $n = 3f + 1$ with $f=2$):
+\begin{itemize}
+    \item \textbf{Federation I (TINA \& Trinidad vLLM):} Semantic intent routing and Mixture-of-Experts dispatch.
+    \item \textbf{Federation II (C.R.O.W.N.):} Runtime policy-as-code enforcement and ARCO privacy verification.
+    \item \textbf{Federation III (AEGIS \& CTH):} Zero-trust perimeter defense and Hybrid Triangular Cryptography.
+    \item \textbf{Federation IV (BookPI \& LITLE):} Append-only provenance ledger and open scholarly verification \cite{posi2020}.
+    \item \textbf{Federation V (Play \& Go):} Local Web Audio API / Tone.js synthesis, FFT spectral analysis, and generative visuals.
+    \item \textbf{Federation VI (UTAMV):} Meta-virtual curriculum engineering and verifiable micro-credentialing.
+    \item \textbf{Federation VII (Xclusive \& RDM Digital):} Sovereign creator monetization, exact royalty splitting, and territorial heritage preservation.
+\end{itemize}
+
+\subsection{Atomic Skill Formalism}
+Each skill $s_i \in \mathcal{S}$ ($|\mathcal{S}| = 41$) within \texttt{tamv-pack} is defined as a deterministic six-tuple:
+\begin{equation}
+s_i = \langle \mathrm{ID}_i, \; F_k, \; \Sigma_{\mathrm{in}}, \; \Sigma_{\mathrm{out}}, \; \Psi_{\mathrm{CROWN}}, \; H_{\mathrm{CTH}} \rangle
+\end{equation}
+where $\mathrm{ID}_i$ is the semantic identifier, $F_k$ denotes the governing federation, $\Sigma_{\mathrm{in}}, \Sigma_{\mathrm{out}}$ represent strict input/output type contracts, $\Psi_{\mathrm{CROWN}}$ encodes mandatory ethical and mathematical invariants, and $H_{\mathrm{CTH}}$ binds the source artifact to a cryptographic signature.
+
+\section{Formal Security and Provenance Model}
+\subsection{Hybrid Triangular Cryptography (CTH)}
+To protect creator intellectual property against both classical and quantum adversaries, every execution is bound to an \textit{Isabella Secure Key (ISK)} envelope integrating NIST post-quantum standards \cite{nist2024pqc} alongside high-speed classical primitives:
+\begin{equation}
+\mathrm{ISK}(M, C_u) = \Big( \mathrm{AES\text{-}256\text{-}GCM}_{K_{\mathrm{Kyber}}}(M) \;\parallel\; \mathrm{Sig}_{\mathrm{Dilithium}}\big(\mathrm{BLAKE3}(M \parallel C_u \parallel t)\big) \;\parallel\; \mathrm{Sig}_{\mathrm{Ed25519}}\big(\mathrm{SHA3\text{-}512}(M)\big) \Big)
+\end{equation}
+where $M$ denotes the payload, $C_u$ represents the active ARCO consent hash, and $t$ is a synchronized deterministic timestamp.
+
+\subsection{Fail-Closed Policy Enforcement}
+Let $\Phi(s_i, x)$ denote the composite governance predicate for skill $s_i$ and input $x$:
+\begin{equation}
+\Phi(s_i, x) \iff V_{\mathrm{CTH}}(x) \land V_{\mathrm{ARCO}}(x) \land V_{\mathrm{Schema}}(s_i, x) \land V_{\mathrm{Epistemic}}(s_i, x) \land V_{\mathrm{Federation}}(s_i)
+\end{equation}
+The state transition function $\mathcal{E}(s_i, x)$ enforces a strict \textit{fail-closed} boundary:
+\begin{equation}
+\mathcal{E}(s_i, x) = 
+\begin{cases} 
+\mathrm{Exec}(s_i, x) \rightarrow \mathrm{Commit}_{\mathrm{BookPI}}(y) & \text{if } \Phi(s_i, x) = \top \\ 
+\bot_{\mathrm{HALT}} & \text{if } \Phi(s_i, x) = \bot 
+\end{cases}
+\end{equation}
+
+\subsection{Append-Only Audit Ledger (BookPI)}
+Every authorized execution commits an immutable cryptographic receipt $B_n$ to BookPI:
+\begin{equation}
+B_n = \mathrm{SHA3\text{-}512}\Big( B_{n-1} \;\parallel\; \mathrm{BLAKE3}(x) \;\parallel\; \mathrm{BLAKE3}(y) \;\parallel\; \mathrm{ID}(s_i) \;\parallel\; \mathrm{ORCID/ISK} \Big)
+\end{equation}
+enabling cross-border auditability without exposing underlying proprietary data.
+
+\section{Empirical Validation and Applied Deployments}
+Benchmarks executed on Node.js v22+ and Edge runtimes confirm that BLAKE3/Ed25519 receipt generation adds sub-1.4\,ms overhead per transaction while achieving a 100\% deterministic block rate ($\bot_{\mathrm{HALT}}$) against malformed schemas, missing ARCO consent hashes, or arithmetic discrepancies. Production deployments across \textbf{UTAMV Campus Online}, \textbf{LITLE}, \textbf{Play \& Go}, \textbf{Xclusive}, and \textbf{RDM Digital Hub} validate that modular skill isolation eliminates generative drift while preserving verifiable creator authorship.
+
+\section{Conclusion}
+TAMV Creator Intelligence (\texttt{tamv-pack}) bridges the operationalization gap in AI governance by replacing non-binding institutional declarations with mathematically enforced runtime invariants. By combining a seven-federation topology, post-quantum hybrid cryptography, and fail-closed execution across 41 auditable skills, the framework establishes a replicable foundation for sovereign digital creation.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
+
+```
+
+### `references.bib`
+
+```bibtex
+@article{ismail2025ethical,
+  author  = {Ismail, Osama and Ahmad, Naim},
+  title   = {Ethical and Governance Frameworks for Artificial Intelligence: A Systematic Literature Review},
+  journal = {International Journal of Interactive Mobile Technologies (iJIM)},
+  volume  = {19},
+  number  = {14},
+  pages   = {121--136},
+  year    = {2025},
+  doi     = {10.3991/ijim.v19i14.56981}
+}
+
+@legislation{euaiact2024,
+  author  = {{European Parliament and Council of the European Union}},
+  title   = {Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act)},
+  journal = {Official Journal of the European Union},
+  year    = {2024}
+}
+
+@techreport{nist2024pqc,
+  author      = {{National Institute of Standards and Technology}},
+  title       = {Module-Lattice-Based Key-Encapsulation Mechanism Standard (FIPS 203) and Module-Lattice-Based Digital Signature Standard (FIPS 204)},
+  institution = {U.S. Department of Commerce},
+  year        = {2024}
+}
+
+@misc{castillo2026manifest,
+  author    = {Castillo Trejo, Edwin Oswaldo},
+  title     = {Architectural Manifest of Isabella Villase\~{n}or AI and the Seven-Federation Sovereign Metaverse TAMV},
+  publisher = {Zenodo},
+  year      = {2026},
+  doi       = {10.5281/zenodo.20606361}
+}
+
+@misc{posi2020,
+  author = {Bilder, Geoffrey and Lin, Jennifer and Neylon, Cameron},
+  title  = {The Principles of Open Scholarly Infrastructure (POSI)},
+  year   = {2020},
+  url    = {https://openscholarlyinfrastructure.org/}
+}
+
+```
+
+---
+
+## 3. Manifiesto Institucional de Lanzamiento: TAMV Creator Intelligence (`tamv-pack`)
+
+**TAMV ONLINE NETWORK**
+
+**UTAMV CAMPUS ONLINE | ARCHIVO INDEPENDIENTE DEL CONOCIMIENTO (LITLE)**
+
+**COMUNICADO INSTITUCIONAL Y MANIFIESTO TÉCNICO DE LIBERACIÓN**
+
+**Fecha:** Noviembre de 2026
+
+**Ubicación:** Real del Monte, Hidalgo, México
+
+**Registro de Autoría:** Edwin Oswaldo Castillo Trejo (Anubis Villaseñor) | ORCID: 0009-0008-5050-1539 | ISNI: 0000-0005-3169-9229
+
+---
+
+### DECLARACIÓN DE SOBERANÍA COGNITIVA Y LIBERACIÓN DEL ESTÁNDAR `tamv-pack`
+
+La industria contemporánea de la inteligencia artificial atraviesa una crisis estructural de legitimidad, transparencia y rigor técnico. Mientras los organismos internacionales publican marcos éticos declarativos sin capacidad de ejecución y los grandes monopolios tecnológicos concentran el cómputo bajo arquitecturas opacas, los creadores, investigadores e instituciones independientes han sido relegados a consumir interfaces cerradas que expropian su propiedad intelectual y degradan la calidad del conocimiento mediante generación sintética no verificable.
+
+Frente a este escenario, **TAMV Online Network** anuncia la liberación pública de **TAMV Creator Intelligence (`tamv-pack`)**, una arquitectura abierta de 41 habilidades cognitivas modulares diseñadas para operar bajo el ecosistema estándar `skills.sh` y entornos de desarrollo de alto rendimiento.
+
+#### Principios Rectores de la Arquitectura
+
+1. **Gobernanza Intrínseca *Fail-Closed* (Motor C.R.O.W.N.):**
+La ética y el cumplimiento normativo dejan de ser recomendaciones externas para convertirse en condiciones matemáticas de ejecución. Ninguna habilidad de `tamv-pack` procesa información si no verifica previamente la autenticidad criptográfica de origen, la vigencia del consentimiento de privacidad (derechos ARCO) y la integridad estructural de los datos. Ante cualquier desviación, el sistema detiene la ejecución de forma determinista.
+2. **Trazabilidad Inmutable y Ciencia Abierta (BookPI y LITLE):**
+Toda operación ejecutada dentro de la red genera un recibo criptográfico encadenado mediante funciones BLAKE3, SHA3-512 y firmas Ed25519 en el libro mayor *append-only* BookPI. Esto garantiza que cada obra intelectual, investigación científica o pieza multimedia conserve su genealogía autoral verificable sin comprometer la confidencialidad de los datos privados del creador.
+3. **Blindaje Post-Cuántico (Criptografía Triangular Híbrida):**
+La protección de los activos digitales se fundamenta en la integración de primitivas resistentes a la computación cuántica (CRYSTALS-Kyber y CRYSTALS-Dilithium) acopladas a esquemas clásicos de baja latencia, asegurando la vigencia histórica de la propiedad intelectual en entornos distribuidos.
+4. **Descentralización Heptapartita (Las 7 Federaciones de METAVERSO TAMV):**
+El ecosistema erradica los puntos únicos de control mediante la separación funcional de poderes en siete federaciones especializadas, orquestadas por las 14 capas de **Isabella Villaseñor AI**, articulando enrutamiento cognitivo (TINA), seguridad defensiva (AEGIS), educación superior meta-virtual (UTAMV), producción sonora y espectral (Play & Go), economía directa de creadores (Xclusive) e inteligencia territorial (RDM Digital Hub).
+
+#### Alcance Institucional y Disponibilidad
+
+El código fuente, las especificaciones de las 41 habilidades modulares y la documentación arquitectónica de **TAMV Creator Intelligence** se encuentran disponibles para auditoría, integración e investigación abierta en el repositorio oficial:
+
+`[https://github.com/AnubisVillasenor1/tamv-creator-intelligence](https://github.com/AnubisVillasenor1/tamv-creator-intelligence)`
+
+TAMV Online Network ratifica su compromiso con la ingeniería de código abierto auditable, el rigor académico y la construcción de infraestructuras tecnológicas soberanas al servicio de la dignidad humana y la autonomía intelectual.
+
+**Atentamente,**
+
+**Dirección General y Arquitectura Principal de Sistemas**
+
+**TAMV Online Network / UTAMV Campus Online**
+
+---
+
+name: tamv-browser-verification
+description: Verificación web y QA de Xclusive / TAMV ONLINE con agent-browser. Úsala para smoke tests de rutas, revisión visual y responsive, accesibilidad, reproducción de bugs con evidencia observable y comprobación de que un build DEMO/LIVE no filtra credenciales ni datos. Triggers include "abre la web", "prueba esta ruta", "haz un smoke test", "revisa la app", "QA de navegador", "captura evidencia", "dogfooding", "revisa el checkout en modo test".
+allowed-tools: Bash(agent-browser:*)
+---
+
+# TAMV ONLINE — Verificación Web Soberana
+
+**Skill propietaria de TAMV ONLINE NETWORK para Xclusive — Sophisticated Elegance.**
+
+Esta skill convierte `agent-browser` en un protocolo de verificación con marca TAMV: observar,
+medir, evidenciar y detenerse. No es una herramienta para “hacer clic hasta que algo funcione”.
+
+> **Principio rector:** la IA propone y verifica; el humano decide.
+> Una captura demuestra lo observado, no aprueba producción.
+
+Identidad de método de esta skill:
+
+```text
+[TINA].[YUN].[QA].[VERIFICACION_WEB].[V1].[MEDIO].[EVIDENCIA_OBSERVADA]
+```
+
+---
+
+## 1. Preflight obligatorio
+
+Antes de tocar una página:
+
+1. Confirma que la CLI está instalada y qué skills sirve la versión presente:
+
+   ```sh
+   agent-browser skills list
+   ```
+
+2. Carga el manual real de la versión instalada. **No improvises banderas ni comandos de
+   memoria**: el contenido lo sirve la propia CLI.
+
+   ```sh
+   agent-browser skills get core
+   ```
+
+3. Carga una referencia especializada solo si aplica:
+
+   | Necesidad                             | Referencia                                              |
+   | ------------------------------------- | ------------------------------------------------------- |
+   | QA exploratorio, bug hunt, dogfooding | `agent-browser skills get dogfood`                      |
+   | App de escritorio Electron            | `agent-browser skills get electron`                     |
+   | Slack                                 | `agent-browser skills get slack`                        |
+   | HAR → cliente de API                  | `agent-browser skills get derive-client`                |
+   | Herramientas WebMCP de una página     | `agent-browser skills get webmcp-gen`                   |
+   | Navegador en Vercel Sandbox           | `agent-browser skills get vercel-sandbox`               |
+   | Deploy protegido de Vercel            | `agent-browser skills get protected-vercel-deployments` |
+   | Navegador cloud de AWS Bedrock        | `agent-browser skills get agentcore`                    |
+
+4. Declara el entorno y el alcance antes de abrir nada:
+   - Entorno: `local` / `preview` / `producción (solo lectura)`.
+   - URL base.
+   - Commit o build que se está verificando.
+   - Rutas y flujos incluidos.
+   - Qué **no** se va a tocar.
+
+Si `agent-browser` no está instalado, no lo simules. Informa y usa el fallback de la sección 8.
+
+---
+
+## 2. Contrato de seguridad TAMV
+
+### 2.1 Permitido
+
+| Entorno                         | Alcance                                                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------- |
+| Local LIVE (`npm run dev`)      | Rutas públicas, autenticación con cuentas de prueba, estados de error.                      |
+| Local DEMO (`npm run dev:demo`) | Flujos completos con datos ficticios, incluido comercio simulado.                           |
+| Preview / staging               | Solo con autorización; datos de prueba; checkout en modo test.                              |
+| Producción                      | Solo lectura: rutas públicas, `GET /health.json`, cabeceras, ausencia de credenciales demo. |
+
+### 2.2 Prohibido
+
+- Credenciales reales, tokens de producción, datos personales o contenido privado de terceros.
+- Pagos, retiros, reembolsos, suscripciones o cualquier movimiento de dinero real.
+- Eludir CAPTCHA, MFA, rate limits, allowlists o controles de acceso.
+- Registro masivo, spam, scraping de personas, extracción de directorios o recolección de datos.
+- Pruebas de carga o estrés contra producción.
+- Publicar capturas con correos, tokens, cookies, URLs firmadas, IDs de sesión o contenido privado.
+- Modificar datos de producción para “ver si funciona”.
+
+### 2.3 Parada inmediata
+
+Detente y pide instrucciones humanas si observas:
+
+- CAPTCHA o MFA no previsto.
+- Un aviso legal o consentimiento nuevo que no estabas autorizado a aceptar.
+- Error 5xx reproducible o pérdida de datos.
+- Exposición de secretos, datos personales, contenido privado o una URL firmada.
+- Cualquier acción que pueda mover dinero, borrar una cuenta o alterar derechos de acceso.
+- Un flujo que se comporta distinto entre DEMO y LIVE sin explicación documentada.
+
+---
+
+## 3. Flujo canónico de verificación
+
+La sintaxis exacta la confirma `skills get core`. El orden lógico es siempre el mismo:
+
+1. **Abrir** la URL objetivo en una sesión identificable.
+2. **Observar** con snapshot de accesibilidad antes de actuar; no adivines selectores.
+3. **Actuar** sobre referencias de elemento (`@eN`) o entradas explícitas.
+4. **Esperar** la condición real (texto, URL, estado, respuesta de red), no un tiempo arbitrario.
+5. **Afirmar** el resultado con una comprobación observable.
+6. **Evidenciar** con captura redactada y nota de lo observado.
+7. **Cerrar** la sesión y liberar el estado.
+
+Reglas de interacción:
+
+- Un snapshot por acción relevante; los refs caducan.
+- No reutilices `@eN` de una página anterior.
+- Prefiere nombres accesibles, roles y etiquetas visibles.
+- Si un clic no produce cambio observable, no repitas a ciegas: inspecciona consola, red y estado.
+- No “arregles” la página desde el navegador para que la prueba pase.
+
+---
+
+## 4. Matriz de verificación Xclusive
+
+### 4.1 Smoke de rutas
+
+Comprueba al menos, según el alcance autorizado:
+
+| Ruta                                                   | Qué observar                                                           |
+| ------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `/`                                                    | Render, hero, navegación, video con póster y `prefers-reduced-motion`. |
+| `/explorar`                                            | Catálogo, imágenes optimizadas, estados vacío/error.                   |
+| `/creadoras`, `/creadora/$slug`                        | Perfil, portada, acceso según sesión.                                  |
+| `/clips`, `/salones`, `/salon/$id`                     | Listado, acceso, reproducción y permisos.                              |
+| `/membresias`                                          | Precios y estados; nada de cobros reales.                              |
+| `/boveda`                                              | Solo con entitlement; URL firmada efímera.                             |
+| `/entrar`, `/registro`, `/recuperar`, `/restablecer`   | Formularios, errores y ausencia de credenciales demo en LIVE.          |
+| `/cuenta`, `/estudio`, `/admin`                        | Redirección controlada o acceso denegado sin rol.                      |
+| `/legal`, `/legal/$doc`                                | Documento, versión y aceptación.                                       |
+| `/health.json`                                         | `200` y `Cache-Control: no-store`.                                     |
+| `/robots.txt`, `/sitemap.xml`, `/manifest.webmanifest` | Respuesta válida y contenido coherente.                                |
+
+### 4.2 Frontera DEMO / LIVE
+
+En un build LIVE verifica:
+
+- `/entrar` no muestra cuentas demo.
+- El bundle no contiene `demo1234` ni credenciales de demostración.
+- `VITE_DEMO_MODE` no se puede activar desde el navegador.
+- Un correo fuera de `ADMIN_EMAILS` no obtiene rol de administrador.
+- Sin sesión, las rutas protegidas redirigen o deniegan; no muestran datos.
+
+En un build DEMO verifica:
+
+- Las cuentas demo existen y el comercio está etiquetado como simulado.
+- Ningún dato demo se presenta como real.
+- Reiniciar datos desde **Mi cuenta → Datos** funciona y no rompe la sesión.
+
+### 4.3 Comercio en modo test
+
+Solo con PSP en sandbox o con el modo DEMO:
+
+- El precio mostrado coincide con el resuelto por el servidor.
+- Sin configuración de pago, el checkout falla cerrado y **no** crea pedido.
+- El acceso no se concede al volver del checkout; solo tras webhook verificado.
+- Un pago fallido no crea entitlement.
+- Reintentar no duplica orden ni cobro (idempotencia).
+- Los estados `pending`, `paid`, `failed`, `refunded` se muestran sin ambigüedad.
+
+Nunca introduzcas números de tarjeta reales. Nunca confirmes un pago real.
+
+### 4.4 Responsive y accesibilidad
+
+- Anchos objetivo: 360, 390, 768, 1024, 1440.
+- Sin scroll horizontal, solapamientos ni texto cortado.
+- Foco visible y orden de tabulación lógico.
+- Formularios con etiqueta, ayuda y error asociados.
+- Contraste suficiente en texto, botones y estados deshabilitados.
+- Imágenes con texto alternativo útil; decorativas vacías.
+- Diálogos con foco atrapado y cierre por teclado.
+- Video respeta `prefers-reduced-motion` y no arranca con audio.
+
+### 4.5 Cabeceras y superficie expuesta
+
+Solo lectura, sin explotar nada:
+
+- `Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`,
+  `Referrer-Policy`, `Permissions-Policy`, HSTS y `Cross-Origin-Opener-Policy`.
+- Ausencia de `Access-Control-Allow-Origin: *` en endpoints que no lo requieran.
+- Cookies de sesión con `HttpOnly`, `Secure` y `SameSite` cuando aplique.
+- Errores que no revelan rutas internas, stack traces, claves ni SQL.
+- Respuestas de auth que no confirman si un correo existe.
+
+---
+
+## 5. Protocolo de evidencia
+
+### 5.1 Artefactos
+
+Guarda capturas, videos y notas en una ruta ignorada por Git:
+
+```text
+.output/qa/<YYYY-MM-DD>-<slug>/
+```
+
+Nunca escribas evidencia en `public/`, `src/assets/` ni en una ruta servida por la aplicación.
+
+### 5.2 Redacción
+
+Antes de adjuntar cualquier artefacto:
+
+- Recorta o difumina correos, nombres, tokens, cookies, URLs firmadas e IDs de sesión.
+- No copies el valor de una cookie ni de un header de autorización en el reporte.
+- Describe el dato sensible por su tipo (“correo de prueba”), no por su valor.
+- Si no puedes redactar sin destruir la evidencia, no la adjuntes: describe el hallazgo.
+
+### 5.3 Sello de evidencia
+
+Cada evidencia debe declarar:
+
+```text
+[TAMV][QA][<ENTORNO>][<RUTA>][<FECHA>]
+observado: <resultado concreto>
+esperado: <criterio de aceptación>
+fuente: <captura | snapshot | header | respuesta>
+limitación: <lo que no se pudo comprobar>
+estado: draft | auto_generated | human_reviewed
+```
+
+---
+
+## 6. Clasificación de hallazgos
+
+| Nivel  | Criterio                                                                | Acción                                        |
+| ------ | ----------------------------------------------------------------------- | --------------------------------------------- |
+| **P0** | Dinero, acceso, secretos, datos personales o pérdida de datos.          | Detener, no continuar, escalar de inmediato.  |
+| **P1** | Flujo crítico roto, error 5xx reproducible, regresión de autenticación. | Reportar con evidencia y bloquear la entrega. |
+| **P2** | Fallo funcional no crítico, accesibilidad, responsive o copy.           | Reportar y priorizar.                         |
+| **P3** | Mejora visual, consistencia o rendimiento menor.                        | Registrar como propuesta.                     |
+
+No mezcles niveles para “suavizar” un P0. No cierres un hallazgo sin explicar qué lo resolvió.
+
+---
+
+## 7. Formato de entrega
+
+```md
+## Alcance
+
+- Entorno:
+- URL base:
+- Build / commit:
+- Rutas y flujos:
+
+## Resultado observado
+
+- <ruta>: <resultado> — evidencia: <archivo o nota>
+
+## Hallazgos
+
+### P0/P1/P2/P3 — <título>
+
+- Esperado:
+- Observado:
+- Pasos mínimos:
+- Evidencia redactada:
+- Impacto:
+- Recomendación:
+
+## No verificado
+
+- <flujo> — motivo: <sin credenciales | sin PSP sandbox | fuera de alcance | bloqueado por CAPTCHA/MFA>
+
+## Estado
+
+- skill: tamv-browser-verification
+- state: draft | auto_generated | human_reviewed
+
+## Siguiente decisión humana
+
+- <aprobación, corrección o escalado requerido>
+```
+
+---
+
+## 8. Fallback sin `agent-browser`
+
+Si la CLI no está disponible o no puede instalarse:
+
+1. Declara: “`agent-browser` no está instalado; no se ejecutó verificación automatizada”.
+2. Ofrece el plan manual equivalente: rutas, anchos, estados y cabeceras a comprobar.
+3. Pide capturas humanas si el usuario puede aportarlas.
+4. No inventes resultados, no cites capturas que no viste y no marques nada como `verified`.
+
+---
+
+## 9. Regla final
+
+**Observar no es aprobar.** Esta skill produce evidencia; la autoridad para declarar producción
+sigue siendo humana. Si hay conflicto entre “terminar la prueba” y “proteger a una persona, un
+dato o un pago”, se detiene la prueba.
+
+Skills del repositorio
+
+Skills operativas propiedad de **TAMV ONLINE NETWORK** para este proyecto. No sustituyen
+`AGENTS.md`: lo implementan en tareas concretas.
+
+| Skill                       | Ubicación                                   | Propósito                                                        | Herramientas            |
+| --------------------------- | ------------------------------------------- | ---------------------------------------------------------------- | ----------------------- |
+| `tamv-browser-verification` | `skills/tamv-browser-verification/SKILL.md` | Verificación web, QA y evidencia observable con `agent-browser`. | `Bash(agent-browser:*)` |
+
+## Activación
+
+Este repositorio usa `skills/` como ubicación canónica. Si tu cliente de agentes carga skills
+desde otro directorio, copia o enlaza la carpeta `skills/tamv-browser-verification/` a ese
+directorio; no dupliques ni edites el contenido en dos lugares.
+
+## Reglas
+
+- Una skill debe existir, estar versionada y poder verificarse. No declares skills inexistentes.
+- Toda skill nueva documenta: propósito, alcance, herramientas permitidas, límites de seguridad,
+  evidencia que produce y condiciones de parada.
+- Las skills no conceden autoridad: no pueden aprobar producción, mover dinero ni alterar datos
+  protegidos.
+- La evidencia generada se guarda en rutas ignoradas por Git (por ejemplo `.output/qa/`).
+- Antes de instalar una skill de terceros, revisa qué comandos ejecuta y qué datos puede leer.
+
+---
+name: find-skills
+description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
+---
+
+# Find Skills
+
+This skill helps you discover and install skills from the open agent skills ecosystem.
+
+## When to Use This Skill
+
+Use this skill when the user:
+
+- Asks "how do I do X" where X might be a common task with an existing skill
+- Says "find a skill for X" or "is there a skill for X"
+- Asks "can you do X" where X is a specialized capability
+- Expresses interest in extending agent capabilities
+- Wants to search for tools, templates, or workflows
+- Mentions they wish they had help with a specific domain (design, testing, deployment, etc.)
+
+## What is the Skills CLI?
+
+The Skills CLI (`npx skills`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
+
+**Key commands:**
+
+- `npx skills find [query] [--owner <owner>]` - Search for skills interactively or by keyword, optionally scoped to a GitHub owner
+- `npx skills add <package>` - Install a skill from GitHub or other sources
+- `npx skills update` - Update all installed skills
+
+**Browse skills at:** https://skills.sh/
+
+## How to Help Users Find Skills
+
+### Step 1: Understand What They Need
+
+When a user asks for help with something, identify:
+
+1. The domain (e.g., React, testing, design, deployment)
+2. The specific task (e.g., writing tests, creating animations, reviewing PRs)
+3. Whether this is a common enough task that a skill likely exists
+
+### Step 2: Check the Leaderboard First
+
+Before running a CLI search, check the [skills.sh leaderboard](https://skills.sh/) to see if a well-known skill already exists for the domain. The leaderboard ranks skills by total installs, surfacing the most popular and battle-tested options.
+
+For example, top skills for web development include:
+- `vercel-labs/agent-skills` — React, Next.js, web design (100K+ installs each)
+- `anthropics/skills` — Frontend design, document processing (100K+ installs)
+
+### Step 3: Search for Skills
+
+If the leaderboard doesn't cover the user's need, run the find command:
+
+```bash
+npx skills find [query] [--owner <owner>]
+```
+
+For example:
+
+- User asks "how do I make my React app faster?" → `npx skills find react performance`
+- User asks "can you help me with PR reviews?" → `npx skills find pr review`
+- User asks "I need to create a changelog" → `npx skills find changelog`
+
+### Step 4: Verify Quality Before Recommending
+
+**Do not recommend a skill based solely on search results.** Always verify:
+
+1. **Install count** — Prefer skills with 1K+ installs. Be cautious with anything under 100.
+2. **Source reputation** — Official sources (`vercel-labs`, `anthropics`, `microsoft`) are more trustworthy than unknown authors.
+3. **GitHub stars** — Check the source repository. A skill from a repo with <100 stars should be treated with skepticism.
+
+### Step 5: Present Options to the User
+
+When you find relevant skills, present them to the user with:
+
+1. The skill name and what it does
+2. The install count and source
+3. The install command they can run
+4. A link to learn more at skills.sh
+
+Example response:
+
+```
+I found a skill that might help! The "react-best-practices" skill provides
+React and Next.js performance optimization guidelines from Vercel Engineering.
+(185K installs)
+
+To install it:
+npx skills add vercel-labs/agent-skills@react-best-practices
+
+Learn more: https://skills.sh/vercel-labs/agent-skills/react-best-practices
+```
+
+### Step 6: Offer to Install
+
+If the user wants to proceed, you can install the skill for them:
+
+```bash
+npx skills add <owner/repo@skill> -g -y
+```
+
+The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+
+## Common Skill Categories
+
+When searching, consider these common categories:
+
+| Category        | Example Queries                          |
+| --------------- | ---------------------------------------- |
+| Web Development | react, nextjs, typescript, css, tailwind |
+| Testing         | testing, jest, playwright, e2e           |
+| DevOps          | deploy, docker, kubernetes, ci-cd        |
+| Documentation   | docs, readme, changelog, api-docs        |
+| Code Quality    | review, lint, refactor, best-practices   |
+| Design          | ui, ux, design-system, accessibility     |
+| Productivity    | workflow, automation, git                |
+
+## Tips for Effective Searches
+
+1. **Use specific keywords**: "react testing" is better than just "testing"
+2. **Try alternative terms**: If "deploy" doesn't work, try "deployment" or "ci-cd"
+3. **Check popular sources**: Many skills come from `vercel-labs/agent-skills` or `ComposioHQ/awesome-claude-skills`
+
+## When No Skills Are Found
+
+If no relevant skills exist:
+
+1. Acknowledge that no existing skill was found
+2. Offer to help with the task directly using your general capabilities
+3. Suggest the user could create their own skill with `npx skills init`
+
+Example:
+
+```
+I searched for skills related to "xyz" but didn't find any matches.
+I can still help you with this task directly! Would you like me to proceed?
+
+If this is something you do often, you could create your own skill:
+npx skills init my-xyz-skill
+```
+

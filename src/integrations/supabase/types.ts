@@ -14,6 +14,176 @@ export type Database = {
   }
   public: {
     Tables: {
+      governance_evidence: {
+        Row: {
+          action: string
+          created_at: string
+          decision: string
+          id: string
+          payload_digest: string
+          policy_digest: string
+          project_id: string | null
+          reason_codes: Json
+          request_digest: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          decision: string
+          id?: string
+          payload_digest: string
+          policy_digest: string
+          project_id?: string | null
+          reason_codes: Json
+          request_digest: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          decision?: string
+          id?: string
+          payload_digest?: string
+          policy_digest?: string
+          project_id?: string | null
+          reason_codes?: Json
+          request_digest?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      governance_memories: {
+        Row: {
+          consent_at: string
+          content: Json
+          created_at: string
+          expires_at: string
+          id: string
+          project_id: string
+          user_id: string
+        }
+        Insert: {
+          consent_at?: string
+          content: Json
+          created_at?: string
+          expires_at: string
+          id?: string
+          project_id: string
+          user_id: string
+        }
+        Update: {
+          consent_at?: string
+          content?: Json
+          created_at?: string
+          expires_at?: string
+          id?: string
+          project_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      governance_permits: {
+        Row: {
+          artifact_digest: string
+          audience: string
+          consumed_at: string | null
+          evidence_id: string
+          expires_at: string
+          id: string
+          idempotency_key: string
+          nonce: string
+          not_before: string
+          project_id: string
+          request_digest: string
+          user_id: string
+        }
+        Insert: {
+          artifact_digest: string
+          audience: string
+          consumed_at?: string | null
+          evidence_id: string
+          expires_at: string
+          id?: string
+          idempotency_key: string
+          nonce?: string
+          not_before?: string
+          project_id: string
+          request_digest: string
+          user_id: string
+        }
+        Update: {
+          artifact_digest?: string
+          audience?: string
+          consumed_at?: string | null
+          evidence_id?: string
+          expires_at?: string
+          id?: string
+          idempotency_key?: string
+          nonce?: string
+          not_before?: string
+          project_id?: string
+          request_digest?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "governance_permits_evidence_id_fkey"
+            columns: ["evidence_id"]
+            isOneToOne: false
+            referencedRelation: "governance_evidence"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      governance_projects: {
+        Row: {
+          approval_digest: string | null
+          artifact: Json
+          brief: string
+          coordinator: string
+          created_at: string
+          digest: string
+          id: string
+          revision: number
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          workflow: string
+        }
+        Insert: {
+          approval_digest?: string | null
+          artifact: Json
+          brief: string
+          coordinator: string
+          created_at?: string
+          digest: string
+          id?: string
+          revision?: number
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+          workflow: string
+        }
+        Update: {
+          approval_digest?: string | null
+          artifact?: Json
+          brief?: string
+          coordinator?: string
+          created_at?: string
+          digest?: string
+          id?: string
+          revision?: number
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          workflow?: string
+        }
+        Relationships: []
+      }
       tamv_ai_projects: {
         Row: {
           approved_version: number | null
@@ -144,6 +314,49 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      consume_governance_permit: {
+        Args: {
+          p_audience: string
+          p_digest: string
+          p_id: string
+          p_nonce: string
+        }
+        Returns: boolean
+      }
+      execute_local_governance_project: {
+        Args: {
+          p_key: string
+          p_memory_consent?: boolean
+          p_project: string
+          p_retention_days?: number
+        }
+        Returns: Json
+      }
+      record_governance_decision: {
+        Args: {
+          p_action: string
+          p_decision: string
+          p_payload_digest: string
+          p_policy_digest: string
+          p_project: string
+          p_reasons: Json
+          p_request_digest: string
+        }
+        Returns: string
+      }
+      tamv_hypercore_audit_append: {
+        Args: {
+          p_core: string
+          p_details: Json
+          p_event_name: string
+          p_input_hash: string
+          p_lane: string
+          p_occurred_at: string
+          p_phase: string
+          p_trace_id: string
+        }
+        Returns: undefined
+      }
       tamv_project_action: {
         Args: {
           p_action: string

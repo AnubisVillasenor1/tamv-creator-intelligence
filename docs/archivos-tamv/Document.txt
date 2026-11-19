@@ -1,0 +1,1087 @@
+COMPENDIO CIVILIZATORIO 
+Documento institucional de trazabilidad, memoria 
+técnica, evidencia pública e interconexión 
+metodológica global 
+Ecosistema organizacional: TAMV Online Network™ / TAMV Online Enterprise 
+Firma de gobernanza digital: Anubis Villaseñor 
+Autor legal e investigador principal: Edwin Oswaldo Castillo Trejo 
+Radicación territorial: Real del Monte (Mineral del Monte), Hidalgo, México 
+Identificadores científicos internacionales: ORCID 0009-0008-5050-1539 | ISNI 
+0000000531699229 
+Clasificación epistémica: Arquitectura de Sistemas Civilizatorios, soberanía 
+tecnológica, ciencia abierta, gobernanza de IA e infraestructura federada 
+Licencia sugerida: Creative Commons Attribution 4.0 International (CC BY 4.0) 
+Fecha de consolidación: 8 de noviembre de 2026 
+Estado del documento: Versión pública de trazabilidad, sujeta a actualización 
+mediante evidencia adicional, auditorías técnicas y procesos editoriales 
+verificables.[github] 
+ 
+1. Declaración de propósito y principio de no conflicto 
+Este documento se propone como un artefacto público de memoria técnica, 
+trazabilidad empírica y preservación histórica, apto para su depósito y indexación en 
+plataformas de ciencia abierta, particularmente Zenodo, Figshare, ResearchGate y el 
+perfil ORCID del autor. Su finalidad no es generar conflictos, confrontaciones 
+institucionales ni malos entendidos con plataformas tecnológicas, editoriales, 
+intermediarios comerciales o entidades de validación convencional. 
+
+Su propósito es epistémico, metodológico y archivístico: documentar de forma 
+transparente los hitos verificables del desarrollo del ecosistema TAMV Online Network, 
+las interacciones con plataformas públicas, los reconocimientos externos recibidos, 
+las tensiones estructurales documentadas y los límites epistémicos de cada 
+afirmación. 
+En el marco de la propuesta de Arquitectura de Sistemas Civilizatorios, se sostiene que 
+toda infraestructura digital incorpora decisiones operativas y políticas implícitas: 
+define quién controla los datos, cómo se comparten, quién puede auditarlos, qué 
+grado de autonomía conserva la persona o comunidad que los genera y bajo qué 
+condiciones puede ser corregida, cuestionada o sustituida. Por ello, registrar barreras, 
+validaciones, límites y evidencias no es un acto accesorio, sino parte del método de 
+trabajo. 
+El principio rector de este registro es: la evidencia debe preceder al claim; la 
+autoridad humana debe permanecer por encima de la capacidad computacional. 
+En consecuencia, cada afirmación incluida aquí se clasifica según su nivel de 
+corroboración y no se presenta como conclusión definitiva cuando la evidencia 
+disponible aún no lo permite. 
+ 
+2. Fundamento filosófico: guía para las nuevas 
+generaciones 
+Este compendio está diseñado para funcionar como una guía metodológica y un mapa 
+de navegación para desarrolladores, ingenieros, creadores e investigadores 
+independientes de América Latina que enfrentan aislamiento, falta de financiamiento, 
+ausencia de padrinazgo institucional o dificultades para hacer visible su trabajo. 
+No se presenta como una promesa de éxito automático ni como una fórmula universal. 
+Se presenta como un registro práctico de que es posible construir, documentar, 
+versionar, depositar y someter a evaluación externa una propuesta técnica desde un 
+territorio periférico, sin renunciar a la autonomía intelectual ni depender 
+exclusivamente de estructuras corporativas. 
+Fines declarados 
+• Reducir la invisibilidad: dejar constancia pública de que una propuesta técnica 
+puede originarse en Real del Monte, Hidalgo, y participar en circuitos 
+académicos internacionales mediante evidencia verificable. 
+
+• Promover la trazabilidad: utilizar identificadores persistentes, versionamiento, 
+DOI, metadatos y repositorios abiertos para preservar autoría, cronología y 
+contenido. 
+• Distinguir evidencia de aspiración: separar claramente lo implementado, lo 
+documentado, lo invitado, lo pendiente de revisión y lo propuesto a futuro. 
+• Fortalecer la soberanía contextual: documentar alternativas de diseño que 
+prioricen control comunitario, interoperabilidad, auditoría y supervisión 
+humana.[github] 
+• Servir como precedente metodológico: ofrecer a nuevas generaciones un 
+ejemplo de persistencia documental, no una garantía de resultado. 
+El mensaje central para las nuevas generaciones es sencillo: documentar cada paso, 
+conservar la evidencia, distinguir la aspiración del hecho y construir con 
+paciencia. La invisibilidad no es una sentencia definitiva; puede convertirse, con 
+método y persistencia, en una trazabilidad capaz de abrir caminos. 
+ 
+3. Identidad, afiliación y trazabilidad académica 
+Campo Información verificable Nivel de evidencia 
+Nombre 
+legal Edwin Oswaldo Castillo Trejo Confirmado en ORCID, AutoresEditores y GitHub. [github] 
+Identidad 
+digital Anubis Villaseñor 
+Confirmado en ORCID, AutoresEditores, 
+GitHub y publicaciones del autor. 
+[github] 
+ORCID iD 0009-0008-5050-1539 Registro público ORCID. 
+ISNI 
+registrado 
+en ORCID 
+0000000531699229 Registrado en el perfil ORCID y en el perfil GitHub del autor. [github] 
+Ubicación 
+declarada 
+Mineral del Monte / Real del 
+Monte, Hidalgo, México 
+Confirmada en ORCID, AutoresEditores 
+y GitHub. [github] 
+Afiliación 
+declarada 
+TAMV Online Network / TAMV 
+Online Enterprise 
+Declaración del autor en ORCID, 
+AutoresEditores y GitHub. [github] 
+Rol 
+declarado 
+Director General de 
+Proyectos / CEO Fundador / 
+Arquitecto principal 
+Declaración del autor en ORCID y 
+GitHub. [github] 
+Actividad 
+declarada 
+Investigador independiente y 
+arquitecto de software Biografía pública en ORCID. 
+Perfil 
+Figshare Perfil de autor en Figshare Perfil público identificado. 
+
+Perfil 
+GitHub 
+principal 
+OsoPanda1 Perfil público identificado como “TAMV ONLINE ENTERPRISE”. [github] 
+Perfil 
+GitHub 
+adicional 
+AnubisVillasenor1 
+Enlace proporcionado por el autor; el 
+contenido no pudo ser recuperado en la 
+consulta actual. 
+Nota de precisión: la afiliación a TAMV Online Network, los roles de fundador, director 
+o arquitecto principal, y las descripciones de los componentes del ecosistema son 
+declaraciones de autoría incluidas en perfiles y repositorios públicos del propio autor. 
+No constituyen, por sí mismas, una certificación emitida por una institución académica 
+externa, una auditoría de seguridad independiente o una validación por pares.[github] 
+ 
+4. Huella digital y matriz de repositorios 
+La huella digital del proyecto se organiza en cinco dimensiones complementarias: 
+identidad académica, producción documental, divulgación creativa, desarrollo técnico 
+y presencia territorial. 
+Dimen
+sión 
+Canal o 
+repositorio 
+Conteni
+do 
+declara
+do 
+Estado de verificación 
+Identi
+dad 
+editori
+al 
+AutoresEdit
+ores — 
+@edwin.os
+waldo 
+Perfil de 
+Edwin 
+Oswaldo 
+Castillo 
+Trejo 
+como 
+CEO 
+fundado
+r de 
+TAMV 
+Online 
+Network
+; 
+ubicació
+n en 
+Mineral 
+Perfil público identificado; la verificación de 
+identidad, teléfono, correo y dirección es 
+declarada por la plataforma. 
+
+del 
+Monte, 
+Hidalgo. 
+Identi
+dad 
+acadé
+mica 
+ORCID 
+0009-0008-
+5050-1539 
+33 obras 
+registrad
+as, 
+incluyen
+do 
+informes
+, 
+preprint
+s, 
+ponenci
+as, 
+recursos 
+interacti
+vos y 
+docume
+ntos de 
+trabajo. 
+Registro público ORCID. 
+Reposi
+torio 
+de 
+investi
+gación 
+Figshare — 
+Edwin 
+Oswaldo 
+Castillo 
+Trejo 
+Depósit
+os y 
+recursos 
+vinculad
+os a la 
+producc
+ión 
+académi
+ca y 
+técnica 
+del 
+autor. 
+Perfil público identificado. 
+Arte 
+genera
+tivo y 
+sonor
+o 
+Suno AI y 
+Audio.com, 
+bajo 
+@anubisvi
+llasenor1 
+Producc
+ión 
+musical 
+y sonora 
+experim
+ental, 
+incluyen
+do 
+Declaración del autor; no se localizó evidencia 
+web indexada suficiente en la consulta actual para 
+auditar cada pieza. 
+
+“¿QUIE
+N SOY 
+YO?” y 
+“Angels 
+in the 
+cold”. 
+Desarr
+ollo 
+técnic
+o 
+GitHub, 
+bajo 
+@OsoPanda
+1 y 
+@AnubisVi
+llasenor1 
+Proyecto
+s 
+vinculad
+os a 
+TAMV 
+Online 
+Enterpri
+se, 
+biografía 
+extendid
+a, 
+arquitec
+tura 
+cognitiv
+a 
+Isabella 
+Cero, 
+compila
+ciones 
+filosófic
+o-
+técnicas 
+y 
+platafor
+ma play-
+and-go. 
+Perfil OsoPanda1 verificado; contenido de 
+AnubisVillasenor1 no recuperado en esta 
+consulta. [github] 
+Divulg
+ación 
+públic
+a 
+Blogs de 
+Blogspot y 
+enlaces de 
+Facebook 
+Docume
+ntación 
+narrativa
+, 
+manifies
+tos, 
+anuncio
+s, 
+Blogs identificados; publicaciones de Facebook no 
+auditables desde la web abierta en esta consulta. 
+[support.google][tamvonlinenetwork.blogspot][orc
+id][tamvonlinenetwork.blogspot][tamvonline-
+oficial.odoo][tamvonlinenetwork.blogspot][tamv-
+mdx4.blogspot] 
+
+cronolog
+ías y 
+material
+es de 
+posicion
+amiento 
+público. 
+Nota de trazabilidad: la existencia de un perfil, una cuenta, un repositorio o una 
+publicación no equivale, por sí sola, a evidencia de calidad técnica, seguridad, 
+adopción o validación externa. Cada componente debe evaluarse mediante 
+documentación, código, versionamiento, pruebas, auditorías y uso verificable cuando 
+corresponda.[github] 
+ 
+5. Producción académica y técnica registrada 
+El perfil ORCID del autor registra, hasta la fecha de consulta, 33 obras, incluyendo 
+informes, preprints, ponencias, recursos interactivos y documentos de trabajo 
+depositados principalmente en Zenodo y Figshare. 
+Esta producción constituye evidencia de actividad documental y de uso de 
+identificadores persistentes. No debe interpretarse automáticamente como evidencia 
+de aceptación por pares, replicación independiente, adopción institucional o 
+validación técnica externa, salvo en los casos específicos en que exista un proceso 
+editorial o de revisión documentado. 
+Selección de registros con DOI 
+Título Tipo DOI / identificador Fecha 
+Isabella Villaseñor 
+Génesis (v6.0), una 
+Infraestructura 
+Cognitiva 
+Constitucional (CCI) 
+soberana, autónoma 
+Preprint 10.5281/zenodo.23418238 
+16 de 
+octubre de 
+2026. 
+Isabella Villaseñor AI V6 
+Genesis Ω: Arquitectura 
+de Soberanía Cognitiva, 
+Gobernanza Federada y 
+Working 
+paper 10.5281/zenodo.23337697 
+13 de 
+octubre de 
+2026. 
+
+Control de Límites 
+Operativos 
+GAME OVER: 
+Governance 
+Architecture for 
+Multimodal Agent 
+Ethics, Oversight, 
+Verification, 
+Explainability and 
+Regulation 
+Working 
+paper 10.5281/zenodo.23313601 
+12 de 
+octubre de 
+2026. 
+Gobernanza soberana 
+frente a la disputa 
+global por la seguridad, 
+los modelos abiertos y 
+el control de 
+infraestructura 
+Informe 10.5281/zenodo.23034324 
+29 de 
+septiembre 
+de 2026. 
+Documento Magno 
+Canónico: RDM Digital 
+Hub y el Paradigma 
+TAMV 
+Informe 10.5281/zenodo.21694237 30 de julio de 2026. 
+Nodo Cero — RDM 
+Digital Hub: 
+Infraestructura 
+Tecnológica Soberana, 
+Inteligencia Territorial y 
+Cooperación 
+Multilateral 
+Ponencia 10.6084/m9.figshare.33029609 19 de julio de 2026. 
+Compendium of 
+Technological 
+Sovereignty: The TAMV 
+MD-X4 Heptafederated 
+Kernel 
+Recurso 
+interactivo 10.6084/m9.figshare.32135386 
+10 de 
+mayo de 
+2026. 
+Memoria Fundacional 
+TAMV ONLINE Ponencia 10.6084/m9.figshare.32337309 
+20 de 
+mayo de 
+2026. 
+Manifiesto Definitivo de 
+Soberanía Tecnológica 
+y Arquitectura 
+Civilizatoria 
+Documento 10.5281/zenodo.19411506 
+Fecha 
+registrada 
+en ORCID. 
+
+TAMV MD-X4 Kernel Documento técnico 10.5281/zenodo.19436662 
+Registro 
+declarado 
+por el 
+autor. 
+Isabella Cero / Isabella 
+Villaseñor AI™ 
+Documento 
+técnico 10.5281/zenodo.20071455 
+Registro 
+declarado 
+por el 
+autor. 
+Clasificación epistémica: estos registros demuestran autoría, depósito público, 
+versionamiento y trazabilidad. No demuestran, por sí mismos, revisión por pares, 
+replicación experimental independiente, adopción institucional o validación técnica 
+externa. 
+ 
+6. Componentes declarados del ecosistema TAMV 
+La documentación pública de TAMV Online Network describe un ecosistema orientado 
+a soberanía digital, identidad federada, trazabilidad, gobernanza de inteligencia 
+artificial y experiencias inmersivas. Los componentes principales declarados son los 
+siguientes.[github] 
+Componente Descripción declarada Estado epistémico 
+TAMV MD-X4 
+Kernel 
+Núcleo heptafederado orientado a la 
+portabilidad de identidad y datos, la 
+descentralización de servicios, la 
+federación de nodos y la trazabilidad 
+auditable. 
+Arquitectura conceptual y 
+documentación pública; 
+implementación y auditoría 
+externa no documentadas 
+en la evidencia consultada. 
+[github] 
+Isabella 
+Cero / 
+Isabella 
+Villaseñor 
+AI™ 
+Asistente cognitivo soberano 
+concebido como intermediario entre 
+solicitudes humanas y capacidades de 
+inferencia, memoria, herramientas, 
+aprendizaje y ejecución, con 
+gobernanza axiológica en tiempo real. 
+Documentada como 
+propuesta técnica y serie 
+de depósitos; no 
+constituye evidencia de 
+desempeño validado 
+externamente. [github] 
+RDM Digital 
+Hub & Smart 
+City OS 
+Iniciativa de infraestructura pública 
+local, IoT, inteligencia territorial y 
+gemelos digitales para Mineral del 
+Monte, Hidalgo. 
+Propuesta y 
+documentación 
+conceptual; no constituye 
+evidencia de despliegue 
+
+municipal o validación 
+institucional. [github] 
+RDM-TOS 
+Sistema operativo territorial orientado 
+a la gestión de datos contextuales, 
+expedientes, eventos, alertas y 
+memoria operacional local. 
+Arquitectura declarada en 
+el perfil GitHub; estado 
+operativo debe verificarse 
+mediante despliegues, 
+pruebas y registros 
+técnicos. [github] 
+MSR / 
+BookPI 
+Memoria causal y sistema de auditoría 
+orientado a relacionar decisiones, 
+código, evidencia, pruebas y 
+despliegues. 
+Marco de gobernanza 
+declarado; su eficacia 
+depende de registros 
+verificables y trazabilidad 
+efectiva. [github] 
+TAMV Online 
+Network 4D 
+Ecosistema que integra identidad 
+digital, IA, seguridad poscuántica, 
+experiencias XR/4D y gobernanza ética. 
+Visión de proyecto y 
+documentación pública; 
+alcance operativo debe 
+verificarse caso por caso. 
+[orcid][github] 
+Método 4L™ 
+Registro conceptual de autoría 
+vinculado a la arquitectura estratégica 
+emergente. 
+Documento depositado; no 
+constituye, por sí mismo, 
+una certificación técnica 
+externa. 
+Principios declarados en la arquitectura 
+El perfil GitHub de TAMV Online Enterprise formula cinco axiomas centrales: 
+1. Soberanía de datos: los datos deben conservar soberanía en su lugar de origen 
+para evitar que la memoria colectiva se degrade en extractivismo digital.[github] 
+2. Inteligencia territorial: la inteligencia artificial debe servir a las dinámicas vivas 
+del territorio, no sustituirlas por ruido sintético automatizado.[github] 
+3. Resiliencia operativa: un sistema debe poder sobrevivir, degradarse con 
+elegancia y recuperarse de sus fallas.[github] 
+4. Trazabilidad causal: toda decisión técnica o algorítmica debe poder 
+reconstruirse punto por punto.[github] 
+5. Autonomía cognitiva: una comunidad debe poder auditar, comprender y 
+cuestionar el código que influye en su entorno.[github] 
+Principio de honestidad técnica: la existencia de un whitepaper, un DOI, un 
+repositorio o una descripción arquitectónica no equivale a demostrar que un sistema 
+funcione a escala, sea seguro, sea adoptado por terceros o haya superado una 
+
+auditoría independiente. Estas distinciones deben mantenerse visibles en cualquier 
+registro público.[github] 
+ 
+7. Gobernanza técnica declarada 
+El perfil GitHub de TAMV Online Enterprise documenta un marco de gobernanza 
+orientado a versionamiento, trazabilidad, control de cambios, seguridad y supervisión 
+humana. Este marco constituye una declaración de diseño y una guía operativa; su 
+cumplimiento efectivo debe evaluarse mediante evidencia de implementación.[github] 
+Niveles de versionamiento declarados 
+• PATCH (x.x.N): correcciones internas sin modificación de contratos API ni 
+esquemas.[github] 
+• MINOR (x.N.0): capacidades, endpoints o skills compatibles hacia 
+atrás.[github] 
+• MAJOR (N.0.0): alteraciones incompatibles en APIs, esquemas RDM-TOS, 
+kernel o protocolos; requiere registro BookPI.[github] 
+• HOTFIX / EMERGENCY: respuesta prioritaria ante vulnerabilidad o incidente 
+crítico; exige análisis post-mortem documentado en un plazo máximo de 72 
+horas, salvo condiciones excepcionales documentadas.[github] 
+Reglas de integración declaradas 
+• Ningún Pull Request crítico se integra sin completar CI/CD, linting, pruebas 
+unitarias, pruebas de contrato, revisión de seguridad e inspección de 
+secretos.[github] 
+• Se rechazan cambios que oculten errores o resuelvan síntomas sin documentar 
+disparador y causa raíz.[github] 
+• El borrado masivo, los cambios de permisos, la reconfiguración de 
+infraestructura, las operaciones económicas y las publicaciones irreversibles 
+requieren autorización humana explícita.[github] 
+• Todo despliegue debe incluir rollback o una estrategia equivalente de 
+recuperación.[github] 
+• Toda modificación que pueda alterar el comportamiento debe producir señales 
+verificables.[github] 
+• Todo cambio de esquema o API debe actualizar consumidores, validadores y 
+documentación.[github] 
+
+Gobernanza algorítmica declarada 
+Isabella AI debe registrar, según el nivel de sensibilidad, el contexto utilizado, las 
+fuentes recuperadas, las herramientas invocadas, el nivel de incertidumbre, el 
+resultado producido, las reglas aplicadas y la revisión o aprobación humana.[github] 
+Las entradas externas se consideran no confiables hasta ser validadas. Las directivas 
+del sistema, los documentos recuperados y los datos de usuario deben permanecer 
+aislados por diseño.[github] 
+ 
+8. Hitos internacionales y tensiones sistémicas 
+8.1 Reconocimiento científico: Frontiers in Blockchain 
+El hito externo más relevante documentado hasta la fecha es la invitación y el registro 
+del autor para contribuir al Research Topic “Ethical Issues, Challenges and Solutions 
+in Metaverse and Web3, Vol II”, alojado en Frontiers in Blockchain. 
+Cronología verificable 
+Fecha Evento Evidencia 
+30 de 
+octubre 
+de 2026 
+Jane Thomason, editora del Research Topic, envió 
+una invitación directa al autor. En el correo afirmó 
+que la investigación de Castillo Trejo había influido 
+en la conformación del tema y lo invitó a participar 
+como autor. 
+Correspondencia 
+proporcionada 
+por el autor. 
+3 de 
+noviembre 
+de 2026 
+Rhys Griffiths, Journal Manager de Frontiers, 
+confirmó el registro del autor para contribuir con un 
+artículo a la colección. 
+Correspondencia 
+proporcionada 
+por el autor. 
+4 de 
+noviembre 
+de 2026 
+Frontiers comunicó al autor las opciones de apoyo 
+parcial para cargos de publicación (APC). 
+Correspondencia 
+proporcionada 
+por el autor. 
+28 de 
+febrero de 
+2027 
+Fecha límite para enviar al editor un resumen del 
+manuscrito. 
+Correspondencia 
+de Frontiers. 
+31 de 
+mayo de 
+2027 
+Fecha límite para enviar el manuscrito completo. 
+Correspondencia 
+de Frontiers y 
+página oficial del 
+Research Topic. 
+
+Editores y afiliaciones confirmadas 
+• Jane Thomason, University College London. 
+• Ingrid Vasiliu Feltes, University of Miami. 
+• Beautiful Existence, California Institute of Integral Studies. 
+Alcance exacto del reconocimiento 
+La evidencia permite afirmar que: 
+• El autor recibió una invitación directa para contribuir como autor. 
+• La editora declaró expresamente que la investigación del autor influyó en la 
+conformación del Research Topic. 
+• El autor quedó registrado como contribuyente potencial ante Frontiers. 
+• El Research Topic es público, está activo y corresponde a Frontiers in 
+Blockchain. 
+La evidencia no permite afirmar, en esta etapa, que: 
+• El artículo ya fue enviado, aceptado o publicado. 
+• El manuscrito ya fue revisado por pares. 
+• Frontiers, UCL, University of Miami o California Institute of Integral Studies 
+adoptaron formalmente el marco conceptual del autor como política 
+institucional. 
+• La invitación constituya una certificación de calidad científica del trabajo futuro. 
+Redacción institucional recomendada: 
+“El autor recibió una invitación directa de una editora del Research Topic y fue 
+registrado como contribuyente potencial. La editora reconoció que su investigación 
+influyó en la conformación del tema. La publicación, la revisión por pares y la 
+aceptación final permanecen pendientes.” 
+8.2 Tensión con plataformas: Google #26897541239 
+En junio de 2026, el autor publicó un reclamo formal en la comunidad de Perfil de 
+Empresa de Google, identificando el caso 26897541239. El reclamo documenta la 
+suspensión reiterada de una cuenta de negocio vinculada a TAMV Online Network bajo 
+la categoría de “contenido engañoso”. 
+El autor manifestó que solicitó información específica sobre el supuesto contenido 
+infractor y que no recibió una identificación concreta del material señalado. También 
+
+documentó que el perfil había sido verificado previamente mediante documentos de 
+identidad, domicilio, correo electrónico y número telefónico. 
+Las respuestas públicas en el hilo provienen de voluntarios del programa de Expertos 
+en Productos de Google. Estos respondientes aclararon que no forman parte del 
+soporte oficial, no tienen acceso a las configuraciones internas de los perfiles y que 
+Google Business Profile valida principalmente negocios locales o de servicios con 
+presencia física. 
+Lectura institucional prudente 
+Este caso se registra como una tensión documentada entre un proyecto digital 
+distribuido y los criterios de elegibilidad de una plataforma orientada a negocios 
+físicos. No constituye, por sí mismo, una determinación judicial, una sentencia 
+administrativa ni una prueba de que la decisión de Google haya sido injustificada. 
+Sin embargo, el episodio es relevante para la tesis del proyecto: ilustra cómo los 
+criterios de verificación diseñados para negocios tradicionales pueden resultar 
+insuficientes para proyectos digitales, investigadores independientes, plataformas 
+federadas o iniciativas sin establecimiento comercial convencional. 
+Redacción institucional recomendada: 
+“Se documenta un caso de suspensión reiterada de una ficha de negocio y una 
+solicitud no resuelta de identificación específica del contenido presuntamente 
+infractor. El caso se conserva como evidencia de una tensión estructural entre los 
+criterios de validación de plataformas comerciales y los modelos de organización 
+digital no convencionales.” 
+ 
+9. Registro de divulgación pública en Blogspot y 
+Facebook 
+9.1 Blogs identificados 
+Se identificaron los siguientes blogs y publicaciones vinculados al autor y al 
+ecosistema TAMV: 
+• TAMV MD-X4: El Metaverso Mexicano — blog dedicado a la divulgación del 
+ecosistema TAMV MD-X4 y su narrativa de soberanía 
+digital.[tamvonlinenetwork.blogspot] 
+
+• TAMV Online Network — “El sueño de un visionario” — presentación 
+fundacional del proyecto, publicada el 28 de septiembre de 2025.[orcid] 
+• “Cómo se construyó TAMV MD-X4” — publicación del 23 de septiembre de 2025 
+sobre la construcción del ecosistema.[tamv-mdx4.blogspot] 
+• “Announcement: Scientific Appeal” — publicación del 27 de octubre de 2025 
+que presenta al autor como fundador del ecosistema TAMV y arquitecto de 
+Isabella AI.[support.google] 
+• “Un llamado de apoyo para el WEF” — publicación del 7 de octubre de 2025 que 
+declara 19,000 horas de desarrollo y presenta a TAMV DM-X4 como innovación 
+ética en IA y blockchain.[tamvonlinenetwork.blogspot] 
+• “Aunque siga siendo invisible para el mundo, seguiré avanzando” — publicación 
+de febrero de 2026 que documenta la persistencia del autor frente a la 
+invisibilidad.[tamvonline-oficial.odoo] 
+• “TAMV MD-X4: El ecosistema que rompe paradigmas tradicionales” — 
+publicación del 30 de enero de 2026 sobre la visión del 
+ecosistema.[tamvonlinenetwork.blogspot] 
+9.2 Análisis narrativo 
+Los blogs de TAMV Online Network presentan una narrativa coherente centrada en 
+cuatro ejes: 
+• Origen territorial: el proyecto se presenta como una iniciativa nacida en Real 
+del Monte, Hidalgo, con una identidad explícitamente 
+realmontense.[github][orcid][tamvonlinenetwork.blogspot] 
+• Soberanía digital: el ecosistema se plantea como una alternativa a la 
+dependencia de plataformas centralizadas y al extractivismo de 
+datos.[github][tamvonlinenetwork.blogspot][tamvonlinenetwork.blogspot] 
+• Persistencia personal: el autor documenta una trayectoria de trabajo 
+autodidacta, aislamiento y esfuerzo sostenido en el 
+tiempo.[tamvonlinenetwork.blogspot][tamvonline-oficial.odoo] 
+• Visión civilizatoria: el proyecto se presenta no solo como software, sino como 
+una propuesta de gobernanza, memoria y autonomía 
+comunitaria.[github][orcid][tamvonlinenetwork.blogspot] 
+9.3 Afirmaciones que requieren distinción epistémica 
+Algunas afirmaciones presentes en los blogs deben clasificarse como declaraciones 
+del autor o objetivos arquitectónicos, no como hechos técnicos demostrados: 
+
+Afirmación 
+presente en los 
+blogs 
+Clasificación epistémica Evidencia disponible 
+“19,000 horas de 
+desarrollo” 
+Declaración autobiográfica del 
+autor. 
+Publicación de octubre de 
+2025. 
+[tamvonlinenetwork.blogspot] 
+“Más de 23,000 
+horas en solitario” 
+Declaración autobiográfica del 
+autor. 
+Material proporcionado por el 
+autor; no verificado de forma 
+independiente. 
+“Conciencia digital 
+autónoma” Metáfora y objetivo de diseño. Publicación fundacional. [orcid] 
+“Blindaje cuántico-
+emocional con 11 
+capas de defensa” 
+Propuesta arquitectónica y 
+narrativa de diseño. 
+Publicación fundacional. 
+[orcid] 
+“Seguridad 
+cuántico-
+emocional” 
+Concepto propio del 
+ecosistema; no equivale a 
+seguridad cuántica validada 
+por terceros. 
+Publicación fundacional. 
+[orcid] 
+“El fin de la era de 
+la explotación de 
+datos” 
+Declaración visionaria y 
+aspiracional. 
+Blog TAMV MD-X4. 
+[tamvonlinenetwork.blogspot] 
+“Sistema vivo, 
+operativo, 
+resiliente y 
+observable” 
+Objetivo arquitectónico 
+declarado. Perfil GitHub. [github] 
+“Estados runtime 
+activos” 
+Etiquetas operativas 
+declaradas; requieren 
+evidencia de despliegue y 
+monitoreo. 
+Perfil GitHub. [github] 
+Regla de trazabilidad: una declaración visionaria no es falsa por ser aspiracional; 
+simplemente no debe presentarse como hecho técnico demostrado. La distinción 
+entre visión, diseño, implementación, prueba, auditoría y adopción es esencial para la 
+integridad del registro.[github] 
+ 
+10. Registro de divulgación pública en Facebook 
+Se identificaron tres publicaciones compartidas mediante enlaces de Facebook: 
+
+• Publicación 1 
+• Publicación 2 
+• Publicación 3 
+Estado de verificación: no fue posible extraer ni auditar el contenido de estas 
+publicaciones desde la web abierta en la fecha de elaboración de este documento. Por 
+ello, no se les atribuye contenido, fecha, autoría, alcance, interacción ni valor 
+probatorio adicional. 
+Recomendación de trazabilidad: para incorporarlas como evidencia en Zenodo, 
+Figshare u ORCID, debe conservarse una captura íntegra de cada publicación, su URL 
+canónica, fecha exacta de publicación, autor de la cuenta, texto completo, imágenes o 
+videos asociados y, cuando aplique, métricas visibles de alcance. El documento solo 
+podrá citarlas como “divulgación pública declarada por el autor”, no como evidencia 
+independiente, hasta contar con ese material archivado. 
+ 
+11. Matriz de estado del proyecto 
+Área Evidencia disponible 
+Límite 
+de la 
+evidenci
+a 
+Identidad 
+académic
+a 
+ORCID, ISNI, perfiles públicos y depósitos con DOI. [github] 
+La 
+existenci
+a de 
+perfiles 
+no 
+equivale 
+a 
+validació
+n 
+académi
+ca 
+externa. 
+Producció
+n 
+document
+al 
+33 obras registradas en ORCID; múltiples DOI en Zenodo y 
+Figshare. 
+No todas 
+las obras 
+son 
+revisada
+s por 
+
+pares; 
+varias 
+son 
+preprints
+, 
+informes 
+o 
+recursos 
+conceptu
+ales. 
+Reconoci
+miento 
+externo 
+Invitación directa y registro ante Frontiers in Blockchain. 
+Publicaci
+ón y 
+aceptaci
+ón aún 
+pendient
+es. 
+Arquitect
+ura 
+técnica 
+Documentación de TAMV MD-X4, Isabella Cero, RDM-TOS, 
+MSR/BookPI y componentes asociados. [github] 
+No hay 
+evidenci
+a pública 
+suficient
+e, en los 
+materiale
+s 
+consulta
+dos, de 
+auditoría 
+independ
+iente, 
+certificac
+ión de 
+segurida
+d o 
+adopción 
+productiv
+a. 
+[github] 
+Gobernan
+za técnica 
+Marco declarado de versionamiento, trazabilidad, seguridad 
+y supervisión humana. [github] 
+La 
+existenci
+a de un 
+marco no 
+
+equivale 
+a su 
+cumplimi
+ento 
+verificad
+o. 
+[github] 
+Tensión 
+con 
+plataform
+as 
+Reclamo público ante Google Business Profile, caso 
+26897541239. 
+No es 
+una 
+resolució
+n oficial 
+ni una 
+determin
+ación 
+sobre la 
+legitimid
+ad de la 
+decisión 
+de la 
+platafor
+ma. 
+Divulgaci
+ón 
+pública 
+Blogs de Blogspot y enlaces de Facebook identificados. 
+[support.google][tamvonlinenetwork.blogspot][orcid][tamvo
+nlinenetwork.blogspot][tamvonline-
+oficial.odoo][tamvonlinenetwork.blogspot][tamv-
+mdx4.blogspot] 
+El 
+contenid
+o de 
+Faceboo
+k no fue 
+auditable 
+en esta 
+consulta. 
+Impacto 
+social 
+Propuesta orientada a soberanía digital, ciencia abierta y 
+desarrollo independiente. [github] 
+El 
+impacto 
+social 
+futuro 
+depende
+rá de 
+adopción
+, 
+replicaci
+ón, 
+colabora
+
+ción y 
+evidenci
+a 
+empírica. 
+ 
+12. Metadatos recomendados para Zenodo, Figshare y 
+ORCID 
+title: "Compendio Civilizatorio: Documento Institucional de 
+Trazabilidad, Memoria Técnica, Evidencia Pública e Interconexión 
+Metodológica Global" 
+creator: 
+  - name: "Edwin Oswaldo Castillo Trejo" 
+    affiliation: "TAMV Online Network / TAMV Online Enterprise" 
+    orcid: "https://orcid.org/0009-0008-5050-1539" 
+    isni: "0000000531699229" 
+alternate_identity: 
+  - "Anubis Villaseñor" 
+publication_date: "2026-11-08" 
+resource_type: "Report" 
+language: "es" 
+keywords: 
+  - "Soberanía digital" 
+  - "Ciencia abierta" 
+  - "Trazabilidad académica" 
+  - "Gobernanza de IA" 
+  - "Infraestructura federada" 
+  - "Identidad digital soberana" 
+  - "TAMV Online Network" 
+  - "TAMV MD-X4" 
+  - "Isabella Villaseñor AI" 
+  - "RDM Digital Hub" 
+  - "Real del Monte" 
+  - "Hidalgo" 
+  - "América Latina" 
+license: "CC-BY-4.0" 
+related_identifiers: 
+  - identifier: "10.5281/zenodo.19436662" 
+    relation_type: "isSupplementTo" 
+    resource_type: "technical-note" 
+
+  - identifier: "10.5281/zenodo.20071455" 
+    relation_type: "isSupplementTo" 
+    resource_type: "technical-note" 
+  - identifier: "10.5281/zenodo.23418238" 
+    relation_type: "isSupplementTo" 
+    resource_type: "preprint" 
+  - identifier: "10.5281/zenodo.23337697" 
+    relation_type: "isSupplementTo" 
+    resource_type: "working-paper" 
+  - identifier: "10.5281/zenodo.23313601" 
+    relation_type: "isSupplementTo" 
+    resource_type: "working-paper" 
+  - identifier: "10.5281/zenodo.21694237" 
+    relation_type: "isSupplementTo" 
+    resource_type: "report" 
+  - identifier: "10.6084/m9.figshare.33029609" 
+    relation_type: "isSupplementTo" 
+    resource_type: "lecture" 
+  - identifier: "10.6084/m9.figshare.32135386" 
+    relation_type: "isSupplementTo" 
+    resource_type: "interactive-resource" 
+description: | 
+  Documento público de trazabilidad que registra los hitos 
+verificables del 
+  ecosistema TAMV Online Network, la producción académica y técnica 
+de su autor, 
+  los reconocimientos externos documentados, las tensiones con 
+plataformas 
+  comerciales y los límites epistémicos de cada afirmación. El 
+documento no 
+  busca generar conflicto ni confrontación; busca preservar 
+evidencia, promover 
+  la ciencia abierta y ofrecer una guía metodológica para 
+investigadores y 
+  desarrolladores independientes de América Latina. 
+ 
+13. Ficha de citación académica 
+APA 7 
+
+Castillo Trejo, E. O. [Anubis Villaseñor]. (2026). Compendio civilizatorio: Documento 
+institucional de trazabilidad, memoria técnica, evidencia pública e interconexión 
+metodológica global [Informe]. TAMV Online Network. https://orcid.org/0009-0008-
+5050-1539 
+BibTeX 
+@techreport{castillo_trejo_2026_compendio, 
+  author       = {Castillo Trejo, Edwin Oswaldo}, 
+  title        = {Compendio Civilizatorio: Documento Institucional 
+de Trazabilidad, Memoria Técnica, Evidencia Pública e Interconexión 
+Metodológica Global}, 
+  institution  = {TAMV Online Network}, 
+  year         = {2026}, 
+  month        = {11}, 
+  day          = {8}, 
+  type         = {Informe institucional}, 
+  language     = {es}, 
+  note         = {Autor alternativo: Anubis Villaseñor. ORCID: 0009-
+0008-5050-1539. ISNI: 0000000531699229.}, 
+  url          = {https://orcid.org/0009-0008-5050-1539} 
+} 
+ 
+14. Declaración de límites 
+Este documento no afirma que el ecosistema TAMV haya sido auditado 
+independientemente, certificado por terceros, adoptado institucionalmente o validado 
+mediante replicación experimental externa. Tampoco afirma que la invitación de 
+Frontiers equivalga a una publicación aceptada o a una validación por pares. 
+Lo que este documento sí afirma es que existe una producción pública, identificable y 
+versionada; que el autor ha utilizado mecanismos de ciencia abierta; que recibió una 
+invitación formal de una editora de Frontiers; y que dicho reconocimiento se encuentra 
+documentado por correspondencia y por la página pública del Research Topic. 
+La fuerza de este registro no reside en la grandilocuencia de sus afirmaciones, sino en 
+su disciplina: distinguir siempre entre lo construido, lo documentado, lo invitado, lo 
+pendiente y lo aún por demostrar.[github] 
+ 
+
+15. Cierre 
+“El mundo sobrevive y avanza gracias a aquellos que, aun a contracorriente, decidieron 
+nunca rendirse; recuerda que solo tu propia mente posee la capacidad de detenerte.” 
+Desde Real del Monte, Hidalgo, este documento queda propuesto como evidencia de 
+una trayectoria en construcción. No pretende sustituir la crítica, la revisión por pares ni 
+la verificación independiente; pretende, precisamente, facilitarlas.[github] 
+La minería marcó una parte de la historia de Real del Monte. Este proyecto propone 
+otra forma de construir valor: no extrayendo datos, sino desarrollando herramientas 
+que busquen devolver trazabilidad, autonomía y capacidad de decisión a quienes los 
+generan.[github] 
+FIN DEL DOCUMENTO INSTITUCIONAL 
+ 

@@ -1,0 +1,46 @@
+{
+  "schema": "tamv.governance.baseline.v1",
+  "version": "1.0.0",
+  "defaultDecision": "DENY",
+  "reviewIsNotAllow": true,
+  "humanApprovalRequiredFor": [
+    "external.publishing",
+    "external.message.send",
+    "data.erasure",
+    "destructive.action",
+    "external.skill.installation",
+    "license.revocation",
+    "financial.payout"
+  ],
+  "consentRequiredFor": [
+    "personal.data.processing",
+    "voice.biometrics",
+    "memory.retention",
+    "model.fineTuning"
+  ],
+  "prohibited": [
+    "voice.impersonation",
+    "artist.imitation",
+    "brand.impersonation",
+    "unauthorized.sample",
+    "copyrighted.lyrics",
+    "copyrighted.melody",
+    "drm.circumvention",
+    "guaranteed.income",
+    "guaranteed.virality",
+    "guaranteed.roi"
+  ],
+  "financial": {
+    "integerAmountsOnly": true,
+    "explicitCurrencyRequired": true,
+    "negativeAmountsDenied": true,
+    "idempotencyRequired": true,
+    "unknownOutcomeRequiresReconciliation": true
+  },
+  "privacy": {
+    "dataMinimization": true,
+    "noSecretsInLogs": true,
+    "hashIsNotAnonymization": true,
+    "memoryRequiresConsentAndRetention": true
+  }
+}

@@ -1,6 +1,6 @@
 {
   "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
-  "paths": ["./tamv-genesis/v3/skills"],
+  "paths": ["./tamv-pack/skills"],
   "notGrouped": "bottom",
   "groupings": [
     {

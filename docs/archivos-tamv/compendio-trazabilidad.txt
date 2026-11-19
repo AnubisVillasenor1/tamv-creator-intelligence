@@ -1,0 +1,335 @@
+COMPENDIO CIVILIZATORIO 2.0 
+Memoria técnica, identidad persistente, 
+infraestructura de evidencia y trazabilidad pública del 
+ecosistema TAMV Online Network 
+Edición académica de consolidación documental 
+Campo Información 
+Autor responsable Edwin Oswaldo Castillo Trejo 
+Identidad profesional 
+declarada Anubis Villaseñor 
+Afiliación declarada TAMV Online Network 
+Iniciativas asociadas 
+según el autor RDM Digital Hub, Nodo Cero e Isabella Villaseñor AI 
+ORCID comunicado 0009-0008-5050-1539 
+ISNI comunicado 0000-0005-3169-9229; atribución pendiente de verificación directa ante la entidad emisora 
+Versión 2.0 
+Fecha de corte 8 de noviembre de 2026 
+Tipo de documento Informe institucional de memoria técnica y análisis documental 
+Estado editorial Preparado para depósito; no revisado por pares 
+Licencia propuesta CC BY 4.0 para el contenido original cuyos derechos correspondan al autor 
+DOI de este 
+documento No asignado 
+ 
+Resumen 
+El presente informe organiza y examina fuentes públicas y materiales aportados sobre 
+la trayectoria documental de Edwin Oswaldo Castillo Trejo, conocido profesionalmente 
+como Anubis Villaseñor, y sobre las iniciativas agrupadas bajo TAMV Online Network. 
+Su propósito es preservar memoria técnica, relacionar registros dispersos y establecer 
+criterios para distinguir autodescripción, existencia pública, implementación, 
+reproducibilidad y evaluación independiente. 
+
+Se adopta un enfoque documental descriptivo. La unidad de análisis no es la 
+plataforma completa, sino cada afirmación y el recurso específico que la sustenta. Las 
+fuentes incluyen perfiles, blogs, documentación de arquitectura, portafolios y 
+comunicaciones aportadas por el autor. La recuperación directa del perfil GitHub 
+OsoPanda1 y del portafolio público confirma la existencia de una presentación 
+profesional vinculada al nombre del autor, al ecosistema TAMV y al identificador 
+ORCID comunicado. No acredita por sí misma el rendimiento o la validación 
+independiente de los sistemas descritos.[github][portafolio-edwin.lovable] 
+El informe concluye que existe una base documental pública susceptible de examen y 
+ampliación. Su consolidación como evidencia técnica requiere inventarios 
+versionados, inspección de artefactos, pruebas reproducibles y evaluaciones externas 
+delimitadas. 
+Palabras clave: trazabilidad documental; memoria técnica; investigación 
+independiente; soberanía digital; preservación; gobernanza de inteligencia artificial. 
+1. Introducción y objetivos 
+Este compendio aborda un problema delimitado: cómo reconstruir una trayectoria 
+tecnológica cuya documentación se encuentra distribuida entre perfiles, repositorios, 
+blogs y sitios administrados por su autor. 
+No presupone que la distribución de materiales constituya una infraestructura técnica 
+federada. Distingue dos objetos: 
+• Infraestructura documental: canales y artefactos utilizados para describir y 
+preservar el proyecto. 
+• Infraestructura tecnológica: componentes de software, datos y operación cuya 
+existencia y funcionamiento requieren inspección específica. 
+La documentación pública de TAMV presenta una orientación hacia memoria 
+territorial, soberanía digital, inteligencia artificial gobernada y coordinación 
+comunitaria. Estas orientaciones se registran como propósitos del proyecto, no como 
+resultados demostrados.[github][portafolio-edwin.lovable] 
+1.1 Objetivo general 
+Establecer un marco de trazabilidad que permita relacionar identidades, fuentes y 
+afirmaciones, conservando sus límites y facilitando futuras verificaciones. 
+
+1.2 Objetivos específicos 
+1. Organizar los recursos identificados. 
+2. Distinguir fuentes del autor de corroboraciones independientes. 
+3. Registrar el estado documental de cada hito. 
+4. Evitar equivalencias entre visibilidad, publicación y validación. 
+5. Proponer instrumentos de preservación y seguimiento. 
+6. Ofrecer una guía metodológica para investigadores y desarrolladores 
+independientes. 
+1.3 Principio de no conflicto 
+El informe no busca confrontación con plataformas, editoriales o instituciones. Los 
+desacuerdos se conservan como episodios documentales, sin atribuir intenciones o 
+responsabilidades no demostradas. 
+2. Marco conceptual 
+Las siguientes definiciones son operativas para este informe; no se presentan como 
+estándares externos validados. 
+2.1 Trazabilidad documental 
+Capacidad de relacionar una afirmación con su fuente, procedencia, fecha, versión y 
+transformaciones conocidas. 
+2.2 Memoria técnica 
+Conjunto organizado de artefactos que permite reconstruir decisiones, cambios, 
+pruebas, incidentes y resultados de un proyecto. 
+2.3 Identidad persistente 
+Continuidad documentada entre un nombre, sus variantes profesionales y los registros 
+utilizados para identificar su producción. No equivale a acreditar credenciales 
+académicas. 
+
+2.4 Corroboración independiente 
+Coincidencia entre evidencias generadas por procesos suficientemente 
+independientes. Publicar la misma declaración en varias plataformas no constituye 
+necesariamente corroboración independiente. 
+2.5 Infraestructura civilizatoria 
+Denominación conceptual empleada por el autor para articular memoria, identidad, 
+autonomía y coordinación tecnológica. En la documentación GitHub aparece como 
+parte de la presentación del ecosistema; este informe no la considera una disciplina 
+académica reconocida ni una clasificación consensuada.[github] 
+3. Metodología 
+3.1 Diseño 
+Estudio documental descriptivo, no exhaustivo, orientado al análisis de procedencia y 
+suficiencia de evidencias. 
+No constituye auditoría de software, revisión sistemática de literatura, investigación 
+forense ni certificación institucional. 
+3.2 Criterios de inclusión 
+Un recurso puede incorporarse cuando: 
+• Su contenido es directamente recuperable. 
+• Se aporta un archivo o captura inspeccionable. 
+• Existe un registro identificable, aunque su contenido requiera comprobación 
+adicional. 
+• Su relación con el objeto de estudio puede explicarse. 
+Los recursos inaccesibles se conservan como pendientes, no como fuentes 
+inspeccionadas. 
+3.3 Ficha mínima por afirmación 
+Cada afirmación deberá registrar: 
+identificador: "" 
+afirmacion: "" 
+
+recurso_especifico: "" 
+autor_o_responsable_de_la_fuente: "" 
+fecha_de_consulta: "" 
+version_o_commit: "" 
+contenido_observable: "" 
+procedencia: "" 
+independencia: "" 
+limites: "" 
+estado_de_verificacion: "" 
+3.4 Clasificación por dimensiones 
+Se sustituye una escala única de “madurez” por dimensiones separadas: 
+Dimensión Pregunta 
+Accesibilidad ¿Se recuperó el contenido? 
+Procedencia ¿Quién produjo o aportó la evidencia? 
+Integridad ¿Se conserva el artefacto completo y su versión? 
+Especificidad ¿La evidencia sustenta exactamente la afirmación? 
+Reproducibilidad ¿Otra persona puede repetir el procedimiento? 
+Independencia ¿La evaluación procede de un tercero sin dependencia relevante? 
+Una cita institucional, una auditoría y un experimento reproducible son evidencias 
+diferentes; ninguna debe tratarse automáticamente como superior a todas las demás. 
+4. Identidad y corpus documental 
+4.1 Identidad pública 
+El perfil OsoPanda1 se presenta como “TAMV ONLINE ENTERPRISE”, identifica a Edwin 
+O. Castillo Trejo como fundador e incluye el ORCID comunicado. Su documentación 
+distingue una raíz territorial en Real del Monte, mientras la ubicación breve del perfil 
+indica Pachuca, Hidalgo. Ambas referencias se conservan sin convertirlas en una 
+comprobación de domicilio.[github] 
+El portafolio público vincula explícitamente Edwin Oswaldo Castillo Trejo, Anubis 
+Villaseñor, TAMV Online Network y el mismo ORCID. Esto acredita consistencia de 
+autodescripción entre esos recursos, no autenticación independiente de todas sus 
+afirmaciones.[portafolio-edwin.lovable] 
+
+Se elimina de la portada el enlace de Outlook utilizado en el borrador, porque no se ha 
+establecido como referencia pública adecuada para identificar al autor. 
+4.2 Estado de recursos principales 
+Recurso Estado documental 
+GitHub 
+OsoPanda1 Contenido recuperado directamente. [github] 
+Portafolio 
+Lovable Contenido recuperado directamente. [portafolio-edwin.lovable] 
+Sitio Qoder Recuperación fallida en la comprobación de esta edición; no se ratifica su contenido. 
+Perfil Figshare Localizado previamente; inspección individual de depósitos pendiente. [figshare] 
+Blogspot 
+Publicaciones localizadas; corpus completo no inventariado. 
+[tamvonlinenetwork.blogspot][tamvonlinenetwork.blogspot][tamv-
+mdx4.blogspot] 
+YouTube y otros 
+perfiles 
+mencionados 
+Requieren inspección específica antes de clasificarse como 
+verificados. 
+5. Memoria pública en Blogspot 
+El corpus localizado incluye presentaciones del proyecto, relatos de construcción, 
+solicitudes de apoyo y testimonios de persistencia. Entre ellos aparecen TAMV Online 
+Network, el sueño de un visionario, Cómo se construyó TAMV MD-X4 y Announcement: 
+Scientific 
+Appeal.[tamvonlinenetwork.blogspot][tamvonlinenetwork.blogspot][tamvonlinenetwor
+k.blogspot] 
+Estos materiales permiten estudiar: 
+• La evolución de la autodescripción. 
+• La relación entre identidad territorial y proyecto. 
+• Los objetivos atribuidos a TAMV e Isabella. 
+• Las estrategias de solicitud de atención y colaboración. 
+Su valor es el de fuentes primarias del discurso del autor. No demuestran por sí 
+mismas eficacia, seguridad o adopción. 
+
+Las horas de trabajo, experiencias de aislamiento y afirmaciones autobiográficas se 
+conservarán como testimonios, salvo que se aporten registros adicionales. Las fechas 
+de rutas URL tampoco se utilizarán por sí solas como prueba de primera publicación. 
+6. Arquitectura y gobernanza declaradas 
+La documentación GitHub organiza el ecosistema alrededor de MD-X4, RDM-TOS, 
+Isabella AI, MSR/BookPI y TAMV Network. También presenta reglas de versionamiento, 
+revisión de cambios, autorización humana, observabilidad y recuperación.[github] 
+Componente Función declarada Verificación requerida 
+MD-X4 Coordinación y federación Protocolos, nodos y pruebas de interoperabilidad 
+RDM-TOS Gestión territorial de eventos y datos Pilotos, operación y resultados 
+Isabella AI Capa cognitiva gobernada Evaluaciones, límites y controles ejecutables 
+MSR/BookPI Memoria causal y auditoría Registros íntegros y reconstrucción de casos 
+TAMV 
+Network Interfaz y servicios públicos Despliegues y pruebas de uso 
+El perfil utiliza etiquetas como Active y Genesis, pero también señala que los estados 
+deben actualizarse con evidencia. Este informe las trata como estados declarados, no 
+como observaciones independientes de operación.[github] 
+La plantilla BookPI contiene ejemplos de pruebas, incidencias y enlaces. Al estar 
+presentada como plantilla, no se interpreta como prueba de que dichas pruebas o 
+incidentes hayan ocurrido.[github] 
+7. Hitos académicos y comunicaciones 
+7.1 Frontiers 
+La existencia del Research Topic Ethical Issues, Challenges and Solutions in Metaverse 
+and Web3, Vol II está documentada públicamente.[frontiersin] 
+La invitación individual y sus seguimientos se registran a partir de transcripciones 
+aportadas por el autor. La página del Research Topic no autentica esos correos. No se 
+declara aceptación ni publicación de un manuscrito. 
+
+7.2 CITIS 2026 
+La convocatoria de la Universidad Politécnica Salesiana confirma la programación del 
+congreso para el 28–30 de octubre de 2026 en Guayaquil. La invitación individual 
+permanece como declaración del autor pendiente de incorporar el 
+original.[ups.edu][citis.ups.edu] 
+7.3 Estudio sobre trayectorias investigadoras 
+La captura aportada muestra una invitación a una encuesta y declara que ORCID fue 
+utilizado para localizar al destinatario. Acredita ese contenido visible, no afiliación, 
+coautoría ni colaboración institucional con Cambridge.[ppl-ai-file-
+upload.s3.amazonaws] 
+8. Indicadores propuestos 
+Los indicadores siguientes son exploratorios. No se han calculado porque falta un 
+inventario cerrado y depurado. 
+Indicador Definición propuesta 
+Consistencia de 
+identidad 
+Recursos con asociación nominal explícita / recursos 
+inspeccionados 
+Cobertura de 
+procedencia 
+Afirmaciones con fuente y versión identificadas / afirmaciones 
+evaluadas 
+Cobertura de 
+preservación Artefactos archivados íntegramente / artefactos seleccionados 
+Cobertura de 
+reproducibilidad 
+Afirmaciones técnicas con procedimiento repetible / 
+afirmaciones técnicas evaluadas 
+Evaluación 
+independiente 
+Afirmaciones con evaluación externa pertinente / afirmaciones 
+evaluables 
+No se establecen umbrales arbitrarios de “alta” o “baja” consistencia. 
+Tampoco se suman documentos, repositorios y publicaciones como unidades 
+equivalentes. Los recuentos deberán separar tipos y eliminar duplicados y versiones. 
+
+9. Discusión 
+9.1 Presencia distribuida no equivale a federación 
+La publicación en múltiples plataformas amplía las vías de localización. No demuestra 
+que la arquitectura tecnológica sea federada ni que exista interoperabilidad operativa. 
+9.2 Autodescripción y circularidad 
+GitHub, blogs y portafolios pueden ser fuentes útiles, pero compartir responsable 
+limita su independencia. La coherencia narrativa es un resultado descriptivo; no 
+constituye una evaluación externa. 
+9.3 Reconocimientos atribuidos a IA 
+El portafolio describe respuestas de sistemas de IA como auditorías, validaciones o 
+reconocimientos. Este informe no adopta esas denominaciones como certificaciones 
+independientes. Para hacerlo sería necesario identificar alcance, método, artefactos 
+examinados y criterios de evaluación.[portafolio-edwin.lovable] 
+Conservar una respuesta de IA mediante un DOI documentaría su contenido; no 
+modificaría automáticamente su valor probatorio. 
+9.4 Discrepancias de recuento y estados 
+El portafolio menciona 23 obras con DOI, mientras borradores anteriores consignaban 
+otros recuentos. No se selecciona una cifra sin inventario. Las diferencias pueden 
+obedecer a fechas, criterios o versiones, pero su causa permanece sin 
+establecer.[portafolio-edwin.lovable] 
+9.5 Valor pedagógico 
+El valor transferible del caso no es prometer reconocimiento, sino mostrar cómo 
+distinguir declaraciones, oportunidades y resultados. También deben conservarse 
+errores, cambios de criterio y verificaciones fallidas. 
+10. Limitaciones 
+• Revisión selectiva y dependiente de accesibilidad. 
+• Predominio de fuentes del propio autor. 
+• Ausencia de inventario completo de obras y repositorios. 
+
+• No ejecución ni auditoría del software. 
+• No autenticación técnica de correos transcritos. 
+• No comprobación de adopción institucional. 
+• No evaluación de rendimiento, impacto social o seguridad. 
+11. Conclusiones 
+La evidencia recuperada permite documentar una presentación profesional 
+consistente entre recursos públicos, una arquitectura declarada y una práctica de 
+publicación vinculada a TAMV.[github][portafolio-edwin.lovable] 
+No permite concluir superioridad tecnológica, validación científica integral o 
+funcionamiento de todos los componentes. 
+La siguiente fase debe priorizar: 
+1. Inventario versionado de artefactos. 
+2. Verificación individual de identificadores. 
+3. Pruebas reproducibles. 
+4. Documentación de resultados negativos. 
+5. Evaluaciones externas de alcance definido. 
+Este compendio queda establecido como memoria documental revisable, no como 
+certificación. 
+12. Normalización editorial y citación provisional 
+Para la edición bibliográfica se aplican estos criterios: 
+• No atribuir automáticamente a GitHub o Figshare la autoría de contenidos del 
+titular. 
+• Utilizar “s. f.” cuando no exista fecha verificable. 
+• No convertir la fecha de consulta en fecha de publicación. 
+• Citar el recurso específico que sustenta cada afirmación. 
+• No citar LinkedIn como fuente de una convocatoria de Frontiers. 
+• No presentar un perfil ORCID como ubicación del presente informe. 
+• No atribuir conformidad completa con APA 7 únicamente por adoptar su 
+formato de citación. 
+
+Cita provisional del compendio 
+Castillo Trejo, E. O. (2026). Compendio civilizatorio 2.0: Memoria técnica, identidad 
+persistente, infraestructura de evidencia y trazabilidad pública del ecosistema TAMV 
+Online Network (Versión 2.0) [Informe institucional preparado para depósito]. TAMV 
+Online Network. 
+@techreport{castillo_trejo_2026_compendio_v2, 
+  author      = {Castillo Trejo, Edwin Oswaldo}, 
+  title       = {Compendio civilizatorio 2.0: Memoria técnica, 
+                 identidad persistente, infraestructura de evidencia 
+                 y trazabilidad pública del ecosistema TAMV Online 
+Network}, 
+  institution = {TAMV Online Network}, 
+  year        = {2026}, 
+  type        = {Informe institucional}, 
+  note        = {Versión 2.0. Preparado para depósito. 
+                 No revisado por pares. 
+                 ORCID: 0009-0008-5050-1539} 
+} 
+13. Responsabilidad y preservación 
+La responsabilidad del contenido y de su depósito corresponde al autor. La asistencia 
+editorial de inteligencia artificial no constituye verificación independiente. 
+La licencia propuesta cubre únicamente materiales sobre los que el autor posea 
+derechos suficientes. Los correos, capturas y contenidos de terceros deben conservar 
+sus condiciones particulares. 
+La finalidad del documento es permitir que el trabajo pueda localizarse, examinarse, 
+corregirse y continuar. Su integridad dependerá de que cada nueva afirmación 
+conserve una relación explícita con la evidencia que efectivamente la sustenta. 
+Fin de la versión 2.0. 
+ 

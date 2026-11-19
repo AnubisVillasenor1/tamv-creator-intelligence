@@ -1,0 +1,46 @@
+-- The content of this migration cannot be applied: it was already applied to this backend under its earlier name.
+-- CREATE OR REPLACE FUNCTION public.invalidate_governance_approval()
+-- RETURNS trigger LANGUAGE plpgsql SET search_path=public AS $$
+-- BEGIN
+--  IF NEW.artifact IS DISTINCT FROM OLD.artifact OR NEW.brief IS DISTINCT FROM OLD.brief OR NEW.title IS DISTINCT FROM OLD.title OR NEW.coordinator IS DISTINCT FROM OLD.coordinator OR NEW.workflow IS DISTINCT FROM OLD.workflow OR NEW.digest IS DISTINCT FROM OLD.digest THEN
+--  NEW.status := 'DRAFT'; NEW.approval_digest := NULL; NEW.revision := OLD.revision + 1;
+--  END IF;
+--  IF NEW.status = 'APPROVED' AND NEW.approval_digest IS DISTINCT FROM NEW.digest THEN RAISE EXCEPTION 'APPROVAL_DIGEST_MISMATCH'; END IF;
+--  NEW.updated_at := now(); RETURN NEW;
+-- END $$;
+-- CREATE TRIGGER governance_approval_change BEFORE UPDATE ON public.governance_projects FOR EACH ROW EXECUTE FUNCTION public.invalidate_governance_approval();
+-- CREATE OR REPLACE FUNCTION public.execute_local_governance_project(p_project uuid, p_key text, p_memory_consent boolean DEFAULT false, p_retention_days integer DEFAULT 30)
+-- RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=public AS $$
+-- DECLARE project public.governance_projects; permit public.governance_permits; receipt uuid; verdict text; reasons jsonb; request_hash text; payload_hash text;
+-- BEGIN
+--  IF auth.uid() IS NULL THEN RAISE EXCEPTION 'AUTH_REQUIRED'; END IF;
+--  IF length(p_key) < 8 OR length(p_key) > 128 THEN RAISE EXCEPTION 'IDEMPOTENCY_REQUIRED'; END IF;
+--  SELECT * INTO project FROM public.governance_projects WHERE id=p_project AND user_id=auth.uid() FOR UPDATE;
+--  IF NOT FOUND THEN RAISE EXCEPTION 'NOT_FOUND'; END IF;
+--  IF p_retention_days < 1 OR p_retention_days > 365 THEN RAISE EXCEPTION 'RETENTION_INVALID'; END IF;
+--  request_hash := encode(sha256(convert_to(project.digest || ':' || p_key || ':local.artifact.export','UTF8')),'hex');
+--  payload_hash := encode(sha256(convert_to(project.artifact::text,'UTF8')),'hex');
+--  SELECT * INTO permit FROM public.governance_permits WHERE user_id=auth.uid() AND idempotency_key=p_key;
+--  IF FOUND THEN
+--  IF permit.project_id <> p_project OR permit.artifact_digest <> project.digest THEN RAISE EXCEPTION 'IDEMPOTENCY_CONFLICT'; END IF;
+--  IF project.status <> 'APPROVED' OR project.approval_digest IS DISTINCT FROM project.digest THEN RAISE EXCEPTION 'APPROVAL_REQUIRED'; END IF;
+--  RETURN jsonb_build_object('decision','ALLOW','receiptId',permit.evidence_id,'permitId',permit.id,'replayed',true,'artifact',project.artifact);
+--  END IF;
+--  IF project.status='REVOKED' THEN verdict:='DENY'; reasons:='["AUTHORITY_REVOKED"]'::jsonb;
+--  ELSIF project.status <> 'APPROVED' OR project.approval_digest IS DISTINCT FROM project.digest THEN verdict:='REVIEW'; reasons:='["HUMAN_APPROVAL_REQUIRED"]'::jsonb;
+--  ELSIF project.workflow='Memory' AND NOT p_memory_consent THEN verdict:='DENY'; reasons:='["MEMORY_CONSENT_REQUIRED"]'::jsonb;
+--  ELSE verdict:='ALLOW'; reasons:='["LOCAL_ARTIFACT_ONLY"]'::jsonb; END IF;
+--  INSERT INTO public.governance_evidence(user_id,project_id,request_digest,decision,reason_codes,policy_digest,payload_digest,action)
+--  VALUES(auth.uid(),p_project,request_hash,verdict,reasons,'tamv.governance.baseline.v1+local-execution.v1',payload_hash,'local.artifact.export') RETURNING id INTO receipt;
+--  IF verdict <> 'ALLOW' THEN RETURN jsonb_build_object('decision',verdict,'reasonCodes',reasons,'receiptId',receipt); END IF;
+--  INSERT INTO public.governance_permits(user_id,project_id,evidence_id,request_digest,artifact_digest,audience,expires_at,idempotency_key)
+--  VALUES(auth.uid(),p_project,receipt,request_hash,project.digest,'local.artifact.export',now()+interval '60 seconds',p_key) RETURNING * INTO permit;
+--  UPDATE public.governance_permits SET consumed_at=now() WHERE id=permit.id AND consumed_at IS NULL AND expires_at>now();
+--  IF NOT FOUND THEN RAISE EXCEPTION 'PERMIT_CONSUMPTION_FAILED'; END IF;
+--  IF project.workflow='Memory' THEN
+--  INSERT INTO public.governance_memories(user_id,project_id,content,expires_at) VALUES(auth.uid(),p_project,project.artifact,now()+make_interval(days=>p_retention_days));
+--  END IF;
+--  RETURN jsonb_build_object('decision',verdict,'receiptId',receipt,'permitId',permit.id,'replayed',false,'artifact',project.artifact);
+-- END $$;
+-- REVOKE ALL ON FUNCTION public.execute_local_governance_project(uuid,text,boolean,integer) FROM PUBLIC, anon;
+-- GRANT EXECUTE ON FUNCTION public.execute_local_governance_project(uuid,text,boolean,integer) TO authenticated, service_role;

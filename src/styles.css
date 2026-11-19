@@ -1,3 +1,6 @@
+@import "@lovable.dev/cloud-auth-js/styles.css";
+@import "tailwindcss" source(none);
+@import "tw-animate-css";
 /*
  * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
  * - Keep every @import in this top block, above @theme and the rest of the file. Install an
@@ -5,9 +8,7 @@
  *   build resolves @import from the filesystem. Load those with a <link> in the head() of
  *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
  */
-@import "tailwindcss" source(none);
 @source "../src";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 

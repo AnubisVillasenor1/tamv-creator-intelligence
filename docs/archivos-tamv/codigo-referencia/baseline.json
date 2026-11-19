@@ -1,0 +1,52 @@
+{
+  "schema": "tamv.governance-baseline.v1",
+  "policyVersion": "tamv.genesis.pdp/2.0.0",
+  "denyByDefault": true,
+  "principle": "El PDP recibe hechos, nunca intenciones: ninguna salida de modelo, claim de cliente ni documento promueve una capacidad por sí solo.",
+  "defaultMinimumMaturity": "M3-tested",
+  "maturityLadder": ["M0-declared", "M1-contracted", "M2-implemented", "M3-tested", "M4-operated", "M5-audited"],
+  "riskTiers": {
+    "R0": { "humanApproval": false, "prohibited": false },
+    "R1": { "humanApproval": false, "prohibited": false },
+    "R2": { "humanApproval": false, "prohibited": false },
+    "R3": { "humanApproval": false, "prohibited": false },
+    "R4": { "humanApproval": true, "prohibited": false },
+    "R5": { "humanApproval": true, "prohibited": true, "note": "R5 está prohibido; la aprobación humana nunca es suficiente." }
+  },
+  "killSwitch": {
+    "active": false,
+    "effect": "Cuando está activo, deniega toda capacidad gobernada."
+  },
+  "certification": {
+    "requiredUnlessOptOut": true,
+    "gate": "G1-signed-release",
+    "rule": "Una capacidad con requiresCertification !== false exige un release firmado y verificado por hash antes de ejecutarse."
+  },
+  "consent": {
+    "requiredWhenDeclared": true,
+    "rule": "Una capacidad con requiresConsent exige consentimiento explícito y revocable antes de procesar material del creator."
+  },
+  "decisionCodes": [
+    { "code": "ALLOWED", "allowed": true, "meaning": "Madurez, consentimiento y controles de riesgo satisfechos." },
+    { "code": "UNKNOWN_CAPABILITY", "allowed": false, "meaning": "La capacidad no está en el catálogo genesis." },
+    { "code": "KILL_SWITCH_ACTIVE", "allowed": false, "meaning": "Kill switch activo; toda capacidad gobernada denegada." },
+    { "code": "MATURITY_TOO_LOW", "allowed": false, "meaning": "La madurez alcanzada es inferior a la que exige la superficie." },
+    { "code": "EVIDENCE_MISSING", "allowed": false, "meaning": "Falta un release firmado y verificado por hash." },
+    { "code": "CONSENT_REQUIRED", "allowed": false, "meaning": "Falta consentimiento explícito y revocable." },
+    { "code": "RISK_REQUIRES_HUMAN", "allowed": false, "meaning": "R4/R5 requiere aprobación humana del payload exacto; R5 nunca se permite." }
+  ],
+  "evaluationOrder": [
+    "unknown-capability",
+    "kill-switch",
+    "maturity-gate",
+    "certification-gate",
+    "consent-gate",
+    "human-approval-gate",
+    "r5-prohibition",
+    "allow"
+  ],
+  "governanceFramework": {
+    "name": "NIST-CSF-2.0",
+    "functions": ["govern", "identify", "protect", "detect", "respond", "recover"]
+  }
+}

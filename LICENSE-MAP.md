@@ -49,3 +49,7 @@ voz, imagen, datos personales, modelos, pesos ni obras de terceros.
 
 **Atribución:** Proyecto impulsado con colaboración de tecnología latinoamericana
 TAMV ONLINE NETWORK Orgullosamente Realmontenses.
+
+## Integración del paquete de gobernanza v1.0.0
+
+Los contratos y el sellador integrados conservan AGPL-3.0-only. Los documentos originales del ZIP en `docs/governance/SOURCE-*` y ADR-001 conservan CC-BY-4.0. Los activos expresamente comerciales se rigen por `LICENSE-COMMERCIAL.md`. El archivo original en `governance-pack-v1/` se conserva como evidencia de procedencia, no como una segunda aplicación.

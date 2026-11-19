@@ -1,0 +1,41 @@
+{
+  "name": "tamv-creator-intelligence",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Paquete paraguas de gobernanza soberana para cualquier proyecto que utilice IA: integridad verificable, consentimiento, protección de derechos y cuatro skills públicas TAMV.",
+  "license": "AGPL-3.0-only",
+  "author": "TAMV ONLINE NETWORK",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "governance:sign": "node --experimental-strip-types scripts/sign-governance-pack.ts --sign",
+    "governance:verify": "node --experimental-strip-types scripts/sign-governance-pack.ts --verify"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "ATTRIBUTION.md",
+    "NOTICE",
+    "LICENSE",
+    "LICENSE-COMMERCIAL.md",
+    "SECURITY.md",
+    "governance-manifest.json",
+    "core/",
+    "governance/",
+    "docs/",
+    "scripts/",
+    "skills/"
+  ],
+  "keywords": [
+    "tamv",
+    "qoder-skill",
+    "ai-governance",
+    "integrity",
+    "ed25519",
+    "fail-closed",
+    "consent",
+    "provenance"
+  ]
+}

@@ -1,0 +1,72 @@
+-- The content of this migration cannot be applied: it was already applied to this backend under its earlier name.
+-- CREATE TABLE public.governance_projects (
+--  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, coordinator text NOT NULL,
+--  workflow text NOT NULL, title text NOT NULL, brief text NOT NULL, artifact jsonb NOT NULL,
+--  digest text NOT NULL, revision integer NOT NULL DEFAULT 1, approval_digest text,
+--  status text NOT NULL DEFAULT 'DRAFT' CHECK (status IN ('DRAFT','APPROVED','REVOKED')),
+--  created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now()
+-- );
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON public.governance_projects TO authenticated;
+-- GRANT ALL ON public.governance_projects TO service_role;
+-- ALTER TABLE public.governance_projects ENABLE ROW LEVEL SECURITY;
+-- CREATE POLICY projects_owner ON public.governance_projects FOR ALL TO authenticated USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+-- CREATE TABLE public.governance_evidence (
+--  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, project_id uuid,
+--  request_digest text NOT NULL, decision text NOT NULL CHECK (decision IN ('ALLOW','DENY','REVIEW')),
+--  reason_codes jsonb NOT NULL, policy_digest text NOT NULL, payload_digest text NOT NULL,
+--  action text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()
+-- );
+-- GRANT SELECT ON public.governance_evidence TO authenticated;
+-- GRANT ALL ON public.governance_evidence TO service_role;
+-- ALTER TABLE public.governance_evidence ENABLE ROW LEVEL SECURITY;
+-- CREATE POLICY evidence_owner ON public.governance_evidence FOR SELECT TO authenticated USING (user_id = auth.uid());
+-- CREATE TABLE public.governance_permits (
+--  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, project_id uuid NOT NULL,
+--  evidence_id uuid NOT NULL REFERENCES public.governance_evidence(id), request_digest text NOT NULL,
+--  artifact_digest text NOT NULL, audience text NOT NULL, nonce uuid NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+--  not_before timestamptz NOT NULL DEFAULT now(), expires_at timestamptz NOT NULL,
+--  consumed_at timestamptz, idempotency_key text NOT NULL, UNIQUE(user_id, idempotency_key)
+-- );
+-- GRANT SELECT ON public.governance_permits TO authenticated;
+-- GRANT ALL ON public.governance_permits TO service_role;
+-- ALTER TABLE public.governance_permits ENABLE ROW LEVEL SECURITY;
+-- CREATE POLICY permits_owner ON public.governance_permits FOR SELECT TO authenticated USING (user_id = auth.uid());
+-- CREATE TABLE public.governance_memories (
+--  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, project_id uuid NOT NULL,
+--  content jsonb NOT NULL, consent_at timestamptz NOT NULL DEFAULT now(), expires_at timestamptz NOT NULL,
+--  created_at timestamptz NOT NULL DEFAULT now()
+-- );
+-- GRANT SELECT, DELETE ON public.governance_memories TO authenticated;
+-- GRANT ALL ON public.governance_memories TO service_role;
+-- ALTER TABLE public.governance_memories ENABLE ROW LEVEL SECURITY;
+-- CREATE POLICY memories_read ON public.governance_memories FOR SELECT TO authenticated USING (user_id = auth.uid() AND expires_at > now());
+-- CREATE POLICY memories_revoke ON public.governance_memories FOR DELETE TO authenticated USING (user_id = auth.uid());
+-- CREATE INDEX governance_projects_owner ON public.governance_projects(user_id, updated_at DESC);
+-- CREATE INDEX governance_evidence_owner ON public.governance_evidence(user_id, created_at DESC);
+-- CREATE OR REPLACE FUNCTION public.record_governance_decision(p_project uuid, p_request_digest text, p_decision text, p_reasons jsonb, p_policy_digest text, p_payload_digest text, p_action text)
+-- RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+-- DECLARE receipt uuid;
+-- BEGIN
+--  IF auth.uid() IS NULL THEN RAISE EXCEPTION 'AUTH_REQUIRED'; END IF;
+--  IF p_project IS NOT NULL AND NOT EXISTS(SELECT 1 FROM public.governance_projects WHERE id = p_project AND user_id = auth.uid()) THEN RAISE EXCEPTION 'NOT_FOUND'; END IF;
+--  INSERT INTO public.governance_evidence(user_id,project_id,request_digest,decision,reason_codes,policy_digest,payload_digest,action)
+--  VALUES(auth.uid(),p_project,p_request_digest,p_decision,p_reasons,p_policy_digest,p_payload_digest,p_action) RETURNING id INTO receipt;
+--  RETURN receipt;
+-- END $$;
+-- REVOKE ALL ON FUNCTION public.record_governance_decision(uuid,text,text,jsonb,text,text,text) FROM PUBLIC, anon, authenticated;
+-- GRANT EXECUTE ON FUNCTION public.record_governance_decision(uuid,text,text,jsonb,text,text,text) TO service_role;
+-- CREATE OR REPLACE FUNCTION public.consume_governance_permit(p_id uuid, p_nonce uuid, p_digest text, p_audience text)
+-- RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+-- DECLARE used uuid;
+-- BEGIN
+--  IF auth.uid() IS NULL THEN RETURN false; END IF;
+--  UPDATE public.governance_permits AS permit SET consumed_at = now()
+--  WHERE permit.id = p_id AND permit.user_id = auth.uid() AND permit.nonce = p_nonce
+--  AND permit.request_digest = p_digest AND permit.audience = p_audience
+--  AND permit.consumed_at IS NULL AND permit.not_before <= now() AND permit.expires_at > now()
+--  AND EXISTS(SELECT 1 FROM public.governance_projects AS project WHERE project.id=permit.project_id AND project.user_id=auth.uid() AND project.status='APPROVED' AND project.digest=permit.artifact_digest AND project.approval_digest=project.digest)
+--  RETURNING permit.id INTO used;
+--  RETURN used IS NOT NULL;
+-- END $$;
+-- REVOKE ALL ON FUNCTION public.consume_governance_permit(uuid,uuid,text,text) FROM PUBLIC, anon;
+-- GRANT EXECUTE ON FUNCTION public.consume_governance_permit(uuid,uuid,text,text) TO authenticated, service_role;

@@ -15,9 +15,9 @@ describe('Creator review safeguards', () => {
 });
 
 describe('Governed skill extension', () => {
-  it('adds exactly 20 skills to the existing 17', () => {
-    expect(pack.skills).toHaveLength(37);
-    expect(Object.keys(pack.skillGraph)).toHaveLength(20);
+  it('preserves 37 skills and integrates four ZIP coordinators', () => {
+    expect(pack.skills).toHaveLength(41);
+    expect(Object.keys(pack.skillGraph)).toHaveLength(24);
     expect(skillRegistry.map(s => s.id).sort()).toEqual([...pack.skills].sort());
   });
   it('connects every new skill to original governance and rights guards', () => {

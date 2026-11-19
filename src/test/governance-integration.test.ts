@@ -1,0 +1,20 @@
+import { describe, it, expect, vi } from 'vitest';
+import { webcrypto } from 'node:crypto';
+import { buildArtifact, evaluatePolicy, validatePermit, executeWithReconciliation } from '@/core/governance/engine';
+import type { ExecutionRequest } from '@/core/governance/contracts';
+vi.stubGlobal('crypto', webcrypto);
+const request: ExecutionRequest = { requestId:'request', idempotencyKey:'unique-key', actorId:'actor', action:'local.artifact.export', resourceId:'resource', environment:'production', paramsDigest:'params', artifactDigest:'artifact', adrDigest:'adr' };
+const authority = { authenticated:true, revoked:false, approvedDigest:'artifact', consent:true, evidenceAvailable:true, adapterAvailable:true, certificationValid:false };
+describe('Integrated ZIP controls', () => {
+  it('REVIEW never allows unapproved execution', async () => { expect((await evaluatePolicy(request, { ...authority, approvedDigest:'changed' })).decision).toBe('REVIEW'); });
+  it('revocation denies new execution', async () => { expect((await evaluatePolicy(request, { ...authority, revoked:true })).decision).toBe('DENY'); });
+  it('evidence failure blocks execution', async () => { expect((await evaluatePolicy(request, { ...authority, evidenceAvailable:false })).reasonCodes).toEqual(['EVIDENCE_UNAVAILABLE']); });
+  it('prohibited voice impersonation is denied', async () => { expect((await evaluatePolicy({ ...request, action:'voice.impersonation' }, authority)).decision).toBe('DENY'); });
+  it('memory retention requires consent', async () => { expect((await evaluatePolicy({ ...request, action:'memory.retention' }, { ...authority, consent:false })).reasonCodes).toEqual(['CONSENT_REQUIRED']); });
+  it('financial amounts must be nonnegative integers with explicit currency', async () => { for (const amountMinor of ['-1','1.2','']) expect((await evaluatePolicy({ ...request, action:'financial.payout', amountMinor, currency:'MXN' }, authority)).reasonCodes).toEqual(['INVALID_FINANCIAL_AMOUNT_OR_CURRENCY']); });
+  it('unknown actions are denied by default', async () => { expect((await evaluatePolicy({ ...request, action:'unknown' }, authority)).decision).toBe('DENY'); });
+  it('external production effects still require certification', async () => { expect((await evaluatePolicy({ ...request, action:'external.publishing' }, authority)).reasonCodes).toEqual(['CERTIFICATION_REQUIRED']); });
+  it('permits reject expiry and wrong audience', () => { const permit={ requestDigest:'digest',audience:'production',notBefore:'2026-11-15T11:00:00Z',expiresAt:'2026-11-15T11:01:00Z' }; expect(validatePermit(permit,'digest','production',Date.parse('2026-11-15T11:00:30Z'))).toBe(true); expect(validatePermit(permit,'digest','staging',Date.parse('2026-11-15T11:00:30Z'))).toBe(false); expect(validatePermit(permit,'digest','production',Date.parse(permit.expiresAt))).toBe(false); });
+  it('uncertain execution reconciles without retry', async () => { const execute=vi.fn().mockRejectedValue(new Error('timeout')); const reconcile=vi.fn().mockResolvedValue(undefined); expect((await executeWithReconciliation(execute,reconcile)).status).toBe('UNKNOWN'); expect(execute).toHaveBeenCalledTimes(1); expect(reconcile).toHaveBeenCalledTimes(1); });
+  it('Performance computes only supplied metrics', () => { const artifact=buildArtifact('tamv-growth-engine','Performance','Campaña','Visitas: 120\nRegistros: 12'); expect(artifact.metrics).toEqual([{name:'Visitas',value:120},{name:'Registros',value:12}]); expect(artifact.total).toBe(132); expect(artifact.externalEffects).toBe(false); });
+});

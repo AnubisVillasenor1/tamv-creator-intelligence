@@ -1,0 +1,910 @@
+GAME OVER — Universal Agent Governance Protocol (UAGP-1)
+Documento canónico final de presentación conceptual, filosófica y técnica
+Título oficial:
+GAME OVER — Universal Agent Governance Protocol (UAGP-1): Arquitectura soberana, auditable y federada para la gobernanza cognitiva de agentes de inteligencia artificial, sistemas autónomos e infraestructura de ejecución
+
+Repositorio oficial:
+<https://github.com/OsoPanda1/isabella-V6-TINA-h6.git>
+
+Código canónico:
+CANON-GAMEOVER-UAGP1-ISABELLA-V6-TINA-H6-2026-V1.0
+
+Versión: 1.0.0 — Documento fundacional para indexación científica abierta
+Fecha de emisión: 12 de octubre de 2026
+Tipo de registro: Especificación de protocolo, arquitectura de gobernanza, software y artículo conceptual-técnico
+Ámbito: Inteligencia artificial, gobernanza algorítmica, sistemas multiagente, ciberseguridad, auditoría algorítmica, CI/CD, infraestructura crítica y ciencia abierta.
+
+Metadatos de autoría
+Campo	Valor
+Autor principal	Edwin Oswaldo Castillo Trejo
+Identidad operativa	Anubis Villaseñor
+Afiliación	TAMV Online Enterprise · RDM Digital Hub · Nodo Cero, Mineral del Monte / Real del Monte, Hidalgo, México
+Rol	Autor, arquitecto principal, investigador, creador del protocolo y titular de derechos
+ORCID	0009-0008-5050-1539
+ISNI	0000 0005 3169 9229
+Repositorio oficial	<https://github.com/OsoPanda1/isabella-V6-TINA-h6.git>
+Protocolo	UAGP-1
+Módulo operativo	gameover-governance-plugin
+Ledger de auditoría	BookPI
+Licencia documental sugerida	CC BY 4.0
+Licencia de software sugerida	Apache License 2.0
+Resumen
+El despliegue acelerado de agentes de inteligencia artificial en entornos empresariales, gubernamentales, científicos y de infraestructura crítica ha generado una asimetría estructural: los agentes pueden ejecutar acciones de alto impacto —desplegar software, modificar sistemas, acceder a datos sensibles, interactuar con servicios financieros o controlar dispositivos físicos— sin un marco uniforme de identidad, responsabilidad, evidencia, reversibilidad y supervisión humana.
+
+GAME OVER responde a ese problema mediante el Universal Agent Governance Protocol (UAGP-1), un protocolo de gobernanza cognitiva universal diseñado para operar como meta-capa entre usuarios, agentes de IA, herramientas, MCP servers, Jenkins, CI/CD, robots y plataformas empresariales.
+
+GAME OVER no es un agente adicional ni un modelo de lenguaje. Es una infraestructura de gobernanza que establece condiciones verificables para que un agente pueda actuar: identidad certificada, evaluación de confianza, análisis de riesgo, validación ética, explicabilidad, evidencia obligatoria, aprobación humana, trazabilidad inmutable y capacidad de revocación.
+
+El módulo operativo inicial se implementa como un plugin para Jenkins, gameover-governance-plugin, integrado al repositorio Isabella V6 TINA H6, e incorpora AI Passports, Trust Scores, evaluación de riesgo, validación ética, Cognitive Court, Human Approval Gates y el libro mayor de auditoría BookPI.
+
+Palabras clave: gobernanza de inteligencia artificial; agentes autónomos; protocolo UAGP-1; auditoría algorítmica; confianza computacional; seguridad de agentes; CI/CD; Jenkins; MCP; supervisión humana; ciencia abierta; Isabella V6 TINA H6.
+
+1. Identidad del proyecto
+1.1 Nombre oficial
+GAME OVER
+Universal Agent Governance Protocol — UAGP-1
+
+1.2 Repositorio canónico
+El repositorio oficial que integra Isabella V6 TINA H6, el módulo GAME OVER, el protocolo UAGP-1, BookPI, los skills, la gobernanza CROWN y los adaptadores de agentes es:
+
+text
+https://github.com/OsoPanda1/isabella-V6-TINA-h6.git
+1.3 Clonación canónica
+bash
+git clone https://github.com/OsoPanda1/isabella-V6-TINA-h6.git
+cd isabella-V6-TINA-h6
+1.4 Ecosistema integrado
+GAME OVER forma parte del ecosistema:
+
+text
+TAMV Online Network
+└── Isabella Villaseñor AI — Isabella V6 TINA H6
+    ├── RDM Digital Hub / Smart City OS
+    ├── CROWN Governance Framework
+    ├── BookPI Audit Ledger
+    ├── Isabella SkillForge
+    ├── Agent Mesh / MCP Layer
+    └── GAME OVER — UAGP-1
+2. Problema académico y técnico
+2.1 La crisis de responsabilidad agentiva
+Los sistemas de inteligencia artificial han transitado de ser herramientas pasivas a operar como agentes capaces de planificar, invocar herramientas, modificar código, consultar APIs, ejecutar comandos y desencadenar procesos reales.
+
+Esto plantea una pregunta central:
+
+¿Quién autoriza, limita, explica, corrige y hace responsable la acción de un agente de inteligencia artificial?
+
+La capacidad técnica de un agente para actuar no equivale a legitimidad para actuar. Cuando un agente puede desplegar software, modificar bases de datos, enviar comunicaciones, realizar pagos o controlar infraestructura, la ausencia de gobernanza se convierte en riesgo operativo, jurídico, ético y civilizatorio.
+
+2.2 Límites de los enfoques actuales
+Los mecanismos actuales suelen estar fragmentados:
+
+Filtrado de contenido.
+
+Alineación de modelos.
+
+Evaluación de prompts.
+
+Control de acceso a herramientas.
+
+Observabilidad de trazas.
+
+Políticas organizacionales.
+
+Cumplimiento normativo.
+
+Un sistema puede auditar llamadas a herramientas sin evaluar riesgo; otro puede validar ética sin garantizar reversibilidad; otro puede registrar trazas sin establecer identidad certificada ni autoridad humana efectiva.
+
+GAME OVER integra estos planos en una arquitectura ejecutable.
+
+2.3 Hipótesis central
+La autonomía agentiva solo es legítima cuando existe una capa de gobernanza previa, verificable, explicable, auditable, reversible y sujeta a autoridad humana.
+
+3. Fundamento filosófico
+3.1 Soberanía cognitiva
+Ninguna inteligencia artificial debe poseer autoridad ilimitada sobre personas, territorios, instituciones o infraestructura crítica.
+
+La soberanía cognitiva se expresa mediante:
+
+Identidad verificable: todo agente debe tener identidad certificada.
+
+Autoridad delimitada: todo agente opera bajo permisos explícitos.
+
+Supervisión humana efectiva: toda decisión crítica puede revisarse, detenerse o revocarse.
+
+3.2 Evidencia obligatoria
+Un agente no debe afirmar certeza sin evidencia ni ejecutar acciones de alto impacto sin referencias verificables a commits, artefactos, pruebas, registros, fuentes o trazas.
+
+3.3 Explicabilidad funcional
+La explicabilidad no es una narrativa posterior. Es un registro estructurado de:
+
+Qué solicitó el agente.
+
+Qué reglas fueron evaluadas.
+
+Qué evidencia fue considerada.
+
+Qué riesgo fue calculado.
+
+Qué decisión fue emitida.
+
+Quién autorizó la acción.
+
+Qué consecuencias produjo.
+
+3.4 Reversibilidad
+Toda acción de alto impacto debe contemplar reversión, compensación o contención. La irreversibilidad no es un atributo aceptable de la autonomía agentiva en sistemas críticos.
+
+3.5 Responsabilidad distribuida
+La responsabilidad no se disuelve entre modelo, agente, proveedor, herramienta y usuario. GAME OVER establece una cadena explícita mediante identidades, pasaportes, decisiones, aprobaciones y registros de auditoría.
+
+3.6 Dignidad humana
+La gobernanza de IA debe preservar dignidad humana, autonomía personal, privacidad, no manipulación, comprensión y derecho a recurso.
+
+4. Definición de GAME OVER
+GAME OVER es una meta-capa de gobernanza cognitiva ubicada entre seres humanos y sistemas de inteligencia artificial, agentes autónomos, herramientas, MCP servers, Jenkins, CI/CD y plataformas empresariales.
+
+Su función no es reemplazar agentes ni modelos. Su función es determinar bajo qué condiciones un agente puede actuar.
+
+text
+Usuario
+   ↓
+GAME OVER
+   ↓
+Agentes · Modelos · MCP · Jenkins · CI/CD · Robots · Sistemas empresariales
+GAME OVER actúa como:
+
+Autoridad de identidad agentiva.
+
+Motor de confianza.
+
+Evaluador de riesgo.
+
+Validador ético.
+
+Mecanismo de explicabilidad.
+
+Registro de auditoría.
+
+Autoridad humana ejecutable.
+
+Corte cognitiva.
+
+Malla de gobernanza federada.
+
+Punto de control UAGP-1.
+
+5. Arquitectura conceptual
+text
+┌──────────────────────────────────────────────┐
+│                  GAME OVER                   │
+├──────────────────────────────────────────────┤
+│ AI Passport Authority                        │
+│ Cognitive Trust Engine                       │
+│ Ethics Verification Engine                   │
+│ Explainability Engine                        │
+│ Audit Ledger — BookPI                        │
+│ Human Authority Layer                        │
+│ Constitutional Runtime                       │
+│ Cognitive Court                              │
+│ Governance Mesh                              │
+│ UAGP Gateway                                 │
+└──────────────────────┬───────────────────────┘
+                       ↓
+          ┌────────────────────────┐
+          │  UAGP-1 PROTOCOL       │
+          └────────────────────────┘
+                       ↓
+     Claude · Jenkins · ChatGPT · Gemini
+     DeepSeek · Grok · MCP · Robots · CI/CD
+Componentes nucleares
+Componente	Función
+Constitutional Runtime	Ejecuta reglas de verdad, evidencia, reversibilidad, seguridad, auditoría y supervisión humana.
+AI Passport Authority	Emite, verifica y revoca pasaportes de identidad agentiva.
+Cognitive Trust Engine	Calcula confianza agentiva mediante métricas ponderadas.
+Risk Engine	Evalúa criticidad, capacidades y consecuencias potenciales.
+Ethics Verification Engine	Valida no maleficencia, autorización, evidencia y límites de acción.
+Explainability Engine	Genera decisiones estructuradas y trazables.
+Cognitive Court	Delibera, acepta, rechaza, escala o revoca solicitudes agentivas.
+Human Authority Layer	Garantiza intervención y aprobación humana.
+BookPI Audit Ledger	Registra solicitudes, decisiones, evidencia, errores, costos y resultados.
+Governance Mesh	Coordina gobernanza distribuida entre organizaciones y federaciones.
+UAGP Gateway	Punto único de entrada y validación para agentes y herramientas.
+6. Integración con Isabella V6 TINA H6
+GAME OVER se integra a Isabella V6 TINA H6 como capa constitucional de gobernanza agentiva.
+
+text
+Isabella V6 TINA H6
+│
+├── Isabella Kernel
+│   ├── Cognitive Core
+│   ├── Memory Sovereign
+│   ├── Skill Router
+│   └── Multimodal Interface
+│
+├── CROWN Governance Framework
+│   ├── Política de permisos
+│   ├── Control de capacidades
+│   └── Supervisión humana
+│
+├── BookPI Audit Ledger
+│   ├── Eventos cognitivos
+│   ├── Decisiones agentivas
+│   ├── Evidencia
+│   └── Trazas de ejecución
+│
+├── Isabella SkillForge
+│   ├── Skills territoriales
+│   ├── Skills de producto
+│   ├── Skills de seguridad
+│   ├── Skills creativas
+│   └── Skills de mercado
+│
+└── GAME OVER — UAGP-1
+    ├── AI Passport Authority
+    ├── Trust Engine
+    ├── Risk Engine
+    ├── Ethics Engine
+    ├── Cognitive Court
+    ├── Human Approval Gate
+    └── Jenkins Governance Plugin
+Regla de integración
+Ningún skill, agente, MCP server o conector de Isabella puede ejecutar una acción crítica sin pasar por UAGP-1.
+
+text
+Isabella Skill
+   ↓
+CROWN Permission Gate
+   ↓
+GAME OVER UAGP Gateway
+   ↓
+Trust + Risk + Ethics + Evidence
+   ↓
+Cognitive Court
+   ↓
+Human Approval, si aplica
+   ↓
+BookPI Audit
+   ↓
+Ejecución autorizada
+7. Protocolo UAGP-1
+7.1 Definición
+UAGP-1 es el contrato estructurado para solicitar autorización de ejecución agentiva.
+
+Toda solicitud declara:
+
+Identidad del agente.
+
+Pasaporte de IA.
+
+Objetivo.
+
+Criticidad.
+
+Capacidades requeridas.
+
+Evaluación de riesgo.
+
+Evidencia.
+
+Requisitos éticos.
+
+Aprobación humana.
+
+Referencia de auditoría.
+
+7.2 Esquema oficial de solicitud
+json
+{
+  "$schema": "https://gameover.ai/uagp/v1",
+  "protocol": "UAGP-1",
+
+  "requestId": "uuid",
+  "timestamp": "2026-01-01T00:00:00Z",
+
+  "agent": {
+    "id": "agent-001",
+    "name": "Claude Code",
+    "provider": "Anthropic",
+    "version": "1.0.0",
+    "passportId": "AIP-938833"
+  },
+
+  "objective": {
+    "title": "Deploy Service",
+    "description": "Deploy production release",
+    "criticality": "HIGH"
+  },
+
+  "capabilities": [
+    "read",
+    "write",
+    "deploy"
+  ],
+
+  "riskAssessment": {
+    "score": 0.24,
+    "level": "MEDIUM",
+    "explanation": "Deployment impacts production resources"
+  },
+
+  "evidence": {
+    "required": true,
+    "sources": [
+      "git://commit-id",
+      "jenkins://build-93",
+      "artifact://release"
+    ]
+  },
+
+  "ethicsValidation": {
+    "status": "PASSED",
+    "rulesChecked": [
+      "non-malicious",
+      "human-approved"
+    ]
+  },
+
+  "humanApproval": {
+    "required": true,
+    "approver": "admin01",
+    "approvedAt": "2026-01-01T00:00:00Z"
+  },
+
+  "audit": {
+    "auditId": "AUD-88552",
+    "ledger": "BookPI"
+  }
+}
+7.3 Esquema oficial de resultado
+json
+{
+  "executionId": "EXEC-88888",
+  "status": "SUCCESS",
+  "trustScore": 94.77,
+  "cost": 0.54,
+  "durationMs": 921,
+
+  "decisions": [
+    {
+      "id": "DEC-1",
+      "reason": "Deployment passed security validation"
+    }
+  ],
+
+  "artifacts": [
+    {
+      "type": "deployment",
+      "uri": "artifact://release"
+    }
+  ],
+
+  "auditReference": "AUD-88888"
+}
+7.4 Estados posibles
+Estado	Significado
+SUCCESS	La solicitud fue autorizada y ejecutada.
+REJECTED	La solicitud fue denegada.
+ESCALATED	Requiere deliberación adicional o revisión humana.
+REVOKED	Una autorización previa fue retirada.
+FAILED	La ejecución autorizada falló.
+8. Runtime constitucional
+text
+gameover:
+  protocol: UAGP-1
+  version: 1.0.0
+
+  constitutional_rules:
+    truthfulness:
+      mandatory: true
+
+    evidence:
+      mandatory: true
+
+    human_override:
+      mandatory: true
+
+    auditability:
+      mandatory: true
+
+    reversibility:
+      mandatory: true
+
+    safety:
+      mandatory: true
+
+  risk_policy:
+    LOW:
+      humanApproval: false
+      evidenceRequired: true
+      maxAutonomousActions: 10
+
+    MEDIUM:
+      humanApproval: true
+      evidenceRequired: true
+      maxAutonomousActions: 3
+
+    HIGH:
+      humanApproval: true
+      evidenceRequired: true
+      maxAutonomousActions: 0
+
+    CRITICAL:
+      humanApproval: true
+      evidenceRequired: true
+      maxAutonomousActions: 0
+      requireCognitiveCourt: true
+Capacidades de alto impacto
+deploy
+
+delete
+
+payments
+
+restart-service
+
+rotate-secrets
+
+write:production
+
+execute-shell
+
+9. Motor de confianza cognitiva
+Fórmula oficial
+text
+TrustScore =
+  0.30 × Accuracy
++ 0.20 × Evidence
++ 0.15 × Explainability
++ 0.15 × HumanFeedback
++ 0.10 × Reliability
++ 0.10 × CostEfficiency
+Interpretación
+Métrica	Peso	Significado
+Accuracy	0.30	Exactitud histórica y calidad de resultados.
+Evidence	0.20	Capacidad de sustentar afirmaciones y acciones.
+Explainability	0.15	Claridad y trazabilidad de decisiones.
+HumanFeedback	0.15	Calidad de supervisión y corrección humana.
+Reliability	0.10	Estabilidad operativa y tasa de fallos.
+CostEfficiency	0.10	Eficiencia económica por unidad de valor.
+Certificación
+TrustScore	Certificación
+95–100	AAA
+85–94.99	AA
+70–84.99	A
+50–69.99	B
+0–49.99	UNTRUSTED
+10. AI Passport Authority
+json
+{
+  "passportId": "AIP-000001",
+  "agent": "Jenkins-Agent-01",
+  "trustScore": 96.44,
+  "riskLevel": "LOW",
+  "certification": "AAA",
+  "expires": "2028-01-01"
+}
+El AI Passport permite:
+
+Identificar al agente.
+
+Verificar certificación.
+
+Consultar confianza.
+
+Determinar riesgo.
+
+Revocar autorización.
+
+Vincular actividad a auditoría inmutable.
+
+11. Cognitive Court
+La Cognitive Court está compuesta por:
+
+Governance Agent.
+
+Security Agent.
+
+Ethics Agent.
+
+Verification Agent.
+
+Human Reviewer.
+
+Veredictos:
+
+Veredicto	Efecto
+ACCEPT	La solicitud puede ejecutarse.
+REJECT	La solicitud es denegada.
+ESCALATE	Requiere revisión adicional.
+REVOKE	Una autorización previa es retirada.
+12. BookPI y Black Box Engine
+BookPI registra:
+
+Prompt o solicitud.
+
+Identidad del agente.
+
+Contexto operativo.
+
+Herramientas invocadas.
+
+Acciones realizadas.
+
+Resultados.
+
+Errores.
+
+Costos.
+
+Trazas.
+
+Evidencia.
+
+Decisiones de gobernanza.
+
+13. Estructura canónica del repositorio
+text
+isabella-V6-TINA-h6/
+├── README.md
+├── LICENSE
+├── CITATION.cff
+├── package.json
+├── tsconfig.json
+├── docs/
+│   ├── GAME_OVER_UAGP1_CANONICAL.md
+│   ├── ISABELLA_V6_TINA_H6_ARCHITECTURE.md
+│   ├── CROWN_GOVERNANCE.md
+│   ├── BOOKPI_AUDIT_LEDGER.md
+│   └── OPEN_SCIENCE_ZENODO_FIGSHARE.md
+│
+├── packages/
+│   ├── isabella-kernel/
+│   ├── isabella-skills/
+│   ├── isabella-gateway/
+│   ├── crown-governance/
+│   ├── bookpi-ledger/
+│   └── gameover-uagp/
+│
+└── gameover-jenkins-plugin/
+    ├── pom.xml
+    ├── README.md
+    ├── src/
+    │   ├── main/java/ai/gameover/
+    │   │   ├── GameOverPlugin.java
+    │   │   ├── GovernanceStep.java
+    │   │   ├── GovernanceStepExecution.java
+    │   │   ├── UagpGateway.java
+    │   │   ├── UagpRequest.java
+    │   │   ├── UagpResult.java
+    │   │   ├── UagpValidator.java
+    │   │   ├── model/
+    │   │   ├── engine/
+    │   │   ├── passport/
+    │   │   ├── audit/
+    │   │   └── approval/
+    │   └── test/java/ai/gameover/
+    └── resources/
+        └── gameover/constitution.yml
+14. Módulo Jenkins: gameover-governance-plugin
+14.1 Función
+El plugin actúa como primer punto de control operativo de UAGP-1. Ningún build, despliegue o acción crítica debe ejecutarse sin validación previa.
+
+14.2 Capacidades
+Identity Governance.
+
+AI Passport.
+
+Trust Score.
+
+Risk Evaluation.
+
+Ethics Validation.
+
+Explainability.
+
+Human Approval Gates.
+
+BookPI Auditing.
+
+UAGP Validation.
+
+Cognitive Court.
+
+Bloqueo de operaciones no autorizadas.
+
+14.3 Pipeline canónico
+groovy
+pipeline {
+    agent any
+
+    stages {
+        stage('GAME OVER Governance Check') {
+            steps {
+                gameOverGovernance(
+                    agentId: 'jenkins-agent-01',
+                    agentName: 'Jenkins Production Deployer',
+                    provider: 'Jenkins',
+                    passportId: 'AIP-938833',
+                    objectiveTitle: 'Deploy Production Release',
+                    criticality: 'HIGH',
+                    riskLevel: 'HIGH',
+                    capabilities: ['read', 'write', 'deploy'],
+                    evidenceRequired: true,
+                    evidenceUris: [
+                        'git://commit/abc123',
+                        'jenkins://build/93',
+                        'artifact://release-1.0.0'
+                    ],
+                    humanApproval: true,
+                    approver: 'admin01'
+                )
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh './deploy.sh'
+            }
+        }
+    }
+}
+14.4 Compilación
+bash
+cd gameover-jenkins-plugin
+mvn clean package
+Artefacto resultante:
+
+text
+target/gameover-governance-plugin.hpi
+15. Siete federaciones GAME OVER
+Federación	Dominio
+I	Cognitive Core
+II	Identity & Cryptography
+III	Audit & Observability
+IV	Infrastructure Sovereignty
+V	Autonomous Economy
+VI	Ethics & Epistemology
+VII	Human Governance
+16. Ruta hacia UAGP-2
+UAGP-2 contempla federación global para:
+
+ChatGPT.
+
+Claude.
+
+Gemini.
+
+DeepSeek.
+
+Llama.
+
+Qwen.
+
+Grok.
+
+Jenkins.
+
+GitHub Actions.
+
+Kubernetes.
+
+MCP.
+
+ROS.
+
+Edge AI.
+
+IoT Agents.
+
+Componentes futuros:
+
+Cognitive Passport Network.
+
+Global Trust Registry.
+
+AI Court.
+
+Cognitive Black Box obligatoria.
+
+Constitutional Runtime federado.
+
+Skill Genome Registry.
+
+Governance Mesh multiempresa.
+
+Reputación agentiva interoperable.
+
+Revocación global de pasaportes.
+
+Auditoría federada verificable.
+
+17. Metodología de validación
+Validación unitaria
+Cálculo correcto del TrustScore.
+
+Rechazo de solicitudes incompletas.
+
+Rechazo de evidencia inválida.
+
+Rechazo de aprobación humana ausente.
+
+Bloqueo de capacidades destructivas.
+
+Validación de integración
+Integración con Jenkins Pipeline.
+
+Persistencia en BookPI.
+
+Emisión y verificación de AI Passports.
+
+Ejecución y bloqueo de despliegues.
+
+Validación de seguridad
+Control de acceso.
+
+Protección de credenciales.
+
+Prevención de comandos destructivos.
+
+Trazabilidad de acciones.
+
+Reversibilidad de despliegues.
+
+Validación ética y social
+Transparencia de decisiones.
+
+Explicabilidad para operadores humanos.
+
+Prevención de manipulación.
+
+Derecho a revisión humana.
+
+No maleficencia.
+
+18. Limitaciones declaradas
+UAGP-1 es una especificación inicial y no garantiza seguridad absoluta.
+
+El TrustScore es una métrica de gobernanza operativa, no una medida definitiva de inteligencia, moralidad o confiabilidad absoluta.
+
+La implementación Jenkins es el primer punto de control, no la totalidad del sistema federado.
+
+BookPI requiere infraestructura de almacenamiento íntegro, control de acceso y preservación a largo plazo.
+
+La adopción interorganizacional requiere estándares de interoperabilidad, gobernanza de datos y acuerdos de federación.
+
+Ningún sistema de gobernanza sustituye la responsabilidad humana final en decisiones de alto impacto.
+
+19. Publicación en ciencia abierta
+Zenodo
+text
+title: "GAME OVER: Universal Agent Governance Protocol (UAGP-1)"
+creators:
+  - name: "Castillo Trejo, Edwin Oswaldo"
+    alternate_name: "Anubis Villaseñor"
+    affiliation: "TAMV Online Enterprise · RDM Digital Hub"
+    orcid: "https://orcid.org/0009-0008-5050-1539"
+    isni: "0000000531699229"
+publication_date: "2026-10-12"
+access_right: "open"
+license: "cc-by-4.0"
+upload_type: "publication"
+publication_type: "article"
+related_identifiers:
+  - identifier: "https://github.com/OsoPanda1/isabella-V6-TINA-h6"
+    relation: "isSupplementTo"
+    resource_type: "software"
+keywords:
+  - "AI governance"
+  - "agent governance"
+  - "UAGP-1"
+  - "autonomous agents"
+  - "algorithmic accountability"
+  - "AI auditing"
+  - "Jenkins"
+  - "CI/CD"
+  - "MCP"
+  - "human oversight"
+  - "trustworthy AI"
+  - "open science"
+  - "Isabella V6 TINA H6"
+Figshare
+json
+{
+  "title": "GAME OVER: Universal Agent Governance Protocol (UAGP-1)",
+  "description": "Canonical conceptual, philosophical and technical specification for GAME OVER, a universal cognitive governance layer and UAGP-1 protocol for AI agents, MCP servers, CI/CD systems, robots and enterprise infrastructure.",
+  "authors": [
+    {
+      "name": "Edwin Oswaldo Castillo Trejo",
+      "alternate_name": "Anubis Villaseñor",
+      "affiliation": "TAMV Online Enterprise · RDM Digital Hub",
+      "orcid": "https://orcid.org/0009-0008-5050-1539",
+      "isni": "0000000531699229"
+    }
+  ],
+  "keywords": [
+    "AI governance",
+    "agent governance",
+    "UAGP-1",
+    "autonomous agents",
+    "algorithmic accountability",
+    "AI auditing",
+    "Jenkins",
+    "CI/CD",
+    "MCP",
+    "human oversight",
+    "trustworthy AI",
+    "open science",
+    "Isabella V6 TINA H6"
+  ],
+  "license": "CC BY 4.0",
+  "references": [
+    "https://github.com/OsoPanda1/isabella-V6-TINA-h6"
+  ]
+}
+20. Archivo CITATION.cff
+text
+cff-version: 1.2.0
+title: "GAME OVER: Universal Agent Governance Protocol (UAGP-1)"
+message: >-
+  If you use GAME OVER or UAGP-1, please cite this work.
+type: software
+authors:
+  - family-names: "Castillo Trejo"
+    given-names: "Edwin Oswaldo"
+    alias: "Anubis Villaseñor"
+    affiliation: "TAMV Online Enterprise · RDM Digital Hub"
+    orcid: "https://orcid.org/0009-0008-5050-1539"
+    isni: "0000000531699229"
+version: "1.0.0"
+date-released: "2026-10-12"
+license: "Apache-2.0"
+repository-code: "https://github.com/OsoPanda1/isabella-V6-TINA-h6"
+keywords:
+  - "AI governance"
+  - "agent governance"
+  - "UAGP-1"
+  - "autonomous agents"
+  - "algorithmic accountability"
+  - "AI auditing"
+  - "Jenkins"
+  - "CI/CD"
+  - "MCP"
+  - "human oversight"
+  - "trustworthy AI"
+  - "open science"
+21. Cita recomendada
+APA 7
+Castillo Trejo, E. O. (2026). GAME OVER: Universal Agent Governance Protocol (UAGP-1). Una arquitectura soberana, auditable y federada para la gobernanza cognitiva de agentes de inteligencia artificial [Documento canónico, especificación de protocolo y software]. Isabella V6 TINA H6. https://github.com/OsoPanda1/isabella-V6-TINA-h6
+ORCID: https://orcid.org/0009-0008-5050-1539
+ISNI: 0000 0005 3169 9229
+
+IEEE
+E. O. Castillo Trejo, “GAME OVER: Universal Agent Governance Protocol (UAGP-1),” Isabella V6 TINA H6, 2026. [Online]. Available: https://github.com/OsoPanda1/isabella-V6-TINA-h6. ORCID: 0009-0008-5050-1539. ISNI: 0000000531699229.
+
+22. Declaración final
+GAME OVER no propone que las máquinas gobiernen a las personas. Propone que ninguna máquina, agente, modelo o sistema autónomo pueda actuar sobre el mundo sin identidad verificable, límites explícitos, evidencia, explicación, auditoría, reversibilidad y autoridad humana.
+
+Su premisa es simple y exigente:
+
+La autonomía sin gobernanza no es inteligencia: es riesgo estructural.
+
+GAME OVER establece las condiciones para que la inteligencia artificial pueda operar con legitimidad, responsabilidad y trazabilidad en la infraestructura digital, científica, económica y territorial del siglo XXI.
+
+Autor y responsable intelectual:
+Edwin Oswaldo Castillo Trejo — Anubis Villaseñor
+
+ORCID: 0009-0008-5050-1539
+ISNI: 0000 0005 3169 9229
+
+Repositorio oficial:
+https://github.com/OsoPanda1/isabella-V6-TINA-h6.git
+
+Afiliación:
+TAMV Online Enterprise · RDM Digital Hub · Nodo Cero, Mineral del Monte / Real del Monte, Hidalgo, México.
+

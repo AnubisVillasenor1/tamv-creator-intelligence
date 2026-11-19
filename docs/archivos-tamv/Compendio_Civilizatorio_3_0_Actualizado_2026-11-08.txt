@@ -1,0 +1,1453 @@
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 1
+TAMV ONLINE NETWORK
+COMPENDIO
+CIVILIZATORIO 3.0
+Memoria técnica, identidad persistente,
+evidencia pública y trazabilidad del ecosistema TAMV
+EDICIÓN AMPLIADA DE INVESTIGACIÓN DOCUMENTAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Autor responsable
+Edwin Oswaldo Castillo Trejo
+Identidad profesional declarada: Anubis Villaseñor
+Fecha de corte: 8 de noviembre de 2026
+Versión 3.0 | Preparado para revisión y depósito
+No revisado por pares | No constituye certificación ni auditoría formal
+Real del Monte, Hidalgo, México
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 2
+Ficha editorial y control de versión
+Campo Registro
+Título
+Compendio Civilizatorio 3.0: Memoria técnica, identidad 
+persistente, evidencia pública y trazabilidad del ecosistema 
+TAMV Online Network.
+Autor responsable Edwin Oswaldo Castillo Trejo; identidad profesional declarada: Anubis Villaseñor.
+Afiliación declarada TAMV Online Network.
+Iniciativas asociadas en las fuentes
+TAMV Online Network, TAMV MD-X4 / DM-X4, Isabella 
+Villaseñor AI, RDM Digital Hub / RDM-TOS, Nodo Cero, MSR y 
+BookPI.
+ORCID comunicado
+0009-0008-5050-1539. El perfil de Figshare enlaza el 
+identificador; la página ORCID no pudo revisarse más allá de 
+su pantalla de JavaScript.
+ISNI comunicado
+0000-0005-3169-9229. Formato de 16 dígitos y dígito de control 
+compatible con la estructura ISNI; la asignación registral a la 
+persona no pudo confirmarse directamente.
+DOI mencionado
+10.5281/zenodo.19436662. Figshare lo muestra como 
+referencia; el registro de Zenodo no se pudo recuperar en esta 
+comprobación.
+Versión y fecha 3.0 | 8 de noviembre de 2026.
+Base documental
+PDF Compendio de Trazabilidad v2.0 (11 páginas), 11 URL 
+únicas, perfiles, blog, convocatoria académica, documentación 
+y artefactos públicos GitHub.
+Estado editorial Edición ampliada de investigación documental; no revisada por pares.
+Licencia propuesta
+CC BY 4.0 únicamente para contenido original cuyos derechos 
+correspondan al autor. No extiende derechos sobre obras, 
+marcas, capturas o documentos de terceros.
+DOI de esta edición No asignado.
+Alcance esencial
+Esta edición actualiza el expediente y añade un análisis estático selectivo de documentación y código público. 
+No se ejecutó el sistema completo, no se aplicaron migraciones, no se realizaron pruebas de penetración, no se 
+autenticaron correos ni se auditó una infraestructura productiva. Los límites no son una omisión editorial: son 
+parte de la trazabilidad.
+Cambios principales frente a la versión 2.0
+La versión 3.0 añade el inventario individual de las 11 URL, la actualización del perfil Figshare y sus siete títulos 
+visibles; incorpora una inspección selectiva de dos repositorios públicos (árbol documental, Markdown, YAML, 
+React/Vite, SQL/RLS y un archivo .env rastreado cuyo contenido no se leyó); actualiza la legislación mexicana, 
+NOM-151 y los estándares NIST poscuánticos; corrige la cronología de CITIS 2026; y separa de manera explícita 
+documentación, código, ejecución, despliegue y evaluación externa.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 3
+Índice de secciones
+ 1. Resumen ejecutivo
+ 2. Hallazgos principales y dictamen documental
+ 3. Alcance, metodología y sistema de clasificación
+ 4. Inventario de URL del documento original
+ 5. Identidad, identificadores y corpus de publicaciones
+ 6. Cronología documental ampliada
+ 7. Repositorios y corpus documental GitHub
+ 8. Arquitectura declarada del ecosistema
+ 9. Revisión de contratos API y coherencia técnica
+ 10. Inspección estática del proyecto genesis-digytamv-nexus
+ 11. Seguridad, privacidad y criptografía poscuántica
+ 12. Marco normativo y propiedad intelectual
+ 13. Evidencia científica y referencias académicas invocadas
+ 14. Matriz de afirmaciones y suficiencia probatoria
+ 15. Modelo actualizado de trazabilidad y preservación
+ 16. Indicadores verificables y pruebas recomendadas
+ 17. Hoja de ruta de consolidación
+ 18. Limitaciones, pendientes y conclusiones
+ Anexo A. Fichas de fuente
+ Anexo B. Plantilla de afirmación trazable
+ Anexo C. Referencias bibliográficas y técnicas
+La numeración es estructural. La paginación definitiva se genera al abrir o convertir el archivo en un procesador compatible con 
+Word.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 4
+1. Resumen ejecutivo
+El Compendio Civilizatorio 3.0 consolida la memoria pública identificada de Edwin Oswaldo Castillo Trejo (Anubis 
+Villaseñor) y las iniciativas asociadas a TAMV Online Network. La versión amplía el expediente de 11 páginas y 2.0 a 
+una revisión documental de mayor cobertura: se intentó abrir cada una de las once URL únicas incluidas como 
+hipervínculos en el PDF, se revisaron fuentes institucionales y académicas relevantes, y se inspeccionaron artefactos 
+textuales y de código de repositorios públicos localizables mediante GitHub.
+Resultado central
+La evidencia pública confirma la existencia de una narrativa profesional coherente, un ecosistema de 
+publicaciones y repositorios, documentación arquitectónica, especificaciones OpenAPI y un proyecto front-end 
+con código y migraciones de base de datos. No acredita, por sí sola, que la arquitectura completa esté 
+desplegada, que todos los módulos operen, que la criptografía poscuántica esté implementada, ni que exista 
+validación científica o institucional integral.
+Balance de recuperación de fuentes
+Indicador Resultado al 08-11-2026 Interpretación
+URL únicas extraídas del PDF 11 Conteo verificado sobre los hipervínculos incrustados en el PDF original.
+URL con contenido recuperado 
+directamente 7 de 11 (63.6%) Se recuperó contenido suficiente para análisis en siete destinos.
+URL sin contenido recuperable en esta 
+sesión 4 de 11 (36.4%)
+Incluye páginas no accesibles, 
+bloqueadas o una imagen adjunta; no 
+equivale a afirmar que estén eliminadas.
+Repositorio documental principal 245 entradas en el árbol; 218 archivos documentales/textuales seleccionados 195 DOCX, 12 MD, 7 TXT, 2 YAML, 1 JSON y 1 PDF; no se descargaron ni leyeron todos los binarios.
+Repositorios públicos inspeccionados 2 repositorios de forma selectiva
+Uno documental/arquitectónico y otro de 
+aplicación; no representa auditoría total 
+de la cuenta GitHub.
+Artefactos técnicos de texto/código 
+examinados
+Varios Markdown, YAML, TSX, JSON y 
+SQL
+Inspección estática de selección, no 
+ejecución ni auditoría de producción.
+Ocho conclusiones que deben guiar la siguiente edición
+1. Identidad documental: Figshare enlaza el ORCID comunicado y presenta siete títulos de publicaciones. Esto 
+refuerza consistencia de autodescripción, pero la página ORCID no pudo verificarse directamente y no 
+autentica todas las credenciales del perfil.
+2. Corpus de investigación: el repositorio documental contiene un volumen elevado de archivos, con predominio de 
+documentos Word. El tamaño del corpus aumenta el potencial de reconstrucción histórica, pero también exige 
+deduplicación, control de versiones, inventario de DOI y clasificación de acceso.
+3. Arquitectura: existen blueprints y contratos API que describen servicios cognitivos, sociales, XR, económicos, de 
+identidad y seguridad. Los documentos son artefactos de diseño; no son pruebas de disponibilidad o ejecución 
+de esos servicios.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 5
+4. Inconsistencia documental: conviven los nombres MD-X4, DM-X4 y MD-X4 Kernel; también aparecen diferentes 
+versiones de API, claims de despliegue y descripciones distintas entre README públicos. Se necesita un registro 
+canónico de nombres, versiones y estados.
+5. Riesgo de seguridad: se detectó un archivo .env rastreado en un repositorio público adicional. No se leyó el 
+archivo, por lo que no se afirma que contenga secretos válidos; sí requiere revisión inmediata y rotación 
+preventiva si contiene credenciales reales.
+6. Prueba de código: una pantalla de registro de una aplicación pública simula el alta, imprime valores en consola y 
+muestra un éxito sin invocar el servicio real de autenticación. El código también referencia un componente JSX 
+que no coincide con el import visible.
+7. Cumplimiento: el texto legal del repositorio declara alineación con varias normas, pero la declaración no prueba 
+cumplimiento. Debe actualizarse la ley mexicana citada y crearse un expediente demostrable de avisos, 
+finalidades, consentimientos, salvaguardas, encargados, transferencias y derechos ARCO.
+8. Vínculos académicos: CITIS 2026 ya transcurrió al corte del informe. Frontiers mantiene abierta una 
+convocatoria temática hasta el 31 de mayo de 2027; ninguna de estas páginas demuestra participación, 
+invitación individual, aceptación o publicación del autor.
+2. Hallazgos principales y dictamen documental
+2.1 Qué está respaldado
+ Existencia de una identidad pública declarada bajo el nombre Edwin Oswaldo Castillo Trejo y la variante 
+profesional Anubis Villaseñor en perfiles y documentos vinculados al autor.
+ Existencia de un perfil de Figshare que muestra el ORCID 0009-0008-5050-1539 como enlace y lista siete títulos 
+de publicaciones.
+ Existencia de un perfil público GitHub y de un repositorio documental TAMV con documentación de 
+arquitectura, seguridad, manifiesto, licenciamiento y especificaciones OpenAPI.
+ Existencia de un segundo repositorio público de aplicación con estructura React/Vite, rutas de interfaz, 
+migraciones Supabase y código de registro/membresía.
+ Existencia de una convocatoria institucional CITIS 2026 y de una convocatoria temática vigente de Frontiers 
+sobre ética en Metaverso y Web3.
+2.2 Qué no está respaldado todavía
+ No se ha demostrado que TAMV funcione como una federación operativa de nodos independientes. La 
+publicación de materiales en varias plataformas no basta para demostrar federación técnica.
+ No se demostró que Isabella AI sea consciente, sentiente, tenga autopoiesis, memoria persistente validada o 
+autonomía cognitiva nativa. La documentación usa vocabulario conceptual que debe traducirse a propiedades 
+técnicas medibles.
+ No se demostró uso de criptografía poscuántica en producción, JWT realmente firmado con ML-DSA, túneles 
+híbridos TLS o validación de claves. En los artefactos observados, “poscuántico” aparece sobre todo como 
+descripción o comentario.
+ No se acreditó el porcentaje de reducción energética de hasta 50% atribuido en un blog a simulaciones del 
+sistema Isabella. Falta protocolo, hardware, versión de modelo, baseline, medición y repetición independiente.
+ No se autenticaron correos personales, invitaciones individuales, aceptación editorial, ponencia o participación 
+del fundador en CITIS 2026.
+ No se emitió dictamen jurídico ni se validó cumplimiento normativo. La tabla de normas del repositorio no 
+equivale a un análisis de aplicabilidad ni a una certificación.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 6
+2.3 Evaluación sintética
+Dimensión Estado documental Suficiencia actual Siguiente prueba mínima
+Identidad pública Perfiles enlazados y consistentes
+Moderada para 
+autodescripción; baja para 
+autenticación externa
+Verificación directa ORCID/ISNI 
+y registro de titularidad.
+Memoria documental Repositorios, blogs, Figshare y documentos Moderada, incompleta y con versiones mezcladas Inventario por SHA/DOI, extracción de binarios y archivo preservado.
+Arquitectura Blueprint y APIs declaradas Alta como diseño documentado; baja como ejecución Prueba de despliegue reproducible y contratos con endpoints reales.
+Seguridad RLS y políticas presentes en SQL; .env rastreado en repo Parcial; alerta de revisión prioritaria Secret scanning, rotación, revisión de políticas y pruebas negativas.
+Isabella AI README, OpenAPI y snippets
+Diseño y prototipo 
+documentado; ejecución no 
+probada
+Pruebas funcionales, 
+persistencia, evaluación de 
+modelos y red-team.
+Evaluación externa Convocatorias académicas localizadas No se observó certificación o peer review del sistema Informe externo delimitado, dataset, protocolo y resultados.
+Cumplimiento legal Declaraciones y referencias normativas Insuficiente para afirmar cumplimiento Matriz jurisdiccional, avisos y evidencia operativa de controles.
+3. Alcance, metodología y sistema de clasificación
+3.1 Unidad de análisis
+La unidad de análisis es cada afirmación, recurso o artefacto, no el “ecosistema completo” considerado como una 
+sola entidad. Se mantiene la distinción entre infraestructura documental (perfiles, blogs, repositorios, PDFs, DOI y 
+comunicaciones) e infraestructura tecnológica (código, servicios, datos, despliegue y operación). Una fuente puede 
+demostrar que se publicó una declaración, pero no que su contenido técnico sea verdadero.
+3.2 Procedimiento aplicado
+1. Extracción de hipervínculos del PDF original y deduplicación: 11 URL únicas identificadas.
+2. Consulta directa de los 11 destinos con registro de acceso, contenido recuperado o fallo de recuperación.
+3. Consulta de fuentes institucionales, académicas y normativas para actualizar fechas, alcance de convocatorias, 
+legislación mexicana y estándares criptográficos.
+4. Enumeración del árbol público del repositorio documental TAMV en la rama principal; conteo de tipos de archivo 
+y lectura selectiva de documentos Markdown/OpenAPI.
+5. Inspección estática selectiva del repositorio de aplicación genesis-digytamv-nexus: package.json, App.tsx, 
+Register.tsx, migraciones SQL, .gitignore y metadatos del archivo .env.
+6. Clasificación de hallazgos como autodescripción, documento técnico, evidencia de código, fuente institucional, 
+inferencia técnica o pendiente de verificación.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 7
+3.3 Niveles de evidencia propuestos
+Código Clase Qué significa Qué no significa
+E1 Fuente institucional o normativa Página de universidad, editorial, organismo oficial o estándar. No valida por sí sola una afirmación personal ni un sistema privado.
+E2 Fuente primaria del autor
+Blog, perfil, manifiesto, README o 
+declaración bajo control del 
+proyecto.
+No es corroboración 
+independiente.
+E3 Artefacto técnico inspeccionado
+Código, YAML, SQL, configuración, 
+documento técnico o historial 
+visible.
+No demuestra despliegue, 
+seguridad ni operación si no se 
+ejecuta.
+E4 Prueba reproducible
+Procedimiento, entorno, datos, 
+versiones, salida y repetición 
+independiente.
+No equivale automáticamente a 
+certificación o generalización.
+E5 Evaluación externa independiente
+Tercero identificado, alcance y 
+metodología publicados, artefactos 
+examinados y hallazgos.
+No debe presentarse como 
+certificación integral fuera de su 
+alcance.
+P Pendiente o no recuperado
+URL inaccesible, identificador no 
+resuelto, correo sin original o dato 
+no aportado.
+No debe transformarse en 
+afirmación positiva o negativa.
+Regla editorial
+El mismo dato replicado en GitHub, Figshare y Blogspot puede demostrar difusión consistente, pero no tres 
+corroboraciones independientes si los tres recursos derivan del mismo responsable o del mismo texto fuente.
+3.4 Límites de la revisión
+Esta edición es una investigación documental y una inspección estática selectiva. No sustituye revisión sistemática 
+de literatura, auditoría de código completo, auditoría de seguridad, pentest, revisión legal, prueba de carga, 
+evaluación clínica, estudio de impacto social, ni peer review. No se descargaron ni analizaron los 195 documentos 
+DOCX del repositorio; el recuento se basa en el árbol público. Los enlaces inaccesibles se conservan como 
+pendientes.
+4. Inventario de URL del documento original
+Se extrajeron exactamente 11 URL únicas de los enlaces internos del PDF. Se considera “recuperada” una dirección 
+cuando el contenido relevante se pudo leer directamente; una redirección canónica cuenta como recuperación. Una 
+página no accesible por el navegador no se declara inexistente.
+N.º Fuente URL Estado Observación Naturaleza
+1 GitHub del autor https://github.com/ OsoPanda1 Recuperada
+Perfil público 
+inspeccionado; 
+repositorios relevantes 
+identificados.
+Fuente primaria / perfil.
+2 Portafolio público https://portafolio- edwin.lovable.app/ No recuperada
+La recuperación directa 
+falló; no se validó el 
+contenido presentado 
+en el PDF.
+Pendiente.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 8
+N.º Fuente URL Estado Observación Naturaleza
+3 Perfil Figshare
+https://figshare.com/
+authors/
+Edwin_Oswaldo_Castill
+o_Trejo/23791705
+Recuperada
+Muestra nombre, 
+ORCID enlazado, 
+afiliación declarada, 
+texto de 
+posicionamiento y siete 
+títulos.
+Fuente primaria / perfil.
+4 Announcement: Scientific Appeal
+https://
+tamvonlinenetwork.blo
+gspot.com/2025/10/
+announcement-
+scientific-appeal.html
+Recuperada
+Entrada de autor del 
+27-10-2025; 
+autoinforme sobre 
+apelación/rechazo y 
+descripciones de 
+Isabella.
+Fuente primaria del 
+autor.
+5 Presentación oficial TAMV
+https://
+tamvonlinenetwork.blo
+gspot.com/2025/08/
+presentacion-oficial-del-
+proyecto-tamv.html
+No recuperada
+No se pudo 
+inspeccionar 
+directamente la entrada 
+exacta.
+Pendiente; no inferir su 
+contenido.
+6 Blog TAMV MD-X4 https://tamv- mdx4.blogspot.com/ No recuperada
+La raíz del blog 
+devolvió una 
+barrera/retorno del 
+buscador; se hallaron 
+referencias cruzadas 
+desde otros resultados.
+Pendiente.
+7 Cómo se construyó TAMV DM-X4
+https://
+tamvonlinenetwork.blo
+gspot.com/2025/09/
+como-se-construyo-
+tamv-dmx4-blog.html
+Recuperada
+Entrada del 23-09-2025; 
+descripción narrativa y 
+módulos declarados.
+Fuente primaria del 
+autor.
+8 Frontiers Research Topic Vol II
+https://
+www.frontiersin.org/
+research-topics/87052/
+ethical-issues-
+challenges-and-
+solutions-in-metaverse-
+and-web3-vol-ii
+Recuperada
+Tema abierto, alcance y 
+fecha límite de 
+manuscritos: 31-05-
+2027.
+Fuente editorial 
+institucional.
+9 UPS - evento CITIS 2026
+https://
+www.ups.edu.ec/
+evento?
+calendarBookingId=390
+9218&byid
+Recuperada
+Redirige a la ficha 
+canónica; confirma 
+fechas y modalidad del 
+evento.
+Fuente institucional.
+10 CITIS Call for Papers https://citis.ups.edu.ec/ es/call-for-papers/ Recuperada Convocatoria y sede/fechas del congreso. Fuente institucional.
+11 Imagen/captura S3
+https://ppl-ai-file-
+upload.s3.amazonaws.c
+om/web/direct-files/
+attachments/images/
+128365973/9f418caf-933
+9-45fe-9f4a-
+d87a782ddc20/
+image.jpg
+No recuperada
+El destino devolvió 
+error de acceso desde 
+esta sesión; no se 
+inspeccionó la imagen.
+Adjunto externo 
+pendiente.
+Resultado: 7/11 destinos fueron recuperados (63.6%); 4/11 no entregaron contenido inspeccionable (36.4%). El indicador mide 
+accesibilidad de la comprobación, no calidad o credibilidad global de las fuentes.
+4.1 Fuentes añadidas durante la ampliación
+ Página institucional de Economía/Normalización de México para NOM-151-SCFI-2016.
+ Ley Federal de Protección de Datos Personales en Posesión de los Particulares, texto de Cámara de Diputados 
+con última reforma DOF 14-11-2025.
+ Estándares NIST FIPS 203, 204 y 205 para ML-KEM, ML-DSA y SLH-DSA.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 9
+ Artículos y preprints que el blog de TAMV usa como referencias sobre eficiencia energética de IA y computación 
+cuántica.
+ Entradas adicionales de Blogspot de febrero y marzo de 2026 que extienden la cronología de CITEMESH y la 
+propuesta para economía de creadores.
+5. Identidad, identificadores y corpus de publicaciones
+5.1 Identidad pública y continuidad nominal
+El perfil Figshare muestra el nombre Edwin Oswaldo Castillo Trejo, un enlace al ORCID 0009-0008-5050-1539, la 
+descripción “CEO Fundador TAMV Online” y Real del Monte, Hidalgo, México. La misma página relaciona el nombre 
+con la identidad “Anubis Villaseñor”. Esta convergencia respalda la consistencia de la autodescripción en el perfil, 
+pero no autentica por sí sola el domicilio, el nombramiento societario, las titulaciones ni todas las afirmaciones 
+biográficas.
+Identificador Dato hallado Estado al corte Recomendación
+ORCID 0009-0008-5050-1539; enlazado desde Figshare. Asociación visible en perfil; ficha ORCID directa bloqueada por JavaScript en esta revisión. Guardar captura/API pública, nombre normalizado, obras vinculadas y fecha de consulta.
+ISNI 0000-0005-3169-9229.
+El número tiene estructura 
+compatible con ISNI y dígito de 
+control coherente; la consulta 
+del registro oficial no se 
+completó.
+Verificar asignación en la 
+búsqueda oficial ISNI y 
+conservar URI persistente.
+Zenodo DOI 10.5281/zenodo.19436662.
+Figshare lo menciona como 
+credencial; el registro Zenodo 
+no fue recuperado.
+Comprobar URL DOI, título, 
+autores, fecha, versión, licencia 
+y archivos del registro.
+GitHub github.com/OsoPanda1. Perfil público recuperado. Fijar repositorios canónicos y snapshots por commit.
+Figshare Perfil 23791705. Recuperado; siete títulos listados. Reconciliar títulos con identificadores DOI y metadatos individuales.
+5.2 Siete títulos visibles en Figshare
+1. Biografía técnica y trayectoria en sistemas digitales soberanos.
+2. TAMV: Arquitectura de una plataforma digital soberana distribuida.
+3. Compendium of Technological Sovereignty: The TAMV MD-X4 Heptafederated Kernel.
+4. Manifiesto Definitivo de Soberanía Tecnológica y Arquitectura Civilizatoria: Ecosistema TAMV Online RDM 
+Digital.
+5. DEVHUBS TAMV ONLINE NETWORK: La Resistencia Tecnológica de Latinoamérica.
+6. Arquitectura de UTAMV y el Núcleo de IA Académica (Core 2026).
+7. Comunicado de Soberanía Infraestructural: Respuesta a la Ética Digital en el Sur Global desde el Ecosistema 
+TAMV ONLINE.
+La página inspeccionada muestra estos títulos bajo “Publications”, pero no expone en el bloque visible los DOI, 
+fechas o versiones individuales. No se debe contar cada título como publicación revisada por pares ni como DOI 
+vigente sin recuperar su ficha específica.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 10
+5.3 Normalización del nombre del proyecto
+Las fuentes emplean TAMV MD-X4, TAMV DM-X4, MD-X4 Kernel, TAMV Online Network 4D y otras variantes. Se 
+recomienda definir una forma canónica principal —por ejemplo, “TAMV Online Network / MD-X4”— y registrar las 
+variantes como alias históricos, no intercambiarlas en títulos, endpoints, repositorios o documentos sin una nota de 
+versión. La sigla debe normalizarse de manera consistente en todos los contratos API y materiales académicos.
+6. Cronología documental ampliada
+Fecha Registro observado Lectura probatoria
+2025-07-25
+README del repositorio documental 
+registra modificación de archivo según 
+GitHub.
+Dato de metadatos del recurso; no prueba 
+fecha de creación del proyecto.
+2025-08
+La URL de presentación oficial está en el 
+PDF; el destino exacto no pudo 
+inspeccionarse.
+Pendiente; no usar fecha del path como 
+fecha de primera publicación verificada.
+2025-09-23
+Entrada “Cómo se construyó TAMV DM-X4”. 
+Declara cinco años de investigación, 
+módulos y despliegue progresivo.
+Autodescripción y relato de desarrollo. No 
+hay registros de piloto, telemetría o 
+usuarios adjuntos.
+2025-09-26
+Archivo de blog recuperado menciona un 
+comunicado sobre supuesta eliminación de 
+un artículo en foro de Google Cloud.
+Afirmación del autor; sin expediente 
+original de moderación ni respuesta de la 
+plataforma.
+2025-10-27
+“Announcement: Scientific Appeal”; afirma 
+un historial de rechazo/appeal de un 
+artículo y describe módulos de Isabella.
+Fuente del autor; no demuestra el estado 
+editorial sin decisión oficial verificable.
+2026-02-02
+Entrada “TAMV y el Nacimiento del Primer 
+CITEMESH” anuncia génesis operativa 
+prevista para 05-02-2026 a las 14:00 CST.
+Fecha de lanzamiento anunciada; no 
+demuestra que se ejecutara ni que los 
+nodos quedaran operativos.
+2026-03-06
+Entrada sobre creator economy dice 
+“estado del código: listo para el banderazo” 
+y enumera infraestructura/servicios.
+Autoinforme técnico posterior; requiere 
+vincularse a commit, build, pruebas y 
+despliegue.
+2026-10-28 a 2026-10-30 CITIS 2026 programado por UPS; workshops el 26 y 27 de octubre. Evento en el pasado al corte 08-11-2026; la página no acredita participación individual.
+2026-11-08 Fecha de corte de esta edición ampliada. El estado de cada afirmación se congela a esta fecha.
+Nota cronológica
+La fecha incrustada en una ruta URL o en el texto de un blog no basta para probar primera publicación ni 
+continuidad ininterrumpida. Para hitos críticos deben archivarse el post original, metadatos de publicación, 
+commit asociado, captura firmada y evidencia de resultado.
+7. Repositorios y corpus documental GitHub
+7.1 Repositorio documental principal
+Repositorio: https://github.com/OsoPanda1/DOCUMENTACION-TAMV-DM-X4-e-ISABELLA-AI (rama main). El perfil de 
+GitHub enlazado desde el PDF conduce a una cuenta pública con múltiples repositorios. El árbol recursivo 
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 11
+recuperado de este repositorio contenía 245 entradas en total y no estaba truncado. En ese árbol se contaron 218 
+archivos con extensiones documentales/textuales seleccionadas: 195 DOCX, 12 Markdown, 7 TXT, 2 YAML, 1 JSON y 1 
+PDF. Este conteo no significa que los 218 archivos hayan sido leídos; los binarios DOCX/PDF no fueron descargados 
+en bloque.
+Familia de artefactos Ejemplos recuperados Uso documental
+Arquitectura
+blueprints/arquitectura_unificada.md; 
+blueprint2026.docx; BLUEPRINT100.docx; 
+DOCUMENTO INTEGRAL FINAL Y BLUEPRINT 
+DE ARQUITECTURA.docx.
+Describe componentes, capas y flujos; no 
+valida su ejecución.
+Isabella
+api/isabella-ai/README.md; 
+api/isabella-ai/openapi.yaml; 
+DOCUMENTACIONISABELLADESPLIEGUE.docx
+; MIISABELLA.docx; proyectoisabella.docx.
+Describe API, módulos y despliegue declarado; 
+faltan pruebas de operación.
+TAMV API api/tamv-dm-x4/openapi.yaml; api2026.docx; api_mdx5.docx. Contratos de acceso y servicios; se detectan diferencias de rutas y versiones.
+Gobernanza/constitución
+constituciontamv.docx; 
+CODEXTAMV2026.docx; 
+CIERRETAMV2026.docx.
+Potencial fuente primaria de reglas; pendientes 
+de extracción y cotejo.
+Cumplimiento y propiedad intelectual
+documentacion_legal/compliance/
+CUMPLIMIENTO_LEGAL_GLOBAL.md; rutas de 
+registro, licenciamiento y branding.
+Base de declaraciones normativas y derechos; 
+requiere revisión jurídica.
+Auditorías y manuales
+auditoria.docx; auditoria_rdm1.docx; 
+instructivo para auditoria tamv.docx; 
+manualtamv2026.docx.
+Material potencialmente valioso, no 
+examinado individualmente en esta edición.
+Compendios e historia
+COMPENDIO MAESTRO.docx; 
+compendiotamv.docx; legadotamv2026.docx; 
+tamvonlinedocumentacion.docx.
+Necesitan reconciliación de versiones, fechas, 
+duplicados y afirmaciones.
+7.2 Archivos de texto inspeccionados directamente
+Ruta Observación derivada de lectura
+blueprints/arquitectura_unificada.md
+Arquitectura de alto nivel: cliente web/móvil/XR/IoT/BCI, gateway, 
+microservicios de identidad, IA emocional, economía, espacios, 
+comunicación, seguridad y control de dispositivos.
+api/isabella-ai/README.md
+Declara análisis emocional, respuestas contextuales, memoria vectorial, 
+control IoT y soporte/crisis; menciona Python/FastAPI, 
+Transformers/PyTorch, GPT-4 y Pinecone.
+api/isabella-ai/openapi.yaml OpenAPI 3.0.3, Isabella API 1.0.0; define analyze/respond/memory/device command; no incluye crisis/detect.
+api/tamv-dm-x4/openapi.yaml OpenAPI 3.0.3, TAMV API 1.0.0; define registro, login, perfil, análisis emocional y mint-nft.
+documentacion_legal/compliance/CUMPLIMIENTO_LEGAL_GLOBAL.md Declara alineación con GDPR, CCPA, NOM-151, LFPDPPP y DMCA; el archivo no aporta evidencia de auditoría o certificación.
+documentacion_legal/branding/BRANDING_TAMV_ISABELLA.md Presenta paleta rojo #E31937, oro #D4AF37, azul #00274D y blanco #FAFAFA, tipografías y tono de marca.
+README.txt Describe una edición pública saneada, alcance de alto nivel y reserva de documentación operativa/secretos.
+README.md.txt
+Presenta un relato técnico mucho más expansivo y una lista de 
+referencias externas; varios nombres de capas/tecnologías requieren 
+mapeo a código y versiones.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 12
+7.3 Contradicciones editoriales entre README
+El README.md declara una “integración completa” y presenta un metaverso pionero “con inteligencia artificial 
+auto-consiente”. README.txt, en cambio, afirma que la versión pública está saneada, comparte solo visión y 
+arquitectura de alto nivel, y reserva endpoints internos, scripts y secretos. README.md.txt amplía el relato a una 
+“MSR Civilizational Stack”, “blockchain correctiva”, “autocertificación académica” y varios subsistemas. No son 
+necesariamente contenidos incompatibles si corresponden a audiencias o versiones distintas, pero el repositorio 
+carece —en los archivos inspeccionados— de una tabla inequívoca que distinga edición pública, documento interno, 
+blueprint conceptual y componente implementado.
+Recomendación: mantener un README institucional canónico, una matriz de estados de cada módulo y un índice de 
+documentación con campos: público/privado, versión, propietario, commit, fecha, estado de implementación, 
+pruebas, riesgos y responsable de actualización.
+8. Arquitectura declarada del ecosistema
+8.1 Capas y dominios funcionales identificados
+Capa / módulo Propósito que declaran las fuentes Evidencia visible Prueba necesaria
+TAMV MD-X4 / DM-X4
+Coordinación, federación, 
+experiencia de red y servicios 
+públicos.
+Blueprint y OpenAPI de cinco 
+grupos de ruta.
+Mapa de nodos, protocolo, 
+despliegue, contratos reales, 
+pruebas de interconexión.
+Isabella Villaseñor AI
+Análisis emocional, respuesta 
+contextual, memoria y 
+orquestación.
+README, snippet Transformers y 
+OpenAPI parcial.
+Modelo y versión, dataset, 
+métricas, RAG/memoria 
+persistente, seguridad y 
+evaluaciones.
+RDM-TOS / RDM Digital Gestión territorial, eventos, turismo y datos de territorio. Mención en el compendio y varios títulos de archivos. Repo/servicio canonical, pilotos, acuerdos, inventario de establecimientos, resultados.
+MSR / BookPI Registro de eventos, evidencia, memoria causal y auditoría. Blueprint, nombres de tablas y material de texto. Modelo de evento, cadena de custodia, firma, retención, exportación y verificación.
+Anubis Sentinel / seguridad Acceso, detección de amenazas, controles y protocolos. Blueprint y tablas security_protocols/user_roles; algunos nombres en READMEs. Threat model, pruebas de abuso, alertas, incidentes y respuesta.
+DreamSpaces / XR
+Espacios 3D/4D, eventos, 
+contenido inmersivo y 
+sincronización.
+Tablas dream_spaces y 
+sensory_concerts; referencias en 
+interfaz.
+Build XR, assets, sincronización, 
+rendimiento, compatibilidad y 
+accesibilidad.
+Economía / NubiWallet / 
+marketplace
+Membresías, créditos, activos y 
+operaciones comerciales.
+Tablas de productos, 
+transacciones y cuentas; niveles 
+hard-coded en UI.
+Integración de pago, conciliación, 
+contabilidad, fraude, términos y 
+pruebas reales.
+UTAMV / campus Formación, cursos y núcleo académico. Archivos documentales y tabla university_courses. Plataforma de cursos desplegada, programa, docentes, evaluación, acreditación si procede.
+8.2 Arquitectura descrita en el blueprint unificado
+El documento blueprints/arquitectura_unificada.md enumera ocho servicios: authService, userService, 
+auraAIService, economyService, spaceService, communicationService, securityService y deviceControlService. 
+También describe clientes web/móviles, VR/AR, wearables, IoT y BCI; un gateway OAuth2/JWT; PostgreSQL; 
+Pinecone; Google Cloud Storage/IPFS; Docker/Kubernetes; y referencias a Ethereum/Polygon. La descripción debe 
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 13
+clasificarse como diseño declarado: no se recuperaron manifiestos completos de Kubernetes, Terraform, registros de 
+ejecución, endpoints vivos, ni evidencia de los despliegues descritos.
+8.3 Separación que debe mantenerse
+1. Concepto: modelo o intención de arquitectura, incluso cuando tiene diagramas y nombres de componentes.
+2. Especificación: contrato OpenAPI, esquema SQL, protocolo o formato definido.
+3. Implementación: código fuente que materializa el contrato.
+4. Integración: conexión funcional comprobada entre componentes reales.
+5. Operación: servicio desplegado con telemetría, disponibilidad, usuarios y procesos de soporte.
+6. Evaluación: resultados medidos bajo un protocolo reproducible o revisión independiente.
+El documento v3.0 debe aplicar estos seis estados por componente. No se debe usar una sola etiqueta “Active”, 
+“Genesis”, “85%” o “100%” para describir un conjunto heterogéneo de módulos.
+9. Revisión de contratos API y coherencia técnica
+9.1 Isabella AI API
+El README de Isabella describe endpoints de análisis emocional, respuesta empática, recuperación de memoria, 
+comando de dispositivo y detección de crisis. El OpenAPI recuperado declara cuatro rutas: POST /emotion/analyze, 
+POST /emotion/respond, GET /memory/{userId} y POST /device/command. La ruta /crisis/detect aparece en la 
+documentación narrativa, pero no en el contrato OpenAPI examinado. Esto constituye una divergencia documental 
+y debe corregirse antes de exponer SDKs o prometer la capacidad.
+Elemento Observación Mejora requerida
+Base URL declarada https://api.tamv.mx/api/isabella/v1; acceso directo no confirmado. Documentar dominio operativo, entorno sandbox/producción, salud, TLS y política de disponibilidad.
+Autenticación Bearer JWT descrito como “poscuántico”, sin algoritmo/claims/scopes especificados. Definir issuer, audience, expiración, rotación, algoritmo concreto y autorización por recurso.
+EmotionAnalyzeRequest Texto y voiceSample binario; README muestra snippet de texto solamente. Especificar formato, tamaño, idioma, consentimiento, límites del clasificador y métricas por modalidad.
+Memory/{userId} Devuelve objetos con vector y timestamp.
+No exponer vectores internos por defecto; 
+derivar propietario de token y aplicar 
+autorización por usuario.
+Device command Recibe deviceId, command y parameters.
+Allowlist de comandos, vínculo dispositivo-
+usuario, nonce, expiración, confirmación 
+humana y auditoría.
+Crisis detect En README, no en OpenAPI. Añadir ruta solo cuando exista; definir alcance, falsos positivos, escalamiento y límites de uso.
+Errores Respuestas y esquemas de error insuficientes. Definir 400/401/403/404/409/413/422/429/500, correlation-id y mensajes sin filtración interna.
+9.2 TAMV DM-X4 API
+El OpenAPI de TAMV presenta la base URL https://api.tamv.mx/v2 y cinco grupos de operaciones: /auth/register, 
+/auth/login, /users/{id}/profile, /ai/emotional-analysis y /economy/mint-nft. El campo version indica 1.0.0 mientras la 
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 14
+base URL lleva v2. La documentación usa el comentario “JWT poscuántico con CRYSTALS-Dilithium”, pero no define 
+una suite de firma implementable ni una representación de clave/firma interoperable.
+Riesgo de contrato Por qué importa Corrección
+Versionado incoherente OpenAPI info 1.0.0 y servidor /v2 sin política de compatibilidad. Versionar contrato semánticamente y separar versión del documento de versión de API.
+Datos biométricos/KYC en registro El esquema acepta biometricData y kycData; son datos de alta sensibilidad.
+Delegar autenticación a proveedor adecuado o 
+passkeys; evitar almacenar plantillas 
+biométricas propias salvo justificación y 
+controles.
+Exposición de perfil GET /users/{id}/profile confía en id de ruta sin scope/owner en contrato. Autorización object-level; no confiar en identificadores controlados por cliente.
+Economía / mint-nft
+La operación documenta un hash de 
+transacción pero no idempotencia, firma, 
+cadena, custodia o reversión.
+Especificar chainId, contract, wallet, fees, 
+idempotency-key, estados de transacción y 
+conciliación.
+Responses mínimas Faltan schemas de error y seguridad por endpoint más detallada. Publicar contrato completo, pruebas contractuales y ejemplos de sandbox.
+9.3 Acceso y evidencia de funcionamiento
+Los dos servidores declarados fueron intentados mediante navegación directa, pero el navegador de la sesión no 
+pudo recuperar contenido de ninguno. Esto no permite afirmar que el dominio esté caído: podría requerir 
+autenticación, bloqueo de cliente, gateway, ruta no pública o una política de red. Para que el compendio pueda 
+afirmar disponibilidad hacen falta pruebas desde un entorno autorizado, respuesta HTTP, certificado TLS, endpoint 
+de salud, versión de servicio, request-id y fecha UTC.
+10. Inspección estática del proyecto genesis-digytamv-nexus
+10.1 Estructura observable
+El repositorio público https://github.com/OsoPanda1/genesis-digytamv-nexus contiene, entre otros, Vite, React, 
+TypeScript, Tailwind, shadcn/ui, Supabase y rutas /, /documentation, /membership, /register y /login. Su README es 
+todavía la plantilla de proyecto de Lovable y describe una base Vite/TypeScript/React. El package.json inspeccionado 
+declara React 18.3.1, Vite ^7.3.1, TypeScript ^5.5.3 y @supabase/supabase-js ^2.88.0. Son metadatos y dependencias 
+declaradas, no un build ejecutado.
+10.2 Registro de usuarios: simulación, no autenticación verificada
+Hallazgo de código de alta prioridad
+En src/pages/Register.tsx, el onSubmit valida el formulario en cliente, escribe los valores en console.log, muestra 
+el mensaje “Registro exitoso” y programa una redirección. El propio comentario indica que normalmente se 
+enviaría la información al backend, pero ese envío no está implementado en el fragmento recuperado. Por 
+tanto, este formulario no constituye evidencia de un alta funcional ni de autenticación conectada.
+En el mismo archivo se importa MatrixEffect, mientras el JSX utiliza TAMVTrixEffect. En el fragmento recuperado 
+no existe una importación o definición de TAMVTrixEffect. Esto es un defecto estático probable que debe 
+comprobarse con `npm run build` y corregirse antes del despliegue. No se afirma que el repositorio completo haya 
+sido compilado durante esta revisión.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 15
+10.3 Planes de membresía
+src/pages/Membership.tsx contiene niveles de membresía y precios codificados en el cliente, incluyendo un nivel 
+gratuito, Explorer a 9.99 USD/mes, Creator a 19.99 USD/mes y Enterprise personalizado. El archivo demuestra la 
+presencia de una interfaz comercial declarativa; no demuestra una integración de pagos, suscripciones activas, 
+facturación, impuestos o conciliación. Los precios deben considerarse texto hard-coded hasta encontrar catálogo 
+central, backend de precios y confirmación por pasarela.
+10.4 Migración SQL y políticas
+La migración pública 20251217043934_14b05610-e837-443e-b3e2-236f035c8f5a.sql define 17 tablas y habilita Row 
+Level Security (RLS) en las 17. La lectura estática identifica 28 declaraciones CREATE POLICY. Entre las tablas están 
+profiles, user_roles, federation_registry, security_protocols, isabella_conversations, anubis_recognition, 
+dream_spaces, sensory_concerts, social_posts, marketplace_products, university_courses, art_gallery, 
+nubiwallet_transactions, notifications, banco_tamv_accounts, groups_channels y bookpi_audit_log.
+Hay varias reglas de lectura pública (`USING (true)`) sobre perfiles, publicaciones, productos, cursos, arte, registro 
+federado y conciertos. Esto puede ser coherente para datos públicos, pero exige clasificar campo por campo qué 
+puede mostrarse y nunca incluir datos privados en esas tablas. Las tablas de wallet y cuentas parecen tener políticas 
+de lectura del propietario, pero no se observaron políticas de escritura equivalentes en esta migración. Puede ser 
+deliberado si las escrituras se realizan solo desde funciones privilegiadas; debe documentarse y probarse, no 
+suponerse.
+RLS habilitado no equivale a RLS correcto. Se requieren pruebas como usuario anónimo, usuario A, usuario B, 
+creador, moderador y admin; deben probarse lecturas cruzadas, modificaciones de owner_id, asignación de roles, 
+acceso a memoria emocional, escrituras sobre wallet, y consulta de bitácoras.
+10.5 Archivo .env rastreado en la rama pública
+Revisión inmediata requerida
+El árbol de la rama main muestra un archivo `.env` rastreado en la raíz del repositorio (tamaño informado: 350 
+bytes). El `.gitignore` inspeccionado no contiene una regla visible para excluir `.env`. No se recuperó ni se mostró 
+el contenido del archivo. La presencia no prueba que existan secretos válidos, pero sí crea una exposición 
+potencial: revisar sin imprimir valores, invalidar/rotar cualquier credencial real, retirar el archivo del 
+repositorio e historial y activar secret scanning.
+11. Seguridad, privacidad y criptografía poscuántica
+11.1 Riesgos prioritarios por dominio
+Dominio Riesgo Control mínimo que debe ser demostrable
+Secretos Archivo .env público y ausencia de patrón .env en .gitignore. Escaneo de secretos, revocación/rotación, purge del historial, vault y reglas de CI.
+Identidad Claims de biometría/KYC y JWT sin suite ni ciclo de vida definido. OIDC/passkeys, MFA, separación identidad/autorización, rotación y logs.
+Datos emocionales
+Emotional_state, context_memory y 
+conversación contienen datos potencialmente 
+íntimos.
+Consentimiento expreso si aplica dato sensible, 
+retención corta, minimización, cifrado, acceso 
+por titular y borrado controlado.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 16
+Dominio Riesgo Control mínimo que debe ser demostrable
+Control IoT/BCI Comandos remotos pueden causar impacto físico o de privacidad. Allowlist, scopes, confirmación, límites de frecuencia, revocación, sandbox y emergency- stop.
+Economía / activos Wallet, transacciones y activos programables. Idempotencia, controles antifraude, custodia clara, conciliación y segregación de privilegios.
+Auditoría inmutable Blockchain puede dificultar rectificación y supresión de datos. Guardar datos personales fuera de cadena; publicar solo hash/commitment minimizado y legalmente revisado.
+Roles Política “admin” basada en función has_role().
+Inspección de implementación, prevención de 
+escalada, test de separación y revisión de 
+SECURITY DEFINER/search_path.
+Disponibilidad Servicios y endpoints no se verificaron en vivo. SLO, health checks, backup/restore, pruebas de carga, disaster recovery y runbooks.
+11.2 Estándares poscuánticos: actualización terminológica
+La documentación habla de CRYSTALS-Dilithium y de JWT “poscuántico”. NIST publicó los estándares finales de 
+criptografía poscuántica el 13 de agosto de 2024: FIPS 203 define ML-KEM para encapsulación de claves; FIPS 204 
+define ML-DSA para firmas digitales (basado en Dilithium); FIPS 205 define SLH-DSA, firmas basadas en hash. Se 
+debe usar la nomenclatura del estándar vigente y consultar las notas de errata antes de congelar una suite: NIST 
+publicó una nota de errata para FIPS 204 en julio de 2026 y una para FIPS 203 en noviembre de 2025.
+Estándar Función No debe confundirse con
+FIPS 203 / ML-KEM Establecimiento/encapsulación de clave compartida. Firma digital de mensajes o “cifrado de todo el tráfico” por sí solo.
+FIPS 204 / ML-DSA Firma digital y verificación de origen/integridad. Un JWT postcuántico automático sin perfil de serialización y validación.
+FIPS 205 / SLH-DSA Firma digital basada en hash sin estado. Un mecanismo de intercambio de claves.
+11.3 Qué falta para afirmar que TAMV aplica PQC
+ Inventario de bibliotecas criptográficas, versiones, proveedor, build flags y licencias.
+ Algoritmos exactos y parámetros: ML-KEM-512/768/1024, ML-DSA-44/65/87 o SLH-DSA, según el caso de uso y la 
+política de seguridad.
+ Formato, codificación, tamaño y almacenamiento seguro de claves; rotación, expiración, revocación y respuesta 
+a compromiso.
+ Perfil de firma de mensajes/API, protección contra downgrade y compatibilidad entre clientes, gateways y 
+servicios.
+ Pruebas con vectores oficiales, interoperabilidad, fuzzing, límites de tamaño/latencia y medición de sobrecarga.
+ Plan de criptografía híbrida durante migración y estrategia de agilidad criptográfica documentada.
+11.4 JWT y lenguaje técnico
+JWT es un formato de representación de claims y puede estar firmado, cifrado o combinado según el perfil 
+empleado; escribir “JWT poscuántico” no define el algoritmo de firma ni convierte al token en un protocolo 
+postcuántico completo. Se debe especificar un perfil verificable, una biblioteca compatible, el campo alg, la 
+distribución de claves, los claims requeridos y las reglas de aceptación/rechazo. No se debe publicar un diseño 
+criptográfico como desplegado mientras solo exista un comentario en YAML.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 17
+12. Marco normativo y propiedad intelectual
+12.1 Actualización mexicana
+El archivo de cumplimiento del repositorio cita la LFPDPPP, NOM-151, GDPR, CCPA y DMCA, y afirma que 
+TAMV/Isabella cumplen normas globales. La versión legislativa utilizada en ese documento debe reemplazarse: la 
+Cámara de Diputados publica la nueva LFPDPPP expedida el 20 de marzo de 2025 y con última reforma del 14 de 
+noviembre de 2025. La ley aplica al tratamiento de datos personales en posesión de particulares y exige tratamiento 
+legítimo, controlado e informado.
+Referencia legal Contenido relevante al diseño TAMV Evidencia a producir
+LFPDPPP (México), arts. 5-8
+Principios de licitud, finalidad, lealtad, 
+consentimiento, calidad, proporcionalidad, 
+información y responsabilidad; los datos 
+sensibles exigen consentimiento expreso y por 
+escrito según el art. 8.
+Inventario de datos, finalidad, 
+base/consentimiento, prueba de 
+consentimiento, minimización y evaluación de 
+sensibilidad.
+LFPDPPP, arts. 10-16
+Calidad/actualización, supresión cuando 
+finaliza la necesidad, limitación a finalidades y 
+contenido/puesta a disposición del aviso de 
+privacidad.
+Aviso integral, avisos simplificados, 
+retención/borrado, mecanismos ARCO y 
+registro de cambios.
+LFPDPPP, arts. 18-20
+Medidas de seguridad administrativas, técnicas 
+y físicas; comunicación inmediata de ciertas 
+vulneraciones; confidencialidad.
+Política de seguridad, controles, registro de 
+incidentes, plan de notificación, acuerdos de 
+confidencialidad.
+NOM-151-SCFI-2016 Vigente; trata conservación de mensajes de datos y digitalización de documentos. Proceso documentado de conservación, integridad, metadatos y prestador/servicio conforme al uso pretendido.
+GDPR / UE Puede aplicar por establecimiento, oferta de servicios o seguimiento de personas en la UE. Análisis territorial, roles controller/processor, DPIA cuando proceda, transferencias y derechos.
+CCPA/CPRA / California Aplicabilidad depende de los criterios de alcance y umbrales de la ley californiana. Análisis de alcance, avisos, derechos y obligaciones contractuales si corresponde.
+DMCA / EE. UU.
+Marco de derechos de autor y notice-and-
+takedown; no es una norma general de 
+privacidad.
+Política IP, notificación y contranotificación 
+cuando sea aplicable, agente designado si se 
+requiere.
+12.2 Datos emocionales, biométricos, financieros y de salud
+La ley mexicana define datos personales sensibles, entre otros, por su relación con la esfera íntima, el estado de 
+salud, la genética o el riesgo de discriminación. Un vector emocional o una inferencia afectiva no es 
+automáticamente una categoría legal única, pero podría revelar salud, intimidad u otros aspectos protegidos según 
+el contenido y uso. La arquitectura descrita procesa audio, estados emocionales, conversaciones, memoria y, en 
+ciertas especificaciones, datos biométricos/KYC. La clasificación legal debe hacerse sobre cada dato, propósito y flujo 
+real, no sobre el nombre del módulo.
+12.3 Aviso de privacidad mínimo para el ecosistema
+ Identidad y domicilio legal del responsable; denominación y contacto del responsable de datos.
+ Categorías de datos, señalando los que sean sensibles, biométricos, financieros, de salud, ubicación o contenido 
+generado.
+ Finalidades primarias y secundarias; fundamento y consentimiento requerido para cada finalidad.
+ Terceros y encargados: proveedores IA, nube, almacenamiento, analítica, pagos, moderación y transferencia 
+internacional.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 18
+ Plazos/criterios de conservación, bloqueo, supresión y copias de respaldo.
+ Mecanismos para derechos ARCO, revocación de consentimiento, limitación de uso/divulgación y cambios al 
+aviso.
+ Canal y proceso de incidentes de seguridad, acceso y explicación sobre inferencias automatizadas.
+12.4 Propiedad intelectual y licenciamiento de fuentes
+La licencia CC BY 4.0 propuesta en la versión 2.0 solo puede cubrir el material original sobre el que el autor tenga 
+derechos suficientes. No autoriza a relicenciar artículos, imágenes, marcas, software, capturas o documentación de 
+terceros. Para la enciclopedia y las bibliotecas de conocimiento de Isabella se recomienda mantener, por cada 
+recurso: autor/editor, URL, título, licencia, fecha de captura, versión/hash, permiso o base de uso, fragmentos, cita, 
+transformación aplicada y condiciones de redistribución. Los documentos que no puedan redistribuirse deben 
+referenciarse mediante metadatos y enlace, no copiarse íntegramente.
+Alcance jurídico
+Este capítulo es una actualización documental general, no asesoría legal. La aplicabilidad depende de quién sea 
+el responsable, la entidad que opere el servicio, el tipo de datos, los países de titulares y proveedores, y los usos 
+reales. La revisión final debe hacerla asesoría jurídica competente en cada jurisdicción.
+13. Evidencia científica y referencias académicas invocadas
+13.1 Investigación sobre energía y computación cuántica
+La entrada de “Scientific Appeal” cita literatura sobre teoría de la consciencia, IA y consumo energético. Al 
+contrastar las referencias energéticas que se pudieron identificar, aparecen diferencias entre el tema de los 
+artículos y las conclusiones que podrían atribuirse al sistema TAMV:
+Fuente citada o localizada Contenido real observado Relación con TAMV
+Penev et al., “Energy Efficiency Evaluation of 
+Artificial Intelligence Algorithms”, Electronics 
+13(19), 3836 (2024), DOI 
+10.3390/electronics13193836.
+Evaluación de eficiencia de determinados 
+algoritmos metaheurísticos en funciones de 
+prueba. El año del artículo es 2024, no 2025.
+No mide Isabella AI ni valida una reducción 
+del 50% de consumo en TAMV.
+Flöther, Mikolon & Longobardi, 
+arXiv:2508.20720 (28-08-2025).
+Artículo de perspectiva sobre potencial de 
+algoritmos cuánticos para eficiencia de IA 
+generativa. Señala que la computación 
+cuántica no es mainstream y que existen retos 
+de entrada de datos, hardware y qubits.
+No demuestra que TAMV use hardware 
+cuántico ni que tenga mejora real energética.
+Ranilla-Cortina et al., Journal of 
+Supercomputing 81, art. 746 (2025), DOI 
+10.1007/s11227-025-07241-7.
+Editorial sobre evolución de HPC, IA y 
+computación cuántica. El título del artículo 
+recuperado es “The evolution of high-
+performance computing: how AI and quantum 
+computing are reshaping supercomputing”.
+No es experimento independiente sobre TAMV 
+ni validación de una arquitectura TAMV.
+Tononi (2004); Hameroff & Penrose (2014), 
+citados en el blog.
+Se presentan en el post como referencias 
+conceptuales sobre integración de información 
+y Orch-OR; las páginas originales no se 
+inspeccionaron en esta actualización.
+La cita de teorías no establece consciencia o 
+sentiencia de Isabella.
+13.2 Claim energético de “hasta 50%”
+El blog atribuye al diseño de Isabella una optimización energética de hasta 50% en entornos simulados. No se 
+recuperó un informe técnico que describa dataset, carga, duración, hardware, consumo base, método de medición, 
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 19
+versión, número de repeticiones, desviación, precisión de la tarea o evaluación externa. En consecuencia, la cifra 
+debe escribirse como “objetivo o resultado declarado por el autor en simulaciones no documentadas en el 
+expediente consultado”, no como rendimiento demostrado.
+13.3 Consciencia, emoción y modelos de IA
+La clasificación de emociones, la generación de respuestas empáticas, la persistencia de conversaciones y el uso de 
+lenguaje simbólico no demuestran consciencia, experiencia subjetiva ni estados afectivos de la IA. Para un 
+documento académico riguroso se recomienda describir propiedades observables: clasificación de etiquetas, 
+calibración, robustez intercultural, precisión por dominio, latencia, memoria, retención, tasa de error, evaluación 
+humana y límites. Los términos “consciente” y “sentiente” deben mantenerse como metáforas o hipótesis explícitas, 
+no como conclusión empírica.
+13.4 Convocatorias y eventos
+Fuente Hecho institucional verificable Lo que no acredita
+Frontiers Research Topic 87052
+La página anuncia que el tema “Ethical Issues, 
+Challenges and Solutions in Metaverse and 
+Web3, Vol II” acepta artículos y fija límite de 
+envío el 31-05-2027.
+No prueba invitación individual, manuscrito 
+enviado, revisión favorable o aceptación.
+Universidad Politécnica Salesiana - CITIS 2026
+Ficha del evento: XII CITIS, presencial, 
+Guayaquil; workshops 26-27 octubre y 
+congreso 28-30 octubre 2026.
+No prueba inscripción, asistencia, ponencia, 
+coautoría, publicación o premiación del autor.
+Transcripciones de invitación individual 
+citadas en el PDF
+El PDF indica que existen transcripciones 
+aportadas por el autor y una captura 
+relacionada con una encuesta.
+No autentica el remitente, la entrega, la 
+organización ni la aceptación; se requiere 
+original verificable con datos personales 
+minimizados.
+Actualización cronológica: al 8 de noviembre de 2026, las fechas del congreso CITIS ya habían pasado. La siguiente 
+edición debe reemplazar el lenguaje de programación futura por un resultado documental: “evento programado y 
+concluido según calendario institucional; participación personal pendiente de evidencia”.
+14. Matriz de afirmaciones y suficiencia probatoria
+ID Afirmación Fuente Nivel Evaluación Siguiente evidencia
+C-001
+El autor se presenta 
+como Edwin Oswaldo 
+Castillo Trejo / Anubis 
+Villaseñor.
+Figshare, GitHub, blogs 
+y PDF. E2 / consistente
+Sí como 
+autodescripción; falta 
+autenticación 
+institucional 
+independiente.
+Asociar ORCID 
+verificado y registros de 
+autoría.
+C-002 ORCID 0009-0008-5050- 1539 pertenece al autor. Enlace del perfil Figshare. E2 / parcial
+El perfil enlaza al 
+ORCID; la ficha oficial 
+no pudo 
+inspeccionarse.
+Captura y API ORCID 
+con nombre/obras.
+C-003
+ISNI 0000-0005-3169-
+9229 está asignado al 
+autor.
+Identificador en PDF. P / no comprobado
+La estructura numérica 
+es plausible, pero falta 
+registro oficial 
+accesible.
+Resolver en catálogo 
+ISNI y conservar URI.
+C-004
+TAMV tiene una 
+arquitectura MD-X4 
+heptafederada.
+Figshare, README y 
+blueprint. E2/E3 / diseño
+La arquitectura se 
+declara y documenta; 
+no hay demostración de 
+nodos federados 
+interoperando.
+Topología, protocolo, 
+peers, pruebas e 
+informes.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 20
+ID Afirmación Fuente Nivel Evaluación Siguiente evidencia
+C-005
+Isabella tiene análisis 
+emocional multimodal 
+y memoria.
+README y OpenAPI. E3 / especificación parcial
+Hay contrato y snippet; 
+la multimodalidad, 
+persistencia y eficacia 
+no están probadas.
+Demo reproducible, test 
+suite y métricas.
+C-006 Isabella utiliza cifrado poscuántico. Blueprint/README/ OpenAPI. E2/E3 / afirmación
+Se usan expresiones 
+como JWT 
+poscuántico/Dilithium, 
+pero no se observó una 
+implementación 
+verificable.
+Stack criptográfico, 
+perfiles, claves y 
+vectores.
+C-007 TAMV ahorra hasta 50% de energía. Blog Scientific Appeal. E2 / claim no medido aquí No hay protocolo ni resultados del sistema disponibles. Informe de benchmark reproducible.
+C-008
+TAMV fue desplegado a 
+comunidades 
+estratégicas.
+Blog septiembre 2025. E2 / claim
+No se recuperaron 
+contratos, registros, 
+telemetría o usuarios 
+piloto.
+Actas, logs 
+anonimizados, métricas 
+y consentimiento.
+C-009 CITIS 2026 se celebró del 28 al 30 de octubre. UPS oficial. E1 / calendario
+La ficha confirma la 
+programación; no se 
+consultó evidencia post-
+evento de resultados.
+Programa final, 
+memorias y lista de 
+ponencias.
+C-010 El autor participó en CITIS 2026. No se encontró evidencia personal. P / pendiente No puede afirmarse con la ficha general del evento. Certificado, programa o publicación oficial.
+C-011
+Frontiers invitó 
+individualmente al 
+autor.
+Research Topic general 
+y transcripciones 
+referidas.
+E1/E2 / no autenticado
+La página de tema no 
+acredita invitación 
+personal.
+Correo original 
+autenticable o portal de 
+autor.
+C-012
+El repositorio contiene 
+diseños de APIs TAMV e 
+Isabella.
+YAML OpenAPI 
+recuperados. E3 / artefacto visible
+Sí; los YAML describen 
+rutas, pero no prueban 
+servicio online.
+Pruebas contractuales y 
+health checks.
+C-013
+El formulario de 
+registro de genesis-
+digytamv-nexus crea 
+cuentas reales.
+src/pages/Register.tsx. E3 / contradicho por fragmento
+El manejador visible 
+solo escribe en consola, 
+muestra éxito y 
+redirige.
+Implementar servicio 
+real y test end-to-end.
+C-014 La aplicación contiene control de acceso RLS. Migración SQL. E3 / diseño visible
+17 tablas activan RLS y 
+se declaran 28 políticas; 
+no se probaron en 
+Supabase.
+Aplicación en entorno y 
+tests negativos por rol.
+C-015 El repositorio público no expone secretos. Árbol y .gitignore. E3 / riesgo abierto Existe .env rastreado; su contenido no fue leído. Secret scanning, rotación y revisión forense del historial.
+C-016
+TAMV cumple la 
+legislación global de 
+privacidad.
+CUMPLIMIENTO_LEGA
+L_GLOBAL.md.
+E2 / declaración no 
+corroborada
+No hay evidencias 
+suficientes para 
+declarar cumplimiento.
+Auditoría legal, 
+inventario, avisos, 
+controles y registros.
+15. Modelo actualizado de trazabilidad y preservación
+15.1 Unidad de registro
+Cada afirmación debe tener un ID persistente y una relación explícita con el recurso que permite comprobarla. Un 
+registro no debe apuntar solo al perfil del autor cuando existe un fichero o endpoint específico. El repositorio de 
+evidencia debe guardar el artefacto original o un snapshot legalmente redistribuible, además de los metadatos del 
+origen.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 21
+Campo Definición recomendada
+claim_id Identificador estable, por ejemplo TAMV-CLM-000123.
+claim_text Afirmación literal o paráfrasis breve, delimitada a un solo hecho.
+claim_type Identidad, historia, arquitectura, rendimiento, cumplimiento, adopción, evento, autoría, etc.
+resource_url URL precisa del documento/archivo/end-point, no solo la raíz del sitio.
+source_owner Autor, institución, editorial, equipo o proveedor responsable de la fuente.
+source_date Fecha de publicación declarada y, separadamente, timestamp de recuperación.
+version_commit_hash Versión, tag, commit SHA, DOI versionado o hash del archivo descargado.
+capture_method HTTP GET, exportación API, PDF adjunto, snapshot, Git fetch, captura de pantalla.
+integrity_hash SHA-256 del archivo original y del snapshot transformado.
+provenance_class E1/E2/E3/E4/E5 o P, con explicación.
+independence Autorrelato, espejo, tercero, medición independiente, auditoría.
+observed_content Solo contenido material observable; evitar inferencias no marcadas.
+limitations Accesibilidad, versión, fragmento, falta de autenticación, sesgo o dependencia.
+verification_status No revisada, recuperada, inspeccionada, reproducida, corroborada, refutada, expirada.
+reviewer Persona/organización que realizó la comprobación y fecha.
+supersedes ID de afirmaciones anteriores reemplazadas o modificadas.
+15.2 Estados de verificación
+Estado Regla de transición
+No revisada Se registra la afirmación, sin haber inspeccionado la fuente.
+Localizada La URL existe o aparece en un índice; contenido no inspeccionado.
+Recuperada Se abrió el recurso y se conserva el contenido observado.
+Inspeccionada Se examinó el artefacto y se documentó qué parte respalda.
+Reproducida Otra persona repite el procedimiento en entorno descrito y obtiene resultado comparable.
+Corroborada externamente Fuente/medición independiente respalda exactamente la afirmación.
+Refutada Una prueba o fuente suficiente contradice la afirmación.
+Expirada La afirmación dependía de un estado temporal (evento, versión, disponibilidad) que cambió.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 22
+15.3 Preservación
+ Guardar el PDF original sin sobrescribirlo y crear una versión nueva por edición, fecha y hash.
+ Congelar snapshots de perfiles, páginas, convocatorias y repositorios con URL, fecha UTC, headers relevantes y 
+hash SHA-256.
+ Para repositorios Git, registrar owner/repo, branch, commit SHA, árbol SHA, archivo path, blob SHA y licencia.
+ Para documentos Word/PDF, conservar original binario, hash, metadatos, texto extraído y representación 
+renderizada.
+ No descargar o redistribuir materiales de terceros cuando la licencia no lo permita; retener metadatos y 
+enlaces.
+ Mantener bitácora de cambios con quién editó, por qué, qué evidencia nueva motivó el cambio y qué versión 
+anterior quedó sustituida.
+16. Indicadores verificables y pruebas recomendadas
+16.1 Indicadores documentales
+Indicador Fórmula propuesta Unidad / evidencia
+Cobertura de URL URL recuperadas / URL únicas intentadas. En esta revisión: 7/11 = 63.6%.
+Cobertura de inventario Artefactos con ficha / artefactos seleccionados para revisión. No calculable para los 218 archivos sin extraer e inspeccionar todos.
+Integridad de preservación Artefactos con hash y snapshot / artefactos seleccionados. SHA-256 + copia preservada.
+Cobertura de afirmaciones Claims con fuente específica y fecha / claims registrados. Registro claim-resource.
+Reproducibilidad Pruebas que terceros repiten / pruebas publicadas. Scripts, entorno, fixtures y resultados.
+Independencia Claims de resultado con evaluación externa / claims evaluables. Informe de tercero, alcance, conflicto de interés.
+Consistencia de versión Artefactos con tag/commit/DOI estable / artefactos versionables. Git SHA, DOI, tag o versión documental.
+16.2 Pruebas funcionales y de sistema para Isabella
+ API contract tests: validar todos los endpoints, esquemas, errores, autenticación y rate limiting.
+ Memory tests: persistencia tras reinicio, tenant isolation, exportación/borrado y no exposición de vectores 
+internos.
+ RAG/grounding tests: fuente citada, atribución, actualización, conflicto de fuentes y manejo de evidencia 
+ausente.
+ Emotion tests: precisión, recall, macro-F1, calibración, robustez por idioma/dialecto, sesgo y abstención.
+ Latency/cost tests: p50/p95/p99, tokens, CPU/GPU, memoria, coste por conversación, throughput y consumo 
+energético.
+ Security tests: prompt injection, exfiltración, abuso de herramientas, escalada de rol, filtrado de datos y 
+manipulación de contexto.
+ Human oversight tests: revisión humana para acciones externas, dispositivos, dinero, datos sensibles y casos de 
+crisis.
+ Failover tests: proveedor IA no disponible, timeouts, circuit breakers, colas, reintentos idempotentes y rollback.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 23
+16.3 Pruebas del stack TAMV
+ Federación: nodo nuevo, descubrimiento, autenticación mutua, sincronización, partición de red, consenso y 
+recuperación.
+ MSR/BookPI: trazabilidad de un evento de origen a decisión, cambios de estado, firma, exportación y 
+verificación de cadena de custodia.
+ XR/4D: latencia, frame pacing, carga de escena, compatibilidad de dispositivos, accesibilidad y telemetría.
+ Economía: conciliación de ledger, saldo no negativo, doble gasto, repetición de solicitud, pagos fallidos y 
+reembolsos.
+ RDM territorial: consentimiento del comerciante, vigencia de ficha, exactitud de ubicación, disponibilidad, 
+transacciones reales e impacto medible.
+17. Hoja de ruta de consolidación
+Las siguientes fases son un orden de ejecución sugerido, no una afirmación de que las actividades se hayan 
+realizado.
+Prioridad Acción Entregable verificable Criterio de cierre
+P0 - urgente
+Revisar el .env rastreado; ejecutar 
+secret scanning; rotar toda clave 
+real; corregir .gitignore e historial.
+Informe de secretos, acta de 
+rotación, commit saneado.
+Ninguna credencial activa 
+expuesta en el repo o historial; 
+verificación independiente.
+P0 - urgente
+Corregir el flujo Register.tsx y el 
+componente TAMVTrixEffect; 
+build y tests.
+PR, build log, test end-to-end de 
+alta real.
+Alta en backend, validación, error 
+handling, no logging de 
+password/PII.
+P1 - documental
+Fijar nomenclatura MD-X4/DM-X4; 
+tabla de estados; README 
+canónico; archivo público/privado.
+Glosario, mapa de versiones y 
+documentación indexada.
+Sin duplicados confusos ni claims 
+sin etiqueta de estado.
+P1 - API
+Reconciliar README y OpenAPI; 
+definir auth scopes, privacidad, 
+error schemas y versión de 
+endpoints.
+OpenAPI 3.1 validado + pruebas de 
+contrato.
+Todos los endpoints 
+documentados coinciden con 
+servicio probado.
+P1 - legal
+Reescribir matriz de aplicabilidad; 
+avisos, consentimiento, retención 
+y ARCO.
+Expediente de privacidad y mapa 
+de proveedores.
+Revisión de abogado y evidencias 
+funcionales de los derechos.
+P2 - técnica
+Auditar RLS, has_role, roles, 
+wallet, BookPI y controles de 
+dispositivo.
+Matriz de permisos y pentest de 
+alcance acotado.
+Pruebas negativas pasan y ningún 
+usuario cruza datos de terceros.
+P2 - criptografía Seleccionar suite PQC estándar y plan de migración híbrida. Diseño criptográfico, librerías, vectors y benchmark. Interoperabilidad, rotación y pruebas reproducibles.
+P3 - evaluación
+Contratar evaluación externa 
+independiente del módulo con 
+mayor madurez.
+Informe técnico firmado, método, 
+resultados y límites.
+Tercero identificado, artefactos y 
+versiones congelados.
+18. Limitaciones, pendientes y conclusiones
+18.1 Pendientes prioritarios de la fuente original
+ Recuperar los cuatro destinos sin contenido: portafolio Lovable, presentación oficial agosto 2025, raíz de tamv-
+mdx4.blogspot.com y captura S3. Guardar resultado técnico y, cuando corresponda, copia suministrada por el 
+titular.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 24
+ Obtener original del correo/invitación, programa definitivo de CITIS, registro de ponencias y evidencia de 
+cualquier participación individual.
+ Resolver la ficha ORCID oficial, la asignación ISNI y el DOI Zenodo referido en Figshare.
+ Extraer y analizar los DOCX relevantes del repositorio documental; priorizar manuales, blueprint, auditorías, 
+legal, evolución 2026 y documento de despliegue de Isabella.
+ Inspeccionar el repositorio completo y su historial de Git; fijar commits SHA, licencias, seguridad y builds 
+reproducibles.
+ Verificar las APIs desde un entorno autorizado y documentar respuesta, versión, health check y política de 
+autenticación.
+ Obtener pruebas de pilotos, usuarios, operación y mediciones antes de declarar despliegue o impacto.
+18.2 Conclusión general
+La revisión ampliada sustenta que existe una base documental pública significativa y una arquitectura declarada 
+que organiza TAMV alrededor de memoria, identidad, soberanía digital, coordinación, experiencias inmersivas y 
+una capa de IA identificada como Isabella Villaseñor AI. Existen artefactos tangibles de diseño y código: repositorios 
+públicos, especificaciones OpenAPI, blueprint, migraciones SQL, políticas RLS, componentes front-end y materiales 
+editoriales. La identidad profesional declarada aparece consistente en más de una plataforma y Figshare aporta un 
+punto de entrada bibliográfico adicional.
+La misma revisión muestra que la madurez documental no debe confundirse con madurez operativa. Las 
+especificaciones contienen discrepancias; una pantalla de alta inspeccionada es simulada; el repositorio incluye un 
+archivo .env rastreado que requiere revisión de seguridad; los claims de criptografía poscuántica no están 
+documentados con suficiente detalle; y las declaraciones de cumplimiento global no están respaldadas por un 
+expediente de controles. Tampoco existe, en las fuentes recuperadas, evidencia bastante para afirmar consciencia 
+de Isabella, eficiencia energética del 50%, funcionamiento federado integral, participación personal en CITIS o 
+validación editorial de los módulos.
+La conclusión más sólida y útil es, por tanto, doble: TAMV tiene un corpus documental rastreable y una 
+implementación parcial visible en repositorios públicos; el paso decisivo para elevar su credibilidad técnica y 
+académica es conectar cada afirmación ambiciosa con su artefacto, su versión, su prueba reproducible y, cuando 
+corresponda, una evaluación independiente. El compendio debe conservar tanto los avances como las fallas, las 
+fuentes no accesibles y las afirmaciones que siguen pendientes.
+Declaración final de responsabilidad
+La responsabilidad del contenido, de las afirmaciones del proyecto y de la decisión de depósito corresponde al 
+autor. Esta edición fue preparada mediante asistencia editorial y herramientas de consulta. Esa asistencia no 
+constituye auditoría independiente, dictamen jurídico, certificación de producto, revisión por pares ni garantía 
+de exactitud de los sistemas descritos.
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 25
+Anexo A. Fichas de fuente
+ID Fuente Contenido / fecha Límite de uso
+A-01 PDF Compendio de Trazabilidad 2.0 Documento aportado por el autor; 11 páginas; corte 08-11-2026. Fuente de partida; no es fuente externa.
+A-02 GitHub OsoPanda1 Perfil público y repositorios relacionados. Perfil/artefactos; autodescripción.
+A-03 Repositorio documental TAMV DOCUMENTACION-TAMV-DM-X4- e-ISABELLA-AI; rama main. 245 entradas; inspección parcial; archivos binarios pendientes.
+A-04 Repositorio genesis-digytamv- nexus Código React/Vite/Supabase; rama main. Inspección selectiva de metadatos, pantallas y SQL.
+A-05 Figshare profile
+Edwin Oswaldo Castillo Trejo; 
+ORCID y siete publicaciones 
+visibles.
+Perfil primario del autor; no 
+revisión por pares.
+A-06 Blog TAMV: How built Entrada 23-09-2025. Declaraciones narrativas y técnicas del autor.
+A-07 Blog TAMV: Scientific Appeal Entrada 27-10-2025. Declaraciones del autor sobre proceso editorial y rendimiento.
+A-08 Blog TAMV: CITEMESH Entrada 02-02-2026. Anuncio de lanzamiento previsto; resultado pendiente.
+A-09 Blog TAMV: Creator Economy Entrada 06-03-2026. Claim de estado del código; no prueba independiente.
+A-10 Frontiers Research Topic 87052 Ética, desafíos y soluciones en Metaverso y Web3, Vol II. Página editorial; límite de envío 31-05-2027.
+A-11 UPS CITIS 2026 Ficha institucional y Call for Papers. Fecha programada 28-30 oct 2026; no asistencia individual.
+A-12 Cámara de Diputados: LFPDPPP Nueva ley 20-03-2025; última reforma 14-11-2025. Fuente normativa primaria.
+A-13 Secretaría de Economía: NOM-151 NOM-151-SCFI-2016; estado vigente en catálogo. Fuente oficial de normalización.
+A-14 NIST FIPS 203/204/205 Estándares finales de ML-KEM/ML-DSA/SLH-DSA. Fuente técnica de estándar.
+A-15 Penev et al. 2024 Energy Efficiency Evaluation of Artificial Intelligence Algorithms. Artículo científico; no ensayo de TAMV.
+A-16 Flöther et al. 2025 arXiv:2508.20720. Artículo de perspectiva; potencial y desafíos.
+A-17 Ranilla-Cortina et al. 2025 Journal of Supercomputing, vol. 81, art. 746. Editorial; no validación de TAMV.
+Anexo B. Plantilla de afirmación trazable
+Copiar una ficha por afirmación. No crear una sola ficha que contenga varias conclusiones distintas.
+Campo Valor que debe completarse
+claim_id TAMV-CLM-000000
+claim_text
+claim_type
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 26
+Campo Valor que debe completarse
+resource_url
+source_owner
+published_at
+accessed_at_utc
+version_or_commit
+capture_method
+sha256
+provenance_class E1 / E2 / E3 / E4 / E5 / P
+independence
+observed_content
+inference_or_interpretation
+limitations
+verification_status
+reviewer_and_date
+supersedes
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 27
+Anexo C. Referencias bibliográficas y técnicas
+Las referencias se incluyen para localización y verificación posterior. Las fuentes del autor deben leerse como 
+fuentes primarias de autodescripción; las fuentes institucionales o normativas como prueba del hecho específico 
+que publican; y los artículos científicos como contexto, no como corroboración automática de las capacidades de 
+TAMV.
+[1] Castillo Trejo, E. O. (2026). Compendio de Trazabilidad 2.0: Memoria técnica, identidad persistente, infraestructura de evidencia 
+y trazabilidad pública del ecosistema TAMV Online Network. PDF aportado; 11 pp. [Documento de partida.]
+[2] GitHub. (s. f.). OsoPanda1 [perfil público]. https://github.com/OsoPanda1 [Consulta: 08-11-2026.]
+[3] OsoPanda1. (s. f.). DOCUMENTACION-TAMV-DM-X4-e-ISABELLA-AI [repositorio]. 
+https://github.com/OsoPanda1/DOCUMENTACION-TAMV-DM-X4-e-ISABELLA-AI [Rama main; árbol recuperado 08-11-2026.]
+[4] OsoPanda1. (s. f.). blueprints/arquitectura_unificada.md. https://github.com/OsoPanda1/DOCUMENTACION-TAMV-DM-X4-e-
+ISABELLA-AI/blob/main/blueprints/arquitectura_unificada.md [Archivo inspeccionado directamente.]
+[5] OsoPanda1. (s. f.). api/isabella-ai/README.md. https://github.com/OsoPanda1/DOCUMENTACION-TAMV-DM-X4-e-ISABELLA-AI/
+blob/main/api/isabella-ai/README.md [Archivo inspeccionado directamente.]
+[6] OsoPanda1. (s. f.). api/isabella-ai/openapi.yaml. https://github.com/OsoPanda1/DOCUMENTACION-TAMV-DM-X4-e-ISABELLA-
+AI/blob/main/api/isabella-ai/openapi.yaml [Archivo inspeccionado directamente.]
+[7] OsoPanda1. (s. f.). api/tamv-dm-x4/openapi.yaml. https://github.com/OsoPanda1/DOCUMENTACION-TAMV-DM-X4-e-ISABELLA-
+AI/blob/main/api/tamv-dm-x4/openapi.yaml [Archivo inspeccionado directamente.]
+[8] OsoPanda1. (s. f.). CUMPLIMIENTO_LEGAL_GLOBAL.md. https://github.com/OsoPanda1/DOCUMENTACION-TAMV-DM-X4-e-
+ISABELLA-AI/blob/main/documentacion_legal/compliance/CUMPLIMIENTO_LEGAL_GLOBAL.md [Archivo inspeccionado 
+directamente.]
+[9] OsoPanda1. (s. f.). genesis-digytamv-nexus [repositorio]. https://github.com/OsoPanda1/genesis-digytamv-nexus [Rama main; 
+selección de archivos recuperada 08-11-2026.]
+[10] OsoPanda1. (s. f.). src/pages/Register.tsx. https://github.com/OsoPanda1/genesis-digytamv-nexus/blob/main/src/pages/
+Register.tsx [Inspección estática selectiva.]
+[11] OsoPanda1. (s. f.). supabase/migrations/20251217043934_14b05610-e837-443e-b3e2-236f035c8f5a.sql. 
+https://github.com/OsoPanda1/genesis-digytamv-nexus/blob/main/supabase/migrations/20251217043934_14b05610-e837-443e-
+b3e2-236f035c8f5a.sql [17 tablas; 17 con RLS; 28 políticas.]
+[12] Castillo Trejo, E. O. (s. f.). Perfil de autor en Figshare. https://figshare.com/authors/Edwin_Oswaldo_Castillo_Trejo/23791705 
+[Consulta: 08-11-2026.]
+[13] Villaseñor, A. (2025, 23 septiembre). Cómo se construyó TAMV DM-X4. https://tamvonlinenetwork.blogspot.com/2025/09/como-
+se-construyo-tamv-dmx4-blog.html [Fuente primaria del autor.]
+[14] Villaseñor, A. (2025, 27 octubre). Announcement: Scientific Appeal. 
+https://tamvonlinenetwork.blogspot.com/2025/10/announcement-scientific-appeal.html [Fuente primaria del autor.]
+[15] TAMV Online Network. (2026, 2 febrero). TAMV y el Nacimiento del Primer CITEMESH. 
+https://tamvonlinenetwork.blogspot.com/2026/02/tamv-y-el-nacimiento-del-primer.html [Fuente primaria del autor.]
+[16] Arquitectura TAMV / Isabella Prime. (2026, 6 marzo). TAMV MD-X4: Manifiesto de ignición para la Creator Economy LATAM. 
+https://tamvonlinenetwork.blogspot.com/2026/03/tamv-mdx4-manifiesto-de-ignicion-para.html [Fuente primaria del autor.]
+[17] Frontiers. (s. f.). Ethical Issues, Challenges and Solutions in Metaverse and Web3, Vol II. https://www.frontiersin.org/research-
+topics/87052/ethical-issues-challenges-and-solutions-in-metaverse-and-web3-vol-ii [Fecha límite publicada: 31-05-2027; 
+consultado 08-11-2026.]
+[18] Universidad Politécnica Salesiana. (2026). XII Congreso Internacional de Ciencia, Tecnología e Innovación para la Sociedad - 
+CITIS 2026. https://www.ups.edu.ec/evento?byid=&calendarBookingId=3909218 [Ficha institucional del evento.]
+[19] CITIS / Universidad Politécnica Salesiana. (2026). Call for Papers. https://citis.ups.edu.ec/es/call-for-papers/ [Ficha institucional.]
+
+TAMV ONLINE NETWORK  |  COMPENDIO CIVILIZATORIO 3.0
+Edición ampliada de investigación documental  |  Corte: 08-11-2026  |  Página 28
+[20] Cámara de Diputados del H. Congreso de la Unión. (2025). Ley Federal de Protección de Datos Personales en Posesión de los 
+Particulares. Nueva ley publicada DOF 20-03-2025; última reforma DOF 14-11-2025. 
+https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPDPPP.pdf [Texto vigente consultado 08-11-2026.]
+[21] Secretaría de Economía. (s. f.). NOM-151-SCFI-2016: Requisitos para la conservación de mensajes de datos y digitalización de 
+documentos. https://platiica.economia.gob.mx/normalizacion/nom-151-scfi-2016/ [Catálogo indica estado vigente; consulta 08-11-
+2026.]
+[22] National Institute of Standards and Technology. (2024). FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism 
+Standard. https://csrc.nist.gov/pubs/fips/203/final [ML-KEM; nota de errata publicada 17-11-2025.]
+[23] National Institute of Standards and Technology. (2024). FIPS 204: Module-Lattice-Based Digital Signature Standard. 
+https://csrc.nist.gov/pubs/fips/204/final [ML-DSA; nota de errata 31-07-2026.]
+[24] National Institute of Standards and Technology. (2024). FIPS 205: Stateless Hash-Based Digital Signature Standard. 
+https://csrc.nist.gov/pubs/fips/205/final [SLH-DSA.]
+[25] Penev, S., Gegov, A., Isiaq, S., & Jafari, M. (2024). Energy Efficiency Evaluation of Artificial Intelligence Algorithms. Electronics, 
+13(19), 3836. https://doi.org/10.3390/electronics13193836 [Contexto de algoritmos; no medición de TAMV.]
+[26] Flöther, F. F., Mikolon, J., & Longobardi, M. (2025). Accelerating the drive towards energy-efficient generative AI with quantum 
+computing algorithms. arXiv:2508.20720. https://arxiv.org/abs/2508.20720 [Artículo de perspectiva; versión v1 28-08-2025.]
+[27] Ranilla-Cortina, S., et al. (2025). The evolution of high-performance computing: how AI and quantum computing are reshaping 
+supercomputing. The Journal of Supercomputing, 81, 746. https://doi.org/10.1007/s11227-025-07241-7 [Editorial; no experimento 
+con TAMV.]
+[28] International Organization for Standardization. (s. f.). ISO 27729:2024 - Information and documentation - International 
+Standard Name Identifier (ISNI). https://www.iso.org/standard/87177.html [Referencia de estructura y control de ISNI; consulta 
+pendiente de registro individual.]
+Fuentes institucionales y técnicas destacadas: alcance de lectura
+La LFPDPPP se inspeccionó en su PDF oficial mediante la versión publicada por Cámara de Diputados, incluyendo 
+los artículos 5-8, 10-20. NOM-151 se contrastó en el catálogo de normalización de la Secretaría de Economía. FIPS 
+203/204/205 se consultaron en NIST. Frontiers y UPS se consultaron en sus páginas institucionales. Los artículos de 
+Penev y Ranilla-Cortina fueron identificados por metadatos y resultados editoriales; la descarga directa de MDPI 
+falló por limitación de acceso. El preprint de Flöther se abrió en texto HTML. Las fuentes no recuperadas se 
+mantienen expresamente como pendientes.
