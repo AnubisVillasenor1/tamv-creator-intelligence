@@ -38,16 +38,6 @@ export const Route = createFileRoute("/api/billing/webhook")({
           return errorResponse("La URL de almacenamiento no es válida.", 503, "BILLING_WEBHOOK_STORAGE_CONFIG_INVALID");
         }
 
-        if (!isJsonContentType(request.headers.get("content-type"))) return errorResponse("Content-Type debe ser application/json.", 415, "BILLING_WEBHOOK_CONTENT_TYPE");
-
-        let databaseUrl: URL;
-        try {
-          databaseUrl = new URL(supabaseUrl);
-          if (databaseUrl.protocol !== "https:" || databaseUrl.username || databaseUrl.password || databaseUrl.search || databaseUrl.hash) throw new Error("invalid database URL");
-        } catch {
-          return errorResponse("La URL de base de datos del servidor no es válida.", 503, "BILLING_WEBHOOK_STORAGE_CONFIG");
-        }
-
         const declaredLength = request.headers.get("content-length");
         if (declaredLength !== null && (!/^(0|[1-9][0-9]*)$/.test(declaredLength) || Number(declaredLength) > STRIPE_WEBHOOK_MAX_BODY_BYTES)) {
           return errorResponse("El cuerpo del webhook supera el límite permitido.", 413, "BILLING_WEBHOOK_BODY_LIMIT");
@@ -66,7 +56,7 @@ export const Route = createFileRoute("/api/billing/webhook")({
           return errorResponse("El evento de webhook debe ser un objeto.", 400, "BILLING_WEBHOOK_EVENT_INVALID");
         }
         const record = event as Record<string, unknown>;
-        if (record["object"] !== "event" || typeof record["id"] !== "string" || !/^evt_[A-Za-z0-9]+$/.test(record["id"]) || typeof record["type"] !== "string" || record["type"].length > 160) {
+        if (record["object"] !== "event" || typeof record["id"] !== "string" || !/^evt_[A-Za-z0-9]+$/.test(record["id"]) || typeof record["type"] !== "string" || record["type"].length === 0 || record["type"].length > 160 || typeof record["created"] !== "number" || !Number.isSafeInteger(record["created"]) || record["created"] < 0) {
           return errorResponse("El evento no cumple el contrato mínimo de Stripe.", 400, "BILLING_WEBHOOK_EVENT_INVALID");
         }
 
