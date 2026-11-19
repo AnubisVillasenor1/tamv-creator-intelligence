@@ -83,7 +83,9 @@ export const Route = createFileRoute("/api/billing/webhook")({
         }
 
         try {
-          const result = JSON.parse(await readBoundedResponseText(processResponse, 8 * 1024)) as unknown;
+          const processorText = await readBoundedResponseText(processResponse, 8 * 1024);
+          if (processorText === null) throw new Error("Processor response exceeds limit");
+          const result = JSON.parse(processorText) as unknown;
           if (!result || typeof result !== "object" || Array.isArray(result) || typeof (result as Record<string, unknown>)["status"] !== "string") {
             throw new Error("Invalid processor response");
           }
