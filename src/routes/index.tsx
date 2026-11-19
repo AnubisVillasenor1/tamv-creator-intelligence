@@ -46,15 +46,15 @@ function Dashboard() {
   return (
     <>
       <div className="tamv-matrix-banner" role="img" aria-label="TAMV ONLINE NETWORK — identidad digital con código Matrix">
-        <div className="matrix-code" aria-hidden="true">01010110 01000001 01001101 01010100<br />01001111 01001110 01001100 01001001<br />01001110 01000101 00100000 01001110 01000101 01010100 01010111 01001111 01010010 01001011</div>
+        <div className="matrix-code" aria-hidden="true">01010100 01000001 01001101 01010110<br />01001111 01001110 01001100 01001001<br />01001110 01000101 00100000 01001110 01000101 01010100 01010111 01001111 01010010 01001011</div>
         <div className="matrix-brand"><span className="matrix-live-dot" /><span>TAMV ONLINE NETWORK</span><small>TECNOLOGÍA AVANZADA MEXICANA VERSÁTIL</small></div>
         <span className="matrix-index">TAMV / 01 — CREATOR INTELLIGENCE</span>
       </div>
       <div className="page-heading dashboard-heading">
         <div>
           <span className="eyebrow">TU WORKSPACE / VISTA GENERAL</span>
-          <h1>Un espacio para lo que sigue.</h1>
-          <p>Crea con intención. Conecta con criterio. Tú decides.</p>
+          <h1>Un entorno para crear con criterio.</h1>
+          <p>Proyectos, herramientas y conexiones con gobernanza humana y trazabilidad.</p>
         </div>
         <span className="status-pill">
           <ShieldCheck size={14} />
@@ -66,7 +66,7 @@ function Dashboard() {
           <span className="hero-kicker">
             <TamvLogo className="h-5 w-5 rounded object-contain" size={20} priority />
             <span />
-            TAMV ONLINE NETWORK · TECNOLOGÍA AVANZADA MEXICANA VERSATIL
+            TAMV ONLINE NETWORK · TECNOLOGÍA AVANZADA MEXICANA VERSÁTIL
           </span>
           <h2>
             Grandes ideas.
@@ -74,8 +74,7 @@ function Dashboard() {
             <em>Decisiones conscientes.</em>
           </h2>
           <p>
-            Tu centro de trabajo para proyectos de IA, creación sonora y conexiones sociales. Cada
-            herramienta, con sus reglas. Cada decisión, en tus manos.
+            Tu centro de trabajo para proyectos de IA, creación sonora y conexiones sociales. Herramientas con límites explícitos. Decisiones bajo control humano.
           </p>
           <p className="hero-agnostic">
             Agnóstico de sector y proveedor: nació en el ecosistema PLAY &amp; GO, pero no está
@@ -84,20 +83,20 @@ function Dashboard() {
           <div className="hero-actions">
             <Button asChild>
               <Link to="/projects">
-                Crear mi proyecto
+                Crear un proyecto
                 <ArrowUpRight size={18} />
               </Link>
             </Button>
             <Button variant="ghost" asChild>
               <Link to="/guide">
                 <BookOpen size={18} />
-                Conocer la plataforma
+                Explorar la plataforma
               </Link>
             </Button>
           </div>
           <div className="hero-footnote">
             <LockKeyhole size={13} />
-            Orgullosamente Latinoamericanos · Privacidad por diseño · Sin publicación automática
+            Tecnología latinoamericana · Privacidad por diseño · Sin publicación automática
           </div>
         </div>
         <div
