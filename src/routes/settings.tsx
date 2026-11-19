@@ -16,6 +16,11 @@ function SettingsPage() {
   const [preferences, setPreferences] = useState<Preferences>(defaults);
   const [saved, setSaved] = useState(false);
   useEffect(() => {
+    document.documentElement.dataset["workspaceDensity"] = preferences.density;
+    document.documentElement.dataset["workspaceMotion"] = preferences.motion;
+    document.documentElement.dataset["workspaceGuidance"] = String(preferences.guidance);
+  }, [preferences]);
+  useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
