@@ -2,7 +2,7 @@
 
 **Versión:** 1.0.0 · **Estado:** política propuesta; aprobación formal de responsables y asesoría jurídica pendiente.
 
-## Propósito
+## Identidad institucional\n\n**Tecnología Avanzada Mexicana Versatil. Orgullosamente Latinoamericanos.** Esta identidad expresa origen, compromiso regional y vocación tecnológica. No implica respaldo gubernamental, acreditación académica, certificación normativa ni aval de terceros.\n\n## Propósito
 Definir cómo TAMV documenta y revisa decisiones de producto, IA, seguridad, privacidad, licencias y operación. Complementa las reglas específicas del paquete en tamv-pack/GOVERNANCE.md; no las sustituye ni convierte recomendaciones externas en leyes.
 
 ## Principios
