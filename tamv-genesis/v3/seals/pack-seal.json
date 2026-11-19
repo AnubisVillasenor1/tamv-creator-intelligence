@@ -5,7 +5,7 @@
   "issuedAt": "2026-11-14T00:00:00.000Z",
   "manifest": {
     "path": "v3/pack.json",
-    "canonicalSha256": "sha256:72bbfc90de6cde7c957fbc0fd36b5854d8db6e7194031a73f9ab11485156e985"
+    "canonicalSha256": "sha256:7f2843f600ea92e8108bdde928a80035077a9189d91499402b8fc024e5e44e5b"
   },
   "capabilities": [
     "audio.mastering",
@@ -117,9 +117,9 @@
   ],
   "internalContracts": {
     "path": "tamv-pack/skills",
-    "count": 37
+    "count": 41
   },
-  "root": "sha256:3519d34593e1a01f6685f77c8d3dbc0a3a8a87d75de95c679644e33a17b7b487",
+  "root": "sha256:7a032357addb9d21a01ee49c17cccfebb37663bf21502ead2a1653a3b31aa8c3",
   "signature": {
     "alg": "Ed25519",
     "state": "UNSIGNED_RELEASE_PENDING"
