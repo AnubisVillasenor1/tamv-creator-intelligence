@@ -16,14 +16,14 @@ export const listProjects = createServerFn({ method: "POST" })
   });
 export const changeProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input: unknown) => projectActionSchema.parse(input))
+  .inputValidator((input: unknown) => projectActionSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { applyProjectAction } = await import("./project-service.server");
     return applyProjectAction(context.supabase, data);
   });
 export const readProjectAudit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input: unknown) => z.object({ projectId: z.string().uuid() }).parse(input))
+  .inputValidator((input: unknown) => z.object({ projectId: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const { data: events, error } = await context.supabase
       .from("tamv_project_audit")
@@ -35,7 +35,7 @@ export const readProjectAudit = createServerFn({ method: "POST" })
   });
 export const assessProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input: unknown) =>
+  .inputValidator((input: unknown) =>
     z
       .object({
         projectId: z.string().uuid(),
