@@ -58,6 +58,10 @@ El README es una portada breve; el contenido extenso vive en `docs/`. Consulta [
 
 Las claves de IA, claves de servicio, claves de firma, tokens administrativos y secretos de Stripe deben permanecer en el gestor de secretos del servidor. Nunca uses `VITE_` para secretos privados. Consulta `LICENSE`, `LICENSE-MAP.md`, `LICENSE-COMMERCIAL.md` y `NOTICE` antes de redistribuir.
 
+## Inventario de capacidades
+
+Inventario validado: **26 módulos** · **4 skills públicas** · **41 contratos internos** · **19 capacidades**; estados: closed=11, contract=2, documented=7, partial=1, blocked=4, open=1.
+
 ## Atribución institucional
 
 ```text
