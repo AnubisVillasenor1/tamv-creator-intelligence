@@ -2,7 +2,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createHash } from "node:crypto";
 import { readBoundedResponseText } from "../lib/bounded-response.server";
-import { readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
+import { isJsonContentType, readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   STRIPE_WEBHOOK_MAX_BODY_BYTES,
   verifyStripeWebhookSignature,

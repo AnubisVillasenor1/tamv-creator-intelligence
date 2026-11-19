@@ -7,13 +7,13 @@ import { resolveSkillDependencies } from "@/lib/skill-governance";
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
-      { title: "Marketplace de skills · TAMV" },
+      { title: "Skills y contratos · TAMV" },
       {
         name: "description",
         content:
-          "Catálogo de 37 contratos de skills TAMV con dependencias gobernadas e integración en proyectos existentes.",
+          `Catálogo de ${skillRegistry.length} contratos de skills TAMV con dependencias gobernadas e integración en proyectos existentes.`,
       },
-      { property: "og:title", content: "Marketplace de skills · TAMV" },
+      { property: "og:title", content: "Skills y contratos · TAMV" },
       {
         property: "og:description",
         content: "Inventario de contratos, dependencias y controles de gobernanza.",
@@ -37,7 +37,7 @@ function Marketplace() {
     <>
       <div className="page-heading">
         <span className="eyebrow">GOVERNED SKILL NETWORK</span>
-        <h1>Marketplace de skills</h1>
+        <h1>Skills y contratos</h1>
         <p>
           {skillRegistry.length} contratos del paquete · dependencias explícitas · control TAMV.
         </p>

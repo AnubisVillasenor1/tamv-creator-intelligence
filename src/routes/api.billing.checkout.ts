@@ -25,6 +25,13 @@ export const Route = createFileRoute("/api/billing/checkout")({
         if (!stripeKey || !supabaseUrl || !publishableKey || !serviceRoleKey || !appUrlValue) {
           return fail("Checkout no está configurado en el servidor.", 503, "BILLING_CHECKOUT_NOT_CONFIGURED");
         }
+        let supabaseOrigin: URL;
+        try {
+          supabaseOrigin = new URL(supabaseUrl);
+          if (supabaseOrigin.protocol !== "https:" || supabaseOrigin.username || supabaseOrigin.password || supabaseOrigin.search || supabaseOrigin.hash || supabaseOrigin.pathname !== "/") throw new Error("Invalid Supabase origin");
+        } catch {
+          return fail("La URL de Supabase debe ser un origen HTTPS válido.", 503, "BILLING_CHECKOUT_SUPABASE_URL_INVALID");
+        }
         if (!stripeKey.startsWith("sk_test_") && !stripeKey.startsWith("sk_live_")) {
           return fail("La clave Stripe no tiene un formato admitido.", 503, "BILLING_CHECKOUT_CONFIG_INVALID");
         }
@@ -40,7 +47,7 @@ export const Route = createFileRoute("/api/billing/checkout")({
         if (!token || token.length > 16_384) return fail("Inicia sesión para crear una sesión de pago.", 401, "BILLING_CHECKOUT_AUTH_REQUIRED");
         let identityResponse: Response;
         try {
-          identityResponse = await fetch(new URL("/auth/v1/user", supabaseUrl), {
+          identityResponse = await fetch(new URL("/auth/v1/user", supabaseOrigin), {
             headers: { apikey: publishableKey, Authorization: `Bearer ${token}` },
             cache: "no-store",
             signal: AbortSignal.timeout(5_000),
