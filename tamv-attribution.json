@@ -39,7 +39,7 @@
     "canonicalTextSha256": "sha256:ae0ef2a55f14c869da77581f9e68f457d5ec73028d6146b516e6b873f46891c6",
     "files": {
       "ATTRIBUTION.md": "sha256:d2a8363d51d294a9256cd55d0ca241d89e9cc1159340cb9a450876f73f0778d3",
-      "README.md": "sha256:39a76e98b54ce0eba263269f69625a65bb0def38e669e667773228bed43b14a6",
+      "README.md": "sha256:8cd5a6f0c4b64aa1df948ee568609210e29bb6ea2597b80f5272dad7ab58b8cf",
       "src/lib/tamv-attribution.ts": "sha256:c9721bd6fdc581804b4b3a4947aa1769a9af1435e1f9e272823e90cf8bbf5f24",
       "src/components/branding/TamvAttribution.tsx": "sha256:ffad2bb29680c83b85d070a4bf94163b97e13aa977d5d0e84dcce8fe0c639c7c",
       "src/routes/__root.tsx": "sha256:90c29ce7b6378f98883aafc95a2dfce673a716811565e8a9b0b6e0f912e3304d",
