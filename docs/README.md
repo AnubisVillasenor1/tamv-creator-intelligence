@@ -17,6 +17,9 @@
 - [Política de gobernanza](../GOVERNANCE.md)
 - [Seguridad y divulgación](../SECURITY.md)
 
+## Cuenta y facturación
+- [Facturación, membresías y donaciones](BILLING-MEMBERSHIP-AND-DONATIONS.md)
+
 ## Arquitectura y contratos
 - [Referencia de arquitectura operativa](ARCHITECTURE-REFERENCE.md)
 - [Arquitectura unificada del Creator OS](TAMV-CREATOR-OS-UNIFIED-ARCHITECTURE.md)
