@@ -1,5 +1,6 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
+import { readBoundedResponseText } from "../lib/bounded-response.server";
 import { isDeclaredContentLengthWithinLimit, isJsonContentType, readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
 import { supabaseAuthenticate } from "../lib/audiocore-advanced.server";
 import { checkCapabilityQuota, capabilityQuotaResponse, acquireCapabilitySlot, releaseCapabilitySlot } from "../lib/capability-quota.server";
@@ -23,30 +24,6 @@ function stripControlCharacters(value: string): string {
   }).join("");
 }
 
-async function readBoundedResponseText(response: Response, maxBytes: number): Promise<string | null> {
-  const declaredLength = response.headers.get("content-length");
-  if (declaredLength !== null) {
-    const parsedLength = Number(declaredLength);
-    if (!Number.isSafeInteger(parsedLength) || parsedLength < 0 || parsedLength > maxBytes) return null;
-  }
-  if (!response.body) return null;
-  const reader = response.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let total = 0;
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      total += value.byteLength;
-      if (total > maxBytes) { await reader.cancel(); return null; }
-      chunks.push(value);
-    }
-  } finally { reader.releaseLock(); }
-  const combined = new Uint8Array(total);
-  let offset = 0;
-  for (const chunk of chunks) { combined.set(chunk, offset); offset += chunk.byteLength; }
-  try { return new TextDecoder("utf-8", { fatal: true }).decode(combined); } catch { return null; }
-}
 function providerConfig() {
   const raw = process.env["TAMV_GUIDE_AI_BASE_URL"];
   const key = process.env["TAMV_GUIDE_AI_API_KEY"];
