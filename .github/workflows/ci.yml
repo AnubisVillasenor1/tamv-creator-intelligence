@@ -97,6 +97,9 @@ jobs:
       - name: Validate capability closure inventory
         run: node scripts/validate-closure-inventory.mjs
 
+      - name: Enforce concise README policy
+        run: bun run readme:check
+
       - name: Test documentation link validator
         run: bun run docs:check:test
 
