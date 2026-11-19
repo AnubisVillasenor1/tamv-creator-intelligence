@@ -14,13 +14,11 @@ export const Route = createFileRoute("/billing")({
 function BillingPage() {
   const [busyPlan, setBusyPlan] = useState<PlanKey | null>(null);
   const [checkoutError, setCheckoutError] = useState("");
-  const [checkoutNotice, setCheckoutNotice] = useState("");
 
   async function startCheckout(planKey: PlanKey) {
     if (busyPlan) return;
     setBusyPlan(planKey);
     setCheckoutError("");
-    setCheckoutNotice("");
     try {
       const { data, error } = await supabase.auth.getSession();
       const token = data.session?.access_token;
@@ -50,7 +48,6 @@ function BillingPage() {
         {([{key:"creator",name:"Creator",desc:"Herramientas de creación y flujos guiados"},{key:"pro",name:"Pro",desc:"Capacidades ampliadas para trabajo recurrente"},{key:"enterprise",name:"Enterprise",desc:"Uso organizacional sujeto a configuración contractual"}] as const).map(plan => <article key={plan.key} className="flex flex-col rounded-xl border p-5"><h3 className="text-lg font-semibold">{plan.name}</h3><p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">{plan.desc}</p><Button className="mt-5" disabled={busyPlan !== null} onClick={() => void startCheckout(plan.key)}>{busyPlan === plan.key ? "Conectando con Stripe…" : "Continuar con Stripe"}<ExternalLink size={15}/></Button></article>)}
       </div>
       {checkoutError ? <p role="alert" className="mt-4 rounded-lg border border-destructive/40 p-3 text-sm text-destructive">{checkoutError}</p> : null}
-      {checkoutNotice ? <p role="status" className="mt-4 text-sm text-muted-foreground">{checkoutNotice}</p> : null}
       <p className="mt-4 text-xs leading-5 text-muted-foreground">Si el servidor no tiene las claves y los IDs de precio configurados, el checkout falla de forma cerrada. No se simula una compra ni se otorgan permisos desde esta pantalla.</p>
     </section>
     <section id="donate" className="rounded-2xl border bg-card p-6"><div className="flex items-center gap-3"><HeartHandshake className="text-primary" size={26}/><h2 className="text-xl font-semibold">Apoyar el proyecto</h2></div><p className="mt-3 text-sm leading-6 text-muted-foreground">El canal oficial de donación todavía no está configurado. No se enlaza una URL de cobro no verificada ni se solicitan datos bancarios dentro de la aplicación.</p><div className="mt-4 rounded-lg border p-4 text-sm text-muted-foreground">Donaciones: pendientes de un canal oficial confirmado.</div></section>
