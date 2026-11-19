@@ -271,6 +271,8 @@ export interface FileRoutesByFullPath {
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/admin/memberships': typeof ApiAdminMembershipsRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -307,6 +309,8 @@ export interface FileRoutesByTo {
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -340,6 +344,8 @@ export interface FileRoutesById {
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -381,6 +387,8 @@ export interface FileRouteTypes {
     | '/api/tamv/hypercore/metrics'
     | '/api/billing/webhook'
     | '/api/admin/memberships'
+    | '/api/billing/webhook'
+    | '/api/admin/memberships'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -417,6 +425,8 @@ export interface FileRouteTypes {
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
+    | '/api/billing/webhook'
+    | '/api/admin/memberships'
   id:
     | '__root__'
     | '/'
@@ -453,6 +463,8 @@ export interface FileRouteTypes {
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
+    | '/api/billing/webhook'
+    | '/api/admin/memberships'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
