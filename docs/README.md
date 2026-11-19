@@ -7,7 +7,7 @@
 - [Workspace, tutorial y estudio](WORKSPACE-AND-STUDIO.md)
 - [Integraciones sociales y webhooks](SOCIAL-WEBHOOKS.md)
 
-## Operación y gobernanza
+## Identidad institucional y gobernanza\n- [Protocolo institucional de gobernanza, seguridad y operación](GOVERNANCE-OPERATING-PROTOCOL.md)\n\n## Operación y gobernanza
 - [Operaciones](OPERATIONS.md)
 - [Recibos de gobernanza](GOVERNANCE-RECEIPTS-OPERATIONS.md)
 - [Plan de hardening de producción](PRODUCTION-HARDENING-PLAN.md)
