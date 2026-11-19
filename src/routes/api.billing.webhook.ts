@@ -1,7 +1,7 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { createHash } from "node:crypto";
-import { readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
+import { isJsonContentType, readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   STRIPE_WEBHOOK_MAX_BODY_BYTES,
   verifyStripeWebhookSignature,
@@ -22,6 +22,16 @@ export const Route = createFileRoute("/api/billing/webhook")({
         const serviceRoleKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
         if (!secret || !supabaseUrl || !serviceRoleKey) {
           return errorResponse("Webhook billing no configurado en el servidor.", 503, "BILLING_WEBHOOK_NOT_CONFIGURED");
+        }
+
+        if (!isJsonContentType(request.headers.get("content-type"))) return errorResponse("Content-Type debe ser application/json.", 415, "BILLING_WEBHOOK_CONTENT_TYPE");
+
+        let databaseUrl: URL;
+        try {
+          databaseUrl = new URL(supabaseUrl);
+          if (databaseUrl.protocol !== "https:" || databaseUrl.username || databaseUrl.password || databaseUrl.search || databaseUrl.hash) throw new Error("invalid database URL");
+        } catch {
+          return errorResponse("La URL de base de datos del servidor no es válida.", 503, "BILLING_WEBHOOK_STORAGE_CONFIG");
         }
 
         const declaredLength = request.headers.get("content-length");
@@ -50,7 +60,7 @@ export const Route = createFileRoute("/api/billing/webhook")({
         }
 
         const payloadHash = createHash("sha256").update(body.text, "utf8").digest("hex");
-        const endpoint = new URL("/rest/v1/tamv_billing_webhook_events", supabaseUrl);
+        const endpoint = new URL("/rest/v1/tamv_billing_webhook_events", databaseUrl);
         endpoint.searchParams.set("on_conflict", "provider,event_id");
         let persistResponse: Response;
         try {
