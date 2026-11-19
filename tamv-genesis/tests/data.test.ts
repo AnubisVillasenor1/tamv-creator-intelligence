@@ -123,8 +123,8 @@ test("the knowledge catalogue excludes restricted material", () => {
   for (const source of restricted) assert.equal(source.use, "excluded");
 });
 
-test("all 37 skills carry discoverable frontmatter", () => {
-  assert.equal(pack.skills.length, 37);
+test("all 41 internal skills carry discoverable frontmatter", () => {
+  assert.equal(pack.skills.length, 41);
   for (const id of pack.skills) {
     const path = `tamv-pack/skills/${id}/SKILL.md`;
     assert.ok(existsSync(new URL(`../../${path}`, import.meta.url)), path);
