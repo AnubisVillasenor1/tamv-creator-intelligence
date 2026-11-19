@@ -16,13 +16,20 @@ export const Route = createFileRoute("/api/admin/memberships")({
         if (!supabaseUrl || !publishableKey || !serviceRoleKey) {
           return errorResponse("El monitor administrativo no está configurado.", 503, "ADMIN_MONITOR_NOT_CONFIGURED");
         }
+        let supabaseOrigin: URL;
+        try {
+          supabaseOrigin = new URL(supabaseUrl);
+          if (supabaseOrigin.protocol !== "https:" || supabaseOrigin.username || supabaseOrigin.password || supabaseOrigin.search || supabaseOrigin.hash || supabaseOrigin.pathname !== "/") throw new Error("Invalid Supabase origin");
+        } catch {
+          return errorResponse("La URL de Supabase debe ser un origen HTTPS válido.", 503, "ADMIN_SUPABASE_URL_INVALID");
+        }
 
         const token = request.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1];
         if (!token || token.length > 16_384) return errorResponse("Se requiere una sesión autenticada.", 401, "ADMIN_AUTH_REQUIRED");
 
         let identityResponse: Response;
         try {
-          identityResponse = await fetch(new URL("/auth/v1/user", supabaseUrl), {
+          identityResponse = await fetch(new URL("/auth/v1/user", supabaseOrigin), {
             headers: { apikey: publishableKey, Authorization: `Bearer ${token}` },
             cache: "no-store",
             signal: AbortSignal.timeout(5_000),
@@ -56,7 +63,7 @@ export const Route = createFileRoute("/api/admin/memberships")({
 
         let summaryResponse: Response;
         try {
-          summaryResponse = await fetch(new URL("/rest/v1/rpc/get_tamv_membership_summary", supabaseUrl), {
+          summaryResponse = await fetch(new URL("/rest/v1/rpc/get_tamv_membership_summary", supabaseOrigin), {
             method: "POST",
             headers: {
               apikey: serviceRoleKey,
