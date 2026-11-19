@@ -1,5 +1,6 @@
 import {
   Activity,
+  Network,
   AudioWaveform,
   Blocks,
   Bot,
@@ -106,6 +107,13 @@ export const workspaceNavigation = [
     description: "Protocolos, evidencia y análisis ISA-FLOW",
     group: "Aprender",
     icon: FlaskConical,
+  },
+  {
+    to: "/atlas",
+    label: "Atlas inteligente",
+    description: "Guía paso a paso, catálogo de skills y grafos de dependencias",
+    group: "Aprender",
+    icon: Network,
   },
   {
     to: "/guide",
