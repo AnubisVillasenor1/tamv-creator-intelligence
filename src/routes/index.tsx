@@ -136,6 +136,30 @@ function Dashboard() {
           <span className="concept-label">UN FLUJO, NO UNA MÉTRICA EN VIVO</span>
         </div>
       </section>
+      <section className="executive-principles" aria-label="Principios operativos de TAMV">
+        <div className="executive-principles-heading">
+          <span className="eyebrow">MARCO OPERATIVO</span>
+          <span className="executive-principles-caption">Tres principios. Un mismo estándar.</span>
+        </div>
+        <div className="executive-principles-grid">
+          <article className="executive-principle">
+            <span className="executive-principle-index">01</span>
+            <div className="executive-principle-icon"><ShieldCheck size={19} /></div>
+            <div><h3>Govern</h3><p>Autoridad humana, límites explícitos y decisiones revisables.</p></div>
+          </article>
+          <article className="executive-principle">
+            <span className="executive-principle-index">02</span>
+            <div className="executive-principle-icon"><LockKeyhole size={19} /></div>
+            <div><h3>Integrity</h3><p>Controles verificables, privacidad por diseño y trazabilidad.</p></div>
+          </article>
+          <article className="executive-principle">
+            <span className="executive-principle-index">03</span>
+            <div className="executive-principle-icon"><ArrowRight size={19} /></div>
+            <div><h3>Velocity</h3><p>Flujos claros que reducen fricción sin omitir la revisión.</p></div>
+          </article>
+        </div>
+        <p className="executive-principles-footnote">Rápido cuando es seguro. Fail-closed cuando hay riesgo. Auditable siempre.</p>
+      </section>
       <section className="workspace-stats" aria-label="Resumen de tu espacio">
         {[
           {
