@@ -1879,3 +1879,9 @@ textarea {
 .atlas-node{transform:translate(-50%,-50%) translateZ(var(--node-depth,12px)) rotateX(7deg) rotateY(-3deg);backface-visibility:hidden;box-shadow:0 15px 24px #02061730,0 3px 0 color-mix(in oklch,var(--node-accent) 40%,var(--border))}
 .atlas-node:hover,.atlas-node.chosen{transform:translate(-50%,-50%) translateY(-4px) translateZ(40px) rotateX(2deg) rotateY(0);box-shadow:0 24px 42px color-mix(in oklch,var(--node-accent) 28%,transparent),0 4px 0 color-mix(in oklch,var(--node-accent) 55%,var(--border))}
 @media(prefers-reduced-motion:reduce){.atlas-node{transition:none}.atlas-node:hover,.atlas-node.chosen{transform:translate(-50%,-50%) translateZ(var(--node-depth,12px))}}
+
+/* User preferences are local to the current browser and never grant authority. */
+:root[data-workspace-density="compact"] .govern-body{padding-block:clamp(12px,2vw,24px)}
+:root[data-workspace-density="compact"] .atlas-guide-card,:root[data-workspace-density="compact"] .atlas-skill-card{padding:14px}
+:root[data-workspace-guidance="false"] .atlas-action,:root[data-workspace-guidance="false"] .atlas-check{display:none}
+:root[data-workspace-motion="reduced"] *, :root[data-workspace-motion="reduced"] *::before, :root[data-workspace-motion="reduced"] *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
