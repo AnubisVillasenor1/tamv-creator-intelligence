@@ -75,6 +75,9 @@ jobs:
       - name: Validate audit-ledger migration invariants (advisory)
         run: python3 scripts/validate-audit-migration.py
 
+      - name: Enforce concise README policy
+        run: bun run readme:check
+
       - name: Test documentation link validator
         run: bun run docs:check:test
 

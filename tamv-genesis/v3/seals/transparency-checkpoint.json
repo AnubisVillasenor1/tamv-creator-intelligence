@@ -1,8 +1,8 @@
 {
   "schema": "tamv.seal-transparency.v1",
-  "size": 2,
-  "rootHash": "sha256:29bd2008d898e53c5b61e3cf3675316fe9d17de55dc61bd96b5f960967f2c034",
-  "chainHead": "sha256:5921f06261c3e1e45b3bdf7e30807d25485c16e5c7c202c62baac48cb0133b37",
+  "size": 3,
+  "rootHash": "sha256:4252ba27200cba72e573528e6f7cb3d11b9ef97a7ba2ee7667c3e491e3ae6abb",
+  "chainHead": "sha256:5c448e3e8e97b26b56a96f85ae10cbc2f8989ca0433d626e3e72b3910b38fe53",
   "signature": {
     "alg": "Ed25519",
     "state": "UNSIGNED_RELEASE_PENDING"

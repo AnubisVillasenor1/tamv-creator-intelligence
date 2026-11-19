@@ -70,6 +70,9 @@ jobs:
       - name: Verify v3 pack seal structure and content
         run: node --experimental-strip-types tamv-genesis/cli/sovereign.mjs seal
 
+      - name: Verify append-only v3 transparency chain and checkpoint
+        run: node --experimental-strip-types tamv-genesis/scripts/v3-transparency.mjs --verify
+
       - name: Test installation and tamper rejection
         run: bash tamv-pack/scripts/test-scripts.sh
 

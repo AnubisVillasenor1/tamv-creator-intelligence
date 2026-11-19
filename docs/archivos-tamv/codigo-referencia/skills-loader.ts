@@ -10,6 +10,18 @@ export interface IsabellaSkill {
   tools: string[];
 }
 
+export interface CrownApprovalGate {
+  requestApproval(input: {
+    action: "skill.invoke";
+    skillId: string;
+    payload: Record<string, unknown>;
+  }): boolean | Promise<boolean>;
+}
+
+export type SkillInvocationResult =
+  | { status: "blocked"; reason: string }
+  | { status: "dispatched"; skillId: string; category: string; tools: string[] };
+
 export class SkillsLoader {
   private skills: IsabellaSkill[] = registry.skills as IsabellaSkill[];
 
@@ -27,7 +39,7 @@ export class SkillsLoader {
   }
 
   /** Integra un skill externo en el flujo Isabella según riesgo */
-  async invoke(skillId: string, payload: Record<string, unknown>, crown: any) {
+  async invoke(skillId: string, payload: Record<string, unknown>, crown: CrownApprovalGate): Promise<SkillInvocationResult> {
     const skill = this.skills.find(x => x.id === skillId);
     if (!skill) throw new Error(`Skill ${skillId} no registrado`);
 

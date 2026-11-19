@@ -16,6 +16,11 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthCallbackRouteImport } from './routes/auth-callback'
 import { Route as ExagonRouteImport } from './routes/exagon'
 import { Route as GuideRouteImport } from './routes/guide'
+import { Route as AtlasRouteImport } from './routes/atlas'
+import { Route as BillingRouteImport } from './routes/billing'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as WikiRouteImport } from './routes/wiki'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -28,6 +33,7 @@ import { Route as SovereigntyRouteImport } from './routes/sovereignty'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
+import { Route as ApiGuideRouteImport } from './routes/api.guide'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
 import { Route as ApiStudioMetricsRouteImport } from './routes/api.studio.metrics'
@@ -72,6 +78,31 @@ const ExagonRoute = ExagonRouteImport.update({
 const GuideRoute = GuideRouteImport.update({
   id: '/guide',
   path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtlasRoute = AtlasRouteImport.update({
+  id: '/atlas',
+  path: '/atlas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BillingRoute = BillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WikiRoute = WikiRouteImport.update({
+  id: '/wiki',
+  path: '/wiki',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HypercoreRoute = HypercoreRouteImport.update({
@@ -134,6 +165,11 @@ const ApiGenerationRoute = ApiGenerationRouteImport.update({
   path: '/api/generation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiGuideRoute = ApiGuideRouteImport.update({
+  id: '/api/guide',
+  path: '/api/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAudiocoreAdvancedRoute = ApiAudiocoreAdvancedRouteImport.update({
   id: '/api/audiocore/advanced',
   path: '/api/audiocore/advanced',
@@ -193,6 +229,11 @@ export interface FileRoutesByFullPath {
   '/auth-callback': typeof AuthCallbackRoute
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
+  '/atlas': typeof AtlasRoute
+  '/billing': typeof BillingRoute
+  '/faq': typeof FaqRoute
+  '/settings': typeof SettingsRoute
+  '/wiki': typeof WikiRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -205,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
+  '/api/guide': typeof ApiGuideRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
@@ -224,6 +266,11 @@ export interface FileRoutesByTo {
   '/auth-callback': typeof AuthCallbackRoute
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
+  '/atlas': typeof AtlasRoute
+  '/billing': typeof BillingRoute
+  '/faq': typeof FaqRoute
+  '/settings': typeof SettingsRoute
+  '/wiki': typeof WikiRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -256,6 +303,7 @@ export interface FileRoutesById {
   '/auth-callback': typeof AuthCallbackRoute
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
+  '/atlas': typeof AtlasRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -289,6 +337,11 @@ export interface FileRouteTypes {
     | '/auth-callback'
     | '/exagon'
     | '/guide'
+    | '/atlas'
+    | '/billing'
+    | '/faq'
+    | '/settings'
+    | '/wiki'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -301,6 +354,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/api/agent'
     | '/api/generation'
+    | '/api/guide'
     | '/api/audiocore/advanced'
     | '/api/governance/receipts'
     | '/api/studio/metrics'
@@ -320,6 +374,11 @@ export interface FileRouteTypes {
     | '/auth-callback'
     | '/exagon'
     | '/guide'
+    | '/atlas'
+    | '/billing'
+    | '/faq'
+    | '/settings'
+    | '/wiki'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -351,6 +410,11 @@ export interface FileRouteTypes {
     | '/auth-callback'
     | '/exagon'
     | '/guide'
+    | '/atlas'
+    | '/billing'
+    | '/faq'
+    | '/settings'
+    | '/wiki'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -383,6 +447,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   ExagonRoute: typeof ExagonRoute
   GuideRoute: typeof GuideRoute
+  AtlasRoute: typeof AtlasRoute
   HypercoreRoute: typeof HypercoreRoute
   IntegrationsRoute: typeof IntegrationsRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -395,6 +460,7 @@ export interface RootRouteChildren {
   StudioRoute: typeof StudioRoute
   ApiAgentRoute: typeof ApiAgentRoute
   ApiGenerationRoute: typeof ApiGenerationRoute
+  ApiGuideRoute: typeof ApiGuideRoute
   ApiAudiocoreAdvancedRoute: typeof ApiAudiocoreAdvancedRoute
   ApiGovernanceReceiptsRoute: typeof ApiGovernanceReceiptsRoute
   ApiStudioMetricsRoute: typeof ApiStudioMetricsRoute
@@ -456,6 +522,41 @@ declare module '@tanstack/react-router' {
       path: '/guide'
       fullPath: '/guide'
       preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atlas': {
+      id: '/atlas'
+      path: '/atlas'
+      fullPath: '/atlas'
+      preLoaderRoute: typeof AtlasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/billing': {
+      id: '/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof BillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wiki': {
+      id: '/wiki'
+      path: '/wiki'
+      fullPath: '/wiki'
+      preLoaderRoute: typeof WikiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hypercore': {
@@ -542,6 +643,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGenerationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/guide': {
+      id: '/api/guide'
+      path: '/api/guide'
+      fullPath: '/api/guide'
+      preLoaderRoute: typeof ApiGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/audiocore/advanced': {
       id: '/api/audiocore/advanced'
       path: '/api/audiocore/advanced'
@@ -623,6 +731,11 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   ExagonRoute: ExagonRoute,
   GuideRoute: GuideRoute,
+  AtlasRoute: AtlasRoute,
+  BillingRoute: BillingRoute,
+  FaqRoute: FaqRoute,
+  SettingsRoute: SettingsRoute,
+  WikiRoute: WikiRoute,
   HypercoreRoute: HypercoreRoute,
   IntegrationsRoute: IntegrationsRoute,
   MarketplaceRoute: MarketplaceRoute,
@@ -635,6 +748,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudioRoute: StudioRoute,
   ApiAgentRoute: ApiAgentRoute,
   ApiGenerationRoute: ApiGenerationRoute,
+  ApiGuideRoute: ApiGuideRoute,
   ApiAudiocoreAdvancedRoute: ApiAudiocoreAdvancedRoute,
   ApiGovernanceReceiptsRoute: ApiGovernanceReceiptsRoute,
   ApiStudioMetricsRoute: ApiStudioMetricsRoute,

@@ -32,7 +32,8 @@
     "ops:closure": "node scripts/validate-capability-closure.mjs && node scripts/validate-closure-inventory.mjs",
     "ops:closure:test": "node scripts/test-capability-closure.mjs",
     "governance:sign": "bun scripts/sign-governance-pack.ts --sign",
-    "governance:verify": "bun scripts/sign-governance-pack.ts --verify"
+    "governance:verify": "bun scripts/sign-governance-pack.ts --verify",
+    "readme:check": "node scripts/check-readme-size.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

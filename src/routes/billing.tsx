@@ -1,0 +1,18 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CircleDollarSign, HeartHandshake, ShieldCheck } from "lucide-react";
+
+export const Route = createFileRoute("/billing")({
+  head: () => ({ meta: [{ title: "Pagos y membresía · TAMV" }, { name: "description", content: "Estado transparente de pagos, membresía y donaciones de TAMV Creator Intelligence." }] }),
+  component: BillingPage,
+});
+
+function BillingPage() {
+  return <div className="mx-auto w-full max-w-5xl space-y-8 p-4 md:p-8">
+    <header className="space-y-3"><p className="text-sm font-semibold uppercase tracking-[.18em] text-primary">Cuenta y sostenibilidad</p><h1 className="text-4xl font-semibold tracking-tight">Pagos y membresía</h1><p className="max-w-3xl text-lg text-muted-foreground">Transparencia primero: esta pantalla no confirma cargos ni suscripciones. El estado de pago solo puede mostrarse después de conectar y verificar el proveedor de cobro con el backend.</p></header>
+    <div className="grid gap-4 md:grid-cols-2">
+      <section className="rounded-2xl border bg-card p-6"><CircleDollarSign className="mb-4 text-primary" size={26}/><h2 className="text-xl font-semibold">Estado de pagos</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">Checkout y suscripciones no se consideran habilitados hasta contar con sesiones de pago creadas en servidor, webhooks firmados, persistencia de estado, control de acceso y pruebas de reconciliación.</p><div className="mt-5 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-sm">Estado de interfaz: <strong>pendiente de verificación del proveedor</strong>.</div><ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-muted-foreground"><li>Crear checkout desde un endpoint autenticado.</li><li>Validar firma y repetición de eventos webhook.</li><li>Persistir suscripción y estado de pago en servidor.</li><li>Aplicar permisos y RLS; nunca confiar en el frontend para declarar un plan pagado.</li><li>Probar pagos fallidos, reembolsos, cancelaciones y renovación.</li></ul></section>
+      <section id="donate" className="rounded-2xl border bg-card p-6"><HeartHandshake className="mb-4 text-primary" size={26}/><h2 className="text-xl font-semibold">Apoyar el proyecto</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">Las donaciones deben dirigir a un canal oficial publicado por el responsable del proyecto. No se enlaza una URL de cobro no verificada ni se solicitan datos bancarios dentro de esta aplicación.</p><div className="mt-5 rounded-lg border p-4 text-sm text-muted-foreground">Canal de donación: <strong>pendiente de configurar y verificar</strong>.</div><p className="mt-4 text-sm">Cuando exista una URL oficial, configúrala y valídala antes de habilitar el botón de donación. El acceso global de “Apoyar” conduce a esta sección sin simular un pago.</p></section>
+    </div>
+    <section className="rounded-2xl border p-6"><div className="flex gap-3"><ShieldCheck className="shrink-0 text-primary" size={22}/><div><h2 className="font-semibold">Monitor de membresías</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">No se muestra una lista de usuarios de pago porque todavía requiere una fuente de verdad de facturación, un rol administrativo verificado en servidor y políticas de acceso a datos personales. No debe habilitarse con datos ficticios ni mediante una comprobación exclusivamente visual. El monitor deberá exponer únicamente métricas mínimas agregadas y permitir acceso a registros individuales solo a personal autorizado.</p><Link to="/wiki" className="mt-3 inline-flex text-sm font-medium text-primary underline-offset-4 hover:underline">Consultar la documentación de operación →</Link></div></div></section>
+  </div>;
+}

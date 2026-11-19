@@ -116,7 +116,7 @@
   ],
   "internalContracts": {
     "path": "tamv-pack/skills",
-    "count": 37,
+    "count": 41,
     "public": false,
     "note": "Biblioteca de contratos internos. No se publica como skills independientes en skills.sh; las cuatro skills públicas la referencian."
   },
