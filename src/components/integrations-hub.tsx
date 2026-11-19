@@ -14,11 +14,13 @@ import { Button } from "@/components/ui/button";
 import { socialIntegrations, webhookPath, type SocialProvider } from "@/lib/social-integrations";
 import { SocialBrandIcon } from "@/components/integrations/social-brand-icon";
 
-const iconSlug: Record<string, string> = { facebook: "facebook", instagram: "instagram", tiktok: "tiktok", threads: "threads", whatsapp: "whatsapp", telegram: "telegram", linkedin: "linkedin", github: "github", twitter: "x" };
-const iconColor: Record<string, string> = { facebook: "1877F2", instagram: "E4405F", tiktok: "FFFFFF", threads: "FFFFFF", whatsapp: "25D366", telegram: "26A5E4", linkedin: "0A66C2", github: "FFFFFF", twitter: "FFFFFF" };
+const supportedProviders = ["facebook", "instagram", "tiktok", "threads", "whatsapp", "telegram", "linkedin", "longe", "github", "twitter"] as const;
+type SupportedProvider = (typeof supportedProviders)[number];
 function ProviderMark({ id, monogram }: { id: string; monogram: string }) {
-  const slug = iconSlug[id];
-  return slug ? <img className={`provider-official-icon provider-icon-${id}`} src={`https://cdn.simpleicons.org/${slug}/${iconColor[id]}`} alt="" aria-hidden="true" loading="lazy" decoding="async" /> : <span>{monogram}</span>;
+  if (supportedProviders.includes(id as SupportedProvider)) {
+    return <SocialBrandIcon provider={id as SupportedProvider} className="provider-official-icon" />;
+  }
+  return <span>{monogram}</span>;
 }
 
 export function IntegrationsHub() {
