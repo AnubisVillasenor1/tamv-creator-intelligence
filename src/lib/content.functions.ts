@@ -37,7 +37,7 @@ const requireSessionHeader = createMiddleware({ type: "function" }).server(async
 
 export const reviewContent = createServerFn({ method: "POST" })
   .middleware([requireSessionHeader, requireSupabaseAuth])
-  .validator((data: unknown) => contentSchema.parse(data))
+  .inputValidator((data: unknown) => contentSchema.parse(data))
   .handler(async ({ data, context }) => {
     const userId = (context as { userId?: string } | undefined)?.userId;
     if (!userId) {
