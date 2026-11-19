@@ -123,6 +123,15 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
       </aside>
       <div className="govern-main">
         <header className="govern-topbar">
+          <div className="tamv-matrix-banner" role="img" aria-label="TAMV ONLINE NETWORK, identidad visual de matriz digital">
+            <div className="matrix-code matrix-code-left" aria-hidden="true">010101 001101 101001 010010 110101 001011 101100</div>
+            <div className="matrix-banner-core">
+              <span className="matrix-signal" aria-hidden="true" />
+              <span className="matrix-banner-name">TAMV ONLINE NETWORK</span>
+              <span className="matrix-banner-subtitle">TECNOLOGÍA AVANZADA MEXICANA VERSÁTIL</span>
+            </div>
+            <div className="matrix-code matrix-code-right" aria-hidden="true">101010 110010 001101 101011 010101 111000 010110</div>
+          </div>
           <div className="topbar-location">
             <Dialog open={menuOpen} onOpenChange={setMenuOpen}>
               <DialogTrigger asChild>
