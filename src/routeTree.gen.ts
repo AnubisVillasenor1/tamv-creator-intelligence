@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthCallbackRouteImport } from './routes/auth-callback'
 import { Route as ExagonRouteImport } from './routes/exagon'
 import { Route as GuideRouteImport } from './routes/guide'
+import { Route as AtlasRouteImport } from './routes/atlas'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -72,6 +73,11 @@ const ExagonRoute = ExagonRouteImport.update({
 const GuideRoute = GuideRouteImport.update({
   id: '/guide',
   path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtlasRoute = AtlasRouteImport.update({
+  id: '/atlas',
+  path: '/atlas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HypercoreRoute = HypercoreRouteImport.update({
@@ -193,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/auth-callback': typeof AuthCallbackRoute
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
+  '/atlas': typeof AtlasRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -289,6 +296,7 @@ export interface FileRouteTypes {
     | '/auth-callback'
     | '/exagon'
     | '/guide'
+    | '/atlas'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -458,6 +466,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/atlas': {
+      id: '/atlas'
+      path: '/atlas'
+      fullPath: '/atlas'
+      preLoaderRoute: typeof AtlasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hypercore': {
       id: '/hypercore'
       path: '/hypercore'
@@ -623,6 +638,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   ExagonRoute: ExagonRoute,
   GuideRoute: GuideRoute,
+  AtlasRoute: AtlasRoute,
   HypercoreRoute: HypercoreRoute,
   IntegrationsRoute: IntegrationsRoute,
   MarketplaceRoute: MarketplaceRoute,
