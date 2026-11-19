@@ -12,6 +12,7 @@ Configure provider credentials in the target deployment secret manager, never in
 | Supabase | `SUPABASE_PUBLISHABLE_KEY` | Present |
 | Supabase | `SUPABASE_SERVICE_ROLE_KEY` | Present; server only |
 | Governance | `TAMV_GOVERNANCE_ACTOR_SALT` | At least 32 characters; stable across instances |
+| Human approval watermark | `TAMV_APPROVAL_WATERMARK_SECRET` | At least 32 characters; server only; stable across instances |
 | AI inference | `LOVABLE_API_KEY` | Present; server only |
 | Distributed review quota | `UPSTASH_REDIS_REST_URL` | HTTPS URL |
 | Distributed review quota | `UPSTASH_REDIS_REST_TOKEN` | Present; server only |

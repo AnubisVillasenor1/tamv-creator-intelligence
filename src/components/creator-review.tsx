@@ -4,11 +4,15 @@ import { Button } from '@/components/ui/button';
 import { AuthPanel } from '@/components/auth-panel';
 import { contentSchema, type Review } from '@/lib/content-schema';
 import { reviewContent } from '@/lib/content.functions';
+import { listProjects, saveReviewToProject } from '@/lib/project.functions';
+import type { GovernedProject } from '@/lib/project-schema';
 import { useServerFn } from '@tanstack/react-start';
 import { supabase } from '@/integrations/supabase/client';
 
 export function CreatorReview({ onComplete }: { onComplete: () => void }) {
   const runReview = useServerFn(reviewContent);
+  const fetchProjects = useServerFn(listProjects);
+  const persistReview = useServerFn(saveReviewToProject);
   const [draft, setDraft] = useState('');
   const [audience, setAudience] = useState('');
   const [goal, setGoal] = useState('');
@@ -21,6 +25,16 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
   const [result, setResult] = useState<Review>();
   const [audit, setAudit] = useState<Extract<Awaited<ReturnType<typeof reviewContent>>, { ok: true }>['audit']>();
   const [copied, setCopied] = useState(false);
+  // Opt-in persistence: none of these values is written until the creator
+  // explicitly asks to save and grants a separate consent for that purpose.
+  const [projects, setProjects] = useState<GovernedProject[]>([]);
+  const [projectsLoaded, setProjectsLoaded] = useState(false);
+  const [saveProjectId, setSaveProjectId] = useState('');
+  const [saveConsent, setSaveConsent] = useState(false);
+  const [includeDraft, setIncludeDraft] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  const [saved, setSaved] = useState(false);
   const submitting = useRef(false);
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -28,7 +42,7 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
     const parsed = contentSchema.safeParse({ draft, audience, goal, channel, consent });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? 'Revisa los campos.'); return; }
     submitting.current = true;
-    setBusy(true); setError(''); setNeedsAuth(false); setSignedIn(false); setResult(undefined); setAudit(undefined); setCopied(false);
+    setBusy(true); setError(''); setNeedsAuth(false); setSignedIn(false); setResult(undefined); setAudit(undefined); setCopied(false); setSaveError(''); setSaved(false); setSaveConsent(false); setIncludeDraft(false);
     try {
       const { data: sessionData } = await supabase.auth.getSession();
       if (!sessionData.session) {
@@ -77,6 +91,49 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 0);
   }
+  async function loadProjects() {
+    setSaveError('');
+    try {
+      const loaded = await fetchProjects();
+      setProjects(loaded);
+      setProjectsLoaded(true);
+      if (loaded.length === 1) setSaveProjectId(loaded[0]?.id ?? '');
+    } catch {
+      setSaveError('No pudimos cargar tus proyectos. Inténtalo de nuevo; tu revisión sigue intacta.');
+    }
+  }
+  async function saveReview() {
+    if (!result || !audit || !saveProjectId || !saveConsent || saving) return;
+    const project = projects.find(item => item.id === saveProjectId);
+    if (!project) return;
+    setSaving(true); setSaveError('');
+    try {
+      await persistReview({
+        data: {
+          projectId: project.id,
+          expectedVersion: project.version,
+          saveConsent: true,
+          includeDraft,
+          ...(includeDraft ? { draft } : {}),
+          review: result,
+          audit: {
+            hash: audit.hash,
+            runId: audit.runId,
+            model: audit.model,
+            timestamp: audit.timestamp,
+            governance: audit.governance,
+            skills: audit.skills,
+            ...(audit.skillEvidence ? { skillEvidence: audit.skillEvidence } : {}),
+          },
+        },
+      });
+      setSaved(true);
+    } catch (caught) {
+      setSaveError(caught instanceof Error && caught.message.includes('Actualiza el proyecto')
+        ? 'El proyecto cambió. Cárgalo de nuevo antes de guardar; tu revisión sigue intacta.'
+        : 'No se pudo guardar la revisión. Tu borrador y la propuesta siguen intactos; no se ha repetido el envío.');
+    } finally { setSaving(false); }
+  }
   // Email confirmation and recovery links must land on the callback route that
   // exchanges the PKCE code. Unlike the draft, this URL is not persisted.
   const authRedirectTo = typeof window === 'undefined'
@@ -103,7 +160,15 @@ export function CreatorReview({ onComplete }: { onComplete: () => void }) {
       </form>
       <div className="review-output" aria-live="polite">
         <div className="flex justify-between items-center"><h3 className="font-medium">Perspectiva creativa</h3><span className="text-xs text-muted-foreground">02 / PROPUESTA</span></div>
-        {needsAuth ? <div id="creator-access" className="mt-4"><p className="text-sm text-muted-foreground mb-4">Tu borrador sigue intacto. Inicia sesión y vuelve a pulsar «Proponer mejoras»; no se envía nada de forma automática.</p><AuthPanel headingLevel="h2" redirectTo={authRedirectTo} onAuthenticated={() => { setNeedsAuth(false); setSignedIn(true); setError(''); }}/></div> : result ? <div className="mt-6 space-y-6"><p className="text-sm leading-6">{result.diagnosis}</p>{result.improvements.map((r,i) => <div key={i} className="border-t border-border pt-4"><span className="eyebrow">0{i+1}</span><h4 className="font-medium mt-1">{r.title}</h4><p className="text-sm text-muted-foreground mt-2">{r.reason}</p><p className="text-sm mt-2">{r.action}</p></div>)}<div className="border-t border-border pt-5"><div className="flex justify-between items-center"><h4 className="font-medium">Borrador propuesto</h4><Button variant="ghost" size="icon" title="Copiar propuesta" aria-label={copied ? 'Propuesta copiada' : 'Copiar propuesta'} onClick={async () => { try { await navigator.clipboard.writeText(result.revised); setCopied(true); } catch { setError('No pudimos copiar; selecciona el texto de la propuesta.'); } }}>{copied ? <Check/> : <Copy/>}</Button></div><p className="whitespace-pre-wrap text-sm leading-6 mt-3">{result.revised}</p></div><p className="text-xs text-muted-foreground flex gap-2"><ShieldCheck size={16} className="shrink-0"/>{result.safety}</p><details className="text-xs text-muted-foreground"><summary className="cursor-pointer">Trazabilidad de la revisión</summary><p className="break-all mt-3">SHA-256: {audit?.hash}</p><p className="mt-2">{audit?.timestamp} · {audit?.runId}</p><p className="mt-2">Modelo: {audit?.model}</p><p className="mt-2">Política: {audit?.governance.policyVersion} · {audit?.governance.decision}</p><p className="mt-2">Skills declaradas: {audit?.skills.join(', ')}</p><p className="mt-2">Metadatos de esta revisión, no un registro persistente ni una certificación firmada.</p></details><Button variant="outline" onClick={downloadReview}><Download size={16}/>Descargar revisión y trazabilidad</Button></div> : <div className="empty-review"><div className="intelligence-symbol"><Sparkles size={30}/></div><h4>{busy ? 'Una nueva perspectiva en camino.' : 'Tu creatividad, con otra perspectiva.'}</h4><p>{busy ? 'Revisando audiencia, intención y contenido.' : 'Las propuestas de tu revisión aparecerán aquí.'}</p><div className="flex gap-2 flex-wrap justify-center mt-7"><span className="micro-tag">Audiencia</span><span className="micro-tag">Objetivos</span><span className="micro-tag">Tu identidad</span></div></div>}
+        {needsAuth ? <div id="creator-access" className="mt-4"><p className="text-sm text-muted-foreground mb-4">Tu borrador sigue intacto. Inicia sesión y vuelve a pulsar «Proponer mejoras»; no se envía nada de forma automática.</p><AuthPanel headingLevel="h2" redirectTo={authRedirectTo} onAuthenticated={() => { setNeedsAuth(false); setSignedIn(true); setError(''); }}/></div> : result ? <div className="mt-6 space-y-6"><p className="text-sm leading-6">{result.diagnosis}</p>{result.improvements.map((r,i) => <div key={i} className="border-t border-border pt-4"><span className="eyebrow">0{i+1}</span><h4 className="font-medium mt-1">{r.title}</h4><p className="text-sm text-muted-foreground mt-2">{r.reason}</p><p className="text-sm mt-2">{r.action}</p></div>)}<div className="border-t border-border pt-5"><div className="flex justify-between items-center"><h4 className="font-medium">Borrador propuesto</h4><Button variant="ghost" size="icon" title="Copiar propuesta" aria-label={copied ? 'Propuesta copiada' : 'Copiar propuesta'} onClick={async () => { try { await navigator.clipboard.writeText(result.revised); setCopied(true); } catch { setError('No pudimos copiar; selecciona el texto de la propuesta.'); } }}>{copied ? <Check/> : <Copy/>}</Button></div><p className="whitespace-pre-wrap text-sm leading-6 mt-3">{result.revised}</p></div><p className="text-xs text-muted-foreground flex gap-2"><ShieldCheck size={16} className="shrink-0"/>{result.safety}</p><details className="text-xs text-muted-foreground"><summary className="cursor-pointer">Trazabilidad de la revisión</summary><p className="break-all mt-3">SHA-256: {audit?.hash}</p><p className="mt-2">{audit?.timestamp} · {audit?.runId}</p><p className="mt-2">Modelo: {audit?.model}</p><p className="mt-2">Política: {audit?.governance.policyVersion} · {audit?.governance.decision}</p><p className="mt-2">Skills declaradas: {audit?.skills.join(', ')}</p><p className="mt-2">Metadatos de esta revisión; no constituyen una certificación firmada. Solo se guardan si decides guardarlos en tu proyecto.</p></details><div className="mt-6 border-t border-border pt-5 space-y-3" data-testid="review-save-panel">
+          <p className="text-xs text-muted-foreground">Guardar es opcional: al enviar una revisión no se guarda nada. Decide tú si conservas este registro en la auditoría de tu proyecto.</p>
+          {!projectsLoaded ? <Button type="button" variant="outline" onClick={loadProjects} disabled={saving}>Cargar mis proyectos</Button> : projects.length === 0 ? <p className="text-xs text-muted-foreground">Aún no tienes proyectos. Créalos en Gobernanza si quieres conservar revisiones.</p> : <><label className="field-label" htmlFor="save-project">Proyecto</label><select id="save-project" className="field" value={saveProjectId} onChange={e => setSaveProjectId(e.target.value)} disabled={saving || saved}><option value="">Selecciona un proyecto</option>{projects.map(project => <option key={project.id} value={project.id}>{project.name}</option>)}</select></>}
+          <label className="flex gap-3 text-xs leading-5 text-muted-foreground"><input type="checkbox" checked={saveConsent} onChange={e => setSaveConsent(e.target.checked)} disabled={saving || saved || !saveProjectId} className="accent-primary mt-1 shrink-0"/>Autorizo guardar el registro de esta revisión (metadatos y propuesta) en la auditoría de mi proyecto.</label>
+          <label className="flex gap-3 text-xs leading-5 text-muted-foreground"><input type="checkbox" checked={includeDraft} onChange={e => setIncludeDraft(e.target.checked)} disabled={saving || saved || !saveProjectId} className="accent-primary mt-1 shrink-0"/>Incluir también el texto de mi borrador. Por defecto solo se guardan metadatos y la propuesta.</label>
+          <Button type="button" variant="outline" onClick={saveReview} disabled={saving || saved || !saveProjectId || !saveConsent}>{saving ? <><LoaderCircle className="animate-spin"/>Guardando…</> : saved ? <><Check/>Guardado en el proyecto</> : 'Guardar en mi proyecto'}</Button>
+          {saveError && <p role="alert" className="text-sm text-destructive">{saveError}</p>}
+          {saved && <p role="status" className="text-xs text-muted-foreground">Registro guardado con el esquema tamv.review.saved.v1. Puedes consultarlo en Auditoría; no es una certificación.</p>}
+        </div><Button variant="outline" onClick={downloadReview}><Download size={16}/>Descargar revisión y trazabilidad</Button></div> : <div className="empty-review"><div className="intelligence-symbol"><Sparkles size={30}/></div><h4>{busy ? 'Una nueva perspectiva en camino.' : 'Tu creatividad, con otra perspectiva.'}</h4><p>{busy ? 'Revisando audiencia, intención y contenido.' : 'Las propuestas de tu revisión aparecerán aquí.'}</p><div className="flex gap-2 flex-wrap justify-center mt-7"><span className="micro-tag">Audiencia</span><span className="micro-tag">Objetivos</span><span className="micro-tag">Tu identidad</span></div></div>}
         <div className="text-xs text-muted-foreground mt-6 pt-4 border-t border-border flex gap-2"><ShieldCheck size={14}/>Tu criterio siempre tiene la última palabra.</div>
       </div>
     </div>

@@ -26,6 +26,7 @@ const configuredEnv = {
   SUPABASE_PUBLISHABLE_KEY: "test-publishable-key",
   SUPABASE_SERVICE_ROLE_KEY: "test-secret-do-not-print",
   TAMV_GOVERNANCE_ACTOR_SALT: "a".repeat(40),
+  TAMV_APPROVAL_WATERMARK_SECRET: "d".repeat(48),
   LOVABLE_API_KEY: "test-lovable-key",
   UPSTASH_REDIS_REST_URL: "https://example.upstash.io",
   UPSTASH_REDIS_REST_TOKEN: "test-redis-token",
@@ -72,10 +73,17 @@ const missingCapabilitySalt = spawnSync(process.execPath, [checker, "--strict"],
 assert.notEqual(missingCapabilitySalt.status, 0);
 assert.match(missingCapabilitySalt.stdout, /MISSING_OR_INVALID TAMV_CAPABILITY_QUOTA_KEY_SALT/);
 
+const missingWatermarkSecret = spawnSync(process.execPath, [checker, "--strict"], {
+  cwd: root, encoding: "utf8", env: { ...configuredEnv, TAMV_APPROVAL_WATERMARK_SECRET: "short" },
+});
+assert.notEqual(missingWatermarkSecret.status, 0);
+assert.match(missingWatermarkSecret.stdout, /MISSING_OR_INVALID TAMV_APPROVAL_WATERMARK_SECRET/);
+assert.doesNotMatch(missingWatermarkSecret.stdout, /short/);
+
 const missingApprovedRelease = spawnSync(process.execPath, [checker, "--strict"], {
   cwd: root, encoding: "utf8", env: { ...configuredEnv, TAMV_RELEASE_MANIFEST_SHA256: "" },
 });
 assert.notEqual(missingApprovedRelease.status, 0);
 assert.match(missingApprovedRelease.stdout, /MISSING_OR_INVALID TAMV_RELEASE_MANIFEST_SHA256/);
 
-console.log("Production environment preflight tests passed (8 scenarios).");
+console.log("Production environment preflight tests passed (9 scenarios).");

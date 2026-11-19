@@ -6,6 +6,8 @@
 
 > **Actualización 2026-11-17:** esta referencia conserva evidencia histórica. Para las implementaciones nuevas consultar [workspace y estudio](WORKSPACE-AND-STUDIO.md), [webhooks sociales](SOCIAL-WEBHOOKS.md), [audio](AUDIO-ORCHESTRATION.md), [agentes](AGENT-ORCHESTRATION.md) y [superficie HTTP actualizada](API-SURFACE-AND-ERROR-CONTRACTS.md). Las limitaciones sobre ausencia de UI, DSP y cuotas locales descritas abajo no representan esas implementaciones posteriores.
 
+> **Actualización 2026-11-19:** el inventario canónico validado por `npm run ops:closure` y `tamv-pack/pack.json` es de **41 contratos internos**, no 37. Las menciones a 37 en este documento reflejan el estado de 2026-11-14; el catálogo siguiente se ha ampliado con las cuatro coordinadoras v3 que también figuran en el manifiesto actual.
+
 ## Índice
 
 - [Propósito y alcance](#propósito-y-alcance)
@@ -33,7 +35,7 @@
 El proyecto reúne cuatro superficies con responsabilidades diferentes:
 
 1. **Creator Intelligence:** aplicación web con monitor, revisión creativa, red de skills, explorador de modelos, gobernanza y documentación.
-2. **Pack de skills:** 37 contratos Markdown instalables en agentes compatibles. Describen activación, entradas, reglas, salvaguardas y salidas; no son 37 servicios ejecutándose.
+2. **Pack de skills:** 41 contratos Markdown instalables en agentes compatibles. Describen activación, entradas, reglas, salvaguardas y salidas; no son 41 servicios ejecutándose.
 3. **HyperCore:** utilidades de autorización, integridad, concurrencia asíncrona, diagnóstico y métricas locales.
 4. **TAMV Genesis:** núcleo TypeScript y CLI para evaluar claims, metadatos de evidencia, madurez declarada, scorecards e inventarios locales.
 
@@ -62,7 +64,7 @@ Se añadieron pruebas automatizadas para el guard de revisión creativa y un lí
 
 | Superficie | Evidencia presente | Límite actual |
 |---|---|---|
-| Catálogo | 37 IDs en manifiesto y registro; contratos `SKILL.md` | Contar contratos no demuestra ejecución ni disponibilidad. |
+| Catálogo | 41 IDs en manifiesto y registro; contratos `SKILL.md` | Contar contratos no demuestra ejecución ni disponibilidad. |
 | Revisión creativa | Server function con gateway Lovable, validación, autenticación, consentimiento y límites | Necesita sesión, configuración, licencia, integridad y firma válidas; no se comprobó inferencia real en esta revisión. |
 | Modelos y costes | Importador y comparador local de catálogos JSON | No llama a modelos, consulta precios en vivo ni modifica el proveedor de revisión. |
 | Exportación de revisión | Copia de propuesta y descarga JSON de resultado y trazabilidad | No es almacenamiento durable ni un documento firmado. |
@@ -73,7 +75,7 @@ Se añadieron pruebas automatizadas para el guard de revisión creativa y un lí
 | Perfiles y corpus | Inventario de 154 repositorios vía API pública y resumen agregado de 9,948 archivos locales | El conteo de repositorios no acredita autoría ni horas; el detalle con rutas no se distribuye. |
 | Música, voz, DSP y agentes | Contratos y rutas de rechazo explícito | Sin adaptadores de ejecución conectados en esas rutas. |
 | Release | Workflow con firma, build, SBOM y atestaciones configurados | No se verificó un run exitoso, artefacto publicado ni despliegue. |
-| Cuatro skills públicas v3 | `tamv-genesis/v3/pack.json`, cuatro `SKILL.md`, sello SHA-256 y CLI de firma | Sello sin firma Ed25519; el runtime deniega capacidades certificadas. Los 37 contratos internos no se duplican. |
+| Cuatro skills públicas v3 | `tamv-genesis/v3/pack.json`, cuatro `SKILL.md`, sello SHA-256 y CLI de firma | Sello sin firma Ed25519; el runtime deniega capacidades certificadas. Los 41 contratos internos no se duplican. |
 
 **Declarado, implementado, probado, operado y auditado no son estados intercambiables.** Los indicadores de la interfaz y los documentos históricos deben contrastarse con el código, el artefacto y el entorno concretos.
 
@@ -217,6 +219,10 @@ Los ámbitos siguientes describen **contratos**, no ejecutores disponibles:
 | 35 | `tamv-privacy-minimization` | Minimización de datos. |
 | 36 | `tamv-quality-gate` | Control de calidad. |
 | 37 | `tamv-workflow-orchestrator` | Orquestación de flujos. |
+| 38 | `tamv-creator-os` | Coordinadora pública de estrategia y contenido. |
+| 39 | `tamv-audio-intelligence` | Coordinadora pública de audio y visuales. |
+| 40 | `tamv-growth-engine` | Coordinadora pública de crecimiento y monetización. |
+| 41 | `tamv-sovereign-platform` | Coordinadora pública de gobernanza e integridad. |
 
 El manifiesto declara un grafo de **20 extensiones**, con gobernanza y derechos como dependencias, aprobación humana y una política de reutilización de dependencias completadas. La validación comprueba coherencia de IDs, carpetas, contratos y dependencias; no despliega servicios ni otorga permisos de sistema.
 
@@ -238,7 +244,7 @@ Sin `--check`, los tres scripts Node pueden modificar archivos. El generador del
 
 ## Cuatro skills públicas v3
 
-La superficie pública v3.0.0 conserva las 37 skills internas y publica cuatro coordinadoras:
+La superficie pública v3.0.0 conserva las 41 skills internas y publica cuatro coordinadoras:
 
 | ID | Alcance |
 |---|---|
@@ -247,7 +253,7 @@ La superficie pública v3.0.0 conserva las 37 skills internas y publica cuatro c
 | `tamv-growth-engine` | SEO, contenido, conversión, monetización ética, analítica y experimentación. |
 | `tamv-sovereign-platform` | Gobernanza, integridad, datos, seguridad, frontend y pruebas. |
 
-Las cuatro viven en `tamv-genesis/v3/skills/` y son las únicas que declara [skills.sh.json](../skills.sh.json). No duplican los 37 contratos: los referencian como biblioteca interna en `tamv-pack/skills/`. La matriz de fusión de patrones externos, sin copiar su texto ni su implementación, está en [tamv-genesis/v3/pack.json](../tamv-genesis/v3/pack.json).
+Las cuatro viven en `tamv-genesis/v3/skills/` y son las únicas que declara [skills.sh.json](../skills.sh.json). No duplican los 41 contratos: los referencian como biblioteca interna en `tamv-pack/skills/`. La matriz de fusión de patrones externos, sin copiar su texto ni su implementación, está en [tamv-genesis/v3/pack.json](../tamv-genesis/v3/pack.json).
 
 El paquete se protege con un sello por skill y una raíz de paquete SHA-256 firmada con Ed25519. Quitar, editar, mover o añadir una skill rompe el sello y el runtime deniega la ejecución. **El sello actual no está firmado:** `UNSIGNED_RELEASE_PENDING` significa que las capacidades certificadas no se habilitan, no que exista una certificación. La política completa, el modelo de amenaza y la migración desde 1.2.1 están en [docs/SOVEREIGN-V3.md](SOVEREIGN-V3.md).
 
@@ -391,7 +397,7 @@ TAMV Creator Intelligence
 │   ├── lib/                 Contratos, guardas, certificación y orquestación
 │   ├── routes/              Páginas y endpoints TanStack
 │   └── test/                Pruebas de aplicación y utilidades
-├── tamv-pack/               Manifiesto, 37 skills, instalador e integridad
+├── tamv-pack/               Manifiesto, 41 skills, instalador e integridad
 ├── tamv-genesis/            Kernel, CLI, datos, pruebas y bundles
 ├── hypercore/               Políticas y configuración complementaria
 ├── scripts/                 Certificación, hooks e instrumentos de release
@@ -437,6 +443,7 @@ No copies valores privados al README ni al repositorio. Configura las integracio
 | `SUPABASE_URL` | URL del backend en servidor. |
 | `SUPABASE_PUBLISHABLE_KEY` | Configuración Supabase usada por el middleware de servidor. |
 | `LOVABLE_API_KEY` | Credencial del gateway, solo servidor. |
+| `TAMV_APPROVAL_WATERMARK_SECRET` | Secreto de servidor para derivar la marca de agua por usuario; impide aprobar sin atribución verificable. |
 | `TAMV_ATTRIBUTION_PUBLIC_KEY` | Clave pública confiable para verificar firmas. |
 | `TAMV_ATTRIBUTION_PRIVATE_KEY` | Solo proceso autorizado de firma; nunca frontend ni artefactos públicos. |
 | `TAMV_CERTIFICATION_REQUIRED` | Exigencia estricta de firma en la comprobación de certificación. |
@@ -446,7 +453,7 @@ El middleware [auth-attacher.ts](../src/integrations/supabase/auth-attacher.ts),
 
 ### Instalar el pack en otro proyecto
 
-La configuración [skills.sh.json](../skills.sh.json) apunta a `./tamv-genesis/v3/skills`: solo publica las cuatro skills paraguas v3, no los 37 contratos internos. La vía documentada con el CLI externo es:
+La configuración [skills.sh.json](../skills.sh.json) apunta a `./tamv-genesis/v3/skills`: solo publica las cuatro skills paraguas v3, no los 41 contratos internos. La vía documentada con el CLI externo es:
 
 ```bash
 # Las cuatro skills públicas v3
@@ -456,7 +463,7 @@ npx skills add AnubisVillasenor1/tamv-creator-intelligence
 npx skills add AnubisVillasenor1/tamv-creator-intelligence --skill tamv-creator-os
 ```
 
-Instalar una skill v3 no instala las 37 internas: el contrato público las referencia como biblioteca. La instalación 1.2.1 sigue siendo válida; v3 es aditivo. Revisa el código y las opciones del instalador externo antes de ejecutarlo. Su instalación no equivale a desplegar la aplicación ni a ejecutar el instalador TAMV. La configuración de descubrimiento tampoco certifica el estado actual de indexación remota; los antecedentes están en [PUBLISHING.md](PUBLISHING.md).
+Instalar una skill v3 no instala las 41 internas: el contrato público las referencia como biblioteca. La instalación 1.2.1 sigue siendo válida; v3 es aditivo. Revisa el código y las opciones del instalador externo antes de ejecutarlo. Su instalación no equivale a desplegar la aplicación ni a ejecutar el instalador TAMV. La configuración de descubrimiento tampoco certifica el estado actual de indexación remota; los antecedentes están en [PUBLISHING.md](PUBLISHING.md).
 
 Para usar el instalador incluido, primero valida el pack desde su repositorio:
 

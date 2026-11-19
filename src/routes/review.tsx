@@ -31,13 +31,15 @@ function ReviewPage() {
         <span className="eyebrow">CREATOR INTELLIGENCE / REVISIÓN</span>
         <h1>Revisión creativa</h1>
         <p>
-          Tu borrador no se publica ni se guarda. La propuesta incluye trazabilidad y la decisión
-          sigue siendo tuya.
+          Tu borrador no se publica y solo permanece en esta sesión. Puedes guardar el registro en
+          la auditoría de tu proyecto si lo decides explícitamente; la propuesta incluye
+          trazabilidad y la decisión sigue siendo tuya.
         </p>
       </div>
       {completed && (
         <p role="status" className="mb-5 text-sm text-primary">
-          Revisión completada. Puedes copiar o exportar la propuesta; no se ha publicado nada.
+          Revisión completada. Puedes copiar o exportar la propuesta; no se ha publicado ni
+          guardado nada salvo que lo decidas explícitamente.
         </p>
       )}
       <CreatorReview onComplete={() => setCompleted(true)} />

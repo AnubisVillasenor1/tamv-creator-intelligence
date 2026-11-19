@@ -173,11 +173,11 @@ node --experimental-strip-types tamv-genesis/scripts/v3-hybrid.mjs seal \
 
 ## 8. Migración desde 1.2.1
 
-1. `tamv-pack/` y sus 37 contratos permanecen sin cambios y siguen siendo la
+1. `tamv-pack/` y sus 41 contratos permanecen sin cambios y siguen siendo la
    biblioteca interna.
 2. `skills.sh.json` apunta solo a `./tamv-genesis/v3/skills`, con cuatro
    agrupaciones.
-3. Instalar una skill v3 no instala las 37 internas: el contrato público las
+3. Instalar una skill v3 no instala las 41 internas: el contrato público las
    referencia.
 4. Una instalación 1.2.1 sigue siendo válida; v3 es aditivo.
 5. El release v3 no se considera certificado hasta que `pack-seal.json` tenga

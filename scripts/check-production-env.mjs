@@ -19,6 +19,7 @@ const checks = [
   { group: "Supabase identity and persistence", key: "SUPABASE_PUBLISHABLE_KEY", required: true },
   { group: "Supabase identity and persistence", key: "SUPABASE_SERVICE_ROLE_KEY", required: true },
   { group: "Governance", key: "TAMV_GOVERNANCE_ACTOR_SALT", required: true, validate: (v) => v.length >= 32 },
+  { group: "Human approval watermark", key: "TAMV_APPROVAL_WATERMARK_SECRET", required: true, validate: (v) => v.length >= 32 },
   { group: "AI inference", key: "LOVABLE_API_KEY", required: true },
   { group: "Distributed review quota", key: "UPSTASH_REDIS_REST_URL", required: true, validate: isHttpsUrl },
   { group: "Distributed review quota", key: "UPSTASH_REDIS_REST_TOKEN", required: true },

@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { projectActionSchema, projectSchema, assessmentSchema } from "./project-schema";
+import { reviewSchema } from "./content-schema";
 import { CORE_CONTROLS, POLICY_VERSION } from "../../sdk/index.mjs";
 
 export const listProjects = createServerFn({ method: "POST" })
@@ -32,6 +33,85 @@ export const readProjectAudit = createServerFn({ method: "POST" })
       .order("created_at", { ascending: false });
     if (error) throw new Error("No se pudo leer la auditoría.");
     return events ?? [];
+  });
+
+/**
+ * Opt-in persistence for a creative review.
+ *
+ * Submitting a review never writes anything: this function is only called
+ * after a separate, explicit consent action. It reuses the existing
+ * authenticated `evaluate` RPC, which appends an audit event and does NOT
+ * change the project version, approval or assessment. The record carries an
+ * explicit discriminator so it is never mistaken for a governance decision.
+ */
+export const saveReviewToProject = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        projectId: z.string().uuid(),
+        expectedVersion: z.number().int().positive(),
+        saveConsent: z.literal(true),
+        includeDraft: z.boolean(),
+        draft: z.string().trim().max(12000).optional(),
+        review: reviewSchema,
+        audit: z
+          .object({
+            hash: z.string(),
+            runId: z.string(),
+            model: z.string(),
+            timestamp: z.string(),
+            governance: z.object({
+              policyVersion: z.string(),
+              decision: z.string(),
+            }),
+            skills: z.array(z.string()),
+            skillEvidence: z.string().optional(),
+          })
+          .strict(),
+      })
+      .strict()
+      .parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: row, error } = await context.supabase
+      .from("tamv_ai_projects")
+      .select("*")
+      .eq("id", data.projectId)
+      .single();
+    if (error || !row) throw new Error("Proyecto no disponible.");
+    const project = projectSchema.parse(row);
+    if (project.version !== data.expectedVersion)
+      throw new Error("Actualiza el proyecto antes de guardar.");
+
+    const payload = {
+      schema: "tamv.review.saved.v1",
+      source: "creator.review",
+      projectId: project.id,
+      runId: data.audit.runId,
+      hash: data.audit.hash,
+      model: data.audit.model,
+      timestamp: data.audit.timestamp,
+      governance: data.audit.governance,
+      skills: data.audit.skills,
+      skillEvidence: data.audit.skillEvidence,
+      // The private draft is stored only with its own explicit consent.
+      ...(data.includeDraft && data.draft !== undefined ? { draft: data.draft } : {}),
+      review: data.review,
+      savedBy: context.userId,
+      savedAt: new Date().toISOString(),
+    };
+    const { error: saveError } = await context.supabase.rpc("tamv_project_action", {
+      p_action: "evaluate",
+      p_project_id: project.id,
+      p_expected_version: project.version,
+      p_payload: JSON.parse(JSON.stringify(payload)),
+    });
+    if (saveError)
+      throw new Error(
+        "La revisión no pudo guardarse con su auditoría. No se ha repetido ningún envío.",
+      );
+    return { ok: true as const, projectId: project.id, runId: data.audit.runId };
   });
 export const assessProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

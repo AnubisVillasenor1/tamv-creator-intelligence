@@ -101,7 +101,7 @@ sería un instrumento de evaluación: sería una adhesión.
 | Pregunta | Respuesta honesta |
 |---|---|
 | ¿Está certificado el release? | No. Firma Ed25519 pendiente. |
-| ¿Funcionan las 37 skills? | Son 37 contratos; una capacidad de IA está implementada. |
+| ¿Funcionan las 41 skills? | Son 41 contratos; solo `creator.review` tiene capacidad de IA implementada. |
 | ¿De dónde salen las 24,000 horas? | Declaración del autor, sin bitácora ni atestación. |
 | ¿Hay auditoría independiente? | No. Hay auditoría adversarial interna reproducible. |
 | ¿Es falsable el sistema completo? | No. El marco, los pesos y los tiers los define el proyecto. Solo los claims individuales se contrastan contra artefactos externos. |

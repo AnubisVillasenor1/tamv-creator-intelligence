@@ -5,6 +5,8 @@
 **Estado del release:** `UNSIGNED_RELEASE_PENDING`  
 **Principio rector:** la IA propone; el humano decide.
 
+> **Nota 2026-11-19:** el inventario canónico validado hoy es de **41 contratos internos**; las cifras de 37 en este documento corresponden a su fecha de emisión y se conservan como evidencia histórica.
+
 ## 1. Alcance y advertencias de inventario
 
 El repositorio mantiene dos niveles que no deben confundirse:

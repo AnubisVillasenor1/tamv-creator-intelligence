@@ -21,6 +21,13 @@ vi.mock("@/integrations/supabase/client", () => ({
   },
 }));
 
+// Opt-in persistence is exercised in creator-review-save.test.tsx. Here the
+// boundary is stubbed so importing the component never loads a server module.
+vi.mock("@/lib/project.functions", () => ({
+  listProjects: vi.fn(async () => []),
+  saveReviewToProject: vi.fn(async () => ({ ok: true })),
+}));
+
 type ReviewResult = Awaited<ReturnType<typeof reviewContent>>;
 const response = {
   ok: true as const,
@@ -213,7 +220,7 @@ describe("Creator review feedback and evidence", () => {
       screen.getByText(`Skills declaradas: ${response.audit.skills.join(", ")}`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/no un registro persistente ni una certificación firmada/),
+      screen.getByText(/Solo se guardan si decides guardarlos en tu proyecto/),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Descargar revisión y trazabilidad" })).toBeEnabled();
   });

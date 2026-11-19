@@ -58,7 +58,7 @@ The workflow `.github/workflows/release-sign.yml` runs only for tags matching `v
 
 1. Requires the tag commit to be reachable from `main`.
 2. Installs the locked dependency graph.
-3. Validates the repository, the 37 skills and the pack integrity inventory.
+3. Validates the repository, the 41 skills and the pack integrity inventory.
 4. Recalculates the source hashes.
 5. Signs the manifest with Ed25519 and verifies the key pair.
 6. Runs tests and lint.
