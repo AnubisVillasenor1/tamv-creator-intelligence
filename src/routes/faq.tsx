@@ -13,6 +13,8 @@ const questions = [
   ["¿Ya se pueden procesar pagos?", "No se debe asumir que los pagos están activos por la existencia de una página. El checkout, los webhooks, la persistencia de suscripciones, la reconciliación y las pruebas deben verificarse en el entorno desplegado."],
   ["¿Cómo se protegen las claves API?", "Las claves privadas deben permanecer en variables de servidor o en un gestor de secretos. Nunca las pegues en el chat, en el frontend ni en archivos versionados."],
   ["¿Un build exitoso significa que está listo para producción?", "No. También se requieren pruebas de integración con servicios reales, comprobación de permisos/RLS, migraciones, observabilidad, restauración, firma del release y aceptación explícita del despliegue."],
+  ["¿Qué representa la identidad institucional de TAMV?", "Tecnología Avanzada Mexicana Versatil expresa el origen y la vocación tecnológica del proyecto; Orgullosamente Latinoamericanos reafirma una identidad regional abierta, colaborativa y responsable. Estas frases son identidad de marca, no una afirmación de certificación o aval institucional externo."],
+  ["¿Cómo se toman decisiones de gobernanza?", "Las decisiones materiales deben registrar responsable, alcance, riesgos, pruebas, aprobación y reversión. Los controles críticos deben fallar de forma cerrada cuando falte autenticación, evidencia de integridad o configuración segura; la documentación de una política no demuestra que el control esté desplegado."],
   ["¿Dónde está la documentación extensa?", "En la sección Wiki y en docs/. El README raíz debe mantenerse como una portada concisa con enlaces al material especializado."],
 ];
 

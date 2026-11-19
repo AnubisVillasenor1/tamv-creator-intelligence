@@ -15,8 +15,9 @@ export function TamvAttribution() {
         />
         <p className="text-sm leading-6 text-muted-foreground">{TAMV_CANONICAL_ATTRIBUTION}</p>
         <p className="text-xs tracking-wide text-muted-foreground">
-          TAMV ONLINE NETWORK · Creator Intelligence — gobernanza agnóstica de sector y proveedor
+          TAMV ONLINE NETWORK · Creator Intelligence — Tecnología Avanzada Mexicana Versatil
         </p>
+        <p className="text-xs font-semibold tracking-[.16em] text-primary">Orgullosamente Latinoamericanos</p>
       </div>
     </footer>
   );
