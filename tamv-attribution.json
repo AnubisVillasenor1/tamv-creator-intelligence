@@ -42,7 +42,7 @@
       "README.md": "sha256:8cd5a6f0c4b64aa1df948ee568609210e29bb6ea2597b80f5272dad7ab58b8cf",
       "src/lib/tamv-attribution.ts": "sha256:c9721bd6fdc581804b4b3a4947aa1769a9af1435e1f9e272823e90cf8bbf5f24",
       "src/components/branding/TamvAttribution.tsx": "sha256:ffad2bb29680c83b85d070a4bf94163b97e13aa977d5d0e84dcce8fe0c639c7c",
-      "src/routes/__root.tsx": "sha256:ee6448ce8aef73241a7de3c915f76d0f3a4ca0548ac43c09e843daf11f9d34e0",
+      "src/routes/__root.tsx": "sha256:e355bd5ce56a80fc1b7759277408919073c51a519e498fe859689b6df0dd8cb2",
       "src/lib/tamv-certification.ts": "sha256:c6005b834c64a83a4492de5c2e043d8da09fffa5e54433baa281dca3e000e1f7",
       "src/lib/content.functions.ts": "sha256:2fc00ccc523f0980b01effdd554c32cc3aa1fe41e8ad1c4a6bd3cd3ded548828",
       "src/routes/api.tamv.status.ts": "sha256:c32a767d3e4753a7c15c0e40b7899378a2a90db017beb265b884ec314764d363",
