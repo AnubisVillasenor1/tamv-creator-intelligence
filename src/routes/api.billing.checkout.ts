@@ -53,7 +53,9 @@ export const Route = createFileRoute("/api/billing/checkout")({
         }
         let user: { id?: unknown };
         try {
-          user = JSON.parse(await readBoundedResponseText(identityResponse, 16 * 1024)) as { id?: unknown };
+          const identityText = await readBoundedResponseText(identityResponse, 16 * 1024);
+          if (identityText === null) throw new Error("Identity response exceeds limit");
+          user = JSON.parse(identityText) as { id?: unknown };
         } catch {
           return fail("Respuesta de identidad inválida.", 503, "BILLING_CHECKOUT_IDENTITY_INVALID");
         }
@@ -106,7 +108,9 @@ export const Route = createFileRoute("/api/billing/checkout")({
           return fail("Stripe rechazó la creación de la sesión. No se ha confirmado ningún cobro.", 502, "BILLING_CHECKOUT_PROVIDER_REJECTED");
         }
         try {
-          const result = JSON.parse(await readBoundedResponseText(stripeResponse, 32 * 1024)) as { url?: unknown };
+          const stripeText = await readBoundedResponseText(stripeResponse, 32 * 1024);
+          if (stripeText === null) throw new Error("Stripe response exceeds limit");
+          const result = JSON.parse(stripeText) as { url?: unknown };
           if (typeof result.url !== "string") throw new Error("Missing checkout URL");
           const checkoutUrl = new URL(result.url);
           if (checkoutUrl.protocol !== "https:" || checkoutUrl.hostname !== "checkout.stripe.com") throw new Error("Unexpected checkout host");
