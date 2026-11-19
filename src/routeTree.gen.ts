@@ -232,11 +232,6 @@ const ApiTamvHypercoreMetricsRoute = ApiTamvHypercoreMetricsRouteImport.update({
   path: '/api/tamv/hypercore/metrics',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiBillingWebhookRoute = ApiBillingWebhookRouteImport.update({
-  id: '/api/billing/webhook',
-  path: '/api/billing/webhook',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiBillingCheckoutRoute = ApiBillingCheckoutRouteImport.update({
   id: '/api/billing/checkout',
   path: '/api/billing/checkout',
