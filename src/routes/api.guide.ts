@@ -15,6 +15,13 @@ function responseError(message: string, status: number, code: string) {
   return Response.json({ error: message, code }, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } });
 }
 
+function stripControlCharacters(value: string): string {
+  return Array.from(value).filter((character) => {
+    const code = character.codePointAt(0) ?? 0;
+    return !(code <= 0x08 || code === 0x0b || code === 0x0c || (code >= 0x0e && code <= 0x1f) || code === 0x7f);
+  }).join("");
+}
+
 function providerConfig() {
   const raw = process.env["TAMV_GUIDE_AI_BASE_URL"];
   const key = process.env["TAMV_GUIDE_AI_API_KEY"];
@@ -45,11 +52,11 @@ export const Route = createFileRoute("/api/guide")({
         const record = input as Record<string, unknown>;
         if (Object.keys(record).some((key) => !["message", "history", "context"].includes(key))) return responseError("La solicitud contiene campos no admitidos.", 400, "GUIDE_FIELDS_INVALID");
         if (typeof record["message"] !== "string" || !record["message"].trim() || record["message"].length > MAX_MESSAGE_CHARS) return responseError("Escribe una pregunta de hasta 6.000 caracteres.", 400, "GUIDE_MESSAGE_INVALID");
-        const safeMessage = record["message"].replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim();
+        const safeMessage = stripControlCharacters(record["message"]).trim();
         if (!safeMessage) return responseError("La pregunta no contiene texto utilizable.", 400, "GUIDE_MESSAGE_INVALID");
         const history = record["history"] === undefined ? [] : record["history"];
         if (!Array.isArray(history) || history.length > MAX_HISTORY_MESSAGES || !history.every((item) => item && typeof item === "object" && !Array.isArray(item) && ["user", "assistant"].includes(String((item as Record<string, unknown>)["role"])) && typeof (item as Record<string, unknown>)["content"] === "string" && ((item as Record<string, unknown>)["content"] as string).length <= 2000)) return responseError("El historial no tiene un formato válido.", 400, "GUIDE_HISTORY_INVALID");
-        const context = typeof record["context"] === "string" ? record["context"].replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").slice(0, 1500) : "";
+        const context = typeof record["context"] === "string" ? stripControlCharacters(record["context"]).slice(0, 1500) : "";
         const identity = await supabaseAuthenticate(request);
         if (identity instanceof Response) return identity;
         const quota = await checkCapabilityQuota(CAPABILITY, identity.actorRef);
