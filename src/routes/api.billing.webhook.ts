@@ -1,6 +1,7 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { createHash } from "node:crypto";
+import { readBoundedResponseText } from "../lib/bounded-response.server";
 import { readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   STRIPE_WEBHOOK_MAX_BODY_BYTES,
@@ -23,6 +24,19 @@ export const Route = createFileRoute("/api/billing/webhook")({
         if (!secret || !supabaseUrl || !serviceRoleKey) {
           return errorResponse("Webhook billing no configurado en el servidor.", 503, "BILLING_WEBHOOK_NOT_CONFIGURED");
         }
+        if (request.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() !== "application/json") {
+          return errorResponse("Content-Type debe ser application/json.", 415, "BILLING_WEBHOOK_CONTENT_TYPE");
+        }
+
+        let baseUrl: URL;
+        try {
+          baseUrl = new URL(supabaseUrl);
+          if (baseUrl.protocol !== "https:" || baseUrl.username || baseUrl.password || baseUrl.search || baseUrl.hash || baseUrl.pathname !== "/") {
+            throw new Error("Invalid Supabase URL");
+          }
+        } catch {
+          return errorResponse("La URL de almacenamiento no es válida.", 503, "BILLING_WEBHOOK_STORAGE_CONFIG_INVALID");
+        }
 
         const declaredLength = request.headers.get("content-length");
         if (declaredLength !== null && (!/^(0|[1-9][0-9]*)$/.test(declaredLength) || Number(declaredLength) > STRIPE_WEBHOOK_MAX_BODY_BYTES)) {
@@ -32,10 +46,7 @@ export const Route = createFileRoute("/api/billing/webhook")({
         if (!body.ok) return errorResponse("No se pudo leer el cuerpo del webhook.", body.reason === "too-large" ? 413 : 400, "BILLING_WEBHOOK_BODY_INVALID");
 
         const signature = verifyStripeWebhookSignature(body.text, request.headers.get("stripe-signature"), secret);
-        if (!signature.ok) {
-          const status = signature.reason === "missing" ? 400 : 400;
-          return errorResponse("Firma de webhook inválida o expirada.", status, "BILLING_WEBHOOK_SIGNATURE_INVALID");
-        }
+        if (!signature.ok) return errorResponse("Firma de webhook inválida o expirada.", 400, "BILLING_WEBHOOK_SIGNATURE_INVALID");
 
         let event: unknown;
         try { event = JSON.parse(body.text); } catch {
@@ -50,43 +61,45 @@ export const Route = createFileRoute("/api/billing/webhook")({
         }
 
         const payloadHash = createHash("sha256").update(body.text, "utf8").digest("hex");
-        const endpoint = new URL("/rest/v1/tamv_billing_webhook_events", supabaseUrl);
-        endpoint.searchParams.set("on_conflict", "provider,event_id");
-        let persistResponse: Response;
+        let processResponse: Response;
         try {
-          persistResponse = await fetch(endpoint, {
+          processResponse = await fetch(new URL("/rest/v1/rpc/process_tamv_stripe_billing_event", baseUrl), {
             method: "POST",
             headers: {
               apikey: serviceRoleKey,
               Authorization: `Bearer ${serviceRoleKey}`,
               "Content-Type": "application/json",
-              Prefer: "resolution=ignore-duplicates,return=minimal",
             },
-            body: JSON.stringify([{
-              provider: "stripe",
-              event_id: record["id"],
-              event_type: record["type"],
-              payload_sha256: payloadHash,
-              processing_status: "received",
-            }]),
+            body: JSON.stringify({ p_event: record, p_payload_sha256: payloadHash }),
             cache: "no-store",
             signal: AbortSignal.timeout(5000),
           });
         } catch {
-          return errorResponse("No fue posible persistir el evento de facturación.", 503, "BILLING_WEBHOOK_STORAGE_UNAVAILABLE");
+          return errorResponse("El procesador de facturación no está disponible; Stripe puede reintentar.", 503, "BILLING_PROCESSOR_UNAVAILABLE");
         }
-        if (!persistResponse.ok) {
-          await persistResponse.body?.cancel().catch(() => undefined);
-          return errorResponse("No fue posible persistir el evento de facturación.", 503, "BILLING_WEBHOOK_STORAGE_ERROR");
+        if (!processResponse.ok) {
+          await processResponse.body?.cancel().catch(() => undefined);
+          return errorResponse("El evento no pudo procesarse de forma transaccional; Stripe puede reintentar.", 503, "BILLING_PROCESSOR_FAILED");
         }
 
-        // Deliberately acknowledge receipt only. Subscription state is not changed by this intake endpoint.
-        return Response.json({
-          accepted: true,
-          eventId: record["id"],
-          eventType: record["type"],
-          processingStatus: "received_not_processed",
-        }, { status: 202, headers: noStore });
+        try {
+          const result = JSON.parse(await readBoundedResponseText(processResponse, 8 * 1024)) as unknown;
+          if (!result || typeof result !== "object" || Array.isArray(result) || typeof (result as Record<string, unknown>)["status"] !== "string") {
+            throw new Error("Invalid processor response");
+          }
+          const status = (result as Record<string, unknown>)["status"];
+          if (!["processed", "ignored", "duplicate"].includes(String(status))) {
+            return errorResponse("El procesador no confirmó el evento.", 503, "BILLING_PROCESSOR_UNCONFIRMED");
+          }
+          return Response.json({
+            accepted: true,
+            eventId: record["id"],
+            eventType: record["type"],
+            processingStatus: status,
+          }, { status: 200, headers: noStore });
+        } catch {
+          return errorResponse("Respuesta inválida del procesador de facturación.", 503, "BILLING_PROCESSOR_RESPONSE_INVALID");
+        }
       },
     },
   },
