@@ -1,0 +1,348 @@
+/* TAMV crystal interface layer — intentionally additive to the existing workspace styles. */
+:root {
+  --tamv-platinum: oklch(0.88 0.018 248);
+  --tamv-pearl: oklch(0.97 0.012 100);
+  --tamv-electric-pink: oklch(0.72 0.25 350);
+  --tamv-royal-blue: oklch(0.62 0.22 262);
+  --tamv-crystal-edge: linear-gradient(
+    112deg,
+    color-mix(in oklch, var(--tamv-platinum) 84%, transparent),
+    color-mix(in oklch, var(--tamv-electric-pink) 70%, transparent) 35%,
+    color-mix(in oklch, var(--tamv-royal-blue) 75%, transparent) 68%,
+    color-mix(in oklch, var(--tamv-pearl) 78%, transparent)
+  );
+  --tamv-glass: color-mix(in oklch, var(--card) 78%, transparent);
+  --tamv-crystal-shadow: 0 22px 65px oklch(0.04 0.03 260 / 0.24);
+}
+
+:root[data-workspace-theme="light"] {
+  --tamv-platinum: oklch(0.53 0.035 255);
+  --tamv-pearl: oklch(0.39 0.035 255);
+  --tamv-electric-pink: oklch(0.56 0.2 350);
+  --tamv-royal-blue: oklch(0.48 0.19 262);
+  --tamv-glass: color-mix(in oklch, var(--card) 88%, transparent);
+  --tamv-crystal-shadow: 0 18px 48px oklch(0.3 0.04 260 / 0.12);
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse at 86% 0%, color-mix(in oklch, var(--tamv-royal-blue) 8%, transparent), transparent 34rem),
+    radial-gradient(ellipse at 20% 28%, color-mix(in oklch, var(--tamv-electric-pink) 5%, transparent), transparent 32rem);
+  background-attachment: fixed;
+}
+
+/* Matrix identity panel: the existing binary copy remains decorative for assistive technology. */
+.govern-topbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  border-bottom: 1px solid color-mix(in oklch, var(--tamv-platinum) 24%, var(--border));
+  background: color-mix(in oklch, var(--background) 86%, transparent);
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
+}
+
+.tamv-matrix-banner {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  min-height: 76px;
+  overflow: hidden;
+  padding: 12px clamp(14px, 3vw, 36px);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background:
+    linear-gradient(115deg, color-mix(in oklch, var(--card) 93%, transparent), color-mix(in oklch, var(--background) 76%, transparent)) padding-box,
+    var(--tamv-crystal-edge) border-box;
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.16), var(--tamv-crystal-shadow);
+  transform: translateZ(0);
+}
+
+.tamv-matrix-banner::before,
+.tamv-matrix-banner::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.tamv-matrix-banner::before {
+  opacity: 0.52;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 5px, oklch(0.8 0.18 160 / 0.08) 6px 7px),
+    repeating-linear-gradient(90deg, transparent 0 34px, oklch(0.78 0.16 250 / 0.09) 35px 36px),
+    radial-gradient(ellipse at 50% 120%, oklch(0.72 0.2 160 / 0.19), transparent 62%);
+  animation: tamv-matrix-drift 14s linear infinite;
+}
+
+.tamv-matrix-banner::after {
+  z-index: 1;
+  inset: 1px;
+  border: 1px solid oklch(0.95 0.02 250 / 0.08);
+  border-radius: 15px;
+  box-shadow: inset 0 0 22px oklch(0.8 0.12 220 / 0.08);
+}
+
+.matrix-code {
+  overflow: hidden;
+  color: color-mix(in oklch, var(--tamv-platinum) 65%, var(--primary));
+  font: 600 clamp(7px, 0.7vw, 9px)/1.8 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.22em;
+  white-space: nowrap;
+  text-shadow: 0 0 12px color-mix(in oklch, var(--primary) 36%, transparent);
+  opacity: 0.74;
+}
+
+.matrix-code-left {
+  justify-self: start;
+}
+
+.matrix-code-right {
+  justify-self: end;
+  text-align: right;
+}
+
+.matrix-banner-core {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 0 clamp(12px, 3vw, 36px);
+  text-align: center;
+}
+
+.matrix-signal {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--tamv-electric-pink);
+  box-shadow: 0 0 14px var(--tamv-electric-pink), 0 0 26px color-mix(in oklch, var(--tamv-royal-blue) 80%, transparent);
+  animation: tamv-signal-pulse 2.8s ease-in-out infinite;
+}
+
+.matrix-banner-name {
+  color: transparent;
+  background: linear-gradient(100deg, var(--tamv-platinum), var(--tamv-pearl) 46%, var(--tamv-platinum));
+  background-clip: text;
+  -webkit-background-clip: text;
+  font: 700 clamp(12px, 1.35vw, 17px)/1.2 var(--font-display);
+  letter-spacing: clamp(0.12em, 0.32vw, 0.28em);
+  text-shadow: 0 0 22px color-mix(in oklch, var(--tamv-platinum) 18%, transparent);
+}
+
+.matrix-banner-subtitle {
+  color: var(--muted-foreground);
+  font-size: clamp(7px, 0.65vw, 9px);
+  letter-spacing: 0.2em;
+}
+
+.topbar-location,
+.topbar-actions {
+  min-height: 44px;
+}
+
+.topbar-actions {
+  margin-left: auto;
+}
+
+/* Refined, glass-like surfaces with a restrained 3D lift and paired metallic hairlines. */
+.workspace-hero,
+.workspace-stats > div,
+.action-card,
+.academy-banner,
+.workspace-panel,
+.guide-card,
+.connector-card,
+.connection-banner,
+.command-dialog,
+.detail-modal {
+  position: relative;
+  isolation: isolate;
+  border-color: color-mix(in oklch, var(--tamv-platinum) 22%, var(--border));
+  background-color: var(--tamv-glass);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.08), var(--tamv-crystal-shadow);
+  backdrop-filter: blur(16px) saturate(132%);
+  -webkit-backdrop-filter: blur(16px) saturate(132%);
+}
+
+.workspace-hero::after,
+.workspace-stats > div::after,
+.action-card::after,
+.academy-banner::after,
+.workspace-panel::after,
+.guide-card::after,
+.connector-card::after,
+.connection-banner::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--tamv-crystal-edge);
+  content: "";
+  opacity: 0.38;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.workspace-hero {
+  border-radius: 22px;
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.12), 0 28px 80px oklch(0.04 0.03 260 / 0.24);
+}
+
+.workspace-stats > div,
+.workspace-panel,
+.action-card,
+.academy-banner,
+.connector-card,
+.connection-banner,
+.guide-card {
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.workspace-stats > div:hover,
+.action-card:hover,
+.connector-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklch, var(--tamv-pearl) 52%, var(--tamv-electric-pink));
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.13), 0 24px 56px oklch(0.04 0.03 260 / 0.28), 0 0 24px color-mix(in oklch, var(--tamv-royal-blue) 12%, transparent);
+}
+
+.executive-principles {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--tamv-platinum) 26%, var(--border));
+  border-radius: 18px;
+  background: var(--tamv-glass);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.08), var(--tamv-crystal-shadow);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+
+.executive-principles-heading,
+.executive-principle + .executive-principle,
+.executive-principles-footnote {
+  border-color: color-mix(in oklch, var(--tamv-platinum) 26%, var(--border));
+}
+
+.executive-principle-icon,
+.feature-icon,
+.orbit-label,
+.workspace-monogram {
+  border-color: color-mix(in oklch, var(--tamv-platinum) 34%, var(--border));
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.14), 0 8px 26px oklch(0.04 0.03 260 / 0.18);
+}
+
+.govern-nav {
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.govern-nav:hover {
+  transform: translateX(2px);
+}
+
+.govern-nav-active {
+  box-shadow: inset 2px 0 0 var(--tamv-pearl), 0 0 22px color-mix(in oklch, var(--tamv-royal-blue) 13%, transparent);
+}
+
+:where(button, a, input, select, textarea, [role="button"]):focus-visible {
+  outline-color: var(--tamv-electric-pink);
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--tamv-electric-pink) 22%, transparent);
+}
+
+@keyframes tamv-matrix-drift {
+  from { background-position: 0 0, 0 0, 50% 0; }
+  to { background-position: 0 42px, 36px 0, 50% 0; }
+}
+
+@keyframes tamv-signal-pulse {
+  0%, 100% { opacity: 0.72; transform: scale(0.86); }
+  50% { opacity: 1; transform: scale(1.16); }
+}
+
+@media (max-width: 900px) {
+  .tamv-matrix-banner {
+    min-height: 68px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .matrix-code {
+    max-width: 22vw;
+    letter-spacing: 0.1em;
+  }
+  .matrix-banner-core {
+    padding-inline: 8px;
+  }
+  .matrix-banner-subtitle {
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (max-width: 560px) {
+  .tamv-matrix-banner {
+    min-height: 62px;
+    padding-inline: 10px;
+    border-radius: 12px;
+  }
+  .matrix-code {
+    max-width: 12vw;
+    font-size: 6px;
+    letter-spacing: 0;
+  }
+  .matrix-banner-name {
+    letter-spacing: 0.1em;
+  }
+  .matrix-banner-subtitle {
+    max-width: 58vw;
+    letter-spacing: 0.08em;
+  }
+  .topbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tamv-matrix-banner::before,
+  .matrix-signal {
+    animation: none;
+  }
+  .workspace-stats > div,
+  .action-card,
+  .connector-card,
+  .govern-nav {
+    transition: none;
+  }
+  .workspace-stats > div:hover,
+  .action-card:hover,
+  .connector-card:hover,
+  .govern-nav:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tamv-matrix-banner,
+  .workspace-hero,
+  .workspace-stats > div,
+  .action-card,
+  .academy-banner,
+  .workspace-panel,
+  .guide-card,
+  .connector-card,
+  .connection-banner,
+  .command-dialog,
+  .detail-modal,
+  .executive-principles {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-color: var(--card);
+  }
+}

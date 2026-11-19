@@ -52,6 +52,17 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
       previousPath.current = pathname;
     }
   }, [pathname]);
+  useEffect(() => {
+    function handleSearchShortcut(event: KeyboardEvent) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setSearchOpen(true);
+      }
+    }
+
+    window.addEventListener("keydown", handleSearchShortcut);
+    return () => window.removeEventListener("keydown", handleSearchShortcut);
+  }, []);
   function toggleTheme() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
@@ -168,6 +179,8 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
                   variant="outline"
                   className="workspace-search"
                   aria-label="Buscar herramientas"
+                  aria-keyshortcuts="Control+K Meta+K"
+                  title="Buscar herramientas (Ctrl/⌘ K)"
                 >
                   <Search size={16} />
                   <span>Buscar herramientas</span>
