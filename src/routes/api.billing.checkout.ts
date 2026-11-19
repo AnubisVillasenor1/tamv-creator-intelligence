@@ -20,8 +20,9 @@ export const Route = createFileRoute("/api/billing/checkout")({
         const stripeKey = process.env["STRIPE_SECRET_KEY"];
         const supabaseUrl = process.env["SUPABASE_URL"];
         const publishableKey = process.env["SUPABASE_PUBLISHABLE_KEY"];
+        const serviceRoleKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
         const appUrlValue = process.env["TAMV_APP_URL"];
-        if (!stripeKey || !supabaseUrl || !publishableKey || !appUrlValue) {
+        if (!stripeKey || !supabaseUrl || !publishableKey || !serviceRoleKey || !appUrlValue) {
           return fail("Checkout no está configurado en el servidor.", 503, "BILLING_CHECKOUT_NOT_CONFIGURED");
         }
         if (!stripeKey.startsWith("sk_test_") && !stripeKey.startsWith("sk_live_")) {
@@ -61,6 +62,41 @@ export const Route = createFileRoute("/api/billing/checkout")({
         }
         if (typeof user.id !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(user.id)) {
           return fail("La identidad autenticada no es válida.", 401, "BILLING_CHECKOUT_IDENTITY_INVALID");
+        }
+
+        // Fail closed if the authoritative membership state cannot be checked.
+        const membershipUrl = new URL("/rest/v1/tamv_memberships", supabaseOrigin);
+        membershipUrl.searchParams.set("user_id", "eq." + user.id);
+        membershipUrl.searchParams.set("select", "status");
+        membershipUrl.searchParams.set("limit", "1");
+        let membershipResponse: Response;
+        try {
+          membershipResponse = await fetch(membershipUrl, {
+            headers: { apikey: serviceRoleKey, Authorization: "Bearer " + serviceRoleKey },
+            cache: "no-store",
+            signal: AbortSignal.timeout(5_000),
+          });
+        } catch {
+          return fail("No se pudo comprobar el estado de membresía; inténtalo más tarde.", 503, "BILLING_CHECKOUT_MEMBERSHIP_UNAVAILABLE");
+        }
+        if (!membershipResponse.ok) {
+          await membershipResponse.body?.cancel().catch(() => undefined);
+          return fail("No se pudo comprobar el estado de membresía; no se creará otra suscripción.", 503, "BILLING_CHECKOUT_MEMBERSHIP_CHECK_FAILED");
+        }
+        let membershipRows: unknown;
+        try {
+          const membershipText = await readBoundedResponseText(membershipResponse, 8 * 1024);
+          if (membershipText === null) throw new Error("Membership response exceeds limit");
+          membershipRows = JSON.parse(membershipText) as unknown;
+        } catch {
+          return fail("Respuesta de membresía inválida; no se creará otra suscripción.", 503, "BILLING_CHECKOUT_MEMBERSHIP_RESPONSE_INVALID");
+        }
+        if (!Array.isArray(membershipRows) || membershipRows.some((row) => !row || typeof row !== "object" || Array.isArray(row) || typeof (row as Record<string, unknown>)["status"] !== "string")) {
+          return fail("Respuesta de membresía inválida; no se creará otra suscripción.", 503, "BILLING_CHECKOUT_MEMBERSHIP_RESPONSE_INVALID");
+        }
+        const existingStatus = (membershipRows[0] as { status: string } | undefined)?.status;
+        if (existingStatus && !["canceled", "incomplete_expired"].includes(existingStatus)) {
+          return fail("Ya existe una suscripción asociada a esta cuenta. Gestiona el plan actual antes de crear otra.", 409, "BILLING_CHECKOUT_SUBSCRIPTION_EXISTS");
         }
 
         if (!isJsonContentType(request.headers.get("content-type"))) return fail("Content-Type debe ser application/json.", 415, "BILLING_CHECKOUT_CONTENT_TYPE");
