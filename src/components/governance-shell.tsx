@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   Command,
   GraduationCap,
+  HeartHandshake,
   Menu,
   Moon,
   Search,
@@ -210,6 +211,12 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
                 <span>Tutorial</span>
               </Link>
             </Button>
+            <Button asChild variant="outline" className="topbar-guide">
+              <Link to="/billing" aria-label="Apoyar TAMV">
+                <HeartHandshake size={17} />
+                <span>Apoyar</span>
+              </Link>
+            </Button>
             <Button
               variant="ghost"
               size="icon"
@@ -228,6 +235,10 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
           <div className="flex gap-4">
             <Link to="/sovereignty">Soberanía</Link>
             <Link to="/hypercore">Diagnóstico</Link>
+            <Link to="/wiki">Wiki</Link>
+            <Link to="/faq">FAQ</Link>
+            <Link to="/settings">Ajustes</Link>
+            <Link to="/billing">Pagos</Link>
           </div>
         </footer>
       </div>
