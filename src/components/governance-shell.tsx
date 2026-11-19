@@ -212,10 +212,10 @@ export function GovernanceShell({ children }: { children: ReactNode }) {
               </Link>
             </Button>
             <Button asChild variant="outline" className="topbar-guide">
-              <Link to="/billing" aria-label="Apoyar TAMV">
+              <a href="/billing#donate" aria-label="Apoyar TAMV">
                 <HeartHandshake size={17} />
                 <span>Apoyar</span>
-              </Link>
+              </a>
             </Button>
             <Button
               variant="ghost"
