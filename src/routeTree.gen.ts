@@ -283,10 +283,6 @@ export interface FileRoutesByFullPath {
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
-  '/api/billing/webhook': typeof ApiBillingWebhookRoute
-  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
-  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
-  '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
@@ -527,7 +523,6 @@ export interface RootRouteChildren {
   ApiPublicTamvProjectsRoute: typeof ApiPublicTamvProjectsRoute
   ApiTamvHypercoreAuditRoute: typeof ApiTamvHypercoreAuditRoute
   ApiTamvHypercoreMetricsRoute: typeof ApiTamvHypercoreMetricsRoute
-  ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
   ApiBillingCheckoutRoute: typeof ApiBillingCheckoutRoute
   ApiAdminMembershipsRoute: typeof ApiAdminMembershipsRoute
 }
@@ -786,13 +781,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTamvHypercoreMetricsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/billing/webhook': {
-      id: '/api/billing/webhook'
-      path: '/api/billing/webhook'
-      fullPath: '/api/billing/webhook'
-      preLoaderRoute: typeof ApiBillingWebhookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/admin/memberships': {
       id: '/api/admin/memberships'
       path: '/api/admin/memberships'
@@ -855,7 +843,6 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicTamvProjectsRoute: ApiPublicTamvProjectsRoute,
   ApiTamvHypercoreAuditRoute: ApiTamvHypercoreAuditRoute,
   ApiTamvHypercoreMetricsRoute: ApiTamvHypercoreMetricsRoute,
-  ApiBillingWebhookRoute: ApiBillingWebhookRoute,
   ApiBillingCheckoutRoute: ApiBillingCheckoutRoute,
   ApiAdminMembershipsRoute: ApiAdminMembershipsRoute,
 }
