@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { socialIntegrations, webhookPath, type SocialProvider } from "@/lib/social-integrations";
+import { SocialBrandIcon } from "@/components/integrations/social-brand-icon";
 
 export function IntegrationsHub() {
   const [query, setQuery] = useState("");
@@ -113,7 +114,7 @@ export function IntegrationsHub() {
               >
                 <div className="connector-top">
                   <span className={`provider-monogram provider-${item.id}`} aria-hidden="true">
-                    {item.monogram}
+                    <SocialBrandIcon provider={item.id} />
                   </span>
                   <span>{item.category}</span>
                 </div>
@@ -153,7 +154,7 @@ export function IntegrationsHub() {
         <section className="connector-detail" aria-label={`Configurar ${provider.name}`}>
           <div className="connector-detail-heading">
             <span className={`provider-monogram provider-${provider.id}`} aria-hidden="true">
-              {provider.monogram}
+              <SocialBrandIcon provider={provider.id} />
             </span>
             <div>
               <span className="eyebrow">GUÍA DE CONEXIÓN</span>
