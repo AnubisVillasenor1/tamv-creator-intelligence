@@ -266,6 +266,7 @@ export interface FileRoutesByTo {
   '/auth-callback': typeof AuthCallbackRoute
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
+  '/atlas': typeof AtlasRoute
   '/billing': typeof BillingRoute
   '/faq': typeof FaqRoute
   '/settings': typeof SettingsRoute
@@ -302,6 +303,7 @@ export interface FileRoutesById {
   '/auth-callback': typeof AuthCallbackRoute
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
+  '/atlas': typeof AtlasRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
