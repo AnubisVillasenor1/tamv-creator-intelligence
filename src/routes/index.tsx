@@ -101,6 +101,16 @@ function Dashboard() {
         >
           <div className="orbit orbit-one" />
           <div className="orbit orbit-two" />
+          <div className="orbit orbit-three" aria-hidden="true" />
+          <div className="orbit orbit-four" aria-hidden="true" />
+          <div className="orbit-particle particle-one" aria-hidden="true" />
+          <div className="orbit-particle particle-two" aria-hidden="true" />
+          <div className="orbit-particle particle-three" aria-hidden="true" />
+          <div className="orbit-particle particle-four" aria-hidden="true" />
+          <div className="orbit-particle particle-five" aria-hidden="true" />
+          <div className="orbit-particle particle-six" aria-hidden="true" />
+          <span className="orbit-coordinate coordinate-top" aria-hidden="true">TAMV / Ω-01</span>
+          <span className="orbit-coordinate coordinate-bottom" aria-hidden="true">HUMAN · CREATIVE · SOVEREIGN</span>
           <div className="orbit-center">
             <TamvLogo className="h-16 w-16 rounded-xl object-contain" size={64} priority />
             <strong>TAMV</strong>
