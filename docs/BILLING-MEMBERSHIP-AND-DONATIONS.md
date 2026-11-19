@@ -1,26 +1,33 @@
 # Facturación, membresías y donaciones: criterios de activación
 
-## Estado
+## Estado comprobable
 
-La interfaz de pagos es informativa. No existe evidencia de que el checkout y el ciclo de vida de suscripciones estén habilitados en producción. No presentar usuarios, ingresos, suscripciones o donaciones ficticios como datos reales.
+La interfaz de pagos sigue siendo informativa. El endpoint `POST /api/billing/webhook` implementa una primera capa de recepción segura de eventos Stripe: valida la firma HMAC-SHA256 sobre el cuerpo sin modificar, rechaza firmas fuera de una ventana de 5 minutos y persiste el identificador y hash del evento en un ledger idempotente. Responde `202` únicamente para indicar que el evento fue recibido y persistido; no significa que una compra o suscripción haya sido procesada ni activada.
 
-## Arquitectura requerida antes de activar cobros
+No hay evidencia de checkout activo, sincronización de suscripciones, reconciliación, donaciones operativas ni despliegue productivo.
 
-1. Elegir y configurar un proveedor de pago (por ejemplo, Stripe) con credenciales exclusivamente de servidor.
-2. Crear el checkout en un handler autenticado y validar precio, moneda, plan y usuario en el servidor; nunca aceptar el precio desde el navegador como autoridad.
-3. Verificar criptográficamente cada webhook, deduplicar por identificador de evento y persistir los eventos de forma idempotente.
-4. Mantener el estado de membresía en la base de datos con migraciones, restricciones y RLS; reconciliar los estados con el proveedor.
-5. Cubrir pagos aprobados/rechazados, renovación, cancelación, reembolso, chargeback, eventos repetidos y fuera de orden.
-6. Añadir observabilidad sin exponer datos de pago y ejecutar pruebas en modo sandbox antes de habilitar producción.
+## Variables requeridas (solo servidor)
 
-## Monitor de usuarios de pago
+- `STRIPE_WEBHOOK_SECRET`: secreto de firma del endpoint webhook Stripe.
+- `SUPABASE_URL`: URL del proyecto de base de datos.
+- `SUPABASE_SERVICE_ROLE_KEY`: clave privilegiada de servidor. Nunca usar prefijo `VITE_`, exponer al navegador o registrar su valor.
 
-El panel administrativo requiere una comprobación de rol en servidor, no solo una ruta oculta ni metadata de cliente. El backend debe consultar únicamente las columnas necesarias, filtrar por tenant cuando aplique, registrar acceso administrativo y aplicar paginación. No exponer datos de tarjeta ni secretos. Las métricas agregadas deben separarse de los registros identificables.
+Aplicar la migración `drizzle/migrations/0006_billing_webhook_event_intake.sql` antes de configurar el webhook. Si falta cualquier variable, el endpoint falla de forma cerrada con `503`.
+
+## Límite funcional explícito
+
+Este intake **no** modifica estado de membresía, no procesa checkout y no concede privilegios. El siguiente paso requerido es un procesador transaccional idempotente para los tipos de evento admitidos, una tabla de membresías con RLS y restricciones, reconciliación con Stripe, y un monitor administrativo protegido por rol verificado en servidor. No se debe derivar el estado pagado del frontend ni de un evento recibido sin procesamiento.
+
+## Criterios previos a producción
+
+1. Configurar Stripe en modo test y crear el endpoint webhook con los tipos de evento mínimos necesarios.
+2. Aplicar y verificar la migración en un entorno no productivo.
+3. Probar firma correcta, cuerpo alterado, firma expirada, duplicados, fallos de almacenamiento y reintentos.
+4. Implementar procesamiento de eventos con idempotencia y transacciones antes de actualizar membresías.
+5. Probar checkout, pagos fallidos, renovación, cancelación, reembolso, chargeback y eventos fuera de orden.
+6. Añadir reconciliación y observabilidad sin exponer datos personales ni secretos.
+7. Verificar RLS, autorización administrativa, pruebas automatizadas y despliegue del commit exacto antes de activar cobros.
 
 ## Donaciones
 
-No habilitar un CTA externo hasta que el responsable proporcione y verifique el canal oficial. La aplicación debe abrirlo en un contexto seguro, indicar claramente el destino y no solicitar datos bancarios directamente. Si no hay canal configurado, el CTA conduce a la explicación de estado pendiente.
-
-## Aceptación
-
-No considerar el módulo listo hasta que pruebas automatizadas, sandbox del proveedor, pruebas de webhook, persistencia/RLS y revisión de seguridad pasen en el commit exacto que se desplegará.
+No habilitar un CTA externo hasta que el responsable proporcione y verifique el canal oficial. Si no existe canal configurado, el CTA conduce a la explicación del estado pendiente.
