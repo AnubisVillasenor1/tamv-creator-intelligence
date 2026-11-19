@@ -41,14 +41,14 @@ Un build local no demuestra que servicios externos, pagos, webhooks ni despliegu
 
 ## Secciones de la aplicación
 
-- [Atlas inteligente](/atlas) — guía, catálogo y grafo conceptual.
-- [Primeros pasos](/guide) — orientación de uso.
-- [Wiki y documentación](/wiki) — arquitectura y procedimientos.
-- [Preguntas frecuentes](/faq) — límites y respuestas comunes.
-- [Ajustes](/settings) — preferencias locales de interfaz.
-- [Pagos y membresía](/billing) — estado de configuración; no simula cargos.
-- [Skills](/marketplace) — contratos y dependencias.
-- [Auditoría](/audit) — evidencia y trazabilidad.
+- [Atlas inteligente](src/routes/atlas.tsx) — guía, catálogo y grafo conceptual.
+- [Primeros pasos](src/routes/guide.tsx) — orientación de uso.
+- [Wiki y documentación](src/routes/wiki.tsx) — arquitectura y procedimientos.
+- [Preguntas frecuentes](src/routes/faq.tsx) — límites y respuestas comunes.
+- [Ajustes](src/routes/settings.tsx) — preferencias locales de interfaz.
+- [Pagos y membresía](src/routes/billing.tsx) — estado de configuración; no simula cargos.
+- [Skills](src/routes/marketplace.tsx) — contratos y dependencias.
+- [Auditoría](src/routes/audit.tsx) — evidencia y trazabilidad.
 
 ## Documentación canónica
 
