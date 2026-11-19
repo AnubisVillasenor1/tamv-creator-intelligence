@@ -61,7 +61,7 @@ function Dashboard() {
           <span className="hero-kicker">
             <TamvLogo className="h-5 w-5 rounded object-contain" size={20} priority />
             <span />
-            TAMV ONLINE NETWORK · CREATOR INTELLIGENCE
+            TAMV ONLINE NETWORK · TECNOLOGÍA AVANZADA MEXICANA VERSATIL
           </span>
           <h2>
             Grandes ideas.
@@ -92,7 +92,7 @@ function Dashboard() {
           </div>
           <div className="hero-footnote">
             <LockKeyhole size={13} />
-            Privacidad por diseño · Sin publicación automática
+            Orgullosamente Latinoamericanos · Privacidad por diseño · Sin publicación automática
           </div>
         </div>
         <div
