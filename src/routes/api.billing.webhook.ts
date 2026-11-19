@@ -1,6 +1,7 @@
 /* global process */
 import { createFileRoute } from "@tanstack/react-router";
 import { createHash } from "node:crypto";
+import { readBoundedResponseText } from "../lib/bounded-response.server";
 import { isJsonContentType, readBoundedRequestBody } from "../lib/hypercore-turbo/governance-request-guards";
 import {
   STRIPE_WEBHOOK_MAX_BODY_BYTES,
@@ -70,9 +71,7 @@ export const Route = createFileRoute("/api/billing/webhook")({
         }
 
         const payloadHash = createHash("sha256").update(body.text, "utf8").digest("hex");
-        const endpoint = new URL("/rest/v1/tamv_billing_webhook_events", databaseUrl);
-        endpoint.searchParams.set("on_conflict", "provider,event_id");
-        let persistResponse: Response;
+        let processResponse: Response;
         try {
           processResponse = await fetch(new URL("/rest/v1/rpc/process_tamv_stripe_billing_event", baseUrl), {
             method: "POST",

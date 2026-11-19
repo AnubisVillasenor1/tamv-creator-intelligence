@@ -141,6 +141,13 @@ export const workspaceNavigation = [
     icon: HelpCircle,
   },
   {
+    to: "/admin/memberships",
+    label: "Monitor de membresías",
+    description: "Resumen administrativo de membresías (acceso restringido)",
+    group: "Gobernar",
+    icon: ShieldCheck,
+  },
+  {
     to: "/settings",
     label: "Ajustes",
     description: "Personaliza preferencias de la interfaz",

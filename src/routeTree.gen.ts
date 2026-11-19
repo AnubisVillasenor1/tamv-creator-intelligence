@@ -11,16 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRecoveryRouteImport } from './routes/account-recovery'
+import { Route as AtlasRouteImport } from './routes/atlas'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthCallbackRouteImport } from './routes/auth-callback'
-import { Route as ExagonRouteImport } from './routes/exagon'
-import { Route as GuideRouteImport } from './routes/guide'
-import { Route as AtlasRouteImport } from './routes/atlas'
 import { Route as BillingRouteImport } from './routes/billing'
+import { Route as ExagonRouteImport } from './routes/exagon'
 import { Route as FaqRouteImport } from './routes/faq'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as WikiRouteImport } from './routes/wiki'
+import { Route as GuideRouteImport } from './routes/guide'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -29,14 +27,18 @@ import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as SdkRouteImport } from './routes/sdk'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SovereigntyRouteImport } from './routes/sovereignty'
 import { Route as StudioRouteImport } from './routes/studio'
+import { Route as WikiRouteImport } from './routes/wiki'
 import { Route as AdminMembershipsRouteImport } from './routes/admin.memberships'
 import { Route as ApiAgentRouteImport } from './routes/api.agent'
 import { Route as ApiGenerationRouteImport } from './routes/api.generation'
 import { Route as ApiGuideRouteImport } from './routes/api.guide'
-import { Route as ApiBillingWebhookRouteImport } from './routes/api.billing.webhook'
+import { Route as ApiAdminMembershipsRouteImport } from './routes/api.admin.memberships'
 import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore.advanced'
+import { Route as ApiBillingCheckoutRouteImport } from './routes/api.billing.checkout'
+import { Route as ApiBillingWebhookRouteImport } from './routes/api.billing.webhook'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
 import { Route as ApiStudioMetricsRouteImport } from './routes/api.studio.metrics'
 import { Route as ApiTamvGenesisRouteImport } from './routes/api.tamv.genesis'
@@ -57,6 +59,11 @@ const AccountRecoveryRoute = AccountRecoveryRouteImport.update({
   path: '/account-recovery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AtlasRoute = AtlasRouteImport.update({
+  id: '/atlas',
+  path: '/atlas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuditRoute = AuditRouteImport.update({
   id: '/audit',
   path: '/audit',
@@ -72,29 +79,14 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/auth-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExagonRoute = ExagonRouteImport.update({
-  id: '/exagon',
-  path: '/exagon',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuideRoute = GuideRouteImport.update({
-  id: '/guide',
-  path: '/guide',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AtlasRoute = AtlasRouteImport.update({
-  id: '/atlas',
-  path: '/atlas',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BillingRoute = BillingRouteImport.update({
   id: '/billing',
   path: '/billing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminMembershipsRoute = AdminMembershipsRouteImport.update({
-  id: '/admin/memberships',
-  path: '/admin/memberships',
+const ExagonRoute = ExagonRouteImport.update({
+  id: '/exagon',
+  path: '/exagon',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -102,14 +94,9 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WikiRoute = WikiRouteImport.update({
-  id: '/wiki',
-  path: '/wiki',
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HypercoreRoute = HypercoreRouteImport.update({
@@ -152,6 +139,11 @@ const SdkRoute = SdkRouteImport.update({
   path: '/sdk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SovereigntyRoute = SovereigntyRouteImport.update({
   id: '/sovereignty',
   path: '/sovereignty',
@@ -160,6 +152,16 @@ const SovereigntyRoute = SovereigntyRouteImport.update({
 const StudioRoute = StudioRouteImport.update({
   id: '/studio',
   path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WikiRoute = WikiRouteImport.update({
+  id: '/wiki',
+  path: '/wiki',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMembershipsRoute = AdminMembershipsRouteImport.update({
+  id: '/admin/memberships',
+  path: '/admin/memberships',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAgentRoute = ApiAgentRouteImport.update({
@@ -177,14 +179,24 @@ const ApiGuideRoute = ApiGuideRouteImport.update({
   path: '/api/guide',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiBillingWebhookRoute = ApiBillingWebhookRouteImport.update({
-  id: '/api/billing/webhook',
-  path: '/api/billing/webhook',
+const ApiAdminMembershipsRoute = ApiAdminMembershipsRouteImport.update({
+  id: '/api/admin/memberships',
+  path: '/api/admin/memberships',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAudiocoreAdvancedRoute = ApiAudiocoreAdvancedRouteImport.update({
   id: '/api/audiocore/advanced',
   path: '/api/audiocore/advanced',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiBillingCheckoutRoute = ApiBillingCheckoutRouteImport.update({
+  id: '/api/billing/checkout',
+  path: '/api/billing/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiBillingWebhookRoute = ApiBillingWebhookRouteImport.update({
+  id: '/api/billing/webhook',
+  path: '/api/billing/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiGovernanceReceiptsRoute = ApiGovernanceReceiptsRouteImport.update({
@@ -232,31 +244,18 @@ const ApiTamvHypercoreMetricsRoute = ApiTamvHypercoreMetricsRouteImport.update({
   path: '/api/tamv/hypercore/metrics',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiBillingCheckoutRoute = ApiBillingCheckoutRouteImport.update({
-  id: '/api/billing/checkout',
-  path: '/api/billing/checkout',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiAdminMembershipsRoute = ApiAdminMembershipsRouteImport.update({
-  id: '/api/admin/memberships',
-  path: '/api/admin/memberships',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account-recovery': typeof AccountRecoveryRoute
+  '/atlas': typeof AtlasRoute
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
-  '/exagon': typeof ExagonRoute
-  '/guide': typeof GuideRoute
-  '/atlas': typeof AtlasRoute
   '/billing': typeof BillingRoute
-  '/admin/memberships': typeof AdminMembershipsRoute
+  '/exagon': typeof ExagonRoute
   '/faq': typeof FaqRoute
-  '/settings': typeof SettingsRoute
-  '/wiki': typeof WikiRoute
+  '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -265,13 +264,18 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/review': typeof ReviewRoute
   '/sdk': typeof SdkRoute
+  '/settings': typeof SettingsRoute
   '/sovereignty': typeof SovereigntyRoute
   '/studio': typeof StudioRoute
+  '/wiki': typeof WikiRoute
+  '/admin/memberships': typeof AdminMembershipsRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
   '/api/guide': typeof ApiGuideRoute
-  '/api/billing/webhook': typeof ApiBillingWebhookRoute
+  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
@@ -281,27 +285,18 @@ export interface FileRoutesByFullPath {
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
-  '/api/billing/webhook': typeof ApiBillingWebhookRoute
-  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
-  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
-  '/api/billing/webhook': typeof ApiBillingWebhookRoute
-  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
-  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account-recovery': typeof AccountRecoveryRoute
+  '/atlas': typeof AtlasRoute
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
-  '/exagon': typeof ExagonRoute
-  '/guide': typeof GuideRoute
-  '/atlas': typeof AtlasRoute
   '/billing': typeof BillingRoute
-  '/admin/memberships': typeof AdminMembershipsRoute
+  '/exagon': typeof ExagonRoute
   '/faq': typeof FaqRoute
-  '/settings': typeof SettingsRoute
-  '/wiki': typeof WikiRoute
+  '/guide': typeof GuideRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -310,11 +305,18 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/review': typeof ReviewRoute
   '/sdk': typeof SdkRoute
+  '/settings': typeof SettingsRoute
   '/sovereignty': typeof SovereigntyRoute
   '/studio': typeof StudioRoute
+  '/wiki': typeof WikiRoute
+  '/admin/memberships': typeof AdminMembershipsRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
+  '/api/guide': typeof ApiGuideRoute
+  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
@@ -324,20 +326,19 @@ export interface FileRoutesByTo {
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
-  '/api/billing/webhook': typeof ApiBillingWebhookRoute
-  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
-  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account-recovery': typeof AccountRecoveryRoute
+  '/atlas': typeof AtlasRoute
   '/audit': typeof AuditRoute
   '/auth': typeof AuthRoute
   '/auth-callback': typeof AuthCallbackRoute
+  '/billing': typeof BillingRoute
   '/exagon': typeof ExagonRoute
+  '/faq': typeof FaqRoute
   '/guide': typeof GuideRoute
-  '/atlas': typeof AtlasRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -346,11 +347,18 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/review': typeof ReviewRoute
   '/sdk': typeof SdkRoute
+  '/settings': typeof SettingsRoute
   '/sovereignty': typeof SovereigntyRoute
   '/studio': typeof StudioRoute
+  '/wiki': typeof WikiRoute
+  '/admin/memberships': typeof AdminMembershipsRoute
   '/api/agent': typeof ApiAgentRoute
   '/api/generation': typeof ApiGenerationRoute
+  '/api/guide': typeof ApiGuideRoute
+  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
   '/api/audiocore/advanced': typeof ApiAudiocoreAdvancedRoute
+  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
+  '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
@@ -360,26 +368,20 @@ export interface FileRoutesById {
   '/api/public/tamv/projects': typeof ApiPublicTamvProjectsRoute
   '/api/tamv/hypercore/audit': typeof ApiTamvHypercoreAuditRoute
   '/api/tamv/hypercore/metrics': typeof ApiTamvHypercoreMetricsRoute
-  '/api/billing/webhook': typeof ApiBillingWebhookRoute
-  '/api/billing/checkout': typeof ApiBillingCheckoutRoute
-  '/api/admin/memberships': typeof ApiAdminMembershipsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/account-recovery'
+    | '/atlas'
     | '/audit'
     | '/auth'
     | '/auth-callback'
-    | '/exagon'
-    | '/guide'
-    | '/atlas'
     | '/billing'
-    | '/admin/memberships'
+    | '/exagon'
     | '/faq'
-    | '/settings'
-    | '/wiki'
+    | '/guide'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -388,12 +390,18 @@ export interface FileRouteTypes {
     | '/research'
     | '/review'
     | '/sdk'
+    | '/settings'
     | '/sovereignty'
     | '/studio'
+    | '/wiki'
+    | '/admin/memberships'
     | '/api/agent'
     | '/api/generation'
     | '/api/guide'
+    | '/api/admin/memberships'
     | '/api/audiocore/advanced'
+    | '/api/billing/checkout'
+    | '/api/billing/webhook'
     | '/api/governance/receipts'
     | '/api/studio/metrics'
     | '/api/tamv/genesis'
@@ -403,27 +411,18 @@ export interface FileRouteTypes {
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
-    | '/api/billing/webhook'
-    | '/api/billing/checkout'
-    | '/api/admin/memberships'
-    | '/api/billing/webhook'
-    | '/api/billing/checkout'
-    | '/api/admin/memberships'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/account-recovery'
+    | '/atlas'
     | '/audit'
     | '/auth'
     | '/auth-callback'
-    | '/exagon'
-    | '/guide'
-    | '/atlas'
     | '/billing'
-    | '/admin/memberships'
+    | '/exagon'
     | '/faq'
-    | '/settings'
-    | '/wiki'
+    | '/guide'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -432,11 +431,18 @@ export interface FileRouteTypes {
     | '/research'
     | '/review'
     | '/sdk'
+    | '/settings'
     | '/sovereignty'
     | '/studio'
+    | '/wiki'
+    | '/admin/memberships'
     | '/api/agent'
     | '/api/generation'
+    | '/api/guide'
+    | '/api/admin/memberships'
     | '/api/audiocore/advanced'
+    | '/api/billing/checkout'
+    | '/api/billing/webhook'
     | '/api/governance/receipts'
     | '/api/studio/metrics'
     | '/api/tamv/genesis'
@@ -446,24 +452,18 @@ export interface FileRouteTypes {
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
-    | '/api/billing/webhook'
-    | '/api/billing/checkout'
-    | '/api/admin/memberships'
   id:
     | '__root__'
     | '/'
     | '/account-recovery'
+    | '/atlas'
     | '/audit'
     | '/auth'
     | '/auth-callback'
-    | '/exagon'
-    | '/guide'
-    | '/atlas'
     | '/billing'
-    | '/admin/memberships'
+    | '/exagon'
     | '/faq'
-    | '/settings'
-    | '/wiki'
+    | '/guide'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -472,11 +472,18 @@ export interface FileRouteTypes {
     | '/research'
     | '/review'
     | '/sdk'
+    | '/settings'
     | '/sovereignty'
     | '/studio'
+    | '/wiki'
+    | '/admin/memberships'
     | '/api/agent'
     | '/api/generation'
+    | '/api/guide'
+    | '/api/admin/memberships'
     | '/api/audiocore/advanced'
+    | '/api/billing/checkout'
+    | '/api/billing/webhook'
     | '/api/governance/receipts'
     | '/api/studio/metrics'
     | '/api/tamv/genesis'
@@ -486,21 +493,19 @@ export interface FileRouteTypes {
     | '/api/public/tamv/projects'
     | '/api/tamv/hypercore/audit'
     | '/api/tamv/hypercore/metrics'
-    | '/api/billing/webhook'
-    | '/api/billing/checkout'
-    | '/api/admin/memberships'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRecoveryRoute: typeof AccountRecoveryRoute
+  AtlasRoute: typeof AtlasRoute
   AuditRoute: typeof AuditRoute
   AuthRoute: typeof AuthRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  BillingRoute: typeof BillingRoute
   ExagonRoute: typeof ExagonRoute
+  FaqRoute: typeof FaqRoute
   GuideRoute: typeof GuideRoute
-  AtlasRoute: typeof AtlasRoute
-  AdminMembershipsRoute: typeof AdminMembershipsRoute
   HypercoreRoute: typeof HypercoreRoute
   IntegrationsRoute: typeof IntegrationsRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -509,13 +514,18 @@ export interface RootRouteChildren {
   ResearchRoute: typeof ResearchRoute
   ReviewRoute: typeof ReviewRoute
   SdkRoute: typeof SdkRoute
+  SettingsRoute: typeof SettingsRoute
   SovereigntyRoute: typeof SovereigntyRoute
   StudioRoute: typeof StudioRoute
+  WikiRoute: typeof WikiRoute
+  AdminMembershipsRoute: typeof AdminMembershipsRoute
   ApiAgentRoute: typeof ApiAgentRoute
   ApiGenerationRoute: typeof ApiGenerationRoute
   ApiGuideRoute: typeof ApiGuideRoute
-  ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
+  ApiAdminMembershipsRoute: typeof ApiAdminMembershipsRoute
   ApiAudiocoreAdvancedRoute: typeof ApiAudiocoreAdvancedRoute
+  ApiBillingCheckoutRoute: typeof ApiBillingCheckoutRoute
+  ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
   ApiGovernanceReceiptsRoute: typeof ApiGovernanceReceiptsRoute
   ApiStudioMetricsRoute: typeof ApiStudioMetricsRoute
   ApiTamvGenesisRoute: typeof ApiTamvGenesisRoute
@@ -525,9 +535,6 @@ export interface RootRouteChildren {
   ApiPublicTamvProjectsRoute: typeof ApiPublicTamvProjectsRoute
   ApiTamvHypercoreAuditRoute: typeof ApiTamvHypercoreAuditRoute
   ApiTamvHypercoreMetricsRoute: typeof ApiTamvHypercoreMetricsRoute
-  ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
-  ApiBillingCheckoutRoute: typeof ApiBillingCheckoutRoute
-  ApiAdminMembershipsRoute: typeof ApiAdminMembershipsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -544,6 +551,13 @@ declare module '@tanstack/react-router' {
       path: '/account-recovery'
       fullPath: '/account-recovery'
       preLoaderRoute: typeof AccountRecoveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atlas': {
+      id: '/atlas'
+      path: '/atlas'
+      fullPath: '/atlas'
+      preLoaderRoute: typeof AtlasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/audit': {
@@ -567,32 +581,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/exagon': {
-      id: '/exagon'
-      path: '/exagon'
-      fullPath: '/exagon'
-      preLoaderRoute: typeof ExagonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guide': {
-      id: '/guide'
-      path: '/guide'
-      fullPath: '/guide'
-      preLoaderRoute: typeof GuideRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/atlas': {
-      id: '/atlas'
-      path: '/atlas'
-      fullPath: '/atlas'
-      preLoaderRoute: typeof AtlasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/billing': {
       id: '/billing'
       path: '/billing'
       fullPath: '/billing'
       preLoaderRoute: typeof BillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exagon': {
+      id: '/exagon'
+      path: '/exagon'
+      fullPath: '/exagon'
+      preLoaderRoute: typeof ExagonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -602,18 +602,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/wiki': {
-      id: '/wiki'
-      path: '/wiki'
-      fullPath: '/wiki'
-      preLoaderRoute: typeof WikiRouteImport
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hypercore': {
@@ -672,6 +665,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SdkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sovereignty': {
       id: '/sovereignty'
       path: '/sovereignty'
@@ -684,6 +684,20 @@ declare module '@tanstack/react-router' {
       path: '/studio'
       fullPath: '/studio'
       preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wiki': {
+      id: '/wiki'
+      path: '/wiki'
+      fullPath: '/wiki'
+      preLoaderRoute: typeof WikiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/memberships': {
+      id: '/admin/memberships'
+      path: '/admin/memberships'
+      fullPath: '/admin/memberships'
+      preLoaderRoute: typeof AdminMembershipsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/agent': {
@@ -707,11 +721,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/billing/webhook': {
-      id: '/api/billing/webhook'
-      path: '/api/billing/webhook'
-      fullPath: '/api/billing/webhook'
-      preLoaderRoute: typeof ApiBillingWebhookRouteImport
+    '/api/admin/memberships': {
+      id: '/api/admin/memberships'
+      path: '/api/admin/memberships'
+      fullPath: '/api/admin/memberships'
+      preLoaderRoute: typeof ApiAdminMembershipsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/audiocore/advanced': {
@@ -719,6 +733,20 @@ declare module '@tanstack/react-router' {
       path: '/api/audiocore/advanced'
       fullPath: '/api/audiocore/advanced'
       preLoaderRoute: typeof ApiAudiocoreAdvancedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/billing/checkout': {
+      id: '/api/billing/checkout'
+      path: '/api/billing/checkout'
+      fullPath: '/api/billing/checkout'
+      preLoaderRoute: typeof ApiBillingCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/billing/webhook': {
+      id: '/api/billing/webhook'
+      path: '/api/billing/webhook'
+      fullPath: '/api/billing/webhook'
+      preLoaderRoute: typeof ApiBillingWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/governance/receipts': {
@@ -784,51 +812,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTamvHypercoreMetricsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/billing/webhook': {
-      id: '/api/billing/webhook'
-      path: '/api/billing/webhook'
-      fullPath: '/api/billing/webhook'
-      preLoaderRoute: typeof ApiBillingWebhookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/admin/memberships': {
-      id: '/api/admin/memberships'
-      path: '/api/admin/memberships'
-      fullPath: '/api/admin/memberships'
-      preLoaderRoute: typeof ApiAdminMembershipsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/memberships': {
-      id: '/admin/memberships'
-      path: '/admin/memberships'
-      fullPath: '/admin/memberships'
-      preLoaderRoute: typeof AdminMembershipsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/billing/checkout': {
-      id: '/api/billing/checkout'
-      path: '/api/billing/checkout'
-      fullPath: '/api/billing/checkout'
-      preLoaderRoute: typeof ApiBillingCheckoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRecoveryRoute: AccountRecoveryRoute,
+  AtlasRoute: AtlasRoute,
   AuditRoute: AuditRoute,
   AuthRoute: AuthRoute,
   AuthCallbackRoute: AuthCallbackRoute,
-  ExagonRoute: ExagonRoute,
-  GuideRoute: GuideRoute,
-  AtlasRoute: AtlasRoute,
   BillingRoute: BillingRoute,
-  AdminMembershipsRoute: AdminMembershipsRoute,
+  ExagonRoute: ExagonRoute,
   FaqRoute: FaqRoute,
-  SettingsRoute: SettingsRoute,
-  WikiRoute: WikiRoute,
+  GuideRoute: GuideRoute,
   HypercoreRoute: HypercoreRoute,
   IntegrationsRoute: IntegrationsRoute,
   MarketplaceRoute: MarketplaceRoute,
@@ -837,13 +834,18 @@ const rootRouteChildren: RootRouteChildren = {
   ResearchRoute: ResearchRoute,
   ReviewRoute: ReviewRoute,
   SdkRoute: SdkRoute,
+  SettingsRoute: SettingsRoute,
   SovereigntyRoute: SovereigntyRoute,
   StudioRoute: StudioRoute,
+  WikiRoute: WikiRoute,
+  AdminMembershipsRoute: AdminMembershipsRoute,
   ApiAgentRoute: ApiAgentRoute,
   ApiGenerationRoute: ApiGenerationRoute,
   ApiGuideRoute: ApiGuideRoute,
-  ApiBillingWebhookRoute: ApiBillingWebhookRoute,
+  ApiAdminMembershipsRoute: ApiAdminMembershipsRoute,
   ApiAudiocoreAdvancedRoute: ApiAudiocoreAdvancedRoute,
+  ApiBillingCheckoutRoute: ApiBillingCheckoutRoute,
+  ApiBillingWebhookRoute: ApiBillingWebhookRoute,
   ApiGovernanceReceiptsRoute: ApiGovernanceReceiptsRoute,
   ApiStudioMetricsRoute: ApiStudioMetricsRoute,
   ApiTamvGenesisRoute: ApiTamvGenesisRoute,
@@ -853,9 +855,6 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicTamvProjectsRoute: ApiPublicTamvProjectsRoute,
   ApiTamvHypercoreAuditRoute: ApiTamvHypercoreAuditRoute,
   ApiTamvHypercoreMetricsRoute: ApiTamvHypercoreMetricsRoute,
-  ApiBillingWebhookRoute: ApiBillingWebhookRoute,
-  ApiBillingCheckoutRoute: ApiBillingCheckoutRoute,
-  ApiAdminMembershipsRoute: ApiAdminMembershipsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
