@@ -17,6 +17,10 @@ import { Route as AuthCallbackRouteImport } from './routes/auth-callback'
 import { Route as ExagonRouteImport } from './routes/exagon'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as AtlasRouteImport } from './routes/atlas'
+import { Route as BillingRouteImport } from './routes/billing'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as WikiRouteImport } from './routes/wiki'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -79,6 +83,26 @@ const GuideRoute = GuideRouteImport.update({
 const AtlasRoute = AtlasRouteImport.update({
   id: '/atlas',
   path: '/atlas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BillingRoute = BillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WikiRoute = WikiRouteImport.update({
+  id: '/wiki',
+  path: '/wiki',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HypercoreRoute = HypercoreRouteImport.update({
@@ -206,6 +230,10 @@ export interface FileRoutesByFullPath {
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
   '/atlas': typeof AtlasRoute
+  '/billing': typeof BillingRoute
+  '/faq': typeof FaqRoute
+  '/settings': typeof SettingsRoute
+  '/wiki': typeof WikiRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -238,6 +266,10 @@ export interface FileRoutesByTo {
   '/auth-callback': typeof AuthCallbackRoute
   '/exagon': typeof ExagonRoute
   '/guide': typeof GuideRoute
+  '/billing': typeof BillingRoute
+  '/faq': typeof FaqRoute
+  '/settings': typeof SettingsRoute
+  '/wiki': typeof WikiRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -483,6 +515,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AtlasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/billing': {
+      id: '/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof BillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wiki': {
+      id: '/wiki'
+      path: '/wiki'
+      fullPath: '/wiki'
+      preLoaderRoute: typeof WikiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hypercore': {
       id: '/hypercore'
       path: '/hypercore'
@@ -656,6 +716,10 @@ const rootRouteChildren: RootRouteChildren = {
   ExagonRoute: ExagonRoute,
   GuideRoute: GuideRoute,
   AtlasRoute: AtlasRoute,
+  BillingRoute: BillingRoute,
+  FaqRoute: FaqRoute,
+  SettingsRoute: SettingsRoute,
+  WikiRoute: WikiRoute,
   HypercoreRoute: HypercoreRoute,
   IntegrationsRoute: IntegrationsRoute,
   MarketplaceRoute: MarketplaceRoute,
