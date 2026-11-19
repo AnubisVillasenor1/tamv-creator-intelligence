@@ -37,7 +37,9 @@ export const Route = createFileRoute("/api/admin/memberships")({
 
         let user: { id?: unknown; app_metadata?: unknown };
         try {
-          user = JSON.parse(await readBoundedResponseText(identityResponse, 16 * 1024)) as { id?: unknown; app_metadata?: unknown };
+          const identityText = await readBoundedResponseText(identityResponse, 16 * 1024);
+          if (identityText === null) throw new Error("Identity response exceeds limit");
+          user = JSON.parse(identityText) as { id?: unknown; app_metadata?: unknown };
         } catch {
           return errorResponse("Respuesta de identidad inválida.", 503, "ADMIN_IDENTITY_INVALID");
         }
@@ -73,7 +75,9 @@ export const Route = createFileRoute("/api/admin/memberships")({
           return errorResponse("No fue posible consultar el resumen de membresías.", 503, "ADMIN_SUMMARY_FAILED");
         }
         try {
-          const summary = JSON.parse(await readBoundedResponseText(summaryResponse, 8 * 1024)) as unknown;
+          const summaryText = await readBoundedResponseText(summaryResponse, 8 * 1024);
+          if (summaryText === null) throw new Error("Summary response exceeds limit");
+          const summary = JSON.parse(summaryText) as unknown;
           if (!summary || typeof summary !== "object" || Array.isArray(summary)) throw new Error("Invalid summary");
           return Response.json({ summary }, { headers: noStore });
         } catch {
