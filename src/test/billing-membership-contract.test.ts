@@ -24,3 +24,15 @@ describe("billing membership database contract", () => {
     expect(sql).toContain("Stripe event id reused with different payload");
   });
 });
+
+
+describe("billing checkout entitlement guard", () => {
+  it("checks the server-authoritative membership state before calling Stripe", async () => {
+    const source = await readFile(resolve(process.cwd(), "src/routes/api.billing.checkout.ts"), "utf8");
+    expect(source).toContain("SUPABASE_SERVICE_ROLE_KEY");
+    expect(source).toContain("/rest/v1/tamv_memberships");
+    expect(source).toContain("BILLING_CHECKOUT_MEMBERSHIP_CHECK_FAILED");
+    expect(source).toContain("BILLING_CHECKOUT_SUBSCRIPTION_EXISTS");
+    expect(source).toContain('"canceled", "incomplete_expired"');
+  });
+});
