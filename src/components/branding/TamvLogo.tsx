@@ -3,11 +3,12 @@
  *
  * Se sirve desde `public/brand/` para que funcione igual en desarrollo y en
  * cualquier hosting estático. La variante `full` es para el hero y la `compact`
- * para navegación, acceso y pie de página.
+ * para navegación, acceso y pie de página. Ambas usan el colibrí holográfico
+ * orbital y conservan su proporción dentro de los contenedores cuadrados.
  */
 const LOGO_SOURCES = {
-  full: "/brand/tamv-online-logo-512.jpg",
-  compact: "/brand/tamv-online-logo-192.jpg",
+  full: "/brand/tamv-colibri-orbital-512.png",
+  compact: "/brand/tamv-colibri-orbital-192.png",
 } as const;
 
 type TamvLogoProps = {
@@ -31,6 +32,7 @@ export function TamvLogo({
       width={size}
       height={size}
       className={className}
+      style={{ objectFit: "contain" }}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
     />

@@ -1409,28 +1409,28 @@ button:disabled {
 }
 
 
-/* TAMV Crystal Glass / Matrix identity — restrained platinum, electric blue and ion pink. */
-.tamv-matrix-banner{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:22px;min-height:102px;margin:0 0 26px;padding:22px clamp(20px,3vw,34px);border:1px solid transparent;border-radius:16px;background:linear-gradient(115deg,#07101d 0%,#0c1830 45%,#151023 100%) padding-box,linear-gradient(105deg,#e9e5f1,#4b9cff 34%,#f45fcb 66%,#f8f6ff) border-box;box-shadow:inset 0 1px 0 #ffffff22,0 18px 44px #02061730;backdrop-filter:blur(24px) saturate(145%)}
-.tamv-matrix-banner:before{content:"";position:absolute;inset:-45% -10%;z-index:-1;background:repeating-linear-gradient(90deg,transparent 0 17px,#55a8ff16 18px 19px,#e9a5ff12 20px 21px,transparent 22px 32px);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 85%,transparent);animation:tamv-matrix-drift 22s linear infinite}
+/* TAMV Crystal Glass / Matrix identity — restrained platinum, electric blue and champagne gold. */
+.tamv-matrix-banner{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:22px;min-height:102px;margin:0 0 26px;padding:22px clamp(20px,3vw,34px);border:1px solid transparent;border-radius:16px;background:linear-gradient(115deg,#07101d 0%,#0c1830 45%,#151023 100%) padding-box,linear-gradient(105deg,#e9e5f1,#4b9cff 34%,#d4af37 66%,#f8f6ff) border-box;box-shadow:inset 0 1px 0 #ffffff22,0 18px 44px #02061730;backdrop-filter:blur(24px) saturate(145%)}
+.tamv-matrix-banner:before{content:"";position:absolute;inset:-45% -10%;z-index:-1;background:repeating-linear-gradient(90deg,transparent 0 17px,#55a8ff16 18px 19px,#d4af3712 20px 21px,transparent 22px 32px);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 85%,transparent);animation:tamv-matrix-drift 22s linear infinite}
 .tamv-matrix-banner:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 12%,#ffffff09 31%,transparent 46%,#6eaaff0a 65%,transparent 80%);mix-blend-mode:screen}
 .matrix-code{position:absolute;inset:-12px auto -12px 5%;width:48%;overflow:hidden;color:#65e8d0;font:500 10px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.28em;opacity:.18;transform:rotate(-5deg);user-select:none;white-space:nowrap}
-.matrix-brand{position:relative;display:flex;flex-direction:column;gap:5px;padding-left:18px;border-left:2px solid transparent;border-image:linear-gradient(180deg,#f5f1ff,#49a6ff,#ff70d5) 1}
+.matrix-brand{position:relative;display:flex;flex-direction:column;gap:5px;padding-left:18px;border-left:2px solid transparent;border-image:linear-gradient(180deg,#f5f1ff,#49a6ff,#d4af37) 1}
 .matrix-brand>span:nth-child(2){font:650 clamp(16px,2vw,24px)/1.2 var(--font-display);letter-spacing:.14em;color:#f7f5ff;text-shadow:0 0 24px #8ac9ff30}
 .matrix-brand small{font-size:9px;letter-spacing:.2em;color:#b8c6dc}
-.matrix-live-dot{position:absolute;left:-5px;top:3px;width:8px;height:8px;border-radius:50%;background:#ff78d5;box-shadow:0 0 14px #ff78d5;animation:tamv-pulse 2.8s ease-in-out infinite}
+.matrix-live-dot{position:absolute;left:-5px;top:3px;width:8px;height:8px;border-radius:50%;background:#d4af37;box-shadow:0 0 14px #d4af37;animation:tamv-pulse 2.8s ease-in-out infinite}
 .matrix-index{position:relative;color:#a8b8d3;font:600 9px/1.7 ui-monospace,monospace;letter-spacing:.12em;text-align:right}
-.workspace-hero{border-color:color-mix(in oklch,var(--signal) 30%,var(--border));background:radial-gradient(ellipse at 82% 42%,#5b9dff20,transparent 40%),radial-gradient(ellipse at 72% 88%,#f36bd414,transparent 38%),linear-gradient(135deg,color-mix(in oklch,var(--card) 78%,#111d34),color-mix(in oklch,var(--hero) 86%,#172033));box-shadow:inset 0 1px 0 #ffffff17,0 28px 70px #02061726}
+.workspace-hero{border-color:color-mix(in oklch,var(--signal) 30%,var(--border));background:radial-gradient(ellipse at 82% 42%,#5b9dff20,transparent 40%),radial-gradient(ellipse at 72% 88%,#d4af3714,transparent 38%),linear-gradient(135deg,color-mix(in oklch,var(--card) 78%,#111d34),color-mix(in oklch,var(--hero) 86%,#172033));box-shadow:inset 0 1px 0 #ffffff17,0 28px 70px #02061726}
 .hero-orchestration{perspective:1100px;transform-style:preserve-3d;overflow:hidden}
-.orbit{width:300px;height:300px;border:1px solid transparent;background:linear-gradient(transparent,transparent) padding-box,linear-gradient(135deg,#f5f0ffb8,#3f9dffad,#fb67d8a8,#ffffffad) border-box;box-shadow:inset 0 0 22px #86baff08,0 0 18px #7bbcff0a;transform-style:preserve-3d;animation:tamv-orbit-rotate 18s linear infinite}
+.orbit{width:300px;height:300px;border:1px solid transparent;background:linear-gradient(transparent,transparent) padding-box,linear-gradient(135deg,#f5f0ffb8,#3f9dffad,#d4af3790,#ffffffad) border-box;box-shadow:inset 0 0 22px #86baff08,0 0 18px #7bbcff0a;transform-style:preserve-3d;animation:tamv-orbit-rotate 18s linear infinite}
 .orbit-one{transform:rotate(-24deg) rotateX(62deg);border-radius:50%}
 .orbit-two{width:350px;height:350px;border-style:solid;opacity:.78;transform:rotate(36deg) rotateX(65deg);animation-duration:26s;animation-direction:reverse}
-.orbit-three,.orbit-four,.orbit-five{position:absolute;border-radius:50%;border:1px solid transparent;background:linear-gradient(transparent,transparent) padding-box,linear-gradient(110deg,#dfe6ffb5,#409fff9e,#fb72d8a3,#ffffffa8) border-box;pointer-events:none}
+.orbit-three,.orbit-four,.orbit-five{position:absolute;border-radius:50%;border:1px solid transparent;background:linear-gradient(transparent,transparent) padding-box,linear-gradient(110deg,#dfe6ffb5,#409fff9e,#d4af378f,#ffffffa8) border-box;pointer-events:none}
 .orbit-three{width:270px;height:350px;transform:rotateY(68deg) rotateZ(22deg);animation:tamv-orbit-rotate 24s linear infinite}
 .orbit-four{width:360px;height:245px;transform:rotateX(72deg) rotateZ(-42deg);opacity:.62;animation:tamv-orbit-rotate 30s linear infinite reverse}
 .orbit-five{width:205px;height:355px;transform:rotateY(72deg) rotateZ(-30deg);opacity:.55;animation:tamv-orbit-rotate 36s linear infinite}
 .atom-halo{position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#d8eaff20 0%,#8bc7ff0b 42%,transparent 72%);box-shadow:0 0 55px #a9cfff18;filter:blur(2px)}
-.atom-particle{position:absolute;z-index:3;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff 0%,#c8e4ff 32%,#519dff 70%,#f36bdb 100%);box-shadow:0 0 12px #8fcaffb0,0 0 24px #e88ce855}
-.particle-one{top:21%;left:35%}.particle-two{top:34%;right:16%;width:5px;height:5px;background:#ff82dc;box-shadow:0 0 15px #ff82dc}.particle-three{bottom:23%;left:26%;width:6px;height:6px}.particle-four{top:14%;right:33%;width:4px;height:4px}.particle-five{bottom:17%;right:28%;width:5px;height:5px;background:#f3f0ff}.particle-six{top:51%;left:14%;width:4px;height:4px;background:#ff80dc}
+.atom-particle{position:absolute;z-index:3;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff 0%,#c8e4ff 32%,#519dff 70%,#d4af37 100%);box-shadow:0 0 12px #8fcaffb0,0 0 24px #d4af3755}
+.particle-one{top:21%;left:35%}.particle-two{top:34%;right:16%;width:5px;height:5px;background:#d4af37;box-shadow:0 0 15px #d4af37}.particle-three{bottom:23%;left:26%;width:6px;height:6px}.particle-four{top:14%;right:33%;width:4px;height:4px}.particle-five{bottom:17%;right:28%;width:5px;height:5px;background:#f3f0ff}.particle-six{top:51%;left:14%;width:4px;height:4px;background:#d4af37}
 .orbit-center{position:relative;z-index:4;width:166px;height:166px;border-radius:50%;border:1px solid #dbe8ff90;background:linear-gradient(145deg,#ffffff1c,#c5dfff09 46%,#6a9bd51b);backdrop-filter:blur(22px) saturate(160%);box-shadow:inset 0 1px 0 #ffffff50,inset 0 -12px 24px #72aaff0c,0 0 0 7px #c5dcff08,0 0 48px #80baff25,0 22px 55px #02061755;transform:translateZ(36px)}
 .orbit-center:before{content:"";position:absolute;inset:8px;border:1px solid #f2efff38;border-radius:50%;pointer-events:none}
 .orbit-label{border-color:#b8cfff42;background:linear-gradient(135deg,#ffffff20,#a4caff0c);backdrop-filter:blur(22px) saturate(150%);box-shadow:inset 0 1px 0 #ffffff30,0 16px 35px #02061740;color:var(--foreground)}
@@ -1442,7 +1442,7 @@ button:disabled {
 .govern-topbar{background:color-mix(in oklch,var(--background) 72%,transparent);backdrop-filter:blur(24px) saturate(140%)}
 @keyframes tamv-matrix-drift{from{transform:translateX(0) rotate(-5deg)}to{transform:translateX(-24px) rotate(-5deg)}}
 @keyframes tamv-pulse{0%,100%{opacity:.7;transform:scale(.86)}50%{opacity:1;transform:scale(1.16)}}
-@keyframes tamv-orbit-rotate{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(28deg)}}
+@keyframes tamv-orbit-rotate{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(6deg)}}
 @media(max-width:800px){.tamv-matrix-banner{min-height:88px;padding:18px}.matrix-index{display:none}.matrix-code{width:90%;left:10%;font-size:8px}.hero-orchestration{display:grid;min-height:300px}.orbit-two{width:280px;height:280px}.orbit-three{width:220px;height:280px}.orbit-four{width:290px;height:200px}.orbit-five{width:170px;height:290px}.orbit-center{width:130px;height:130px}.orbit-center img{width:48px;height:48px}}
 @media(max-width:480px){.tamv-matrix-banner{margin-bottom:18px}.matrix-brand>span:nth-child(2){font-size:15px;letter-spacing:.08em}.matrix-brand small{font-size:7px;letter-spacing:.1em}.hero-orchestration{min-height:270px}.orbit-one{width:220px;height:220px}.orbit-two{width:260px;height:260px}.orbit-three{width:190px;height:245px}.orbit-four{width:250px;height:170px}.orbit-five{width:150px;height:250px}.atom-particle{width:5px;height:5px}}
 @media(prefers-reduced-motion:reduce){.tamv-matrix-banner:before,.matrix-live-dot,.orbit{animation:none!important}.connector-card:hover,.action-card:hover{transform:none}}
@@ -1473,7 +1473,7 @@ button:disabled {
   position: absolute;
   inset: 0 auto 0 0;
   width: 2px;
-  background: linear-gradient(180deg, #f4f6fa, #79bfff 35%, #e9a8d0 68%, #f4f6fa);
+  background: linear-gradient(180deg, #f4f6fa, #79bfff 35%, #d4af37 68%, #f4f6fa);
   opacity: .9;
 }
 .executive-principles-heading {
@@ -1683,7 +1683,7 @@ button:disabled {
 :root {
   --tamv-platinum: oklch(0.91 0.018 255);
   --tamv-electric-blue: oklch(0.73 0.13 245);
-  --tamv-ion-pink: oklch(0.74 0.16 335);
+  --tamv-champagne-gold: oklch(0.83 0.11 86);
   --tamv-surface-glass: color-mix(in oklch, var(--card) 88%, transparent);
   --tamv-content-width: 1680px;
 }
@@ -1734,8 +1734,8 @@ body { text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; 
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #f27ed2;
-  box-shadow: 0 0 12px #f27ed2;
+  background: #d4af37;
+  box-shadow: 0 0 12px #d4af37;
 }
 .topbar-location { gap: 9px; }
 .topbar-actions { gap: 7px; }
@@ -1789,7 +1789,7 @@ body { text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; 
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(125deg, #ffffff08, transparent 34%, #8bc6ff08 74%, #f77de508);
+  background: linear-gradient(125deg, #ffffff08, transparent 34%, #8bc6ff08 74%, #d4af3708);
 }
 .hero-editorial { padding: clamp(24px, 3vw, 44px); }
 .hero-editorial h2 { max-width: 15ch; line-height: 1.08; }
@@ -1904,7 +1904,7 @@ pre { max-width: 100%; overflow-x: auto; }
 :root[data-workspace-theme="light"] .workspace-hero {
   background:
     radial-gradient(ellipse at 84% 34%, #4b9dff13, transparent 44%),
-    radial-gradient(ellipse at 74% 94%, #e45ecb0d, transparent 40%),
+    radial-gradient(ellipse at 74% 94%, #d4af370d, transparent 40%),
     linear-gradient(130deg, #ffffff, #f0f5fb);
 }
 :root[data-workspace-theme="light"] .hero-editorial h2 { color: oklch(.23 .03 257); }
@@ -1979,7 +1979,7 @@ pre { max-width: 100%; overflow-x: auto; }
   padding: clamp(20px, 5vw, 64px);
   background:
     radial-gradient(ellipse at 18% 10%, color-mix(in oklch, var(--signal) 12%, transparent), transparent 42%),
-    radial-gradient(ellipse at 86% 90%, color-mix(in oklch, var(--tamv-ion-pink) 8%, transparent), transparent 38%),
+    radial-gradient(ellipse at 86% 90%, color-mix(in oklch, var(--tamv-champagne-gold) 8%, transparent), transparent 38%),
     var(--background);
 }
 .tamv-system-state-card {
@@ -2000,12 +2000,12 @@ pre { max-width: 100%; overflow-x: auto; }
   left: 15%;
   right: 15%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--tamv-platinum), var(--tamv-electric-blue), var(--tamv-ion-pink), transparent);
+  background: linear-gradient(90deg, transparent, var(--tamv-platinum), var(--tamv-electric-blue), var(--tamv-champagne-gold), transparent);
 }
 .tamv-system-state-code {
   margin: 0;
   color: transparent;
-  background: linear-gradient(100deg, var(--tamv-platinum), var(--tamv-electric-blue) 52%, var(--tamv-ion-pink));
+  background: linear-gradient(100deg, var(--tamv-platinum), var(--tamv-electric-blue) 52%, var(--tamv-champagne-gold));
   background-clip: text;
   font: 700 clamp(64px, 12vw, 100px)/1 var(--font-display);
   letter-spacing: -.07em;
