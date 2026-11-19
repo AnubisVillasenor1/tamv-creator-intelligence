@@ -11,7 +11,7 @@ const topics = [
   { title: "Atlas y catálogo de skills", description: "Distingue contratos implementados de blueprints que aún requieren desarrollo.", href: "/atlas", icon: GitBranch },
   { title: "Seguridad y gobernanza", description: "Autenticación, permisos mínimos, datos sensibles y supervisión humana.", href: "/sovereignty", icon: ShieldCheck },
   { title: "Operación y diagnóstico", description: "Pruebas, errores conocidos, evidencia y límites de despliegue.", href: "/hypercore", icon: Wrench },
-];
+] as const;
 
 function WikiPage() {
   return <div className="mx-auto w-full max-w-6xl space-y-8 p-4 md:p-8">
