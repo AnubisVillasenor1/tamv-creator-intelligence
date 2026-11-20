@@ -1,6 +1,7 @@
 ---
 name: tamv-privacy-minimization
 description: Minimizar datos antes de enviarlos a servicios externos. Activar cuando se solicita privacidad para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Privacidad
 

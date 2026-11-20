@@ -130,6 +130,13 @@ export async function handleAgentOrchestration(
     return mapAgentError(error);
   }
 
+  // Never let the client attribute consent to another actor or invent a scope.
+  const allowedConsentScopes = new Set(["agent.orchestration", "audio.production"]);
+  if (!allowedConsentScopes.has(plan.consent.scope)) {
+    return jsonError("El alcance del consentimiento no corresponde a esta capacidad.", 403, "TAMV_AGENT_CONSENT_SCOPE_INVALID");
+  }
+  plan.consent.subject = identity.actorRef;
+
   for (const step of plan.steps) {
     if (step.tool !== "audio.render") continue;
     const input = step.input as { durationSeconds?: unknown; format?: unknown };
@@ -204,6 +211,8 @@ export async function handleAgentOrchestration(
         disclosure: {
           ...result.disclosure,
           actorRef: identity.actorRef,
+          consentSubject: plan.consent.subject,
+          consentScope: plan.consent.scope,
           quota: { source: quota.source, remainingToday: quota.remainingToday },
         },
         limits: {

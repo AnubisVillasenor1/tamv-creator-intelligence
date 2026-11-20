@@ -1,6 +1,7 @@
 ---
 name: tamv-consent-ledger
 description: Verificar alcance, vigencia y revocación de permisos. Activar cuando se solicita consentimiento para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Consentimiento
 

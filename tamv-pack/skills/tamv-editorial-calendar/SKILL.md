@@ -1,6 +1,7 @@
 ---
 name: tamv-editorial-calendar
 description: Planificar publicaciones sin automatizar su publicación. Activar cuando se solicita calendario editorial para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Calendario editorial
 

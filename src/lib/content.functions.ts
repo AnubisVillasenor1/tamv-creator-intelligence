@@ -44,13 +44,16 @@ export const reviewContent = createServerFn({ method: "POST" })
       throw jsonError(401, { error: "TAMV_AUTH_REQUIRED", reason: "UNAUTHENTICATED" });
     }
 
-    const { requireTamvCertification } = await import("./tamv-certification");
+    const { requireTamvCertification, getTamvCertification } = await import("./tamv-certification");
     const blockedResponse = await requireTamvCertification("creator.review");
     if (blockedResponse) throw blockedResponse;
+    const certification = await getTamvCertification();
+    // `consent` remains a user declaration: there is no authenticated consent
+    // ledger in this repository. It is never upgraded to verified consent here.
     const governance = authorizeGovernedCapability({
       capability: "creator.review",
-      consentGranted: data.consent === true,
-      certificationValid: true,
+      consentGranted: data.consent === true && certification.certified,
+      certificationValid: certification.certified,
     });
     if (!governance.allowed) {
       throw jsonError(403, { error: "TAMV_GOVERNANCE_DENIED", reason: governance.reasonCode });

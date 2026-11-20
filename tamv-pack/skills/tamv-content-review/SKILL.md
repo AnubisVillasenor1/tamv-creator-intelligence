@@ -1,6 +1,7 @@
 ---
 name: tamv-content-review
 description: Revisar un borrador según audiencia, canal y objetivo. Activar cuando se solicita revisión de contenido para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Revisión de contenido
 

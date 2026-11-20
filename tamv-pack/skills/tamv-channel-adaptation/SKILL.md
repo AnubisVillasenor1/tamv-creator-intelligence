@@ -1,6 +1,7 @@
 ---
 name: tamv-channel-adaptation
 description: Adaptar contenido propio a restricciones del canal. Activar cuando se solicita adaptación por canal para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Adaptación por canal
 

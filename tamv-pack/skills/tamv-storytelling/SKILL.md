@@ -1,6 +1,7 @@
 ---
 name: tamv-storytelling
 description: Transformar una idea original en un relato coherente. Activar cuando se solicita narrativa para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Narrativa
 

@@ -62,7 +62,9 @@ def validate() -> None:
         if "TAMV ONLINE NETWORK" not in body:
             fail(f"Falta atribución en {skill}")
         # Existing contracts use Markdown headings instead of frontmatter.
-        if body.startswith("---\n"):
+        if not re.search(r"(?m)^license:\s*AGPL-3\.0-only\s*$", body):
+            fail(f"Falta license: AGPL-3.0-only en {skill}")
+        if body.startswith("---\n") or body.startswith("---\r\n"):
             name_match = re.search(r"(?m)^name:\s*([a-z0-9-]+)\s*$", body)
             if not name_match or name_match.group(1) != skill:
                 fail(f"Frontmatter inconsistente en {skill}")

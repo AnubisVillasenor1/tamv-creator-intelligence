@@ -1,6 +1,7 @@
 ---
 name: tamv-metadata-provenance
 description: Registrar origen y hash sin exponer contenido privado. Activar cuando se solicita procedencia para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Procedencia
 

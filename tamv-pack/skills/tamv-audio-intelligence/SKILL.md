@@ -5,6 +5,7 @@ metadata:
   version: "1.0.0"
   status: PROPOSED
   requires-consent-for: voice.biometrics, music.generation
+license: AGPL-3.0-only
 ---
 
 # TAMV Audio Intelligence

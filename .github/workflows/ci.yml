@@ -118,6 +118,11 @@ jobs:
       - name: Typecheck source
         run: bun run typecheck
 
+      - name: Gate approved release digest
+        env:
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
+        run: bun run tamv:digest-gate
+
       - name: Validate TAMV pack and skill contracts
         run: bun run tamv:check
 

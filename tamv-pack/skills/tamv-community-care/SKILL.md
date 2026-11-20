@@ -1,6 +1,7 @@
 ---
 name: tamv-community-care
 description: Preparar respuestas respetuosas y escalar casos sensibles. Activar cuando se solicita comunidad para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Comunidad
 

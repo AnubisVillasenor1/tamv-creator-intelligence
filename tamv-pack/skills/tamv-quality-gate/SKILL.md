@@ -1,6 +1,7 @@
 ---
 name: tamv-quality-gate
 description: Validar entregables contra contratos y criterios verificables. Activar cuando se solicita control de calidad para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Control de calidad
 

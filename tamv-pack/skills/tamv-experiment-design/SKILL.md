@@ -1,6 +1,7 @@
 ---
 name: tamv-experiment-design
 description: Diseñar experimentos medibles sin manipular métricas. Activar cuando se solicita experimentos para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Experimentos
 

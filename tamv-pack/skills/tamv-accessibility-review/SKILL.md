@@ -1,6 +1,7 @@
 ---
 name: tamv-accessibility-review
 description: Revisar lectura, subtítulos y alternativas accesibles. Activar cuando se solicita accesibilidad para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Accesibilidad
 

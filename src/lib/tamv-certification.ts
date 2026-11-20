@@ -23,6 +23,20 @@ import hyperCoreParallelRunnerSource from "./hypercore-turbo/parallel-runner.ts?
 import verifySlsaScriptSource from "../../scripts/verify-slsa.sh?raw";
 import hyperCorePageSource from "../routes/hypercore.tsx?raw";
 import { TAMV_CANONICAL_ATTRIBUTION } from "./tamv-attribution";
+import { canonicalizeTamvJson } from "./tamv-canonical-json";
+import {
+  configuredAttributionKeyId,
+  decodeSpkiPem,
+  isValidKeyId,
+  normalizeKeyId,
+  spkiKeyId,
+} from "./tamv-trust-anchors";
+import {
+  TAMV_PREMIUM_FEATURES,
+  verifyFeatureApproval,
+  type FeatureApprovalStatus,
+  type TamvPremiumFeature,
+} from "./tamv-feature-approval";
 
 export const TAMV_EXPECTED_ATTRIBUTION =
   "Proyecto impulsado con colaboración de tecnología latinoamericana TAMV ONLINE NETWORK Orgullosamente Realmontenses.";
@@ -63,12 +77,15 @@ export type TamvCertificationStatus =
   | "signing-key-missing"
   | "signature-invalid"
   | "release-not-approved"
+  | "trust-anchor-missing"
   | "crypto-unavailable";
 
 export interface TamvCertification {
   status: TamvCertificationStatus;
   certified: boolean;
   premiumFeaturesEnabled: boolean;
+  approvedFeatures: TamvPremiumFeature[];
+  featureApprovalStatus: FeatureApprovalStatus | "not-evaluated";
   reason: string;
   checkedAt: string;
 }
@@ -178,30 +195,8 @@ function asManifest(value: unknown): TamvAttributionManifest | null {
   return value as unknown as TamvAttributionManifest;
 }
 
-function canonicalJson(value: unknown): string {
-  if (value === null || typeof value === "string" || typeof value === "boolean") {
-    return JSON.stringify(value) ?? "null";
-  }
-  if (typeof value === "number") {
-    if (!Number.isFinite(value)) throw new Error("Número no válido en el manifest.");
-    return JSON.stringify(value) ?? "null";
-  }
-  if (Array.isArray(value)) return "[" + value.map((entry) => canonicalJson(entry)).join(",") + "]";
-  if (isRecord(value)) {
-    return (
-      "{" +
-      Object.keys(value)
-        .sort()
-        .map((key) => JSON.stringify(key) + ":" + canonicalJson(value[key]))
-        .join(",") +
-      "}"
-    );
-  }
-  throw new Error("El manifest contiene un tipo no admitido.");
-}
-
 export function canonicalizeTamvManifest(value: unknown): string {
-  return canonicalJson(value);
+  return canonicalizeTamvJson(value);
 }
 
 function bytesToHex(bytes: Uint8Array): string {
@@ -218,17 +213,6 @@ function decodeBase64Url(value: string): Uint8Array<ArrayBuffer> {
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
-function decodePublicKeyPem(pem: string): Uint8Array<ArrayBuffer> {
-  const normalized = pem.replace(/\\n/g, "\n").trim();
-  const match = normalized.match(/-----BEGIN PUBLIC KEY-----([\s\S]+?)-----END PUBLIC KEY-----/);
-  if (!match) throw new Error("TAMV_ATTRIBUTION_PUBLIC_KEY debe ser una clave pública PEM SPKI.");
-  const content = match[1];
-  if (!content) throw new Error("La clave pública PEM está vacía.");
-  const base64 = content.replace(/\s/g, "");
-  const binary = atob(base64);
-  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
-}
-
 async function sha256Hex(value: string, provider: Crypto): Promise<string> {
   const digest = await provider.subtle.digest("SHA-256", encoder.encode(value));
   return bytesToHex(new Uint8Array(digest));
@@ -239,14 +223,26 @@ function fail(
   reason: string,
   checkedAt: string,
 ): TamvCertification {
-  return { status, certified: false, premiumFeaturesEnabled: false, reason, checkedAt };
+  return {
+    status,
+    certified: false,
+    premiumFeaturesEnabled: false,
+    approvedFeatures: [],
+    featureApprovalStatus: "not-evaluated",
+    reason,
+    checkedAt,
+  };
 }
 
 export interface VerifyTamvCertificationOptions {
   manifest?: unknown;
   signature?: string;
   publicKeyPem?: string;
+  expectedKeyId?: string;
   approvedManifestSha256?: string;
+  approvalReceipt?: unknown;
+  approvalPublicKeyPem?: string;
+  approvalExpectedKeyId?: string;
   sourceFiles?: Record<string, string>;
   cryptoProvider?: Crypto;
   now?: Date;
@@ -427,6 +423,15 @@ export async function verifyTamvCertification(
     );
   }
 
+  const expectedKeyId = normalizeKeyId(options.expectedKeyId ?? configuredAttributionKeyId());
+  if (!isValidKeyId(expectedKeyId)) {
+    return fail(
+      "trust-anchor-missing",
+      "No está configurado TAMV_ATTRIBUTION_EXPECTED_KEY_ID; una clave cambiada no puede detectarse.",
+      checkedAt,
+    );
+  }
+
   try {
     const signatureBytes = decodeBase64Url(signature);
     if (signatureBytes.byteLength !== 64) {
@@ -436,9 +441,16 @@ export async function verifyTamvCertification(
         checkedAt,
       );
     }
+    if ((await spkiKeyId(publicKeyPem, provider)) !== expectedKeyId) {
+      return fail(
+        "signature-invalid",
+        "La clave pública no coincide con el ancla de confianza TAMV anclada.",
+        checkedAt,
+      );
+    }
     const publicKey = await provider.subtle.importKey(
       "spki",
-      decodePublicKeyPem(publicKeyPem),
+      decodeSpkiPem(publicKeyPem),
       { name: "Ed25519" },
       false,
       ["verify"],
@@ -447,7 +459,7 @@ export async function verifyTamvCertification(
       { name: "Ed25519" },
       publicKey,
       signatureBytes,
-      encoder.encode(canonicalJson(manifest)),
+      encoder.encode(canonicalizeTamvJson(manifest)),
     );
     if (!verified) {
       return fail(
@@ -464,15 +476,13 @@ export async function verifyTamvCertification(
     );
   }
 
+  const manifestDigest = "sha256:" + (await sha256Hex(canonicalizeTamvJson(manifest), provider));
   const approvedDigest =
     options.approvedManifestSha256 ??
     (typeof process !== "undefined" ? process.env?.["TAMV_RELEASE_MANIFEST_SHA256"] : undefined) ??
     import.meta.env?.["VITE_TAMV_RELEASE_MANIFEST_SHA256"] ??
     "";
-  if (
-    !HEX_SHA256.test(approvedDigest) ||
-    approvedDigest !== "sha256:" + (await sha256Hex(canonicalJson(manifest), provider))
-  ) {
+  if (!HEX_SHA256.test(approvedDigest) || approvedDigest !== manifestDigest) {
     return fail(
       "release-not-approved",
       "El manifiesto firmado no coincide con el digest aprobado fuera del paquete.",
@@ -480,12 +490,26 @@ export async function verifyTamvCertification(
     );
   }
 
+  const approval = await verifyFeatureApproval({
+    manifestDigest,
+    receipt: options.approvalReceipt,
+    publicKeyPem: options.approvalPublicKeyPem,
+    expectedKeyId: options.approvalExpectedKeyId,
+    cryptoProvider: provider,
+    now: options.now,
+    encoder,
+  });
+
   return {
     status: "certified",
     certified: true,
-    premiumFeaturesEnabled: true,
+    premiumFeaturesEnabled: approval.approved,
+    approvedFeatures: approval.features,
+    featureApprovalStatus: approval.status,
     reason:
-      "Hashes, firma Ed25519 y digest aprobado verificados; no es certificación normativa ni validación científica.",
+      approval.status === "approved"
+        ? "Hashes, firma, ancla de clave, digest aprobado y recibo premium verificados; no es certificación normativa."
+        : "Integridad y firma verificadas, pero no hay aprobación externa de capacidades premium: " + approval.reason,
     checkedAt,
   };
 }
@@ -520,6 +544,21 @@ export function buildUnavailableCapabilityResponse(
         error: "La capacidad no está habilitada en el manifest TAMV",
         code: "TAMV_FEATURE_NOT_LICENSED",
         feature,
+      },
+      { status: 403, headers },
+    );
+  }
+
+  if (
+    (TAMV_PREMIUM_FEATURES as readonly string[]).includes(feature) &&
+    !certification.premiumFeaturesEnabled
+  ) {
+    return Response.json(
+      {
+        error: "La capacidad premium no cuenta con un recibo externo de aprobación vigente.",
+        code: "TAMV_PREMIUM_APPROVAL_MISSING",
+        feature,
+        approvalStatus: certification.featureApprovalStatus,
       },
       { status: 403, headers },
     );
@@ -563,6 +602,20 @@ export async function requireTamvCertification(feature: string): Promise<Respons
         error: "La capacidad no está habilitada en el manifest TAMV",
         code: "TAMV_FEATURE_NOT_LICENSED",
         feature,
+      },
+      { status: 403, headers: { "Cache-Control": "no-store, max-age=0" } },
+    );
+  }
+  if (
+    (TAMV_PREMIUM_FEATURES as readonly string[]).includes(feature) &&
+    !certification.premiumFeaturesEnabled
+  ) {
+    return Response.json(
+      {
+        error: "La capacidad premium no cuenta con un recibo externo de aprobación vigente.",
+        code: "TAMV_PREMIUM_APPROVAL_MISSING",
+        feature,
+        approvalStatus: certification.featureApprovalStatus,
       },
       { status: 403, headers: { "Cache-Control": "no-store, max-age=0" } },
     );

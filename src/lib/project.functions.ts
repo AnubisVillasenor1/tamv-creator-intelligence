@@ -4,6 +4,8 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { projectActionSchema, projectSchema, assessmentSchema } from "./project-schema";
 import { reviewSchema } from "./content-schema";
 import { CORE_CONTROLS, POLICY_VERSION } from "../../sdk/index.mjs";
+import { getTamvCertification } from "./tamv-certification";
+import { recomputeReviewAudit } from "./review-audit-recompute";
 
 export const listProjects = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -55,6 +57,9 @@ export const saveReviewToProject = createServerFn({ method: "POST" })
         includeDraft: z.boolean(),
         draft: z.string().trim().max(12000).optional(),
         review: reviewSchema,
+        // hash/governance/skills are accepted only for backwards compatibility;
+        // the handler recomputes them from server-side state and never persists
+        // the client-declared values as evidence.
         audit: z
           .object({
             hash: z.string(),
@@ -84,17 +89,25 @@ export const saveReviewToProject = createServerFn({ method: "POST" })
     if (project.version !== data.expectedVersion)
       throw new Error("Actualiza el proyecto antes de guardar.");
 
+    const certification = await getTamvCertification();
+    if (!certification.certified) {
+      throw new Error("La distribución TAMV no está certificada; no se puede guardar evidencia de gobernanza.");
+    }
+    const audit = await recomputeReviewAudit(data.review, data.audit, certification.certified);
+
     const payload = {
-      schema: "tamv.review.saved.v1",
+      schema: "tamv.review.saved.v2",
       source: "creator.review",
       projectId: project.id,
-      runId: data.audit.runId,
-      hash: data.audit.hash,
-      model: data.audit.model,
-      timestamp: data.audit.timestamp,
-      governance: data.audit.governance,
-      skills: data.audit.skills,
-      skillEvidence: data.audit.skillEvidence,
+      runId: audit.runId,
+      hash: audit.hash,
+      hashSource: audit.hashSource,
+      model: audit.model,
+      timestamp: audit.timestamp,
+      governance: audit.governance,
+      skills: audit.skills,
+      skillEvidence: audit.skillEvidence,
+      auditDeclaredBy: audit.declaredBy,
       // The private draft is stored only with its own explicit consent.
       ...(data.includeDraft && data.draft !== undefined ? { draft: data.draft } : {}),
       review: data.review,

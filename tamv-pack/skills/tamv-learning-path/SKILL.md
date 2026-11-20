@@ -1,6 +1,7 @@
 ---
 name: tamv-learning-path
 description: Diseñar aprendizaje musical progresivo. Activar cuando se solicita ruta educativa para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Ruta educativa
 

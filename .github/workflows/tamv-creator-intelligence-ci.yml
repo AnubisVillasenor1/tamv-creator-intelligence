@@ -48,6 +48,11 @@ jobs:
       - name: Static lint
         run: bun run lint
 
+      - name: Gate approved release digest
+        env:
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
+        run: bun run tamv:digest-gate
+
       - name: Validate TAMV certification and package
         run: bun run tamv:check
 

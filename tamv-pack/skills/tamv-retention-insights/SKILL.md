@@ -1,6 +1,7 @@
 ---
 name: tamv-retention-insights
 description: Analizar abandono con datos propios y sin causalidad inventada. Activar cuando se solicita retención para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Retención
 

@@ -27,8 +27,9 @@ for (const entry of config.paths) {
     const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
     const name = frontmatter?.[1].match(/^name:\s*([a-z0-9-]+)\s*$/m)?.[1];
     const description = frontmatter?.[1].match(/^description:\s*(.+)\s*$/m)?.[1];
+    const license = frontmatter?.[1].match(/^license:\s*AGPL-3\.0-only\s*$/m)?.[1];
 
-    if (!statSync(skillPath).isFile() || !frontmatter || name !== child.name || !description) {
+    if (!statSync(skillPath).isFile() || !frontmatter || name !== child.name || !description || !license) {
       throw new Error(`Contrato skills.sh inválido: ${entry}/${child.name}/SKILL.md`);
     }
     if (discovered.has(name)) throw new Error(`Skill pública duplicada: ${name}`);
@@ -51,7 +52,7 @@ if (missing.length || extra.length || duplicateGroups.length || unknownGroups.le
   throw new Error(JSON.stringify({ missing, extra, duplicateGroups, unknownGroups, ungrouped }, null, 2));
 }
 if (config.paths.some((entry) => resolve(root, entry) === resolve(root, "tamv-pack/skills"))) {
-  throw new Error("Los 37 contratos internos no deben publicarse como skills independientes en skills.sh.");
+  throw new Error("Los 41 contratos internos no deben publicarse como skills independientes en skills.sh.");
 }
 
 console.log(`skills.sh válido: ${discovered.size} skills públicas verificadas; ${internalOnly.length} contratos internos permanecen dentro del paquete.`);

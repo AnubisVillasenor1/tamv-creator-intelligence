@@ -22,6 +22,7 @@
     "tamv:hash": "node scripts/tamv-certification.mjs --update-hashes",
     "tamv:sign": "node scripts/tamv-certification.mjs --sign",
     "tamv:verify": "node scripts/tamv-certification.mjs --check --require-signature",
+    "tamv:digest-gate": "node scripts/check-release-digest-gate.mjs",
     "tamv:keygen": "bash scripts/generate-tamv-ed25519-keypair.sh",
     "hooks:install": "bash scripts/install-git-hooks.sh",
     "hooks:test": "bash scripts/test-git-hooks.sh && python3 scripts/test-repo-hygiene.py",

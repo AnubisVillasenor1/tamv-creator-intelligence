@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Canonical upstream. A fork can produce valid-looking attestations for its own
+# repository; provenance is only meaningful when bound to this source.
+CANONICAL_SOURCE_REPO="AnubisVillasenor1/tamv-creator-intelligence"
+
 usage() {
   echo "Uso:" >&2
   echo "  $0 <artifact> <owner/repo> <refs/tags/tag>   # GitHub artifact attestation" >&2
@@ -17,6 +21,10 @@ if [[ $# -eq 3 ]]; then
     echo "ERROR: el repositorio debe tener formato owner/repo." >&2
     exit 64
   }
+  if [[ "${SOURCE_REPO,,}" != "$CANONICAL_SOURCE_REPO" ]]; then
+    echo "ERROR: la atestación procede de $SOURCE_REPO; solo se acepta $CANONICAL_SOURCE_REPO." >&2
+    exit 64
+  fi
 
   case "$SOURCE_REF" in
     refs/tags/*) ;;
@@ -62,6 +70,10 @@ if [[ $# -eq 4 ]]; then
 
   [[ -f "$ARTIFACT" ]] || { echo "ERROR: artefacto ausente: $ARTIFACT" >&2; exit 2; }
   [[ -f "$PROVENANCE" ]] || { echo "ERROR: procedencia ausente: $PROVENANCE" >&2; exit 2; }
+  if [[ "$SOURCE_URI" != "https://github.com/$CANONICAL_SOURCE_REPO" && "$SOURCE_URI" != "git+https://github.com/$CANONICAL_SOURCE_REPO" ]]; then
+    echo "ERROR: el URI de origen debe apuntar a $CANONICAL_SOURCE_REPO." >&2
+    exit 64
+  fi
   command -v slsa-verifier >/dev/null 2>&1 || {
     echo "ERROR: slsa-verifier no está instalado. No se acepta una verificación simulada." >&2
     exit 127

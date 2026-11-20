@@ -1,6 +1,7 @@
 ---
 name: tamv-audience-research
 description: Definir segmentos a partir de datos propios y necesidades verificables. Activar cuando se solicita audiencia para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Audiencia
 

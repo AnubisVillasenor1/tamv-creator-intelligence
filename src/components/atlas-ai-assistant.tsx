@@ -32,6 +32,7 @@ export function AtlasAiAssistant() {
       if (!response.ok) {
         const code = payload && typeof payload === "object" ? (payload as { code?: string }).code : undefined;
         if (code === "GUIDE_AI_NOT_CONFIGURED") throw new Error("El servicio de IA todavía no está configurado en el servidor. El resto del Atlas sigue disponible.");
+        if (code && ["TAMV_ATTRIBUTION_INTEGRITY_FAILED", "TAMV_FEATURE_NOT_LICENSED", "TAMV_PREMIUM_APPROVAL_MISSING", "TAMV_PROVENANCE_UNVERIFIED"].includes(code)) throw new Error("El asistente solo está disponible en una distribución TAMV íntegra, firmada, aprobada y con procedencia verificada. El recorrido estático sigue disponible.");
         if (response.status === 401) throw new Error("Inicia sesión para utilizar el asistente conversacional.");
         if (response.status === 429 || response.status === 503) throw new Error("Se alcanzó un límite temporal o el servicio está ocupado. Espera un momento y vuelve a intentarlo.");
         throw new Error("No se pudo completar la consulta. Comprueba la conexión e inténtalo de nuevo.");
@@ -49,7 +50,7 @@ export function AtlasAiAssistant() {
 
   return <section className="atlas-ai-panel" aria-labelledby="atlas-ai-title">
     <div className="atlas-ai-heading"><div className="atlas-ai-icon"><Bot size={20}/></div><div><span className="atlas-eyebrow">ASISTENTE CONVERSACIONAL</span><h3 id="atlas-ai-title">Pregunta cómo hacerlo</h3><p>Solicita instrucciones adaptadas a tu nivel y al proceso que estás realizando.</p></div></div>
-    <div className="atlas-ai-disclosure"><ShieldCheck size={16}/><span>Solo orientación: no ejecuta herramientas ni publica cambios. Las consultas requieren sesión y configuración segura del proveedor.</span></div>
+    <div className="atlas-ai-disclosure"><ShieldCheck size={16}/><span>Solo orientación: no ejecuta herramientas ni publica cambios. Las consultas requieren sesión, distribución TAMV verificada y proveedor configurado de forma segura.</span></div>
     {messages.length > 0 && <div className="atlas-ai-messages" aria-live="polite">{messages.map((message, index) => <article key={index} className={"atlas-ai-message " + message.role}><span>{message.role === "assistant" ? <Bot size={15}/> : <UserRound size={15}/>} {message.role === "assistant" ? "TAMV Guide" : "Tú"}</span><p>{message.content}</p></article>)}</div>}
     {error && <p className="atlas-ai-error" role="alert">{error}</p>}
     <form onSubmit={submit} className="atlas-ai-form"><label className="sr-only" htmlFor="atlas-ai-question">Pregunta para el asistente</label><textarea id="atlas-ai-question" value={draft} onChange={(event) => setDraft(event.target.value)} maxLength={6000} rows={3} placeholder="Ej. Explícame paso a paso cómo crear un proyecto y comprobar sus permisos…" disabled={loading}/><div><span>{remaining === null ? "No compartas contraseñas ni claves API." : remaining + " consultas disponibles hoy según la cuota del servidor."}</span><button type="submit" disabled={loading || !draft.trim()}>{loading ? <LoaderCircle size={16} className="atlas-spin"/> : <Send size={16}/>} {loading ? "Consultando…" : "Consultar"}</button></div></form>

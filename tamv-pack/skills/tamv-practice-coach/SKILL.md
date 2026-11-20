@@ -1,6 +1,7 @@
 ---
 name: tamv-practice-coach
 description: Proponer rutinas sostenibles sin promesas de rendimiento. Activar cuando se solicita práctica musical para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Práctica musical
 

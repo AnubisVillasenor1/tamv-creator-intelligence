@@ -1,6 +1,7 @@
 ---
 name: tamv-release-readiness
 description: Comprobar derechos y pendientes antes del lanzamiento. Activar cuando se solicita preparación de lanzamiento para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Preparación de lanzamiento
 

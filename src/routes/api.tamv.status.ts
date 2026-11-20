@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getTamvCertification } from "../lib/tamv-certification";
+import { configuredAttributionKeyId } from "../lib/tamv-trust-anchors";
 
 export const Route = createFileRoute("/api/tamv/status")({
   server: {
@@ -13,6 +14,9 @@ export const Route = createFileRoute("/api/tamv/status")({
             certification: certification.status,
             certified: certification.certified,
             premiumFeaturesEnabled: certification.premiumFeaturesEnabled,
+            approvedFeatures: certification.approvedFeatures,
+            featureApprovalStatus: certification.featureApprovalStatus,
+            trustAnchorKeyId: "sha256:" + configuredAttributionKeyId(),
             reason: certification.reason,
             checkedAt: certification.checkedAt,
             attribution:

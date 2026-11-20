@@ -176,6 +176,14 @@ export async function handleAudioCoreAdvanced(
     return mapAudioError(error);
   }
 
+  // Consent is a client declaration, but its subject and scope are trust inputs:
+  // bind them to the authenticated actor and to this capability before execution.
+  const allowedConsentScopes = new Set(["audio.production"]);
+  if (!allowedConsentScopes.has(audioRequest.consent.scope)) {
+    return jsonError("El alcance del consentimiento no corresponde a esta capacidad.", 403, "TAMV_AUDIO_CONSENT_SCOPE_INVALID");
+  }
+  audioRequest.consent.subject = identity.actorRef;
+
   if (audioRequest.durationSeconds > AUDIOCORE_MAX_DURATION_SECONDS) {
     return jsonError(
       `This endpoint renders up to ${AUDIOCORE_MAX_DURATION_SECONDS} seconds per request.`,
@@ -215,7 +223,7 @@ export async function handleAudioCoreAdvanced(
       analysis: createLocalDspAnalysis(),
     });
 
-    const submission = await pipeline.gateway.submit(raw);
+    const submission = await pipeline.gateway.submit(audioRequest);
     const runs = await pipeline.worker.runUntilIdle(10);
     const run = runs.find(
       (entry) => entry.status !== "idle" && entry.record.jobId === submission.jobId,
@@ -265,6 +273,8 @@ export async function handleAudioCoreAdvanced(
           voice: false,
           dsp: "ITU-R BS.1770-4 (ponderacion K), pico de muestra PCM16, chroma FFT 8192",
           actorRef: identity.actorRef,
+          consentSubject: audioRequest.consent.subject,
+          consentScope: audioRequest.consent.scope,
           quota: { source: quota.source, remainingToday: quota.remainingToday },
         },
         limits: {

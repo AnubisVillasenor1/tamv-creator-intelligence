@@ -1,6 +1,7 @@
 ---
 name: tamv-brand-voice
 description: Establecer tono propio sin imitar personas ni marcas. Activar cuando se solicita voz de marca para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Voz de marca
 

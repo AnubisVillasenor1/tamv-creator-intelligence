@@ -1,6 +1,7 @@
 ---
 name: tamv-workflow-orchestrator
 description: Ordenar habilidades con dependencias y controles humanos. Activar cuando se solicita orquestación para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Orquestación
 

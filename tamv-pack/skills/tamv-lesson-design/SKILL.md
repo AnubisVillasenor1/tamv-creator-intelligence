@@ -1,6 +1,7 @@
 ---
 name: tamv-lesson-design
 description: Crear lecciones con material propio o autorizado. Activar cuando se solicita diseño de lecciones para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Diseño de lecciones
 

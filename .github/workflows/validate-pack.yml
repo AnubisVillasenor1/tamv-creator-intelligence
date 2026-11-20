@@ -52,6 +52,11 @@ jobs:
       - name: Test GitHub and offline SLSA verification modes
         run: bun run slsa:test
 
+      - name: Gate approved release digest
+        env:
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
+        run: bun run tamv:digest-gate
+
       - name: Validate TAMV source hashes and release manifest
         run: node scripts/tamv-certification.mjs --check
 

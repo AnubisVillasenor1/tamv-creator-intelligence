@@ -53,6 +53,30 @@ function normalizePem(value) {
   return String(value ?? "").replace(/\\n/g, "\n").trim();
 }
 
+function normalizeKeyId(value) {
+  return String(value ?? "").trim().toLowerCase().replace(/^sha256:/, "");
+}
+
+function expectedKeyId() {
+  return normalizeKeyId(process.env.TAMV_ATTRIBUTION_EXPECTED_KEY_ID);
+}
+
+function publicKeyKeyId(publicKey) {
+  return createHash("sha256")
+    .update(publicKey.export({ type: "spki", format: "der" }))
+    .digest("hex");
+}
+
+function requireTrustedKeyId(publicKey) {
+  const expected = expectedKeyId();
+  if (!/^[a-f0-9]{64}$/.test(expected)) {
+    throw new Error("Falta TAMV_ATTRIBUTION_EXPECTED_KEY_ID (SHA-256 del SPKI DER de la clave oficial).");
+  }
+  if (publicKeyKeyId(publicKey) !== expected) {
+    throw new Error("La clave pública TAMV no coincide con el ancla de confianza configurada.");
+  }
+}
+
 function validateManifestMetadata(manifest) {
   if (
     !manifest ||
@@ -150,6 +174,7 @@ function isUnsigned(signature) {
 async function verifySignature(manifest, signature, publicKeyPem) {
   const key = createPublicKey(normalizePem(publicKeyPem));
   if (key.asymmetricKeyType !== "ed25519") throw new Error("La clave pública TAMV no es Ed25519.");
+  requireTrustedKeyId(key);
   const signatureBytes = Buffer.from(signature.trim(), "base64url");
   if (signatureBytes.length !== 64) throw new Error("La firma Ed25519 debe contener 64 bytes.");
   if (!verify(null, Buffer.from(canonicalJson(manifest), "utf8"), key, signatureBytes)) {
@@ -172,6 +197,7 @@ async function signManifest(manifest, sources) {
   const privateKey = createPrivateKey(privateKeyPem);
   if (privateKey.asymmetricKeyType !== "ed25519") throw new Error("La clave privada TAMV debe ser Ed25519.");
   const publicKey = createPublicKey(privateKey);
+  requireTrustedKeyId(publicKey);
   const configuredPublicPem = normalizePem(process.env.TAMV_ATTRIBUTION_PUBLIC_KEY);
   if (configuredPublicPem) {
     const configuredPublic = createPublicKey(configuredPublicPem).export({ type: "spki", format: "der" });

@@ -5,6 +5,7 @@ metadata:
   version: "1.0.0"
   status: PROPOSED
   requires-human-approval-for: external.skill.installation, license.revocation, data.erasure
+license: AGPL-3.0-only
 ---
 
 # TAMV Sovereign Platform

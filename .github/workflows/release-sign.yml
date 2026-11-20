@@ -15,6 +15,7 @@ concurrency:
 jobs:
   verify-sign-build:
     name: Verify, sign, attest and build certified release
+    if: github.repository == 'AnubisVillasenor1/tamv-creator-intelligence'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -49,7 +50,7 @@ jobs:
       - name: Enforce production-safe Hyper-Core ledger ordering
         run: python3 scripts/validate-audit-migration.py --strict-order
 
-      - name: Validate pack structure before rehash
+      - name: Validate committed pack structure
         run: |
           set -euo pipefail
           python3 tamv-pack/scripts/validate-manifest.py
@@ -57,15 +58,19 @@ jobs:
           bash tamv-pack/scripts/validate-pack.sh
           bash tamv-pack/scripts/test-scripts.sh
 
-      - name: Require release signing secrets
+      - name: Require release signing secrets and external trust anchors
         shell: bash
         env:
           TAMV_ATTRIBUTION_PRIVATE_KEY: ${{ secrets.TAMV_ATTRIBUTION_PRIVATE_KEY }}
           TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+          TAMV_ATTRIBUTION_EXPECTED_KEY_ID: ${{ vars.TAMV_ATTRIBUTION_EXPECTED_KEY_ID }}
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
         run: |
           set -euo pipefail
           test -n "$TAMV_ATTRIBUTION_PRIVATE_KEY" || { echo "::error::Missing repository secret TAMV_ATTRIBUTION_PRIVATE_KEY"; exit 1; }
           test -n "$TAMV_ATTRIBUTION_PUBLIC_KEY" || { echo "::error::Missing repository secret TAMV_ATTRIBUTION_PUBLIC_KEY"; exit 1; }
+          test -n "$TAMV_ATTRIBUTION_EXPECTED_KEY_ID" || { echo "::error::Missing variable TAMV_ATTRIBUTION_EXPECTED_KEY_ID"; exit 1; }
+          test -n "$TAMV_RELEASE_MANIFEST_SHA256" || { echo "::error::Missing variable TAMV_RELEASE_MANIFEST_SHA256"; exit 1; }
 
       - name: Run tests and lint
         run: |
@@ -73,17 +78,18 @@ jobs:
           bun run test
           bun run lint
 
-      - name: Recalculate source hashes and invalidate old signature
-        run: bun run tamv:hash
-
-      - name: Validate updated source inventory and 37-skill pack
-        run: bun run tamv:check
-
-      - name: Sign manifest with Ed25519
+      - name: Gate externally approved manifest digest
         env:
-          TAMV_ATTRIBUTION_PRIVATE_KEY: ${{ secrets.TAMV_ATTRIBUTION_PRIVATE_KEY }}
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
+        run: bun run tamv:digest-gate
+
+      - name: Validate committed source inventory and skill pack
+        env:
           TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
-        run: bun run tamv:sign
+          TAMV_ATTRIBUTION_EXPECTED_KEY_ID: ${{ vars.TAMV_ATTRIBUTION_EXPECTED_KEY_ID }}
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
+          TAMV_CERTIFICATION_REQUIRED: "true"
+        run: bun run tamv:check
 
       - name: Sign v3 pack seal with Ed25519
         env:
@@ -99,18 +105,24 @@ jobs:
       - name: Verify signature and hashes fail-closed
         env:
           TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+          TAMV_ATTRIBUTION_EXPECTED_KEY_ID: ${{ vars.TAMV_ATTRIBUTION_EXPECTED_KEY_ID }}
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
           TAMV_CERTIFICATION_REQUIRED: "true"
         run: bun run tamv:verify
 
       - name: Build certified production output
         env:
           TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+          TAMV_ATTRIBUTION_EXPECTED_KEY_ID: ${{ vars.TAMV_ATTRIBUTION_EXPECTED_KEY_ID }}
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
           TAMV_CERTIFICATION_REQUIRED: "true"
         run: bun run build
 
       - name: Re-verify release inputs after build
         env:
           TAMV_ATTRIBUTION_PUBLIC_KEY: ${{ secrets.TAMV_ATTRIBUTION_PUBLIC_KEY }}
+          TAMV_ATTRIBUTION_EXPECTED_KEY_ID: ${{ vars.TAMV_ATTRIBUTION_EXPECTED_KEY_ID }}
+          TAMV_RELEASE_MANIFEST_SHA256: ${{ vars.TAMV_RELEASE_MANIFEST_SHA256 }}
           TAMV_CERTIFICATION_REQUIRED: "true"
         run: bun run tamv:verify
 
@@ -162,7 +174,7 @@ jobs:
           TAMV_SOURCE_DIGEST: ${{ github.sha }}
         run: |
           set -euo pipefail
-          bash scripts/verify-slsa.sh "${{ steps.bundle.outputs.archive }}" "$GITHUB_REPOSITORY" "$GITHUB_REF"
+          bash scripts/verify-slsa.sh "${{ steps.bundle.outputs.archive }}" "AnubisVillasenor1/tamv-creator-intelligence" "$GITHUB_REF"
 
       - name: Verify generated CycloneDX SBOM attestation
         shell: bash
@@ -171,9 +183,9 @@ jobs:
         run: |
           set -euo pipefail
           gh attestation verify "${{ steps.bundle.outputs.archive }}" \
-            --repo "$GITHUB_REPOSITORY" \
+            --repo "AnubisVillasenor1/tamv-creator-intelligence" \
             --predicate-type https://cyclonedx.org/bom \
-            --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/release-sign.yml"
+            --signer-workflow "AnubisVillasenor1/tamv-creator-intelligence/.github/workflows/release-sign.yml"
 
       - name: Publish signed build, SBOM, attestations and checksum as workflow artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

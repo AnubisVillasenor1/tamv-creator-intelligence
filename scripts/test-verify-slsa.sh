@@ -32,23 +32,27 @@ bash "$ROOT/scripts/verify-slsa.sh" >/dev/null 2>&1 || status=$?
 [[ "$status" -eq 64 ]] || { echo "Verifier must reject unsupported argument counts." >&2; exit 1; }
 
 status=0
-env -u GH_TOKEN bash "$ROOT/scripts/verify-slsa.sh" "$ARTIFACT" "owner/repo" "v1.2.3" >/dev/null 2>&1 || status=$?
+env -u GH_TOKEN bash "$ROOT/scripts/verify-slsa.sh" "$ARTIFACT" "AnubisVillasenor1/tamv-creator-intelligence" "v1.2.3" >/dev/null 2>&1 || status=$?
 [[ "$status" -eq 78 ]] || { echo "GitHub mode must fail closed without GH_TOKEN." >&2; exit 1; }
 
 export GH_TOKEN="unit-test-placeholder"
-bash "$ROOT/scripts/verify-slsa.sh" "$ARTIFACT" "owner/repo" "v1.2.3" >/dev/null
+status=0
+bash "$ROOT/scripts/verify-slsa.sh" "$ARTIFACT" "fork-owner/tamv-creator-intelligence" "v1.2.3" >/dev/null 2>&1 || status=$?
+[[ "$status" -eq 64 ]] || { echo "Verifier must reject a fork repository." >&2; exit 1; }
+
+bash "$ROOT/scripts/verify-slsa.sh" "$ARTIFACT" "AnubisVillasenor1/tamv-creator-intelligence" "v1.2.3" >/dev/null
 grep -Fxq -- "--repo" "$VERIFY_ARGS_FILE"
-grep -Fxq -- "owner/repo" "$VERIFY_ARGS_FILE"
+grep -Fxq -- "AnubisVillasenor1/tamv-creator-intelligence" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "--predicate-type" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "https://slsa.dev/provenance/v1" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "--signer-workflow" "$VERIFY_ARGS_FILE"
-grep -Fxq -- "owner/repo/.github/workflows/release-sign.yml" "$VERIFY_ARGS_FILE"
+grep -Fxq -- "AnubisVillasenor1/tamv-creator-intelligence/.github/workflows/release-sign.yml" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "--source-ref" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "refs/tags/v1.2.3" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "--source-digest" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "$TAMV_SOURCE_DIGEST" "$VERIFY_ARGS_FILE"
 
-bash "$ROOT/scripts/verify-slsa.sh" "$ARTIFACT" "$PROVENANCE" "github.com/owner/repo" "v1.2.3" >/dev/null
+bash "$ROOT/scripts/verify-slsa.sh" "$ARTIFACT" "$PROVENANCE" "https://github.com/AnubisVillasenor1/tamv-creator-intelligence" "v1.2.3" >/dev/null
 grep -Fxq -- "verify-artifact" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "--provenance-path" "$VERIFY_ARGS_FILE"
 grep -Fxq -- "$PROVENANCE" "$VERIFY_ARGS_FILE"

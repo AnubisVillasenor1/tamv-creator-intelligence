@@ -134,6 +134,7 @@ test("all 41 internal skills carry discoverable frontmatter", () => {
     assert.ok(front, `${id} lacks frontmatter`);
     assert.match(front![1], new RegExp(`^name:\\s*${id}$`, "m"));
     assert.match(front![1], /^description:\s*\S+/m);
+    assert.match(front![1], /^license:\s*AGPL-3\.0-only\s*$/m);
   }
 });
 

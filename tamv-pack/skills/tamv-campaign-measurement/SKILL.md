@@ -1,6 +1,7 @@
 ---
 name: tamv-campaign-measurement
 description: Comparar campañas con denominadores y periodos explícitos. Activar cuando se solicita medición para contenido de un creador.
+license: AGPL-3.0-only
 ---
 # TAMV Medición
 

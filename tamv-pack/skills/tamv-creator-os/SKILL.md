@@ -5,6 +5,7 @@ metadata:
   version: "1.0.0"
   status: PROPOSED
   requires-human-approval-for: external.publishing, external.message.send
+license: AGPL-3.0-only
 ---
 
 # TAMV Creator OS
