@@ -19,6 +19,7 @@ import { Route as BillingRouteImport } from './routes/billing'
 import { Route as ExagonRouteImport } from './routes/exagon'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as GuideRouteImport } from './routes/guide'
+import { Route as HcuRouteImport } from './routes/hcu'
 import { Route as HypercoreRouteImport } from './routes/hypercore'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -40,6 +41,10 @@ import { Route as ApiAudiocoreAdvancedRouteImport } from './routes/api.audiocore
 import { Route as ApiBillingCheckoutRouteImport } from './routes/api.billing.checkout'
 import { Route as ApiBillingWebhookRouteImport } from './routes/api.billing.webhook'
 import { Route as ApiGovernanceReceiptsRouteImport } from './routes/api.governance.receipts'
+import { Route as ApiHcuGraphRouteImport } from './routes/api.hcu.graph'
+import { Route as ApiHcuLintRouteImport } from './routes/api.hcu.lint'
+import { Route as ApiHcuSimulateRouteImport } from './routes/api.hcu.simulate'
+import { Route as ApiHcuSpecRouteImport } from './routes/api.hcu.spec'
 import { Route as ApiStudioMetricsRouteImport } from './routes/api.studio.metrics'
 import { Route as ApiTamvGenesisRouteImport } from './routes/api.tamv.genesis'
 import { Route as ApiTamvStatusRouteImport } from './routes/api.tamv.status'
@@ -97,6 +102,11 @@ const FaqRoute = FaqRouteImport.update({
 const GuideRoute = GuideRouteImport.update({
   id: '/guide',
   path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HcuRoute = HcuRouteImport.update({
+  id: '/hcu',
+  path: '/hcu',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HypercoreRoute = HypercoreRouteImport.update({
@@ -204,6 +214,26 @@ const ApiGovernanceReceiptsRoute = ApiGovernanceReceiptsRouteImport.update({
   path: '/api/governance/receipts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHcuGraphRoute = ApiHcuGraphRouteImport.update({
+  id: '/api/hcu/graph',
+  path: '/api/hcu/graph',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHcuLintRoute = ApiHcuLintRouteImport.update({
+  id: '/api/hcu/lint',
+  path: '/api/hcu/lint',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHcuSimulateRoute = ApiHcuSimulateRouteImport.update({
+  id: '/api/hcu/simulate',
+  path: '/api/hcu/simulate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHcuSpecRoute = ApiHcuSpecRouteImport.update({
+  id: '/api/hcu/spec',
+  path: '/api/hcu/spec',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiStudioMetricsRoute = ApiStudioMetricsRouteImport.update({
   id: '/api/studio/metrics',
   path: '/api/studio/metrics',
@@ -256,6 +286,7 @@ export interface FileRoutesByFullPath {
   '/exagon': typeof ExagonRoute
   '/faq': typeof FaqRoute
   '/guide': typeof GuideRoute
+  '/hcu': typeof HcuRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -277,6 +308,10 @@ export interface FileRoutesByFullPath {
   '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
+  '/api/hcu/graph': typeof ApiHcuGraphRoute
+  '/api/hcu/lint': typeof ApiHcuLintRoute
+  '/api/hcu/simulate': typeof ApiHcuSimulateRoute
+  '/api/hcu/spec': typeof ApiHcuSpecRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
@@ -297,6 +332,7 @@ export interface FileRoutesByTo {
   '/exagon': typeof ExagonRoute
   '/faq': typeof FaqRoute
   '/guide': typeof GuideRoute
+  '/hcu': typeof HcuRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -318,6 +354,10 @@ export interface FileRoutesByTo {
   '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
+  '/api/hcu/graph': typeof ApiHcuGraphRoute
+  '/api/hcu/lint': typeof ApiHcuLintRoute
+  '/api/hcu/simulate': typeof ApiHcuSimulateRoute
+  '/api/hcu/spec': typeof ApiHcuSpecRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
@@ -339,6 +379,7 @@ export interface FileRoutesById {
   '/exagon': typeof ExagonRoute
   '/faq': typeof FaqRoute
   '/guide': typeof GuideRoute
+  '/hcu': typeof HcuRoute
   '/hypercore': typeof HypercoreRoute
   '/integrations': typeof IntegrationsRoute
   '/marketplace': typeof MarketplaceRoute
@@ -360,6 +401,10 @@ export interface FileRoutesById {
   '/api/billing/checkout': typeof ApiBillingCheckoutRoute
   '/api/billing/webhook': typeof ApiBillingWebhookRoute
   '/api/governance/receipts': typeof ApiGovernanceReceiptsRoute
+  '/api/hcu/graph': typeof ApiHcuGraphRoute
+  '/api/hcu/lint': typeof ApiHcuLintRoute
+  '/api/hcu/simulate': typeof ApiHcuSimulateRoute
+  '/api/hcu/spec': typeof ApiHcuSpecRoute
   '/api/studio/metrics': typeof ApiStudioMetricsRoute
   '/api/tamv/genesis': typeof ApiTamvGenesisRoute
   '/api/tamv/status': typeof ApiTamvStatusRoute
@@ -382,6 +427,7 @@ export interface FileRouteTypes {
     | '/exagon'
     | '/faq'
     | '/guide'
+    | '/hcu'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -403,6 +449,10 @@ export interface FileRouteTypes {
     | '/api/billing/checkout'
     | '/api/billing/webhook'
     | '/api/governance/receipts'
+    | '/api/hcu/graph'
+    | '/api/hcu/lint'
+    | '/api/hcu/simulate'
+    | '/api/hcu/spec'
     | '/api/studio/metrics'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
@@ -423,6 +473,7 @@ export interface FileRouteTypes {
     | '/exagon'
     | '/faq'
     | '/guide'
+    | '/hcu'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -444,6 +495,10 @@ export interface FileRouteTypes {
     | '/api/billing/checkout'
     | '/api/billing/webhook'
     | '/api/governance/receipts'
+    | '/api/hcu/graph'
+    | '/api/hcu/lint'
+    | '/api/hcu/simulate'
+    | '/api/hcu/spec'
     | '/api/studio/metrics'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
@@ -464,6 +519,7 @@ export interface FileRouteTypes {
     | '/exagon'
     | '/faq'
     | '/guide'
+    | '/hcu'
     | '/hypercore'
     | '/integrations'
     | '/marketplace'
@@ -485,6 +541,10 @@ export interface FileRouteTypes {
     | '/api/billing/checkout'
     | '/api/billing/webhook'
     | '/api/governance/receipts'
+    | '/api/hcu/graph'
+    | '/api/hcu/lint'
+    | '/api/hcu/simulate'
+    | '/api/hcu/spec'
     | '/api/studio/metrics'
     | '/api/tamv/genesis'
     | '/api/tamv/status'
@@ -506,6 +566,7 @@ export interface RootRouteChildren {
   ExagonRoute: typeof ExagonRoute
   FaqRoute: typeof FaqRoute
   GuideRoute: typeof GuideRoute
+  HcuRoute: typeof HcuRoute
   HypercoreRoute: typeof HypercoreRoute
   IntegrationsRoute: typeof IntegrationsRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -527,6 +588,10 @@ export interface RootRouteChildren {
   ApiBillingCheckoutRoute: typeof ApiBillingCheckoutRoute
   ApiBillingWebhookRoute: typeof ApiBillingWebhookRoute
   ApiGovernanceReceiptsRoute: typeof ApiGovernanceReceiptsRoute
+  ApiHcuGraphRoute: typeof ApiHcuGraphRoute
+  ApiHcuLintRoute: typeof ApiHcuLintRoute
+  ApiHcuSimulateRoute: typeof ApiHcuSimulateRoute
+  ApiHcuSpecRoute: typeof ApiHcuSpecRoute
   ApiStudioMetricsRoute: typeof ApiStudioMetricsRoute
   ApiTamvGenesisRoute: typeof ApiTamvGenesisRoute
   ApiTamvStatusRoute: typeof ApiTamvStatusRoute
@@ -607,6 +672,13 @@ declare module '@tanstack/react-router' {
       path: '/guide'
       fullPath: '/guide'
       preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hcu': {
+      id: '/hcu'
+      path: '/hcu'
+      fullPath: '/hcu'
+      preLoaderRoute: typeof HcuRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hypercore': {
@@ -756,6 +828,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGovernanceReceiptsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/hcu/graph': {
+      id: '/api/hcu/graph'
+      path: '/api/hcu/graph'
+      fullPath: '/api/hcu/graph'
+      preLoaderRoute: typeof ApiHcuGraphRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/hcu/lint': {
+      id: '/api/hcu/lint'
+      path: '/api/hcu/lint'
+      fullPath: '/api/hcu/lint'
+      preLoaderRoute: typeof ApiHcuLintRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/hcu/simulate': {
+      id: '/api/hcu/simulate'
+      path: '/api/hcu/simulate'
+      fullPath: '/api/hcu/simulate'
+      preLoaderRoute: typeof ApiHcuSimulateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/hcu/spec': {
+      id: '/api/hcu/spec'
+      path: '/api/hcu/spec'
+      fullPath: '/api/hcu/spec'
+      preLoaderRoute: typeof ApiHcuSpecRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/studio/metrics': {
       id: '/api/studio/metrics'
       path: '/api/studio/metrics'
@@ -826,6 +926,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExagonRoute: ExagonRoute,
   FaqRoute: FaqRoute,
   GuideRoute: GuideRoute,
+  HcuRoute: HcuRoute,
   HypercoreRoute: HypercoreRoute,
   IntegrationsRoute: IntegrationsRoute,
   MarketplaceRoute: MarketplaceRoute,
@@ -847,6 +948,10 @@ const rootRouteChildren: RootRouteChildren = {
   ApiBillingCheckoutRoute: ApiBillingCheckoutRoute,
   ApiBillingWebhookRoute: ApiBillingWebhookRoute,
   ApiGovernanceReceiptsRoute: ApiGovernanceReceiptsRoute,
+  ApiHcuGraphRoute: ApiHcuGraphRoute,
+  ApiHcuLintRoute: ApiHcuLintRoute,
+  ApiHcuSimulateRoute: ApiHcuSimulateRoute,
+  ApiHcuSpecRoute: ApiHcuSpecRoute,
   ApiStudioMetricsRoute: ApiStudioMetricsRoute,
   ApiTamvGenesisRoute: ApiTamvGenesisRoute,
   ApiTamvStatusRoute: ApiTamvStatusRoute,

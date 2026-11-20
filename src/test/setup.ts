@@ -1,4 +1,9 @@
 import "@testing-library/jest-dom/vitest";
+import { configure } from "@testing-library/react";
+
+// The jsdom suite runs many workers on constrained machines; give async queries
+// enough time to settle without weakening the assertions themselves.
+configure({ asyncUtilTimeout: 5_000 });
 
 /**
  * Node 26+ exposes an experimental global `localStorage` getter that resolves to

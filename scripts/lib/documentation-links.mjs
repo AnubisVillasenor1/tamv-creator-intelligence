@@ -7,6 +7,8 @@ export const MAINTAINED_DOCUMENTS = [
   "docs/WORKSPACE-AND-STUDIO.md",
   "docs/SOCIAL-WEBHOOKS.md",
   "docs/RESEARCH-PROTOCOL-5.md",
+  "docs/HCU.md",
+  "docs/MANUAL-CIERRE-100.md",
   "docs/RELEASE-SIGNING.md",
   "docs/ARCHITECTURE-REFERENCE.md",
   "docs/API-SURFACE-AND-ERROR-CONTRACTS.md",

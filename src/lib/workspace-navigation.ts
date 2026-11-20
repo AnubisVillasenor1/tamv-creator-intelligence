@@ -14,6 +14,7 @@ import {
   FlaskConical,
   GraduationCap,
   Hexagon,
+  Orbit,
   LayoutDashboard,
   PlugZap,
   ShieldCheck,
@@ -69,6 +70,13 @@ export const workspaceNavigation = [
     description: "Explora modelos y proveedores",
     group: "Conectar",
     icon: Cable,
+  },
+  {
+    to: "/hcu",
+    label: "Mapa HCU",
+    description: "Hipergrafo y simulación 2026–2050",
+    group: "Gobernar",
+    icon: Orbit,
   },
   {
     to: "/audit",

@@ -1,0 +1,1619 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>TAMV Ω∞ HCU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>:root{
+  --bg:#F6F5F1;--surface:#FFFFFF;--sunk:#EDEBE4;--fig:#F1F3F6;--fg:#15202C;--mute:#566372;--line:#D5D8DC;--rule:#B9BFC7;
+  --accent:#1B3A5C;--accent2:#2B5B8F;--on-accent:#FFFFFF;--ok:#1E6B45;--warn:#8A5A00;--danger:#A12F2F;--info:#3A4F66;
+  --d0:#2F6F9F;--d1:#9A7418;--d2:#6A55A6;--d3:#2F7D58;--d4:#9A5280;--d5:#A5453D;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D131A;--surface:#141C25;--sunk:#0A0F15;--fig:#0A1017;--fg:#E6EAEE;--mute:#9AA6B3;--line:#27323E;--rule:#3A4857;
+    --accent:#8FB4DC;--accent2:#6C9BCB;--on-accent:#0B1622;--ok:#6DB48C;--warn:#D9A441;--danger:#E58078;--info:#9FB3C8;
+    --d0:#7FB2D9;--d1:#C9A86A;--d2:#9C8CC8;--d3:#6FAE8F;--d4:#B08CA0;--d5:#C98080;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D131A;--surface:#141C25;--sunk:#0A0F15;--fig:#0A1017;--fg:#E6EAEE;--mute:#9AA6B3;--line:#27323E;--rule:#3A4857;
+  --accent:#8FB4DC;--accent2:#6C9BCB;--on-accent:#0B1622;--ok:#6DB48C;--warn:#D9A441;--danger:#E58078;--info:#9FB3C8;
+  --d0:#7FB2D9;--d1:#C9A86A;--d2:#9C8CC8;--d3:#6FAE8F;--d4:#B08CA0;--d5:#C98080;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;margin:0;text-wrap:balance;line-height:1.2}
+p{margin:0 0 .8em}
+a{color:var(--accent2)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.skip{position:absolute;left:-999px;top:0;background:var(--accent);color:var(--on-accent);padding:8px 12px;z-index:100}
+.skip:focus{left:8px;top:8px}
+
+/* Cabecera institucional */
+.mast{background:var(--surface);border-bottom:3px solid var(--accent)}
+.mast-in{max-width:1320px;margin:0 auto;padding:22px 16px 16px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.org{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.mast h1{font-size:28px;margin:6px 0 4px;letter-spacing:-.01em}
+.sub{color:var(--mute);margin:0;font-size:13.5px;max-width:90ch}
+.statusbar{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid var(--rule)}
+.sb-in{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:4px 22px;padding:8px 16px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));font-size:12.5px;color:var(--mute)}
+.sb-in b{color:var(--fg);font-weight:600;font-family:var(--mono)}
+.sb-in a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--rule)}
+
+.shell{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:210px minmax(0,1fr);gap:36px;padding:28px 16px 80px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.toc{position:sticky;top:64px;align-self:start;font-size:13px;max-height:calc(100vh - 80px);overflow:auto}
+.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+.toc a{display:block;padding:5px 10px;color:var(--mute);text-decoration:none;border-left:2px solid transparent;margin-left:-1px}
+.toc a:hover{color:var(--fg)}
+.toc a[aria-current="true"]{color:var(--fg);border-left-color:var(--accent);font-weight:600}
+.toc .tn{font-family:var(--mono);color:var(--mute);margin-right:6px}
+main{min-width:0}
+section{margin:0 0 56px}
+section>h2{font-size:24px;padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:16px}
+section>h2 .n{font-family:var(--mono);font-size:14px;color:var(--mute);margin-right:10px;font-weight:500}
+h3{font-size:17px;margin:22px 0 8px}
+.prose{max-width:76ch}
+.prose p,.prose li{font-family:var(--serif);font-size:16.5px;line-height:1.62}
+.prose ul,.prose ol{padding-left:1.2em}
+.lead{font-family:var(--serif);font-size:17.5px;color:var(--fg);max-width:76ch}
+.note{border-left:3px solid var(--accent);background:var(--surface);padding:10px 14px;margin:14px 0;font-size:13.5px;max-width:84ch}
+.note.warn{border-left-color:var(--warn)}
+.note b{font-weight:600}
+blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--rule);background:var(--surface);font-family:var(--serif);max-width:76ch}
+.cap2{font-size:12.5px;color:var(--mute);margin:6px 0 0}
+
+/* Tablas */
+.tw{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);text-align:left;padding:8px 12px 8px 0;border-bottom:2px solid var(--rule);white-space:nowrap}
+td{padding:8px 12px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td.k{color:var(--mute);width:34%}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.badge{display:inline-flex;align-items:center;gap:5px;font:500 11.5px/1 var(--mono);padding:4px 8px;border:1px solid var(--rule);border-radius:3px;white-space:nowrap;background:var(--surface)}
+.badge i{font-style:normal;font-weight:700}
+.b-ok,.b-complete{color:var(--ok);border-color:var(--ok)}
+.b-decl,.b-info{color:var(--info);border-color:var(--info)}
+.b-part,.b-partial{color:var(--warn);border-color:var(--warn)}
+.b-pend,.b-pending,.b-ext{color:var(--mute)}
+.b-fail,.b-bad{color:var(--danger);border-color:var(--danger)}
+
+/* Capas */
+.layers{display:grid;gap:8px;margin:14px 0}
+.layer{display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);text-decoration:none;color:inherit}
+.layer:hover{border-color:var(--accent2)}
+.layer .ln{font:600 12px/1.3 var(--mono);color:var(--accent)}
+.layer h4{font-size:15px;margin-bottom:2px}
+.layer p{margin:0;font-size:13px;color:var(--mute)}
+@media (max-width:640px){.layer{grid-template-columns:minmax(0,1fr)}}
+
+/* Formularios */
+.form{display:grid;gap:12px;margin:12px 0;max-width:760px}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.row4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.row2,.row3,.row4{grid-template-columns:minmax(0,1fr)}}
+label.f{display:grid;gap:4px;font-size:12.5px;color:var(--mute)}
+label.f>span{font-weight:500}
+input[type=text],input[type=number],select,textarea{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:7px 9px;width:100%;min-width:0;color:var(--fg)}
+textarea{min-height:84px;resize:vertical;font-family:var(--serif);font-size:15px}
+input[type=range]{width:100%;accent-color:var(--accent2)}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--fg)}
+.chk input{margin-top:4px}
+.hint{font-size:12px;color:var(--mute);min-height:1.4em}
+.hint.bad{color:var(--danger)}.hint.good{color:var(--ok)}
+.btn{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:7px 14px;cursor:pointer;font-weight:500;font-size:13px}
+.btn:hover{border-color:var(--fg)}
+.btn.pri{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn.sm{padding:3px 9px;font-size:12px}
+.btn.dng{color:var(--danger);border-color:var(--danger)}
+.btn[aria-pressed="true"],.btn[aria-selected="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.seg{display:inline-flex;flex-wrap:wrap}
+.seg .btn{border-radius:0;margin-left:-1px}
+.seg .btn:first-child{border-radius:3px 0 0 3px;margin-left:0}
+.seg .btn:last-child{border-radius:0 3px 3px 0}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+pre.code,textarea.out{width:100%;max-height:300px;overflow:auto;font:12px/1.5 var(--mono);background:var(--sunk);border:1px solid var(--line);padding:10px;white-space:pre-wrap;word-break:break-all;color:var(--fg)}
+textarea.out{min-height:180px;font-family:var(--mono);font-size:12px}
+
+/* TRI */
+.tri{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-width:620px;margin:10px 0;border:1px solid var(--rule);background:var(--surface)}
+.tri div{padding:8px 10px;border-right:1px solid var(--line);font-size:12px;color:var(--mute)}
+.tri div:last-child{border-right:0}
+.tri b{display:block;font:600 14px var(--mono);color:var(--fg)}
+
+/* Pipeline */
+.steps{list-style:none;margin:12px 0;padding:0;display:grid;gap:0;border:1px solid var(--line);background:var(--surface)}
+.steps li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);align-items:start}
+.steps li:last-child{border-bottom:0}
+.steps .sn{font:600 13px var(--mono);color:var(--mute);padding-top:2px}
+.steps h4{font-size:14.5px;font-family:var(--sans);font-weight:600;margin-bottom:2px}
+.steps p{margin:0;font-size:12.5px;color:var(--mute)}
+@media (max-width:640px){.steps li{grid-template-columns:28px minmax(0,1fr)}.steps li .badge{grid-column:2}}
+
+/* Sello */
+.seal{border:2px solid var(--accent);background:var(--surface);max-width:760px;margin:14px 0}
+.seal header{background:var(--accent);color:var(--on-accent);padding:10px 16px;font:600 13px var(--mono);letter-spacing:.05em}
+.seal .sb{padding:6px 16px 12px}
+.seal dl{display:grid;grid-template-columns:180px minmax(0,1fr);gap:6px 14px;margin:8px 0;font-size:13.5px}
+.seal dt{color:var(--mute)}.seal dd{margin:0;word-break:break-word}
+.seal .dsl{border-top:1px solid var(--line);padding:10px 16px;font-size:12.5px;color:var(--mute)}
+.seal.no{border-style:dashed;border-color:var(--rule)}
+.seal.no header{background:var(--mute)}
+@media (max-width:560px){.seal dl{grid-template-columns:minmax(0,1fr)}.seal dt{margin-top:6px}}
+
+/* Instrumento */
+.fig{margin:14px 0 0;border:1px solid var(--rule);background:var(--surface)}
+.fig-bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line)}
+.fig-bar .lbl{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin-right:6px}
+.fig-main{display:grid;grid-template-columns:minmax(0,1fr) 380px}
+@media (max-width:1060px){.fig-main{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;height:clamp(440px,66vh,700px);background:var(--fig);min-width:0;overflow:hidden;touch-action:none}
+#cv{position:absolute;inset:0;display:block;cursor:grab}
+.stage .cap{position:absolute;left:12px;right:12px;bottom:10px;font-size:12px;color:var(--mute);pointer-events:none;background:linear-gradient(transparent,var(--fig) 60%);padding-top:14px}
+.stage .legend{position:absolute;left:12px;top:10px;display:flex;flex-wrap:wrap;gap:4px 12px;max-width:70%;font-size:11.5px;color:var(--mute);pointer-events:none}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.tl{display:grid;grid-template-columns:auto minmax(120px,1fr) auto auto;gap:12px;align-items:center;padding:10px 12px;border-top:1px solid var(--line)}
+@media (max-width:700px){.tl{grid-template-columns:auto minmax(0,1fr) auto}.tl .seg{grid-column:1/-1}}
+.detail{border-left:1px solid var(--line);padding:14px 16px;overflow:auto;max-height:clamp(440px,66vh,700px);min-width:0;font-size:13.5px}
+@media (max-width:1060px){.detail{border-left:0;border-top:1px solid var(--line);max-height:none}}
+.detail h3{font-size:19px;margin:0 0 2px;display:flex;align-items:center;gap:8px}
+.detail h3 i{width:11px;height:11px;border-radius:50%;flex:none}
+.detail h4{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute);margin:16px 0 6px;font-family:var(--mono);border-top:1px solid var(--line);padding-top:10px}
+.kv{display:grid;grid-template-columns:132px minmax(0,1fr) auto;gap:8px;align-items:center;margin:4px 0;font-size:13px}
+.kv span:first-child{color:var(--mute)}
+.mt{height:5px;background:var(--line);border-radius:2px;overflow:hidden}
+.mt i{display:block;height:100%;background:var(--fg)}
+.kv2{display:flex;justify-content:space-between;gap:12px;margin:3px 0;font-size:13px}
+.kv2 span:first-child{color:var(--mute)}
+.rowbtn{background:none;border:0;padding:0;cursor:pointer;text-align:left;color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--rule);margin-top:22px}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:9px 16px;cursor:pointer;color:var(--mute);font-weight:500}
+.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.panel{padding:16px 2px;min-width:0}
+.res{display:grid;gap:0;margin-top:8px}
+.res button{display:flex;justify-content:space-between;gap:12px;background:none;border:0;border-top:1px solid var(--line);padding:8px 2px;cursor:pointer;text-align:left}
+.res button:hover b{text-decoration:underline}
+.hy{border-top:1px solid var(--line);padding:10px 0;display:grid;gap:6px}
+.hy .hyf{font-size:12.5px;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--rule);background:var(--surface);padding:3px 4px 3px 9px;border-radius:99px;font-size:12.5px}
+.chip button{border:0;background:none;cursor:pointer;color:var(--mute);font-size:15px;line-height:1;padding:0 5px}
+.nav-dom{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px 24px}
+.nav-dom h4{font-size:13.5px;font-family:var(--sans);display:flex;gap:7px;align-items:center;margin-bottom:4px}
+.nav-dom h4 i{width:10px;height:10px;border-radius:50%}
+.nav-dom button{display:block;background:none;border:0;padding:2px 0;cursor:pointer;color:var(--fg);text-align:left;font-size:13px}
+.nav-dom button:hover{text-decoration:underline}
+.nav-dom button[aria-current="true"]{font-weight:600}
+.eq{font-family:var(--mono);font-size:13px;background:var(--sunk);border:1px solid var(--line);padding:10px 14px;margin:10px 0;overflow-x:auto;white-space:pre;max-width:84ch}
+.refs{font-size:13.5px;padding-left:1.4em;max-width:84ch}
+.refs li{margin:6px 0}
+dl.gl{display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 20px;font-size:14px;max-width:90ch}
+dl.gl dt{font-weight:600}dl.gl dd{margin:0;color:var(--mute)}
+@media (max-width:640px){dl.gl{grid-template-columns:minmax(0,1fr)}dl.gl dd{margin-bottom:8px}}
+.ledger{font:11.5px/1.5 var(--mono);max-height:240px;overflow:auto;border:1px solid var(--line);background:var(--sunk);padding:8px 10px}
+.ledger div{border-bottom:1px solid var(--line);padding:3px 0;word-break:break-all}
+footer.doc{border-top:1px solid var(--rule);margin-top:40px;padding-top:14px;font-size:12.5px;color:var(--mute);max-width:90ch}
+
+@media (max-width:1000px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0}
+  .toc{position:static;max-height:none;margin-bottom:20px}
+  .toc ol{display:flex;flex-wrap:wrap;gap:4px 6px;border-left:0}
+  .toc a{border:1px solid var(--line);border-radius:99px;padding:3px 11px;margin:0;background:var(--surface)}
+  .toc a[aria-current="true"]{border-color:var(--accent)}
+  .mast h1{font-size:23px}
+}
+@media print{.statusbar,.toc,.fig-bar,.tl,.tabs{display:none}}
+@media(max-width:700px){.statusbar{position:static}}
+</style></head><body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="mast">
+  <div class="mast-in">
+    <div class="org">METAVERSO TAMV Online Network · UTAMV Campus Online</div>
+    <h1>Documento maestro de integración institucional y académica</h1>
+    <p class="sub">Arquitectura civilizatoria, sistema de identidad, calidad científica y registro de ciencia abierta · Versión de integración 3.0 (síntesis canónica y consolidada) · Emisión: 1 de noviembre de 2026 · Nodo Cero, Real del Monte, Hidalgo, México</p>
+  </div>
+</header>
+<div class="statusbar" role="status" aria-live="polite"><div class="sb-in" id="statusbar"></div></div>
+
+<div class="shell">
+<nav class="toc" aria-label="Contenido">
+  <ol id="toc">
+    <li><a href="#s0"><span class="tn">0</span>Principio rector</a></li>
+    <li><a href="#s1"><span class="tn">1</span>Arquitectura de cuatro capas</a></li>
+    <li><a href="#s2"><span class="tn">2</span>Identidad institucional</a></li>
+    <li><a href="#s3"><span class="tn">3</span>Sistema TRI</a></li>
+    <li><a href="#s4"><span class="tn">4</span>Calidad científica TQAF</a></li>
+    <li><a href="#s5"><span class="tn">5</span>Pipeline editorial</a></li>
+    <li><a href="#s6"><span class="tn">6</span>Sello y registro</a></li>
+    <li><a href="#s7"><span class="tn">7</span>Gobernanza y soberanía</a></li>
+    <li><a href="#s8"><span class="tn">8</span>Instrumento HCU</a></li>
+    <li><a href="#s9"><span class="tn">9</span>Método y límites</a></li>
+    <li><a href="#s10"><span class="tn">10</span>Referencias y glosario</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+
+<section id="s0">
+  <h2><span class="n">§0</span>Principio rector: verificabilidad frente a la dogmática académica</h2>
+  <div class="prose">
+    <p>TAMV Online Network asume una premisa epistemológica fundamental: ninguna organización, independientemente de su antigüedad, presupuesto o respaldo estatal, puede atribuirse «excelencia académica absoluta» por prerrogativa histórica o decreto administrativo. La calidad científica y el rigor tecnológico no son atributos heredados; son propiedades emergentes de la transparencia, la reproducibilidad y la trazabilidad metodológica continua.</p>
+    <p>Para ello se establece el <b>Sistema de Garantía de Calidad Basado en Evidencias Auditable (TQAF)</b>. Cada output emitido bajo la afiliación de la red (investigación teórica, arquitectura de software, especificación de protocolos, modelo de inteligencia artificial o recurso de ciencia abierta) debe demostrar en abierto:</p>
+    <ol>
+      <li>Integridad científica y trazabilidad metodológica de origen.</li>
+      <li>Reproducibilidad técnica, auditoría de código y disponibilidad verificable de artefactos.</li>
+      <li>Transparencia en la atribución de autoría mediante metadatos estructurados bajo principios FAIR (<i>Findable, Accessible, Interoperable, Reusable</i>) [2].</li>
+      <li>Mecanismos formales de revisión colegiada, trazabilidad mediante registradores de procedencia inmutable y política pública de erratas y retractación.</li>
+    </ol>
+    <p>El marco adopta y expande las buenas prácticas editoriales y de ética en la publicación promovidas por el Committee on Publication Ethics (COPE) [4], alineándolas con la arquitectura de siete federaciones y la filosofía 3S (Simple, Sencillo y Sobrio) que rige a la red.</p>
+  </div>
+  <div class="note"><b>Alcance de este documento.</b> Además de enunciar el marco, el documento incorpora un instrumento computacional, el Universo Cognitivo Hiperdimensional (HCU, §8), que ejecuta sobre los datos del propio expediente los controles de §3 a §6. Todo estado mostrado se calcula a partir de los datos actuales. Los puntajes y parámetros iniciales son hipótesis de trabajo, no mediciones (véase §9).</div>
+</section>
+
+<section id="s1">
+  <h2><span class="n">§1</span>Arquitectura institucional de cuatro capas (TQAF-TRI)</h2>
+  <p class="lead">La viabilidad ante registros internacionales (ROR ID) y la comunidad de ciencia abierta exige separar identidad, atribución, calidad e infraestructura. El estado de cada capa se calcula en vivo a partir del expediente.</p>
+  <div class="layers" id="layers"></div>
+</section>
+
+<section id="s2">
+  <h2><span class="n">§2</span>Identidad institucional, matriz canónica y soberanía territorial</h2>
+  <h3>2.1 Ficha canónica institucional</h3>
+  <div class="tw"><table aria-label="Ficha canónica institucional">
+    <tbody id="ficha">
+    <tr><td class="k">Nombre oficial</td><td>METAVERSO TAMV Online Network</td></tr>
+    <tr><td class="k">Denominación expandida</td><td>Tecnología Avanzada Mexicana Versátil — Red Educativa e Institucional</td></tr>
+    <tr><td class="k">Acrónimo institucional</td><td>TAMV / UTAMV</td></tr>
+    <tr><td class="k">Naturaleza jurídica / operativa</td><td>Organización independiente de investigación aplicada, arquitectura de sistemas y ciencia abierta</td></tr>
+    <tr><td class="k">Estructura de gobernanza</td><td>Arquitectura sintético-federada de 7 federaciones</td></tr>
+    <tr><td class="k">Jurisdicción y sede</td><td>Mineral del Monte (Real del Monte), Estado de Hidalgo, Estados Unidos Mexicanos</td></tr>
+    <tr><td class="k">Nodo Cero (base operativa)</td><td>Nodo Cero LDTOCS — Hub territorial y centro de procesamiento de datos</td></tr>
+    <tr><td class="k">Portal web oficial</td><td><a href="https://visitarealdelmonte.online/tamv" rel="noopener noreferrer">visitarealdelmonte.online/tamv</a></td></tr>
+    <tr><td class="k">Repositorios canónicos</td><td><a href="https://github.com/OsoPanda1" rel="noopener noreferrer">github.com/OsoPanda1</a></td></tr>
+    <tr><td class="k">Canal de verificación</td><td>anubiscastillo@visitarealdelmonte.online</td></tr>
+    <tr><td class="k">ORCID del Director</td><td>0009-0008-5050-1539 (Edwin Oswaldo Castillo Trejo) <span id="vOrcid"></span></td></tr>
+    <tr><td class="k">ISNI del Director</td><td>0000 0005 3169 9229 <span id="vIsni"></span></td></tr>
+    <tr><td class="k">Registros DOI de base</td><td>OSF: 10.17605/OSF.IO/T3WMY <span id="vDoi1"></span><br>Zenodo: 10.5281/zenodo.19436662 <span id="vDoi2"></span></td></tr>
+    <tr><td class="k">Estatus en registro ROR</td><td>Expediente institucional abierto para asignación de ROR ID</td></tr>
+    </tbody></table></div>
+  <p class="cap2">Datos transcritos del BLUEPRINT v3.0. El instrumento verifica el formato y el dígito de control de ORCID e ISNI (ISO 7064 mod 11-2) y el formato de los DOI; no consulta los registros externos, por lo que no acredita que los identificadores existan ni correspondan a la persona o al depósito indicados.</p>
+  <p class="cap2">La ficha no enumera las siete federaciones. El instrumento HCU modela seis dominios temáticos; la correspondencia entre ambos conjuntos está por definir (pregunta abierta Q1, §9).</p>
+  <h3>2.2 Declaración de autonomía y deslinde institucional</h3>
+  <div class="prose"><p>METAVERSO TAMV Online Network y la Universidad Tecnológica Avanzada Meta Virtual (UTAMV) constituyen una infraestructura de investigación y desarrollo tecnológico soberano, nacida para validar el trabajo de campo, la ingeniería de sistemas distribuidos y la computación afectivo-cognitiva desarrollada desde la autogestión.</p></div>
+  <blockquote><b>Cláusula de transparencia y claridad operativa.</b> TAMV Online Network no opera como una institución escolarizada de educación superior sujeta a Reconocimiento de Validez Oficial de Estudios (RVOE) tradicional, ni expide títulos o cédulas profesionales de carácter estatal. Su función institucional es operar como una Academia y Red de Ciencia Abierta, ejecutando protocolos de arbitraje técnico, atribución autoral, certificación de competencias y publicación de investigaciones bajo estándares internacionales reconocidos por la comunidad científica global.</blockquote>
+</section>
+
+<section id="s3">
+  <h2><span class="n">§3</span>Sistema de atribución e identidad académica TAMV (TRI)</h2>
+  <p class="lead">Para suprimir el anonimato irresponsable y la usurpación en entornos de desarrollo colaborativo, todo investigador o desarrollador que publique bajo la afiliación de TAMV dispone de un código único: <i>TAMV Research Identity</i> (TRI).</p>
+  <div class="tri" aria-label="Estructura del código TRI">
+    <div><b>TRI</b>Prefijo</div><div><b>TAMV</b>Emisor</div><div><b>AAAA</b>Año de asignación</div><div><b>XXXX</b>Numeral único</div>
+  </div>
+  <p class="cap2">Ejemplo canónico: TRI-TAMV-2026-0001 (Dirección General de Arquitectura).</p>
+  <h3>3.1 Matriz de roles de afiliación (taxonomía CRediT adaptada) [3]</h3>
+  <div class="tw"><table><thead><tr><th>Código</th><th>Rol</th><th>Contribución exigida</th></tr></thead><tbody id="roles"></tbody></table></div>
+  <h3>3.2 Identidad de la sesión de trabajo</h3>
+  <p class="cap2">Quien opera este instrumento se identifica aquí. La identidad se valida (formato TRI, dígito de control de ORCID, rol de la matriz) y se estampa en cada entrada del registro de procedencia (§6). Sin identidad válida, las entradas quedan como «sin identificar».</p>
+  <form class="form" id="fActor" autocomplete="off" novalidate>
+    <div class="row2">
+      <label class="f"><span>Nombre público</span><input type="text" id="aName" maxlength="80"></label>
+      <label class="f"><span>Rol (matriz TRI)</span><select id="aRole"></select></label>
+    </div>
+    <div class="row2">
+      <label class="f"><span>Código TRI</span><input type="text" id="aTri" placeholder="TRI-TAMV-2026-0001" maxlength="24"></label>
+      <label class="f"><span>ORCID</span><input type="text" id="aOrcid" placeholder="0000-0000-0000-0000" maxlength="19"></label>
+    </div>
+    <div class="actions"><button type="button" class="btn" id="aDir">Cargar identificadores del Director (Ficha)</button><span class="hint" id="aHint" role="status"></span></div>
+  </form>
+  <p class="cap2"><b>Afiliación normalizada (TQAF-10, criterio 9):</b></p>
+  <pre class="code" id="aAff"></pre>
+</section>
+
+<section id="s4">
+  <h2><span class="n">§4</span>Marco de calidad científica: TQAF y estándares TQAF-10</h2>
+  <p class="lead">El <i>TAMV Quality Assurance Framework</i> audita cada recurso técnico antes de otorgarle la afiliación institucional de la red.</p>
+  <h3>4.1 Niveles de evidencia (N1–N3)</h3>
+  <div class="tw"><table><thead><tr><th>Nivel</th><th>Tipo de output</th><th>Control aplicado</th></tr></thead><tbody>
+    <tr><td><b>N3</b></td><td>Resultados científicos y académicos: preprints, <i>data papers</i>, algoritmos ML, artículos de investigación, modelos formales de IA y conjuntos de datos de campo.</td><td>Arbitraje experto, revisión por pares y verificación de reproducibilidad.</td></tr>
+    <tr><td><b>N2</b></td><td>Especificaciones técnicas y arquitectónicas: <i>white papers</i>, esquemas de red, contratos criptográficos, manuales, arquitecturas de software.</td><td>Auditoría de código, análisis de vulnerabilidades y verificación de ejecución.</td></tr>
+    <tr><td><b>N1</b></td><td>Documentos institucionales y de gobernanza: manifiestos, políticas editoriales, guías operativas de dominio.</td><td>Revisión de coherencia doctrinal y corrección de estilo.</td></tr>
+  </tbody></table></div>
+  <h3>4.2 Decálogo de cumplimiento TQAF-10: estado del expediente</h3>
+  <p class="cap2">Ningún recurso obtiene registro DOI o respaldo institucional sin el cumplimiento verificado de los diez principios. Cada criterio se evalúa con una de cinco etiquetas: <b>Verificado</b> (lo comprueba el instrumento), <b>Declarado</b> (lo afirma el autor; exige revisión humana), <b>Parcial</b>, <b>Pendiente</b>, o <b>Externo</b> (requiere un proceso fuera del instrumento).</p>
+  <div class="tw"><table aria-label="Matriz TQAF-10"><thead><tr><th class="num">N.º</th><th>Criterio</th><th>Estado</th><th>Fundamento del estado</th></tr></thead><tbody id="tqaf"></tbody></table></div>
+  <h3>4.3 Declaraciones del expediente</h3>
+  <form class="form" id="fExp" autocomplete="off" novalidate>
+    <div class="row3">
+      <label class="f"><span>Nivel del expediente (criterio de §4.1)</span><select id="eLevel"><option value="">— sin declarar —</option><option>N1</option><option>N2</option><option>N3</option></select></label>
+      <label class="f"><span>Replicabilidad (criterio 5)</span><select id="eRepl"><option value="">— sin declarar —</option><option>Total</option><option>Parcial</option><option>Condicionada</option></select></label>
+      <label class="f"><span>Versión del expediente</span><input type="text" id="eVer" maxlength="20"></label>
+    </div>
+    <label class="f"><span>Vacío de conocimiento y justificación (criterio 2; mínimo 80 caracteres)</span><textarea id="eProblem" maxlength="1200"></textarea></label>
+    <label class="chk"><input type="checkbox" id="eAuth"><span>Declaro la autenticidad del trabajo y que su autoría está atribuida conforme a §3 (criterio 1).</span></label>
+    <div class="row2">
+      <label class="f"><span>Informe de coincidencia textual (URL o identificador)</span><input type="text" id="ePlag" maxlength="200"></label>
+      <label class="f"><span>Repositorio de código (DOI o URL)</span><input type="text" id="eCode" maxlength="200"></label>
+    </div>
+    <div class="row2">
+      <label class="f"><span>DOI del expediente</span><input type="text" id="eDoi" placeholder="10.xxxx/…" maxlength="120"></label>
+      <label class="f"><span>DOI del depósito de preservación (criterio 10)</span><input type="text" id="eDeposit" placeholder="10.5281/zenodo.…" maxlength="120"></label>
+    </div>
+    <div class="row2">
+      <label class="f"><span>Referencia de la firma criptográfica (huella o URL)</span><input type="text" id="eSig" maxlength="200"></label>
+      <label class="f"><span>URL de publicación en el catálogo TAMV</span><input type="text" id="ePub" maxlength="200"></label>
+    </div>
+    <span class="hint" id="eHint" role="status"></span>
+  </form>
+</section>
+
+<section id="s5">
+  <h2><span class="n">§5</span>Pipeline editorial y flujo de auditoría trazable</h2>
+  <p class="lead">El flujo garantiza la independencia entre la autoría y el arbitraje. Las etapas 1, 2, 4, 7 y parte de la 3 y la 5 se determinan automáticamente; las etapas 6 y 8 son declarativas porque dependen de actos fuera del instrumento.</p>
+  <ol class="steps" id="pipeline"></ol>
+  <h3>5.1 Auditoría de integridad (TQAF etapa 1)</h3>
+  <p class="cap2">Un defecto crítico implica rechazo directo. Los controles no críticos advierten, pero no bloquean.</p>
+  <div class="tw"><table><thead><tr><th>Control</th><th>Tipo</th><th>Resultado</th><th>Detalle</th></tr></thead><tbody id="audit"></tbody></table></div>
+  <h3>5.2 Dictámenes de arbitraje y actas</h3>
+  <form class="form" id="fRev" autocomplete="off" novalidate>
+    <div class="row3">
+      <label class="f"><span>Instancia</span><select id="rKind"><option value="par">Revisión por pares</option><option value="comite">Comité de Gobernanza Científica</option></select></label>
+      <label class="f"><span>TRI del dictaminador</span><input type="text" id="rTri" placeholder="TRI-TAMV-2026-0002" maxlength="24"></label>
+      <label class="f"><span>Dictamen</span><select id="rVerdict"><option>Aprobado</option><option>Cambios solicitados</option><option>Rechazado</option></select></label>
+    </div>
+    <label class="f"><span>Observaciones del dictamen</span><textarea id="rObs" maxlength="800"></textarea></label>
+    <label class="f"><span>Respuesta de los autores (si ya existe)</span><textarea id="rResp" maxlength="800"></textarea></label>
+    <div class="actions"><button class="btn pri" type="submit">Registrar dictamen</button><span class="hint" id="rHint" role="status"></span></div>
+  </form>
+  <div class="tw"><table><thead><tr><th>Fecha</th><th>Instancia</th><th>TRI</th><th>Dictamen</th><th>Independencia</th><th></th></tr></thead><tbody id="reviews"></tbody></table></div>
+  <p class="cap2">La independencia se verifica comparando el TRI del dictaminador con los TRI de autoría registrados en los átomos y en la identidad de la sesión.</p>
+</section>
+
+<section id="s6">
+  <h2><span class="n">§6</span>Sello de verificación, registro de procedencia y exportación FAIR</h2>
+  <p class="lead">El sello de la red se emite por decisión del Comité, no por este instrumento. Aquí se muestra el proyecto de sello con los datos que el expediente ya acredita y las condiciones que faltan.</p>
+  <div id="seal"></div>
+  <h3>6.1 Sello de integridad de datos</h3>
+  <p class="cap2">Calcula SHA3-512 [5] sobre la forma canónica de cada átomo (valores, atribución e hiperaristas incidentes con sus fuentes) y una raíz sobre todos los hashes. Detecta cualquier cambio posterior. Es integridad local: no es una firma ni un anclaje externo.</p>
+  <div class="actions"><button class="btn pri" id="bSeal">Sellar datos actuales</button><button class="btn" id="bVerify">Verificar cadena de registro</button><span class="hint" id="lStatus" role="status"></span></div>
+  <div id="sealInfo" class="cap2"></div>
+  <h3>6.2 Registro de procedencia encadenado</h3>
+  <p class="cap2">Cada cambio de datos, declaración o dictamen se agrega con la identidad de la sesión, la marca de tiempo y el hash de la entrada anterior. Alterar una entrada rompe la cadena. No sustituye un depósito externo: quien controla el navegador puede reescribir toda la cadena.</p>
+  <div class="ledger" id="ledger" tabindex="0" aria-label="Registro de procedencia"></div>
+  <h3>6.3 Exportación</h3>
+  <div class="actions">
+    <button class="btn" id="bLd">Metadatos FAIR (JSON-LD)</button>
+    <button class="btn" id="bData">Datos del modelo (JSON)</button>
+    <button class="btn" id="bLed">Registro de procedencia (JSON)</button>
+  </div>
+  <textarea class="out" id="out" readonly hidden aria-label="Salida de exportación"></textarea>
+  <div class="actions"><button class="btn" id="bCopy" hidden>Copiar</button><span class="hint" id="cStatus" role="status"></span></div>
+</section>
+
+<section id="s7">
+  <h2><span class="n">§7</span>Gobernanza tecnológica, privacidad y soberanía</h2>
+  <div class="prose">
+    <p><b>Protección de datos y privacidad del registro TRI.</b> El sistema de identificación académica recopila y publica únicamente los campos necesarios para la atribución científica: nombre público, ORCID, líneas de investigación, filiación institucional y repositorios oficiales. Se prohíbe el tratamiento de datos personales sensibles no vinculados a la actividad académica.</p>
+    <p><b>Resiliencia e infraestructura soberana.</b> Los metadatos de las publicaciones, las actas de arbitraje y el código fuente se almacenan de forma redundante en la infraestructura del Nodo Cero y en plataformas descentralizadas de acceso abierto (OSF, Zenodo, GitHub, CERN OpenAIRE), para asegurar disponibilidad permanente del acervo independientemente de contingencias operativas o políticas externas.</p>
+  </div>
+  <div class="note warn"><b>Estado en este instrumento.</b> Todos los datos de esta página se guardan solo en el almacenamiento local de este navegador. No se transmiten a ningún servidor. La redundancia descrita en el párrafo anterior es una política de la red, no una función de este instrumento: exige depositar las exportaciones de §6.3 en los repositorios indicados.</div>
+  <div class="actions"><button class="btn dng" id="bWipe">Restaurar semilla y borrar datos locales</button><span class="hint" id="wHint"></span></div>
+</section>
+
+<section id="s8">
+  <h2><span class="n">§8</span>Instrumento HCU: modelación causal y registro de evidencia</h2>
+  <p class="lead">El Universo Cognitivo Hiperdimensional representa 6 dominios, sus átomos cognitivos y las hiperaristas que los vinculan, con el Ω Core como núcleo de lectura agregada. Cada elemento visual codifica un valor calculado; ningún indicador es aleatorio ni decorativo.</p>
+  <div class="note"><b>Cómo se usa.</b> (1) Selecciona un átomo o busca por intención. (2) Registra un choque: un nodo, un año y una intensidad. (3) Mueve la línea temporal y compara los escenarios A, B y C. (4) Pon en cuarentena un nodo para contener su propagación. (5) Cita la fuente de cada hiperarista y sella los datos (§6). Pasar de hipótesis a conocimiento exige el paso 5.</div>
+  <figure class="fig" style="margin-left:0;margin-right:0">
+    <div class="fig-bar" role="group" aria-label="Capa visual">
+      <span class="lbl">Capa</span>
+      <div class="seg" id="layerSeg">
+        <button type="button" class="btn sm" data-layer="dom">Dominio</button>
+        <button type="button" class="btn sm" data-layer="risk">Riesgo</button>
+        <button type="button" class="btn sm" data-layer="ev">Evidencia</button>
+        <button type="button" class="btn sm" data-layer="pod">Pods</button>
+        <button type="button" class="btn sm" data-layer="q">Incertidumbre</button>
+      </div>
+      <button type="button" class="btn sm" id="tgH" aria-pressed="true">Hiperaristas</button>
+      <button type="button" class="btn sm" id="tgF" aria-pressed="true">Flujo</button>
+      <button type="button" class="btn sm" id="tgR" aria-pressed="true">Rotación orbital</button>
+    </div>
+    <div class="fig-main">
+      <div class="stage" id="stage">
+        <canvas id="cv" role="img" aria-label="Universo cognitivo en proyección tridimensional: Ω Core, seis dominios y sus átomos. Use la lista de dominios y átomos de la consola para navegar con teclado."></canvas>
+        <div class="legend" id="lg"></div>
+        <div class="cap" id="cap"></div>
+      </div>
+      <aside class="detail" id="detail" aria-live="polite"></aside>
+    </div>
+    <div class="tl">
+      <button type="button" class="btn sm" id="play" aria-label="Reproducir línea temporal">▶ Reproducir</button>
+      <label class="f" style="margin:0"><span class="mono" style="display:flex;justify-content:space-between"><span>2026</span><b id="yv" style="color:var(--fg)">2032</b><span>2050</span></span>
+        <input type="range" id="year" min="2026" max="2050" step="1" value="2032" aria-label="Año simulado"></label>
+      <span class="lbl" style="font:500 11px var(--mono);color:var(--mute);text-transform:uppercase;letter-spacing:.06em">Escenario</span>
+      <div class="seg" id="scSeg" role="group" aria-label="Escenario">
+        <button type="button" class="btn sm" data-sc="A">A · Controlada</button>
+        <button type="button" class="btn sm" data-sc="B">B · Estructural</button>
+        <button type="button" class="btn sm" data-sc="C">C · Mutación</button>
+      </div>
+    </div>
+    <figcaption class="cap2" style="padding:8px 12px" id="figcap"></figcaption>
+  </figure>
+
+  <div class="tabs" role="tablist" aria-label="Consola del instrumento">
+    <button role="tab" id="t-explore" aria-selected="true" aria-controls="p-explore">Explorar</button>
+    <button role="tab" id="t-shock" aria-selected="false" aria-controls="p-shock">Choques y contención</button>
+    <button role="tab" id="t-hyp" aria-selected="false" aria-controls="p-hyp">Hiperaristas y fuentes</button>
+    <button role="tab" id="t-atoms" aria-selected="false" aria-controls="p-atoms">Átomos y autoría</button>
+  </div>
+
+  <div class="panel" id="p-explore" role="tabpanel" aria-labelledby="t-explore">
+    <label class="f" style="max-width:640px"><span>Búsqueda por intención (separe los términos con «+»: p. ej. «IA + educación + clima»)</span><input type="text" id="q" maxlength="120" autocomplete="off"></label>
+    <div class="hint" id="qHint"></div>
+    <div class="res" id="qres"></div>
+    <h3>Dominios y átomos</h3>
+    <div class="nav-dom" id="navDom"></div>
+  </div>
+
+  <div class="panel" id="p-shock" role="tabpanel" aria-labelledby="t-shock" hidden>
+    <h3 style="margin-top:0">Registrar choque exógeno</h3>
+    <form class="form" id="fShock" novalidate>
+      <div class="row4">
+        <label class="f"><span>Nodo</span><select id="shNode"></select></label>
+        <label class="f"><span>Año (2026–2050)</span><input type="number" id="shYear" min="2026" max="2050" step="1" value="2026"></label>
+        <label class="f"><span>Intensidad <b class="mono" id="shMagV" style="color:var(--fg)">+1.0</b></span><input type="range" id="shMag" min="-1" max="1" step="0.1" value="1"></label>
+        <label class="f"><span>&nbsp;</span><button type="submit" class="btn pri">Registrar choque</button></label>
+      </div>
+    </form>
+    <p class="cap2">Intensidad positiva: el nodo se intensifica; negativa: se reduce. La activación resultante es una magnitud relativa en [−1, 1], no una probabilidad.</p>
+    <div class="chips" id="shList"></div>
+    <h3>Cuarentena activa</h3>
+    <p class="cap2">Un nodo en cuarentena sigue recibiendo efectos, pero no transmite: se anula su salida hacia hiperaristas y contención de dominio.</p>
+    <div class="chips" id="quarList"></div>
+  </div>
+
+  <div class="panel" id="p-hyp" role="tabpanel" aria-labelledby="t-hyp" hidden>
+    <p class="cap2">Fuerza (0.05–1) y rezago (1–15 años) iniciales son hipótesis. Una hiperarista solo cuenta como trazable cuando cita una fuente con formato válido (DOI o URL) y declara el nivel TQAF del output citado.</p>
+    <div id="hList"></div>
+    <h3>Nueva hiperarista</h3>
+    <form class="form" id="fHyp" novalidate>
+      <label class="f"><span>Etiqueta</span><input type="text" id="hnLabel" maxlength="80"></label>
+      <div class="row2">
+        <label class="f"><span>Orígenes (selección múltiple)</span><select id="hnS" multiple size="7"></select></label>
+        <label class="f"><span>Destinos (selección múltiple)</span><select id="hnT" multiple size="7"></select></label>
+      </div>
+      <div class="row3">
+        <label class="f"><span>Efecto sobre los destinos</span><select id="hnSign"><option value="1">Intensifica (+)</option><option value="-1">Reduce (−)</option></select></label>
+        <label class="f"><span>Fuerza</span><input type="number" id="hnW" min="0.05" max="1" step="0.05" value="0.3"></label>
+        <label class="f"><span>Rezago (años)</span><input type="number" id="hnLag" min="1" max="15" step="1" value="2"></label>
+      </div>
+      <div class="actions"><button type="submit" class="btn pri">Agregar hiperarista</button><span class="hint" id="hnHint" role="status"></span></div>
+    </form>
+  </div>
+
+  <div class="panel" id="p-atoms" role="tabpanel" aria-labelledby="t-atoms" hidden>
+    <h3 style="margin-top:0">Atribución en bloque</h3>
+    <form class="form" id="fBulk" novalidate>
+      <div class="row3">
+        <label class="f"><span>Código TRI</span><input type="text" id="bkTri" placeholder="TRI-TAMV-2026-0001" maxlength="24"></label>
+        <label class="f"><span>Rol</span><select id="bkRole"></select></label>
+        <label class="f"><span>&nbsp;</span><button type="submit" class="btn">Asignar a los átomos sin atribución</button></label>
+      </div>
+      <span class="hint" id="bkHint" role="status"></span>
+    </form>
+    <div class="tw"><table><thead><tr><th>Átomo</th><th>Dominio</th><th class="num">X</th><th class="num">Y</th><th class="num">Z</th><th>TRI</th><th>Rol</th><th></th></tr></thead><tbody id="aList"></tbody></table></div>
+    <h3>Nuevo átomo cognitivo</h3>
+    <form class="form" id="fAtom" novalidate>
+      <div class="row2">
+        <label class="f"><span>Nombre</span><input type="text" id="anName" maxlength="48"></label>
+        <label class="f"><span>Dominio</span><select id="anDom"></select></label>
+      </div>
+      <div class="row3">
+        <label class="f"><span>Influencia sistémica X (0–100)</span><input type="number" id="anImp" min="0" max="100" value="80"></label>
+        <label class="f"><span>Riesgo Y (0–100)</span><input type="number" id="anRisk" min="0" max="100" value="60"></label>
+        <label class="f"><span>Evidencia declarada Z (0–100)</span><input type="number" id="anEv" min="0" max="100" value="80"></label>
+      </div>
+      <label class="f"><span>Descripción</span><input type="text" id="anNote" maxlength="240"></label>
+      <label class="f"><span>Vincular con (destinos de una hiperarista nueva; opcional)</span><select id="anLinks" multiple size="6"></select></label>
+      <div class="actions"><button type="submit" class="btn pri">Crear átomo</button><span class="hint" id="anHint" role="status"></span></div>
+    </form>
+  </div>
+</section>
+
+<section id="s9">
+  <h2><span class="n">§9</span>Método, reproducibilidad y límites de validez</h2>
+  <div class="prose">
+    <p>El modelo es un sistema discreto anual sobre un hipergrafo dirigido [6]: cada hiperarista conecta un conjunto de orígenes con un conjunto de destinos. La propagación de choques entre nodos con rezagos se inscribe en la tradición del análisis de impactos cruzados [7] y del pensamiento sistémico [8]. No pretende reproducir ninguno de esos métodos: es un modelo de trabajo con parámetros explícitos.</p>
+  </div>
+  <h3>9.1 Formulación</h3>
+  <div class="eq">a_i(t) = clip[−1,1]( δ·a_i(t−1) + Σ_{e: i∈T_e} σ_ei · w_e · γ · (1 + α·(r_i − ½)) · s_e(t−λ_e) + c_i(t) + u_i(t) )
+s_e(τ)  = |S_e|^(−½) · Σ_{j∈S_e} q_j · a_j(τ)             q_j = 0 si j está en cuarentena; q_j = 1 en otro caso
+c_i(t)  : dominio ← 0.25·γ·media(a_átomos(t−1)) ;  átomo ← 0.10·γ·a_dominio(t−1)
+u_i(t)  : choques exógenos registrados (nodo, año, intensidad)
+Q_i(t)  = clip[0,1]( 0.10 + 0.50·(1 − Z_i) + 0.012·(año − 2026) )          incertidumbre
+Ω_i(t)  = X_i · (1 − Q_i(t))        κ_i(t) = Z_i · (1 − Q_i(t))            potencial ajustado y coherencia
+Tensión(t) = Σ_i X_i·|a_i(t)| / Σ_i X_i          (i recorre los átomos)</div>
+  <p class="cap2">X: influencia sistémica, r: riesgo (÷100), Z: evidencia declarada (÷100). w_e: fuerza; λ_e: rezago en años (≥ 1); σ_ei = ±1 según el efecto sobre el destino. Los valores de dominio y Ω Core son agregados (medias) de sus átomos.</p>
+  <h3>9.2 Escenarios</h3>
+  <div class="tw"><table><thead><tr><th>Escenario</th><th class="num">γ ganancia</th><th class="num">δ persistencia</th><th class="num">α amplificación por riesgo</th></tr></thead><tbody id="scTable"></tbody></table></div>
+  <h3>9.3 Reglas derivadas</h3>
+  <div class="prose"><ul>
+    <li><b>Orbital.</b> S: sin hiperaristas activas. P: al menos una, sin cruce de dominios. D: al menos dos con cruce de dominios. F: D y evidencia declarada ≥ 95. Es una medida de madurez estructural, no de importancia.</li>
+    <li><b>Índice ISCIR (heredado del prototipo).</b> Ω7: evidencia ≥ 95 y todas las hiperaristas incidentes con fuente válida. Ω6: evidencia ≥ 90. Ω5: en otro caso. Es un índice interno; no equivale a una certificación TQAF.</li>
+    <li><b>Confianza</b> = 0.7·Z + 0.3·trazabilidad, con trazabilidad = fracción de hiperaristas incidentes con fuente de formato válido.</li>
+    <li><b>Carga de pod (índice simulado, 0–99)</b> = 8 + 4·grado + 80·|a|. No es telemetría de un clúster.</li>
+    <li><b>Sensibilidad.</b> 200 ejecuciones Monte Carlo con semilla 20261101: w ±25 %, rezago ±1 año, γ ±15 %, δ ±10 %. La banda del gráfico de cada nodo es el intervalo entre los percentiles 10 y 90.</li>
+    <li><b>Reproducibilidad.</b> La simulación es determinista; dos ejecuciones con los mismos datos producen el mismo resumen SHA3-512 (control A6 de §5).</li>
+  </ul></div>
+  <h3>9.4 Límites de validez</h3>
+  <div class="note warn"><ol style="margin:0;padding-left:1.2em">
+    <li><b>Parámetros no calibrados.</b> Las fuerzas, los rezagos y los parámetros de escenario son hipótesis iniciales, no estimaciones empíricas. Las hiperaristas marcadas «hipótesis» fueron añadidas por quien implementó el instrumento y no provienen de los prototipos.</li>
+    <li><b>Puntajes sin medición.</b> Influencia, riesgo y evidencia de cada átomo provienen de los prototipos del autor. Educación y Trabajo, nodos referidos por los prototipos pero sin puntajes, llevan valores provisionales y están marcados.</li>
+    <li><b>Magnitudes relativas.</b> Una activación de 0.5 no es una probabilidad ni una medida física. La banda de sensibilidad refleja incertidumbre estructural del propio modelo, no un intervalo de confianza estadístico.</li>
+    <li><b>Linealidad.</b> El modelo es lineal con saturación en ±1; no incluye cambios estructurales endógenos, umbrales ni retroalimentación fuera de las hiperaristas declaradas.</li>
+    <li><b>Integridad local.</b> El sello y el registro encadenado detectan alteraciones, pero residen en el navegador. La inmutabilidad requiere depósito externo (criterio 10).</li>
+    <li><b>Terminología.</b> «Estado cuántico», «coherencia» y «fase ψ» provienen de los prototipos y se usan como nomenclatura del sistema; el modelo es clásico y no implica computación cuántica. Véase el glosario.</li>
+  </ol></div>
+  <h3>9.5 Preguntas abiertas</h3>
+  <div class="prose"><ul>
+    <li><b>Q1.</b> Correspondencia entre los seis dominios del HCU y las siete federaciones de la gobernanza sintético-federada.</li>
+    <li><b>Q2.</b> Procedencia y método de obtención de los puntajes X, Y, Z de los átomos.</li>
+    <li><b>Q3.</b> Plan de calibración empírica de fuerzas y rezagos con las fuentes citadas por hiperarista.</li>
+    <li><b>Q4.</b> Definición formal de ISCIR y VETRA: se mencionan en los prototipos, pero no figuran en el BLUEPRINT.</li>
+  </ul></div>
+</section>
+
+<section id="s10">
+  <h2><span class="n">§10</span>Referencias y glosario</h2>
+  <h3>Referencias</h3>
+  <ol class="refs">
+    <li>World Economic Forum (2017). <i>World Economic Forum launches platform to map global transformation</i> (Transformation Maps, 9 de noviembre de 2017). weforum.org.</li>
+    <li>Wilkinson, M. D. et al. (2016). The FAIR Guiding Principles for scientific data management and stewardship. <i>Scientific Data</i> 3, 160018. doi:10.1038/sdata.2016.18</li>
+    <li>Brand, A., Allen, L., Altman, M., Hlava, M. y Scott, J. (2015). Beyond authorship: attribution, contribution, collaboration, and credit. <i>Learned Publishing</i> 28(2), 151–155. doi:10.1087/20150211</li>
+    <li>Committee on Publication Ethics (COPE). <i>Core Practices</i>. publicationethics.org.</li>
+    <li>NIST (2015). <i>FIPS 202: SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions</i>. doi:10.6028/NIST.FIPS.202</li>
+    <li>Berge, C. (1973). <i>Graphs and Hypergraphs</i>. North-Holland, Ámsterdam.</li>
+    <li>Gordon, T. J. y Hayward, H. (1968). Initial experiments with the cross impact matrix method of forecasting. <i>Futures</i> 1(2), 100–116.</li>
+    <li>Meadows, D. H. (2008). <i>Thinking in Systems: A Primer</i>. Chelsea Green Publishing.</li>
+    <li>ISO 7064:1983. <i>Data processing — Check character systems</i> (sistema MOD 11-2, usado por ORCID e ISNI, ISO 27729).</li>
+  </ol>
+  <h3>Glosario y equivalencias con los prototipos</h3>
+  <dl class="gl">
+    <dt>Átomo cognitivo</dt><dd>Nodo del hipergrafo con tres puntajes declarados (X, Y, Z) y atribución TRI. En los prototipos: «Cognitive Quantum Atom».</dd>
+    <dt>Hiperarista</dt><dd>Relación dirigida de varios orígenes a varios destinos, con signo, fuerza, rezago y fuente. Sustituye las líneas A–B.</dd>
+    <dt>Ω Core</dt><dd>Nodo de lectura agregada: promedia dominios y expone tensión sistémica, riesgo ponderado y diagnóstico. No emite señales.</dd>
+    <dt>Incertidumbre y coherencia (Q, κ)</dt><dd>Magnitudes definidas en §9.1. Nomenclatura heredada: «estado cuántico»; el colapso corresponde a fijar el estado en el año visible al seleccionar un nodo.</dd>
+    <dt>Fase ψ</dt><dd>Ángulo determinista derivado del hash del identificador del nodo. Sirve para distribuirlo visualmente; no es una magnitud física.</dd>
+    <dt>Pod cognitivo</dt><dd>Representación de carga computacional simulada por nodo. No corresponde a recursos de Kubernetes.</dd>
+    <dt>Cuarentena</dt><dd>Contención de propagación: anula la salida del nodo en la simulación. En los prototipos: «Cuarentena VETRA».</dd>
+    <dt>Orbitales S, P, D, F</dt><dd>Niveles de madurez estructural definidos en §9.3, calculados a partir de las hiperaristas.</dd>
+    <dt>ISCIR, VETRA</dt><dd>Términos heredados de los prototipos; su definición formal está pendiente (Q4).</dd>
+  </dl>
+  <footer class="doc">Documento maestro auditable · Versión de integración 3.0 · 1 de noviembre de 2026. Este documento y el instrumento se encuentran en estado de borrador de trabajo: no constituyen un output verificado ni certificado conforme a TQAF-10 mientras el proyecto de sello (§6) figure como «No emitido».</footer>
+</section>
+
+</main>
+</div>
+
+<script>/* Núcleo lógico del instrumento HCU. Sin DOM: se prueba en Node y se incrusta en la página. */
+var Core=(function(){
+"use strict";
+var Y0=2026,T=24;
+
+/* ---------- SHA3-512 (FIPS 202), implementación propia con BigInt ---------- */
+var M64=(1n<<64n)-1n;
+var RC=[0x0000000000000001n,0x0000000000008082n,0x800000000000808An,0x8000000080008000n,0x000000000000808Bn,0x0000000080000001n,0x8000000080008081n,0x8000000000008009n,0x000000000000008An,0x0000000000000088n,0x0000000080008009n,0x000000008000000An,0x000000008000808Bn,0x800000000000008Bn,0x8000000000008089n,0x8000000000008003n,0x8000000000008002n,0x8000000000000080n,0x000000000000800An,0x800000008000000An,0x8000000080008081n,0x8000000000008080n,0x0000000080000001n,0x8000000080008008n];
+var ROT=[[0,36,3,41,18],[1,44,10,45,2],[62,6,43,15,61],[28,55,25,21,56],[27,20,39,8,14]];
+function rotl(v,r){return r?(((v<<r)|(v>>(64n-r)))&M64):v;}
+function keccakF(s){
+  var r,x,y,i,C=[],D=[],B=[];
+  for(r=0;r<24;r++){
+    for(x=0;x<5;x++)C[x]=s[x]^s[x+5]^s[x+10]^s[x+15]^s[x+20];
+    for(x=0;x<5;x++)D[x]=C[(x+4)%5]^rotl(C[(x+1)%5],1n);
+    for(i=0;i<25;i++)s[i]^=D[i%5];
+    for(x=0;x<5;x++)for(y=0;y<5;y++)B[y+5*((2*x+3*y)%5)]=rotl(s[x+5*y],BigInt(ROT[x][y]));
+    for(x=0;x<5;x++)for(y=0;y<5;y++)s[x+5*y]=B[x+5*y]^((~B[(x+1)%5+5*y]&M64)&B[(x+2)%5+5*y]);
+    s[0]^=RC[r];
+  }
+}
+function sha3(str){
+  var bytes=new TextEncoder().encode(String(str)),rate=72,len=bytes.length,pad=rate-(len%rate);
+  var msg=new Uint8Array(len+pad),s=[],i,j,off;
+  for(i=0;i<25;i++)s.push(0n);
+  msg.set(bytes);msg[len]^=0x06;msg[len+pad-1]^=0x80;
+  for(off=0;off<msg.length;off+=rate){
+    for(i=0;i<rate/8;i++){var v=0n;for(j=7;j>=0;j--)v=(v<<8n)|BigInt(msg[off+i*8+j]);s[i]^=v;}
+    keccakF(s);
+  }
+  var out="";
+  for(i=0;i<8;i++)for(j=0;j<8;j++)out+=("0"+Number((s[i]>>BigInt(8*j))&0xFFn).toString(16)).slice(-2);
+  return out;
+}
+
+/* ---------- Validadores de identificadores ---------- */
+function mod112(d15){var t=0,i;for(i=0;i<d15.length;i++)t=(t+(+d15[i]))*2;var c=(12-(t%11))%11;return c===10?"X":String(c);}
+function orcid(s){var m=/^(\d{4})-(\d{4})-(\d{4})-(\d{3}[\dX])$/.exec(String(s||"").trim());if(!m)return false;var d=m[1]+m[2]+m[3]+m[4];return mod112(d.slice(0,15))===d[15];}
+function isni(s){var d=String(s||"").replace(/\s+/g,"");return /^\d{15}[\dX]$/.test(d)&&mod112(d.slice(0,15))===d[15];}
+function tri(s){return /^TRI-TAMV-(20\d{2})-(\d{4})$/.test(String(s||"").trim());}
+var ROLES=[
+ ["TRI-F","Founding Custodian / Dirección Científica","Preservación del canon conceptual, visión sistémica y liderazgo de la arquitectura civilizatoria."],
+ ["TRI-R","Research Fellow / Investigador Principal","Formulación de hipótesis, modelado matemático, diseño metodológico y redacción científica."],
+ ["TRI-D","Systems Engineer & Code Architect","Desarrollo de software, implementación de motores, construcción de algoritmos (ML/WebGL/criptografía) y reproducibilidad técnica."],
+ ["TRI-E","Editor & Auditor Neutral","Verificación de integridad metodológica, revisión por pares y auditoría de seguridad y código."],
+ ["TRI-C","Specialized Collaborator","Aportación de datos primarios, trabajo de campo, preservación histórica o análisis territorial."],
+ ["TRI-A","External Associated Researcher","Coautoría de investigadores adscritos a universidades o centros de investigación externos."],
+ ["TRI-S","Student / Junior Developer","Investigador en formación que participa bajo mentoría técnica documentada."]
+];
+function roleOk(r){return ROLES.some(function(x){return x[0]===r;});}
+function doiNorm(s){return String(s||"").trim().replace(/^https?:\/\/(dx\.)?doi\.org\//i,"").replace(/^doi:\s*/i,"");}
+function doi(s){return /^10\.\d{4,9}\/\S+$/i.test(doiNorm(s));}
+function url(s){return /^https?:\/\/[^\s/]+\.[^\s/]+\S*$/i.test(String(s||"").trim());}
+function refOk(s){return doi(s)||url(s);}
+
+/* ---------- Datos semilla (tomados de los prototipos del autor) ---------- */
+var DOMS=[
+ ["IA y Cognición","La inteligencia artificial redefine la producción de conocimiento, la toma de decisiones y la organización del trabajo."],
+ ["Economía Soberana","El valor económico se desplaza hacia activos cognitivos, datos verificables y capacidades de ejecución."],
+ ["Gobernanza","La legitimidad depende de evidencia, transparencia, participación y rendición de cuentas."],
+ ["Clima y Biosfera","El clima reorganiza economía, salud, seguridad y estabilidad geopolítica."],
+ ["Salud y Vida","La salud se vuelve preventiva, personalizada y dependiente de datos, biotecnología y confianza pública."],
+ ["Seguridad","La seguridad ya no es solo militar: es digital, informacional, biológica y cognitiva."]
+];
+var SEED_A=[
+ ["ia","IA Generativa",0,94,72,98,"La IA generativa transforma la creación de conocimiento, pero exige gobernanza, trazabilidad y validación de evidencia."],
+ ["ag","Agentes Autónomos",0,88,86,95,"Los agentes autónomos ejecutan tareas complejas y redistribuyen capacidad cognitiva entre personas, organizaciones y sistemas."],
+ ["mem","Memoria Ejecutiva",0,86,68,93,"La memoria persistente permite continuidad contextual, aprendizaje institucional y decisiones más coherentes."],
+ ["rns","Razonamiento Neuro-Simbólico",0,91,74,96,"La fusión de redes neuronales, lógica y grafos mejora explicabilidad, verificación y razonamiento complejo."],
+ ["edu","Educación",0,88,62,84,"La educación se redefine con IA: personalización, evaluación y nuevas competencias; exige evidencia sobre el aprendizaje real.",1],
+ ["mia","Mercados de IA",1,87,79,92,"Los mercados de capacidades cognitivas convierten skills, agentes y datos en activos económicos licenciables."],
+ ["edig","Economía Digital",1,91,74,94,"La economía digital reorganiza producción, distribución y captura de valor mediante plataformas e infraestructura digital."],
+ ["fsos","Finanzas Sostenibles",1,83,68,90,"El capital se alinea con riesgo climático, impacto social y resiliencia de largo plazo."],
+ ["isa","Créditos ISA",1,78,62,88,"Los créditos cognitivos permiten microtransacciones, acceso progresivo y liquidez dentro de ecosistemas digitales."],
+ ["trab","Trabajo",1,90,74,82,"El trabajo se reorganiza por automatización y agentes: nuevas ocupaciones, transición de habilidades y protección social.",1],
+ ["ggl","Gobernanza Global",2,89,84,95,"La gobernanza global coordina Estados, empresas, ciencia y sociedad frente a riesgos transnacionales."],
+ ["icie","Integridad Científica",2,95,72,98,"La integridad científica sostiene la confianza pública mediante reproducibilidad, transparencia y revisión independiente."],
+ ["ddig","Democracia Digital",2,81,76,91,"La democracia digital enfrenta desinformación, concentración de poder y nuevas formas de participación ciudadana."],
+ ["vet","VETRA Governance",2,97,64,99,"VETRA integra evidencia, seguridad, ética y gobernanza en una certificación integral de confianza."],
+ ["cc","Cambio Climático",3,97,95,99,"El cambio climático es una fuerza sistémica que reconfigura economía, salud, migración y seguridad global."],
+ ["ten","Transición Energética",3,92,86,96,"La transición energética sustituye sistemas fósiles por arquitecturas limpias, distribuidas y resilientes."],
+ ["bio","Biodiversidad",3,88,81,94,"La biodiversidad sostiene la estabilidad ecológica, alimentaria y climática del planeta."],
+ ["ecir","Economía Circular",3,84,66,92,"La economía circular reduce residuos, presión material y dependencia de recursos finitos."],
+ ["sg","Salud Global",4,90,83,95,"La salud global depende de equidad, vigilancia, prevención y cooperación científica internacional."],
+ ["sm","Salud Mental",4,85,71,92,"La salud mental es un determinante central de productividad, cohesión social y resiliencia."],
+ ["bte","Biotecnología",4,89,77,94,"La biotecnología transforma medicina, alimentos y bioeconomía, pero exige gobernanza ética rigurosa."],
+ ["mp","Medicina Preventiva",4,86,69,93,"La medicina preventiva desplaza el foco del tratamiento hacia detección temprana y resiliencia."],
+ ["cib","Ciberseguridad",5,96,91,98,"La ciberseguridad protege identidades, infraestructura crítica, datos y confianza digital."],
+ ["cdel","Ciberdelito",5,93,94,90,"El ciberdelito evoluciona como amenaza transnacional, automatizada y adaptativa."],
+ ["ghib","Guerra Híbrida",5,90,88,89,"La guerra híbrida combina presión ciber, informativa, económica y geopolítica sobre sociedades."],
+ ["sdig","Soberanía Digital",5,92,79,96,"La soberanía digital determina quién controla datos, identidad, infraestructura y decisiones algorítmicas."]
+];
+/* Hiperaristas: los 5 conjuntos de los prototipos (resueltos), el vínculo transversal del texto del autor y 2 de mitigación añadidos como hipótesis. */
+var SEED_H=[
+ ["h1","Transformación cognitiva-económica",["ia","ag","mia"],["ggl","edig","cib"],.35,2,"proto"],
+ ["h2","Resiliencia planetaria",["cc","ten"],["sg","edig","D5"],.3,3,"proto"],
+ ["h3","Estabilidad digital",["cib","cdel","ghib"],["ddig","sdig","ggl"],.3,2,"proto"],
+ ["h4","Confianza verificable",["icie","vet"],["ia","sg","mia"],.3,2,"proto"],
+ ["h5","Cognición humana aumentada",["sm","mem","bte"],["edu","trab","sg"],.3,3,"proto"],
+ ["h6","IA transversal",["ia"],["edu","edig","trab","cib","ggl","sg","bio"],.3,2,"proto"],
+ ["h7","Mitigación climática",["ten","ecir","fsos"],["-cc"],.35,5,"hip"],
+ ["h8","Contención del ciberdelito",["cib","vet"],["-cdel"],.35,1,"hip"]
+];
+function tgt(a){return a.map(function(x){return x[0]==="-"?[x.slice(1),-1]:[x,1];});}
+function seedState(){
+  return {
+    v:2,
+    atoms:SEED_A.map(function(r){return {id:r[0],name:r[1],dom:r[2],impact:r[3],risk:r[4],ev:r[5],note:r[6],prov:!!r[7],custom:false,tri:"",role:""};}),
+    hyp:SEED_H.map(function(r){return {id:r[0],label:r[1],S:r[2].slice(),T:tgt(r[3]),w:r[4],lag:r[5],off:false,origin:r[6],ref:"",lvl:""};}),
+    shocks:[{id:"s1",node:"ia",year:2026,mag:1}],
+    quar:[],seal:null,ledger:[],reviews:[],
+    actor:{name:"",tri:"",orcid:"",role:""},
+    exp:{level:"",auth:false,problem:"",repl:"",plag:"",code:"",deposit:"",doi:"",sigRef:"",pub:"",version:"0.1.0"},
+    ui:{scen:"B",year:2032,sel:"ia",layer:"dom",showH:true,flow:true,rotate:true}
+  };
+}
+var SC={
+ A:{name:"Expansión controlada",gain:.8,decay:.6,amp:.2},
+ B:{name:"Transformación estructural",gain:1,decay:.72,amp:.5},
+ C:{name:"Mutación sistémica",gain:1.3,decay:.85,amp:1}
+};
+
+/* ---------- Construcción del modelo ---------- */
+function clamp(v,a,b){v=+v;if(isNaN(v))v=a;return Math.max(a,Math.min(b,v));}
+function build(S){
+  var nodes=[{id:"core",name:"Ω Core",kind:"core",dom:-1}],idx={},i;
+  for(i=0;i<6;i++)nodes.push({id:"D"+i,name:DOMS[i][0],kind:"domain",dom:i,note:DOMS[i][1]});
+  S.atoms.forEach(function(a){nodes.push({id:a.id,name:a.name,kind:"atom",dom:a.dom,impact:+a.impact,risk:+a.risk,ev:+a.ev,note:a.note||"",prov:!!a.prov,custom:!!a.custom,tri:a.tri||"",role:a.role||""});});
+  nodes.forEach(function(n,j){idx[n.id]=j;});
+  var domAtoms=[[],[],[],[],[],[]];
+  nodes.forEach(function(n,j){if(n.kind==="atom"&&domAtoms[n.dom])domAtoms[n.dom].push(j);});
+  function mean(list,key){if(!list.length)return 0;var s=0;list.forEach(function(j){s+=nodes[j][key];});return s/list.length;}
+  for(i=0;i<6;i++){var d=nodes[1+i];d.impact=mean(domAtoms[i],"impact");d.risk=mean(domAtoms[i],"risk");d.ev=mean(domAtoms[i],"ev");}
+  var c=nodes[0],ds=[1,2,3,4,5,6];c.impact=mean(ds,"impact");c.risk=mean(ds,"risk");c.ev=mean(ds,"ev");
+  var H=[],invalid=[];
+  S.hyp.forEach(function(h){
+    var s=h.S.map(function(id){return idx[id];}),t=h.T.map(function(x){return [idx[x[0]],x[1]];});
+    var bad=!s.length||!t.length||s.some(function(v){return v===undefined||v===0;})||t.some(function(x){return x[0]===undefined||x[0]===0;});
+    if(bad){invalid.push(h.id);return;}
+    H.push({id:h.id,S:s,T:t,w:+h.w,lag:+h.lag,off:!!h.off,raw:h});
+  });
+  var N=nodes.length,deg=[],cross=[];
+  for(i=0;i<N;i++){deg.push(0);cross.push(false);}
+  H.forEach(function(h){
+    if(h.off)return;
+    var ids=h.S.concat(h.T.map(function(x){return x[0];})),dm={};
+    ids.forEach(function(j){dm[nodes[j].dom]=1;});
+    var multi=Object.keys(dm).length>1;
+    ids.forEach(function(j){deg[j]++;if(multi)cross[j]=true;});
+  });
+  var groups={};
+  nodes.forEach(function(n,j){
+    n.deg=deg[j];n.cross=cross[j];
+    if(n.kind==="atom"){
+      n.orb=deg[j]===0?"S":(deg[j]>=2&&cross[j]?(n.ev>=95?"F":"D"):"P");
+      var g=n.dom+n.orb;groups[g]=(groups[g]||0)+1;n.slot=groups[g]-1;n.gk=g;
+    }
+  });
+  nodes.forEach(function(n){if(n.kind==="atom")n.cnt=groups[n.gk];});
+  var psiSeed=nodes.map(function(n){return parseInt(sha3("psi|"+n.id).slice(0,8),16)/4294967296*Math.PI*2;});
+  nodes.forEach(function(n,j){n.psi=psiSeed[j];});
+  return {nodes:nodes,idx:idx,H:H,deg:deg,cross:cross,domAtoms:domAtoms,invalid:invalid};
+}
+function orbReason(n){
+  if(n.orb==="S")return "S · sin hiperaristas activas: información básica aislada; requiere vincularse para ser modelada.";
+  if(n.orb==="P")return "P · participa en "+n.deg+" hiperarista(s) sin cruzar dominios: conocimiento estructurado.";
+  if(n.orb==="D")return "D · "+n.deg+" hiperaristas con cruce de dominios: nodo de interdependencia.";
+  if(n.orb==="F")return "F · interdependiente (≥2 hiperaristas con cruce de dominios) y evidencia declarada ≥ 95: apto para predicción.";
+  return "";
+}
+
+/* ---------- Simulación determinista (propagación en hipergrafo dirigido) ---------- */
+function simulate(M,shocks,quar,scen,pert){
+  var sc=SC[scen],N=M.nodes.length,qf=new Float64Array(N),i,t,hi,k,a=[],tx=[];
+  for(i=0;i<N;i++)qf[i]=quar.indexOf(M.nodes[i].id)>=0?0:1;
+  var gain=sc.gain*(pert?pert.gm:1),decay=Math.min(.95,sc.decay*(pert?pert.dm:1)),amp=sc.amp;
+  for(t=0;t<=T;t++){
+    var cur=new Float64Array(N),tr=new Float64Array(M.H.length),prev=t?a[t-1]:null;
+    if(prev)for(i=0;i<N;i++)cur[i]=prev[i]*decay;
+    if(t>0){
+      for(hi=0;hi<M.H.length;hi++){
+        var h=M.H[hi];if(h.off)continue;
+        var lag=pert?pert.lag[hi]:h.lag,ts=t-lag;if(ts<0)continue;
+        var src=a[ts],s=0;
+        for(k=0;k<h.S.length;k++)s+=src[h.S[k]]*qf[h.S[k]];
+        s/=Math.sqrt(h.S.length);if(s===0)continue;
+        var w=pert?pert.w[hi]:h.w;
+        tr[hi]=Math.abs(s)*w*gain;
+        for(k=0;k<h.T.length;k++){var j=h.T[k][0];cur[j]+=h.T[k][1]*w*gain*s*(1+amp*(M.nodes[j].risk/100-.5));}
+      }
+      for(var d=0;d<6;d++){
+        var list=M.domAtoms[d],di=1+d;
+        if(list.length){var m=0;for(k=0;k<list.length;k++)m+=prev[list[k]]*qf[list[k]];m/=list.length;cur[di]+=.25*gain*m;}
+        var pd=prev[di]*qf[di];
+        if(pd!==0)for(k=0;k<list.length;k++)cur[list[k]]+=.1*gain*pd;
+      }
+    }
+    for(k=0;k<shocks.length;k++){var sh=shocks[k];if(sh.year-Y0===t){var ji=M.idx[sh.node];if(ji!==undefined&&ji>0)cur[ji]+=sh.mag;}}
+    for(i=0;i<N;i++)cur[i]=Math.max(-1,Math.min(1,cur[i]));
+    a.push(cur);tx.push(tr);
+  }
+  return {a:a,tx:tx};
+}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+/* Análisis de sensibilidad Monte Carlo con semilla fija: w ±25 %, rezago ±1 año, ganancia ±15 %, persistencia ±10 %. */
+function mc(M,shocks,quar,scen,runs,seed){
+  var r=rng(seed),N=M.nodes.length,hl=M.H.length,t,i,run;
+  var vals=[];for(t=0;t<=T;t++){var row=[];for(i=0;i<N;i++)row.push(new Float32Array(runs));vals.push(row);}
+  for(run=0;run<runs;run++){
+    var p={w:[],lag:[],gm:.85+.3*r(),dm:.9+.2*r()};
+    for(var h=0;h<hl;h++){p.w.push(clamp(M.H[h].w*(.75+.5*r()),.05,1));var u=r();p.lag.push(clamp(M.H[h].lag+(u<1/3?-1:(u<2/3?0:1)),1,15));}
+    var sm=simulate(M,shocks,quar,scen,p);
+    for(t=0;t<=T;t++)for(i=0;i<N;i++)vals[t][i][run]=sm.a[t][i];
+  }
+  var lo=[],md=[],hi=[],fp=[],fn=[];
+  for(t=0;t<=T;t++){
+    var L=new Float32Array(N),Mm=new Float32Array(N),Hh=new Float32Array(N),P=new Float32Array(N),Ng=new Float32Array(N);
+    for(i=0;i<N;i++){
+      var arr=Array.prototype.slice.call(vals[t][i]).sort(function(x,y){return x-y;}),pos=0,neg=0;
+      arr.forEach(function(v){if(v>.02)pos++;else if(v<-.02)neg++;});
+      L[i]=arr[Math.floor(.1*(runs-1))];Mm[i]=arr[Math.floor(.5*(runs-1))];Hh[i]=arr[Math.ceil(.9*(runs-1))];P[i]=pos/runs;Ng[i]=neg/runs;
+    }
+    lo.push(L);md.push(Mm);hi.push(Hh);fp.push(P);fn.push(Ng);
+  }
+  return {lo:lo,md:md,hi:hi,fp:fp,fn:fn,runs:runs,seed:seed};
+}
+
+/* ---------- Métricas derivadas ---------- */
+function Q(n,year){return clamp(.10+.5*(1-n.ev/100)+.012*(year-Y0),0,1);}
+function omega(n,year){return n.impact*(1-Q(n,year));}
+function coherence(n,year){return n.ev/100*(1-Q(n,year));}
+function incident(M,j){return M.H.filter(function(h){return !h.off&&(h.S.indexOf(j)>=0||h.T.some(function(x){return x[0]===j;}));});}
+function traz(M,j){var inc=incident(M,j);if(!inc.length)return null;return inc.filter(function(h){return refOk(h.raw.ref);}).length/inc.length;}
+var LV={N1:1,N2:2,N3:3};
+function supportLevel(M,j){var best="";incident(M,j).forEach(function(h){if(refOk(h.raw.ref)&&LV[h.raw.lvl]&&(!best||LV[h.raw.lvl]>LV[best]))best=h.raw.lvl;});return best;}
+function cert(M,j){
+  var n=M.nodes[j],tz=traz(M,j);
+  if(n.ev>=95&&n.deg>0&&tz===1)return {c:"Ω7",why:"Evidencia declarada ≥ 95 y todas las hiperaristas incidentes con fuente válida."};
+  if(n.ev>=95)return {c:"Ω6",why:"Evidencia declarada ≥ 95; para Ω7 falta fuente válida en "+(n.deg===0?"al menos una hiperarista (sin vínculos)":"todas las hiperaristas incidentes")+"."};
+  if(n.ev>=90)return {c:"Ω6",why:"Evidencia declarada ≥ 90."};
+  return {c:"Ω5",why:"Evidencia declarada < 90."};
+}
+function trust(M,j){var n=M.nodes[j],tz=traz(M,j);return .7*n.ev/100+.3*(tz||0);}
+function tension(M,sim,t){var a=sim.a[t],num=0,den=0;M.nodes.forEach(function(n,j){if(n.kind==="atom"){num+=n.impact*Math.abs(a[j]);den+=n.impact;}});return den?num/den:0;}
+function riskW(M,sim,t){var a=sim.a[t],num=0,den=0;M.nodes.forEach(function(n,j){if(n.kind==="atom"){num+=n.risk*Math.abs(a[j]);den+=Math.abs(a[j]);}});return den>.001?num/den:null;}
+
+/* ---------- Integridad de datos, sello y registro encadenado ---------- */
+function atomCanon(S,M,j){
+  var n=M.nodes[j];
+  var inc=incident(M,j).map(function(h){var r=h.raw;return [r.id,r.S.join(","),r.T.map(function(x){return x.join(":");}).join(","),r.w,r.lag,r.ref||"",r.lvl||""].join("~");}).sort();
+  return JSON.stringify([n.id,n.name,n.dom,n.impact,n.risk,n.ev,n.note,n.tri,n.role,inc]);
+}
+function atomHashes(S,M){var o={};M.nodes.forEach(function(n,j){if(n.kind==="atom")o[n.id]=sha3(atomCanon(S,M,j));});return o;}
+function rootOf(hs){return sha3(Object.keys(hs).sort().map(function(k){return k+":"+hs[k];}).join("|"));}
+function sealStatus(S,M,hs){
+  if(!S.seal)return {st:"none",mod:[],add:[],del:[]};
+  var mod=[],add=[],del=[];
+  Object.keys(hs).forEach(function(k){if(!(k in S.seal.h))add.push(k);else if(S.seal.h[k]!==hs[k])mod.push(k);});
+  Object.keys(S.seal.h).forEach(function(k){if(!(k in hs))del.push(k);});
+  return {st:(mod.length||add.length||del.length)?"mod":"ok",mod:mod,add:add,del:del};
+}
+function ledgerAppend(L,actor,act,det){
+  var prev=L.length?L[L.length-1].hash:"GENESIS";
+  var e={seq:L.length+1,t:new Date().toISOString(),actor:actor||"sin identificar",act:act,det:String(det).slice(0,300),prev:prev};
+  e.hash=sha3([e.seq,e.t,e.actor,e.act,e.det,e.prev].join("|"));
+  L.push(e);if(L.length>1000)L.shift();
+  return e;
+}
+function ledgerVerify(L){
+  var prev="GENESIS",i;
+  for(i=0;i<L.length;i++){
+    var e=L[i];
+    if(i===0&&L.length>=1000)prev=e.prev;
+    var h=sha3([e.seq,e.t,e.actor,e.act,e.det,e.prev].join("|"));
+    if(e.prev!==prev||e.hash!==h)return {ok:false,at:e.seq,n:L.length};
+    prev=e.hash;
+  }
+  return {ok:true,n:L.length,head:prev};
+}
+
+/* ---------- Auditoría TQAF etapa 1 ---------- */
+function digest(sim){var s="";sim.a.forEach(function(r){for(var i=0;i<r.length;i++)s+=r[i].toFixed(9)+",";});return sha3(s);}
+function audit(S,M,hs){
+  var out=[],ids={},names={},dupId=[],dupName=[],i;
+  S.atoms.forEach(function(a){if(ids[a.id])dupId.push(a.id);ids[a.id]=1;var k=a.name.trim().toLowerCase();if(names[k])dupName.push(a.name);names[k]=1;});
+  var rangeBad=[];
+  S.atoms.forEach(function(a){["impact","risk","ev"].forEach(function(k){if(!(a[k]>=0&&a[k]<=100))rangeBad.push(a.id+"."+k);});});
+  S.hyp.forEach(function(h){if(!(h.w>0&&h.w<=1))rangeBad.push(h.id+".w");if(!(h.lag>=1&&h.lag<=15&&Math.floor(h.lag)===h.lag))rangeBad.push(h.id+".lag");});
+  var lv=ledgerVerify(S.ledger),ss=sealStatus(S,M,hs);
+  var d1=digest(simulate(M,S.shocks,S.quar,S.ui.scen)),d2=digest(simulate(M,S.shocks,S.quar,S.ui.scen));
+  var iso=M.nodes.filter(function(n){return n.kind==="atom"&&n.deg===0;}).map(function(n){return n.name;});
+  out.push({id:"A1",crit:true,label:"Integridad referencial de hiperaristas",pass:M.invalid.length===0,detail:M.invalid.length?"Extremos inexistentes en: "+M.invalid.join(", "):"Todos los extremos resuelven a nodos existentes."});
+  out.push({id:"A2",crit:true,label:"Rangos admisibles (puntajes 0–100, fuerza (0,1], rezago 1–15 años)",pass:rangeBad.length===0,detail:rangeBad.length?"Fuera de rango: "+rangeBad.join(", "):"Sin valores fuera de rango."});
+  out.push({id:"A3",crit:true,label:"Unicidad de identificadores y nombres",pass:!dupId.length&&!dupName.length,detail:(dupId.length||dupName.length)?"Duplicados: "+dupId.concat(dupName).join(", "):"Sin duplicados."});
+  out.push({id:"A4",crit:true,label:"Cadena del registro de procedencia íntegra",pass:lv.ok,detail:lv.ok?lv.n+" entradas verificadas.":"Ruptura en la entrada n.º "+lv.at+"."});
+  out.push({id:"A5",crit:false,label:"Coincidencia con el sello de datos",pass:ss.st!=="mod",detail:ss.st==="none"?"No hay sello de datos emitido (no aplica).":(ss.st==="ok"?"Los datos coinciden con el sello.":"Cambios desde el sello: "+ss.mod.length+" modificados, "+ss.add.length+" añadidos, "+ss.del.length+" eliminados.")});
+  out.push({id:"A6",crit:false,label:"Reproducibilidad numérica (dos ejecuciones idénticas)",pass:d1===d2,detail:d1===d2?"Resumen SHA3-512 de la simulación: "+d1.slice(0,24)+"…":"Las ejecuciones difieren."});
+  out.push({id:"A7",crit:false,label:"Átomos sin hiperaristas activas",pass:iso.length===0,detail:iso.length?iso.length+" aislado(s): "+iso.join(", ")+".":"Todos los átomos participan en al menos una hiperarista.",warn:true});
+  return out;
+}
+
+/* ---------- Matriz TQAF-10 ---------- */
+var ST={ok:"Verificado",decl:"Declarado",part:"Parcial",pend:"Pendiente",ext:"Externo"};
+function actorValid(a){return !!(a.name&&a.name.trim().length>2&&tri(a.tri)&&orcid(a.orcid)&&roleOk(a.role));}
+function affiliation(a){
+  return (a.name||"[Nombre del autor]")+", "+(a.tri||"[Código TRI]")+", "+(a.orcid||"[Código ORCID]")+". TAMV Online Network / UTAMV, Nodo Cero, Real del Monte, Hidalgo, México.";
+}
+function tqaf(S,M,hs){
+  var E=S.exp,act=S.actor,live=M.H.filter(function(h){return !h.off;}),nl=live.length;
+  var refs=live.filter(function(h){return refOk(h.raw.ref);}).length,dois=live.filter(function(h){return doi(h.raw.ref);}).length;
+  var atr=S.atoms.filter(function(a){return tri(a.tri)&&roleOk(a.role);}).length,na=S.atoms.length;
+  var lv=ledgerVerify(S.ledger),it=[];
+  function add(n,title,st,why){it.push({n:n,title:title,st:st,why:why});}
+  add(1,"Integridad y antiplagio",E.auth&&E.plag?"decl":(E.auth?"part":"pend"),E.auth?(E.plag?"Declaración de autenticidad y referencia al informe de coincidencia: "+E.plag:"Declaración de autenticidad presente; falta la referencia al informe de coincidencia textual (proceso externo)."):"Falta la declaración de autenticidad. El instrumento verifica integridad de datos, no originalidad textual.");
+  add(2,"Vacío de conocimiento y justificación",E.problem.trim().length>=80?"decl":"pend",E.problem.trim().length>=80?"Planteamiento del problema declarado ("+E.problem.trim().length+" caracteres); su suficiencia la dictamina la revisión.":"Falta el planteamiento del problema no resuelto (mínimo 80 caracteres).");
+  add(3,"Metodología reproducible",refOk(E.code)?"ok":"part",refOk(E.code)?"Parámetros, semilla de sensibilidad y determinismo verificados; código referenciado en "+E.code+".":"Parámetros de escenario, semilla de sensibilidad y determinismo verificados (§9). Falta referenciar el repositorio de código con identificador persistente.");
+  add(4,"Respaldo de evidencia empírica",nl&&refs===nl?"ok":(refs?"part":"pend"),refs+" de "+nl+" hiperaristas activas citan una fuente con formato válido (DOI o URL). El formato se verifica; el contenido de la fuente, no.");
+  add(5,"Declaración de replicabilidad",["Total","Parcial","Condicionada"].indexOf(E.repl)>=0?"decl":"pend",E.repl?"Factibilidad de reproducción declarada: "+E.repl+".":"Falta clasificar la replicabilidad (Total, Parcial o Condicionada).");
+  var f6=nl&&dois===nl&&doi(E.doi);
+  add(6,"Cumplimiento de estándares FAIR",f6?"ok":((dois||doi(E.doi))?"part":"pend"),dois+" de "+nl+" fuentes con DOI válido; DOI del expediente "+(doi(E.doi)?"válido":"sin asignar")+". Exportación JSON-LD disponible (§6).");
+  add(7,"Matriz de autoría transparente",na&&atr===na?"ok":(atr?"part":"pend"),atr+" de "+na+" átomos con código TRI válido y rol asignado.");
+  var par=S.reviews.filter(function(r){return r.kind==="par";}),auth={};
+  S.atoms.forEach(function(a){if(tri(a.tri))auth[a.tri]=1;});if(tri(act.tri))auth[act.tri]=1;
+  var indep=par.filter(function(r){return tri(r.tri)&&!auth[r.tri]&&r.resp&&r.resp.trim();});
+  add(8,"Acta de auditoría y dictamen",indep.length?"ok":(par.length?"part":"pend"),par.length?par.length+" dictamen(es) de pares; "+indep.length+" con revisor independiente de la autoría y respuesta registrada.":"No hay dictámenes registrados (§5).");
+  add(9,"Normalización de afiliación",actorValid(act)?"ok":"pend",actorValid(act)?affiliation(act):"Identidad de la sesión incompleta o con TRI/ORCID inválido (§3).");
+  var f10=lv.ok&&lv.n>0&&doi(E.deposit);
+  add(10,"Preservación inmutable y política de erratas",f10?"ok":(lv.ok&&lv.n>0?"part":"pend"),(lv.ok&&lv.n>0?"Registro de cambios encadenado con "+lv.n+" entradas (política de erratas local). ":"Sin registro de cambios. ")+(doi(E.deposit)?"Depósito declarado: "+E.deposit+".":"El depósito en Zenodo/OSF/Figshare es un proceso externo aún no declarado."));
+  return it;
+}
+
+/* ---------- Pipeline editorial (8 etapas del BLUEPRINT) ---------- */
+function pipeline(S,M,tq,au){
+  var E=S.exp,rows=[],crit=au.filter(function(a){return a.crit&&!a.pass;});
+  var par=S.reviews.filter(function(r){return r.kind==="par";}),com=S.reviews.filter(function(r){return r.kind==="comite";});
+  function add(n,t,st,why){rows.push({n:n,title:t,st:st,why:why});}
+  add(1,"Recepción e ingesta en el Nodo Cero",M.nodes.length>7?"complete":"pending","Expediente con "+S.atoms.length+" átomos y "+S.hyp.length+" hiperaristas, ingresado en este instrumento (almacenamiento local).");
+  add(2,"Clasificación de nivel (N1 / N2 / N3)",E.level?"complete":"pending",E.level?"Nivel declarado: "+E.level+".":"Falta declarar el nivel del expediente (§4).");
+  var idv=actorValid(S.actor);
+  add(3,"Control de identidad y metadatos",idv&&E.sigRef?"complete":(idv?"partial":"pending"),idv?(E.sigRef?"TRI y ORCID válidos (dígito de control verificado); firma referenciada en "+E.sigRef+".":"TRI y ORCID válidos; falta referenciar la firma criptográfica (el instrumento no firma)."):"Identidad de la sesión incompleta o inválida (§3).");
+  add(4,"Auditoría de integridad y código (TQAF etapa 1)",crit.length?"fail":"complete",crit.length?"Defecto crítico → rechazo directo: "+crit.map(function(c){return c.id;}).join(", ")+".":"Controles críticos superados ("+au.filter(function(a){return a.crit;}).length+"/"+au.filter(function(a){return a.crit;}).length+").");
+  var rej=par.some(function(r){return r.verdict==="Rechazado";}),app=par.some(function(r){return r.verdict==="Aprobado";}),ok8=tq[7].st==="ok";
+  add(5,"Arbitraje técnico y revisión por pares (TQAF etapa 2)",rej?"fail":(app&&ok8?"complete":(par.length?"partial":"pending")),par.length?par.length+" dictamen(es); "+(ok8?"hay revisor independiente con respuesta.":"falta revisor independiente con respuesta registrada."):"Sin dictámenes (§5).");
+  var ca=com.some(function(r){return r.verdict==="Aprobado";});
+  add(6,"Aprobación del Comité de Gobernanza Científica",ca&&rows[4].st==="complete"?"complete":"pending",ca?"Aprobación registrada (declarativa).":"Sin acta del Comité.");
+  add(7,"Metadatos FAIR y asignación de DOI",tq[5].st==="ok"?"complete":(doi(E.doi)?"partial":"pending"),doi(E.doi)?"DOI del expediente: "+doiNorm(E.doi)+".":"Sin DOI asignado (Zenodo/OSF/Crossref).");
+  var prior=rows.slice(0,7).every(function(r){return r.st==="complete";});
+  add(8,"Publicación abierta y registro en el catálogo TAMV",prior&&url(E.pub)?"complete":"pending",url(E.pub)?"Publicación declarada en "+E.pub+".":"Sin publicación declarada.");
+  return rows;
+}
+function eligibility(tq,pl){
+  var sat=tq.filter(function(x){return x.st==="ok"||x.st==="decl";}).length;
+  var first7=pl.slice(0,7).every(function(r){return r.st==="complete";});
+  return {sat:sat,first7:first7,eligible:sat===10&&first7,done:pl.filter(function(r){return r.st==="complete";}).length};
+}
+
+/* ---------- Exportación FAIR (JSON-LD, schema.org/Dataset) ---------- */
+function jsonld(S,M,hs){
+  var a=S.actor,E=S.exp;
+  return {
+    "@context":"https://schema.org","@type":"Dataset",
+    name:"TAMV Ω∞ HCU — modelo de transformación sistémica",
+    description:"Hipergrafo dirigido de "+S.atoms.length+" átomos cognitivos en 6 dominios, con "+S.hyp.length+" hiperaristas ponderadas y rezagadas, y simulación determinista 2026–2050.",
+    version:E.version||"0.1.0",
+    identifier:doi(E.doi)?"https://doi.org/"+doiNorm(E.doi):null,
+    license:"https://creativecommons.org/licenses/by/4.0/",
+    dateModified:new Date().toISOString(),
+    creator:{"@type":"Person",name:a.name||null,identifier:orcid(a.orcid)?"https://orcid.org/"+a.orcid:null,affiliation:{"@type":"Organization",name:"METAVERSO TAMV Online Network / UTAMV Campus Online",address:"Real del Monte, Hidalgo, México"}},
+    additionalProperty:[
+      {"@type":"PropertyValue",name:"TRI",value:a.tri||null},
+      {"@type":"PropertyValue",name:"Nivel de evidencia declarado (TQAF)",value:E.level||null},
+      {"@type":"PropertyValue",name:"Raíz de integridad SHA3-512",value:rootOf(hs)},
+      {"@type":"PropertyValue",name:"Modelo",value:"HCU-sim v1.0: propagación discreta anual sobre hipergrafo dirigido; escenarios "+Object.keys(SC).map(function(k){return k+"(γ="+SC[k].gain+",δ="+SC[k].decay+",α="+SC[k].amp+")";}).join(", ")+"; sensibilidad Monte Carlo con semilla fija"}
+    ],
+    variableMeasured:["Influencia sistémica (X, 0–100)","Riesgo (Y, 0–100)","Evidencia declarada (Z, 0–100)"],
+    hasPart:S.atoms.map(function(x){return {"@type":"Dataset",identifier:x.id,name:x.name,isPartOf:DOMS[x.dom][0],author:tri(x.tri)?x.tri:null,role:roleOk(x.role)?x.role:null};}),
+    citation:S.hyp.filter(function(h){return refOk(h.ref);}).map(function(h){return {"@type":"CreativeWork",name:h.label,identifier:doi(h.ref)?"https://doi.org/"+doiNorm(h.ref):h.ref,additionalType:h.lvl||null};})
+  };
+}
+
+return {Y0:Y0,T:T,DOMS:DOMS,SC:SC,ROLES:ROLES,ST:ST,sha3:sha3,orcid:orcid,isni:isni,tri:tri,doi:doi,doiNorm:doiNorm,url:url,refOk:refOk,roleOk:roleOk,
+  seedState:seedState,build:build,orbReason:orbReason,simulate:simulate,mc:mc,Q:Q,omega:omega,coherence:coherence,incident:incident,traz:traz,supportLevel:supportLevel,cert:cert,trust:trust,
+  tension:tension,riskW:riskW,atomHashes:atomHashes,rootOf:rootOf,sealStatus:sealStatus,ledgerAppend:ledgerAppend,ledgerVerify:ledgerVerify,audit:audit,
+  actorValid:actorValid,affiliation:affiliation,tqaf:tqaf,pipeline:pipeline,eligibility:eligibility,jsonld:jsonld,digest:digest,clamp:clamp};
+})();
+if(typeof module!=="undefined")module.exports=Core;
+</script>
+<script>(function(){
+"use strict";
+var $=function(i){return document.getElementById(i);};
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});};
+var clamp=Core.clamp,Y0=Core.Y0,T=Core.T;
+var RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+var KEY="tamv-hcu-doc-v2";
+function sg(v,d){return (v<0?"−":"+")+Math.abs(v).toFixed(d==null?2:d);}
+function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
+function fdate(iso){return String(iso).slice(0,16).replace("T"," ");}
+
+/* ---------- Estado ---------- */
+function load(){
+  var d=Core.seedState();
+  try{
+    var r=localStorage.getItem(KEY);
+    if(r){var o=JSON.parse(r);
+      if(o&&o.v===2&&Array.isArray(o.atoms)&&o.atoms.length&&Array.isArray(o.hyp)){
+        Object.keys(d).forEach(function(k){if(!(k in o))o[k]=d[k];});
+        o.exp=Object.assign({},d.exp,o.exp);o.ui=Object.assign({},d.ui,o.ui);o.actor=Object.assign({},d.actor,o.actor);
+        return o;}}
+  }catch(e){}
+  return d;
+}
+var S=load();
+if(RM){S.ui.rotate=false;S.ui.flow=false;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function actorTag(){return Core.tri(S.actor.tri)?S.actor.tri:"sin identificar";}
+function log(act,det){Core.ledgerAppend(S.ledger,actorTag(),act,det);}
+
+var M,hs,sims,au,tq,pl,el,lv,ss,mcC={};
+function derive(){
+  M=Core.build(S);hs=Core.atomHashes(S,M);
+  sims={};["A","B","C"].forEach(function(k){sims[k]=Core.simulate(M,S.shocks,S.quar,k);});
+  mcC={};
+  au=Core.audit(S,M,hs);tq=Core.tqaf(S,M,hs);pl=Core.pipeline(S,M,tq,au);el=Core.eligibility(tq,pl);
+  lv=Core.ledgerVerify(S.ledger);ss=Core.sealStatus(S,M,hs);
+  if(M.idx[S.ui.sel]===undefined)S.ui.sel="ia";
+}
+function getMC(){var k=S.ui.scen;if(!mcC[k])mcC[k]=Core.mc(M,S.shocks,S.quar,k,200,20261101);return mcC[k];}
+function nm(id){var j=M.idx[id];return j===undefined?id+" (inexistente)":M.nodes[j].name;}
+function selIdx(){return M.idx[S.ui.sel];}
+function commit(act,det){log(act,det);save();derive();renderAll();}
+
+/* ---------- Render documental ---------- */
+var ICON={ok:"✓",decl:"◆",part:"◐",pend:"○",ext:"↗",complete:"✓",partial:"◐",pending:"○",fail:"✕"};
+var LBL={ok:"Verificado",decl:"Declarado",part:"Parcial",pend:"Pendiente",ext:"Externo",complete:"Completa",partial:"Parcial",pending:"Pendiente",fail:"Rechazo"};
+function badge(st,txt){return '<span class="badge b-'+st+'"><i aria-hidden="true">'+ICON[st]+'</i>'+esc(txt||LBL[st])+'</span>';}
+
+function renderStatusbar(){
+  var sat=el.sat,sealTxt=!S.seal?"No emitido":(ss.st==="ok"?"Íntegro":"Modificado");
+  var tn=Core.tension(M,sims[S.ui.scen],S.ui.year-Y0);
+  $("statusbar").innerHTML=
+    '<span>Expediente <b>'+(el.eligible?"Elegible para dictamen":"Borrador interno")+'</b></span>'+
+    '<a href="#s4">TQAF-10 <b>'+sat+'/10</b></a>'+
+    '<a href="#s5">Pipeline <b>'+el.done+'/8</b></a>'+
+    '<a href="#s6">Sello de datos <b>'+sealTxt+'</b></a>'+
+    '<a href="#s6">Registro <b>'+lv.n+(lv.ok?" ✓":" ✕")+'</b></a>'+
+    '<a href="#s8">Tensión '+S.ui.year+' ('+S.ui.scen+') <b>'+(tn*100).toFixed(0)+'%</b></a>';
+}
+function renderLayers(){
+  var na=S.atoms.length,atr=S.atoms.filter(function(a){return Core.tri(a.tri)&&Core.roleOk(a.role);}).length;
+  var live=M.H.filter(function(h){return !h.off;}),refs=live.filter(function(h){return Core.refOk(h.raw.ref);}).length;
+  var crit=au.filter(function(a){return a.crit&&!a.pass;}).length;
+  var L=[
+   ["CAPA 1","Identidad institucional, soberanía territorial y matriz de nodos","Ficha canónica con 13 campos registrados (§2). Nodo Cero y siete federaciones declarados; ROR ID en trámite.","#s2","ok","Registrada"],
+   ["CAPA 2","Sistema de atribución e identidad académica (TRI)",atr+" de "+na+" átomos con TRI y rol válidos. Identidad de la sesión: "+(Core.actorValid(S.actor)?"válida.":"incompleta."),"#s3",atr===na&&Core.actorValid(S.actor)?"ok":(atr||Core.actorValid(S.actor)?"part":"pend")],
+   ["CAPA 3","Marco de calidad científica (TQAF-10) y pipeline editorial","TQAF-10: "+el.sat+" de 10 criterios satisfechos. Etapa 1: "+(crit?"defecto crítico.":"superada.")+" Pipeline: "+el.done+" de 8 etapas completas.","#s4",el.eligible?"ok":(el.sat||el.done>1?"part":"pend")],
+   ["CAPA 4","Infraestructura de ciencia abierta, metadatos FAIR e interoperabilidad",refs+" de "+live.length+" hiperaristas con fuente de formato válido. Registro encadenado: "+lv.n+" entradas"+(lv.ok?" íntegras":" con ruptura")+". Exportación JSON-LD disponible.","#s6",(live.length&&refs===live.length&&lv.ok)?"ok":(refs||lv.n?"part":"pend")]
+  ];
+  $("layers").innerHTML=L.map(function(r){return '<a class="layer" href="'+r[3]+'"><div class="ln">'+r[0]+'</div><div><h4>'+esc(r[1])+'</h4><p>'+esc(r[2])+'</p></div>'+badge(r[4],r[5])+'</a>';}).join("");
+}
+function renderValidators(){
+  function v(ok,t,f){return ok?'<span class="badge b-ok"><i aria-hidden="true">✓</i>'+t+'</span>':'<span class="badge b-fail"><i aria-hidden="true">✕</i>'+f+'</span>';}
+  $("vOrcid").innerHTML=v(Core.orcid("0009-0008-5050-1539"),"dígito de control válido","dígito de control inválido");
+  $("vIsni").innerHTML=v(Core.isni("0000 0005 3169 9229"),"dígito de control válido","dígito de control inválido");
+  $("vDoi1").innerHTML=v(Core.doi("10.17605/OSF.IO/T3WMY"),"formato válido","formato inválido");
+  $("vDoi2").innerHTML=v(Core.doi("10.5281/zenodo.19436662"),"formato válido","formato inválido");
+}
+function renderRoles(){
+  $("roles").innerHTML=Core.ROLES.map(function(r){return '<tr><td class="mono"><b>'+r[0]+'</b></td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>';}).join("");
+  var opt='<option value="">— sin rol —</option>'+Core.ROLES.map(function(r){return '<option value="'+r[0]+'">'+r[0]+' · '+esc(r[1])+'</option>';}).join("");
+  $("aRole").innerHTML=opt;$("bkRole").innerHTML=opt;
+}
+function renderAff(){$("aAff").textContent=Core.affiliation(S.actor);}
+function renderTqaf(){
+  $("tqaf").innerHTML=tq.map(function(r){return '<tr><td class="num">'+r.n+'</td><td><b>'+esc(r.title)+'</b></td><td>'+badge(r.st)+'</td><td>'+esc(r.why)+'</td></tr>';}).join("");
+}
+function renderPipeline(){
+  $("pipeline").innerHTML=pl.map(function(r){return '<li><span class="sn">'+r.n+'</span><div><h4>'+esc(r.title)+'</h4><p>'+esc(r.why)+'</p></div>'+badge(r.st)+'</li>';}).join("");
+  $("audit").innerHTML=au.map(function(a){
+    var st=a.pass?"ok":(a.crit?"fail":"part"),lab=a.pass?"Superado":(a.crit?"Falla crítica":"Aviso");
+    return '<tr><td><b class="mono">'+a.id+'</b> '+esc(a.label)+'</td><td>'+(a.crit?"Crítico":"Advertencia")+'</td><td>'+badge(st,lab)+'</td><td>'+esc(a.detail)+'</td></tr>';}).join("");
+}
+function authorsSet(){var o={};S.atoms.forEach(function(a){if(Core.tri(a.tri))o[a.tri]=1;});if(Core.tri(S.actor.tri))o[S.actor.tri]=1;return o;}
+function renderReviews(){
+  var A=authorsSet();
+  $("reviews").innerHTML=S.reviews.length?S.reviews.map(function(r,i){
+    var ind=!Core.tri(r.tri)?badge("fail","TRI inválido"):(A[r.tri]?badge("part","Coincide con autoría"):badge("ok","Independiente"));
+    return '<tr><td class="mono">'+fdate(r.t)+'</td><td>'+(r.kind==="par"?"Pares":"Comité")+'</td><td class="mono">'+esc(r.tri)+'</td><td>'+esc(r.verdict)+'<div class="cap2">'+esc(r.obs)+(r.resp?'<br><i>Respuesta:</i> '+esc(r.resp):"")+'</div></td><td>'+ind+'</td><td><button class="btn sm" data-rdel="'+i+'">Quitar</button></td></tr>';
+  }).join(""):'<tr><td colspan="6" class="cap2">Sin dictámenes registrados.</td></tr>';
+}
+function renderSeal(){
+  var E=S.exp,a=S.actor,root=Core.rootOf(hs),elig=el.eligible;
+  var pend=[];
+  tq.forEach(function(x){if(x.st!=="ok"&&x.st!=="decl")pend.push("criterio "+x.n+" ("+x.title+")");});
+  pl.slice(0,7).forEach(function(r){if(r.st!=="complete")pend.push("etapa "+r.n+" ("+r.title+")");});
+  var stTxt=!S.seal?"sin sello de datos":(ss.st==="ok"?"datos íntegros respecto del sello":"datos modificados desde el sello");
+  $("seal").innerHTML='<div class="'+(elig?"seal":"seal no")+'"><header>TAMV VERIFIED OUTPUT — NIVEL '+esc(E.level||"N?")+' · '+(elig?"ELEGIBLE PARA EMISIÓN POR EL COMITÉ":"PROYECTO DE SELLO — NO EMITIDO")+'</header><div class="sb"><dl>'+
+   '<dt>Identificador DOI</dt><dd>'+(Core.doi(E.doi)?esc(Core.doiNorm(E.doi)):"sin asignar")+'</dd>'+
+   '<dt>Autor principal</dt><dd>'+(esc(a.name)||"—")+'</dd>'+
+   '<dt>Identificadores</dt><dd>'+(esc(a.tri)||"TRI sin asignar")+' | ORCID: '+(esc(a.orcid)||"—")+'</dd>'+
+   '<dt>Afiliación</dt><dd>METAVERSO TAMV Online Network / UTAMV Campus Online · Nodo Cero: Real del Monte, Hidalgo, México</dd>'+
+   '<dt>Estándar de calidad</dt><dd>TQAF-10: '+el.sat+' de 10 criterios satisfechos · pipeline '+el.done+' de 8 etapas completas</dd>'+
+   '<dt>Licencia abierta</dt><dd>Creative Commons Attribution 4.0 International (CC BY 4.0), según el BLUEPRINT</dd>'+
+   '<dt>Integridad de datos</dt><dd class="mono">SHA3-512 '+root.slice(0,32)+'… · '+stTxt+'</dd></dl>'+
+   (elig?'':'<p class="cap2"><b>Condiciones pendientes:</b> '+esc(pend.join("; "))+'.</p>')+'</div>'+
+   '<div class="dsl"><b>DESLINDE.</b> Este distintivo certifica que el trabajo superó las pruebas internas de calidad metodológica y reproducibilidad técnica de TAMV, quedando expuesto a la revisión por pares abierta de la comunidad científica internacional.'+(elig?'':' <b>Este proyecto no certifica nada hasta que el Comité lo emita.</b>')+'</div></div>';
+  $("sealInfo").textContent=S.seal?("Último sello: "+fdate(S.seal.t)+" · raíz "+S.seal.root.slice(0,32)+"… · "+Object.keys(S.seal.h).length+" átomos."+(ss.st==="mod"?" Cambios: "+ss.mod.length+" modificados, "+ss.add.length+" añadidos, "+ss.del.length+" eliminados.":"")):"Aún no se ha sellado ningún estado de los datos.";
+}
+function renderLedger(){
+  var rows=S.ledger.slice(-40).reverse();
+  $("ledger").innerHTML=rows.length?rows.map(function(e){return '<div>#'+e.seq+' '+esc(fdate(e.t))+' · '+esc(e.actor)+' · <b>'+esc(e.act)+'</b> · '+esc(e.det)+' · <span title="'+e.hash+'">'+e.hash.slice(0,12)+'</span></div>';}).join(""):"Sin entradas todavía. Los cambios de datos, declaraciones y dictámenes se registrarán aquí.";
+}
+function renderSc(){
+  $("scTable").innerHTML=Object.keys(Core.SC).map(function(k){var s=Core.SC[k];return '<tr><td><b>'+k+'</b> · '+esc(s.name)+'</td><td class="num">'+s.gain+'</td><td class="num">'+s.decay+'</td><td class="num">'+s.amp+'</td></tr>';}).join("");
+}
+
+/* ---------- Consola del instrumento ---------- */
+function atomsOpts(withDom,sel){
+  var o="";
+  if(withDom)for(var d=0;d<6;d++)o+='<option value="D'+d+'">Dominio · '+esc(Core.DOMS[d][0])+'</option>';
+  M.nodes.forEach(function(n){if(n.kind==="atom")o+='<option value="'+esc(n.id)+'"'+(n.id===sel?" selected":"")+'>'+esc(n.name)+'</option>';});
+  return o;
+}
+function renderConsole(){
+  var keepNode=$("shNode").value;
+  $("shNode").innerHTML=atomsOpts(true,keepNode);if(keepNode)$("shNode").value=keepNode;
+  $("hnS").innerHTML=atomsOpts(true);$("hnT").innerHTML=atomsOpts(true);$("anLinks").innerHTML=atomsOpts(true);
+  if(!$("anDom").options.length)$("anDom").innerHTML=Core.DOMS.map(function(d,i){return '<option value="'+i+'">'+esc(d[0])+'</option>';}).join("");
+  $("shList").innerHTML=S.shocks.length?S.shocks.map(function(s,i){return '<span class="chip">'+esc(nm(s.node))+' · '+s.year+' · '+sg(s.mag,1)+'<button type="button" aria-label="Quitar choque" data-sdel="'+i+'">×</button></span>';}).join(""):'<span class="cap2">Sin choques: la simulación está en reposo.</span>';
+  $("quarList").innerHTML=S.quar.length?S.quar.map(function(id){return '<span class="chip">'+esc(nm(id))+'<button type="button" aria-label="Liberar" data-qdel="'+esc(id)+'">×</button></span>';}).join(""):'<span class="cap2">Ningún nodo en cuarentena.</span>';
+  // hiperaristas
+  $("hList").innerHTML=S.hyp.map(function(h,i){
+    var bad=M.invalid.indexOf(h.id)>=0,ro=h.ref?(Core.doi(h.ref)?["good","DOI con formato válido."]:(Core.url(h.ref)?["good","URL con formato válido."]:["bad","Formato no reconocido: use un DOI (10.xxxx/…) o una URL https."])):["","Sin fuente: la hiperarista es una hipótesis no trazada."];
+    var org=h.origin==="proto"?["b-info","prototipo"]:(h.origin==="user"?["b-ok","usuario"]:["b-part","hipótesis"]);
+    return '<div class="hy"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><b>'+esc(h.label)+'</b><span><span class="badge '+org[0]+'">'+org[1]+'</span> <button type="button" class="btn sm dng" data-hdel="'+i+'">Quitar</button></span></div>'+
+     '<div class="hyf">'+esc(h.S.map(nm).join(", "))+' → '+esc(h.T.map(function(t){return (t[1]<0?"− ":"")+nm(t[0]);}).join(", "))+(bad?' <span class="badge b-fail">extremo inexistente</span>':"")+'</div>'+
+     '<div class="row4">'+
+      '<label class="f"><span>Fuerza</span><input type="number" min="0.05" max="1" step="0.05" value="'+h.w+'" data-hi="'+i+'" data-k="w"></label>'+
+      '<label class="f"><span>Rezago (años)</span><input type="number" min="1" max="15" step="1" value="'+h.lag+'" data-hi="'+i+'" data-k="lag"></label>'+
+      '<label class="f"><span>Nivel TQAF de la fuente</span><select data-hi="'+i+'" data-k="lvl"><option value="">—</option>'+["N1","N2","N3"].map(function(l){return '<option'+(h.lvl===l?" selected":"")+'>'+l+'</option>';}).join("")+'</select></label>'+
+      '<label class="chk" style="padding-top:22px"><input type="checkbox" data-hi="'+i+'" data-k="on"'+(h.off?"":" checked")+'><span>Activa</span></label></div>'+
+     '<label class="f"><span>Fuente (DOI o URL)</span><input type="text" maxlength="200" value="'+esc(h.ref)+'" data-hi="'+i+'" data-k="ref"></label><div class="hint '+ro[0]+'">'+ro[1]+'</div></div>';
+  }).join("");
+  // átomos
+  $("aList").innerHTML=S.atoms.map(function(a,i){
+    return '<tr><td><b>'+esc(a.name)+'</b>'+(a.prov?' <span class="badge b-part">provisional</span>':"")+(a.custom?' <span class="badge b-ok">usuario</span>':"")+'</td><td>'+esc(Core.DOMS[a.dom][0])+'</td><td class="num">'+a.impact+'</td><td class="num">'+a.risk+'</td><td class="num">'+a.ev+'</td>'+
+     '<td><input type="text" style="min-width:150px" maxlength="24" placeholder="TRI-TAMV-2026-0001" value="'+esc(a.tri)+'" data-ai="'+i+'" data-k="tri" aria-label="TRI de '+esc(a.name)+'"></td>'+
+     '<td><select data-ai="'+i+'" data-k="role" aria-label="Rol de '+esc(a.name)+'"><option value="">—</option>'+Core.ROLES.map(function(r){return '<option'+(a.role===r[0]?" selected":"")+'>'+r[0]+'</option>';}).join("")+'</select></td>'+
+     '<td>'+(a.custom?'<button type="button" class="btn sm dng" data-adel="'+i+'">Quitar</button>':"")+'</td></tr>';
+  }).join("");
+  // navegación
+  $("navDom").innerHTML=Core.DOMS.map(function(d,i){
+    var at=M.domAtoms[i].map(function(j){var n=M.nodes[j];return '<button type="button" data-go="'+esc(n.id)+'"'+(S.ui.sel===n.id?' aria-current="true"':"")+'>'+esc(n.name)+'</button>';}).join("");
+    return '<div><h4><i style="background:var(--d'+i+')"></i><button type="button" data-go="D'+i+'" style="font-weight:600">'+esc(d[0])+'</button></h4>'+at+'</div>';
+  }).join("");
+}
+
+/* ---------- Búsqueda por intención ---------- */
+var SYN={ia:["agentes","memoria","razonamiento","educacion","trabajo","economia"],educacion:["ia","aprendizaje","investigacion","trabajo","salud mental"],clima:["energia","biodiversidad","salud","economia circular","riesgo"],riesgo:["ciberseguridad","guerra hibrida","gobernanza","evidencia","resiliencia"],economia:["mercados","creditos","finanzas","gobernanza","ia"],salud:["biotecnologia","prevencion","clima","memoria","bienestar"],fraude:["ciberseguridad","ciberdelito","seguridad","identidad","evidencia"],delito:["ciberdelito","seguridad","gobernanza"],hackeo:["ciberseguridad","ciberdelito"],energia:["clima","economia","infraestructura"],guerra:["guerra hibrida","seguridad","gobernanza"]};
+var hl=null;
+function words(s){return norm(s).split(/[^a-z0-9]+/).filter(Boolean);}
+function hit(ws,tok){return ws.some(function(w){return tok.length<3?w===tok:w.indexOf(tok)===0;});}
+function phraseIn(ws,phrase){var tk=words(phrase);return tk.length&&tk.every(function(t){return hit(ws,t);});}
+function search(q){
+  var terms=q.split(/\+|,/).map(function(t){return t.trim();}).filter(Boolean);
+  if(!terms.length)return {res:[],exp:[]};
+  var exp=[],res=[];
+  terms.forEach(function(t){var k=norm(t);Object.keys(SYN).forEach(function(key){if(k===key)SYN[key].forEach(function(e){if(exp.indexOf(e)<0)exp.push(e);});});});
+  M.nodes.forEach(function(n){
+    if(n.kind==="core")return;
+    var wn=words(n.name),wd=words(n.kind==="domain"?n.name:Core.DOMS[n.dom][0]),wt=words(n.note||""),sc=0,why=[];
+    terms.forEach(function(t){
+      var s=(phraseIn(wn,t)?3:0)+(phraseIn(wd,t)?2:0)+(phraseIn(wt,t)?1:0);
+      if(s){sc+=s;why.push(t);}
+    });
+    exp.forEach(function(e){if(phraseIn(wn,e)||phraseIn(wd,e)||phraseIn(wt,e)){sc+=.5;}});
+    if(sc>0)res.push({n:n,sc:sc,why:why});
+  });
+  res.sort(function(a,b){return b.sc-a.sc;});
+  return {res:res,exp:exp};
+}
+function renderSearch(){
+  var q=$("q").value,r=search(q);
+  if(!q.trim()){hl=null;$("qres").innerHTML="";$("qHint").textContent="";return;}
+  hl={};r.res.forEach(function(x){hl[x.n.id]=true;});
+  $("qHint").textContent=r.res.length+" coincidencia(s)."+(r.exp.length?" Expansión semántica aplicada: "+r.exp.join(" · ")+".":"");
+  $("qres").innerHTML=r.res.slice(0,10).map(function(x){return '<button type="button" data-go="'+esc(x.n.id)+'"><span><b>'+esc(x.n.name)+'</b> <span class="cap2">'+esc(x.n.kind==="domain"?"dominio":Core.DOMS[x.n.dom][0])+'</span></span><span class="mono">'+x.sc.toFixed(1)+'</span></button>';}).join("");
+}
+
+/* ---------- Panel de detalle ---------- */
+function meter(label,v){return '<div class="kv"><span>'+label+'</span><span class="mt"><i style="width:'+clamp(v,0,100)+'%"></i></span><b class="mono">'+(+v).toFixed(v%1?1:0)+'</b></div>';}
+function chart(j){
+  var W=340,Hh=104,L=30,R=6,Tp=8,B=18,sim=sims,x=function(t){return L+t/T*(W-L-R);},y=function(v){return Tp+(1-(v+1)/2)*(Hh-Tp-B);};
+  var m=getMC(),sc=S.ui.scen,i,d="";
+  var up=[],dn=[];for(i=0;i<=T;i++){up.push(x(i).toFixed(1)+","+y(m.hi[i][j]).toFixed(1));dn.unshift(x(i).toFixed(1)+","+y(m.lo[i][j]).toFixed(1));}
+  function line(k,style){var p=[];for(i=0;i<=T;i++)p.push(x(i).toFixed(1)+","+y(sim[k].a[i][j]).toFixed(1));return '<polyline points="'+p.join(" ")+'" fill="none" style="'+style+'"/>';}
+  var cx=x(S.ui.year-Y0);
+  return '<svg viewBox="0 0 '+W+' '+Hh+'" width="100%" role="img" aria-label="Activación por año en los tres escenarios con banda de sensibilidad del escenario activo">'+
+   '<polygon points="'+up.concat(dn).join(" ")+'" style="fill:var(--accent);opacity:.16"/>'+
+   '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(0)+'" y2="'+y(0)+'" style="stroke:var(--rule);stroke-width:1"/>'+
+   [1,0,-1].map(function(v){return '<text x="'+(L-4)+'" y="'+(y(v)+3)+'" text-anchor="end" style="font:10px var(--mono);fill:var(--mute)">'+(v>0?"+1":(v<0?"−1":"0"))+'</text>';}).join("")+
+   [0,12,24].map(function(t){return '<text x="'+x(t)+'" y="'+(Hh-4)+'" text-anchor="'+(t===0?"start":(t===24?"end":"middle"))+'" style="font:10px var(--mono);fill:var(--mute)">'+(Y0+t)+'</text>';}).join("")+
+   line("A","stroke:var(--mute);stroke-width:1.6;stroke-dasharray:2 3")+line("B","stroke:var(--fg);stroke-width:1.8")+line("C","stroke:var(--danger);stroke-width:1.6;stroke-dasharray:7 3")+
+   '<line x1="'+cx+'" x2="'+cx+'" y1="'+Tp+'" y2="'+(Hh-B)+'" style="stroke:var(--accent2);stroke-width:1.2"/></svg>';
+}
+function actOf(k,t,j){return sims[k].a[t][j];}
+function renderDetail(){
+  var j=selIdx(),n=M.nodes[j],t=S.ui.year-Y0,sc=S.ui.scen,e=actOf(sc,t,j),h="";
+  if(n.kind==="core")return renderCore();
+  var dcol='var(--d'+n.dom+')';
+  var isQ=S.quar.indexOf(n.id)>=0,Qv=Core.Q(n,S.ui.year),om=Core.omega(n,S.ui.year),kp=Core.coherence(n,S.ui.year);
+  h+='<h3><i style="background:'+dcol+'"></i>'+esc(n.name)+'</h3><div class="cap2">'+(n.kind==="domain"?"Dominio cognitivo (valores agregados)":"Átomo cognitivo · "+esc(Core.DOMS[n.dom][0]))+(n.prov?' · <span class="badge b-part">puntajes provisionales</span>':"")+'</div>';
+  h+='<p style="margin:10px 0 0">'+esc(n.note||"")+'</p>';
+  h+='<div class="actions"><button type="button" class="btn sm" data-act="shock">Choque +1.0 en '+S.ui.year+'</button><button type="button" class="btn sm'+(isQ?" dng":"")+'" data-act="quar">'+(isQ?"Liberar de cuarentena":"Poner en cuarentena")+'</button></div>';
+  h+='<h4>Estado en '+S.ui.year+' · escenario '+sc+'</h4>';
+  var stab="";
+  var m=getMC(),bs=Math.abs(e)>.02?(e>0?m.fp[t][j]:m.fn[t][j]):null;
+  h+='<div class="kv2"><span>Activación a(t)</span><b class="mono">'+sg(e)+'</b></div>';
+  h+='<div class="kv2"><span>Banda P10–P90</span><b class="mono">'+sg(m.lo[t][j])+' … '+sg(m.hi[t][j])+'</b></div>';
+  if(bs!==null)h+='<div class="kv2"><span>Estabilidad de signo</span><b class="mono">'+(bs*100).toFixed(0)+' % de 200</b></div>';
+  h+=chart(j);
+  h+='<div class="cap2"><span class="mono">···</span> A · <span class="mono">—</span> B · <span class="mono" style="color:var(--danger)">– –</span> C · banda: sensibilidad del escenario activo</div>';
+  h+='<h4>Estado hexadimensional (x, y, z, t, q, Ω)</h4>';
+  h+=meter("X · Influencia",n.impact)+meter("Y · Riesgo",n.risk)+meter("Z · Evidencia",n.ev);
+  h+='<div class="kv2"><span>T · Tiempo</span><b class="mono">'+S.ui.year+'</b></div><div class="kv2"><span>Q · Incertidumbre</span><b class="mono">'+(Qv*100).toFixed(1)+' %</b></div><div class="kv2"><span>Ω · Potencial ajustado</span><b class="mono">'+om.toFixed(1)+'</b></div>';
+  if(n.kind==="atom"){
+    var pod=podOf(n,e),inc=Core.incident(M,j),cr=Core.cert(M,j),tz=Core.traz(M,j),sl=Core.supportLevel(M,j);
+    h+='<h4>Estructura</h4><div class="kv2"><span>Orbital</span><b>'+n.orb+'</b></div><div class="cap2" style="margin:0 0 6px">'+esc(Core.orbReason(n))+'</div>';
+    h+='<div class="kv2"><span>Hiperaristas incidentes</span><b class="mono">'+inc.length+'</b></div>';
+    h+='<h4>Incertidumbre y coherencia</h4><div class="kv2"><span>Coherencia κ</span><b class="mono">'+(kp*100).toFixed(1)+' %</b></div><div class="kv2"><span>Entrelazamiento</span><b class="mono">'+inc.length+' hiperarista(s)</b></div><div class="kv2"><span>Fase ψ (identificador)</span><b class="mono">'+n.psi.toFixed(2)+' rad</b></div>';
+    h+='<h4>Pod (carga simulada)</h4><div class="kv2"><span>Estado</span><b>'+pod.st+'</b></div>'+meter("Carga",pod.cpu)+meter("Memoria",pod.mem);
+    h+='<h4>Índice ISCIR y trazabilidad</h4><div class="kv2"><span>Índice</span><b class="mono">'+cr.c+'</b></div><div class="cap2" style="margin:0 0 6px">'+esc(cr.why)+'</div>';
+    h+='<div class="kv2"><span>Confianza</span><b class="mono">'+Core.trust(M,j).toFixed(2)+'</b></div><div class="kv2"><span>Trazabilidad</span><b class="mono">'+(tz===null?"sin hiperaristas":(tz*100).toFixed(0)+" %")+'</b></div><div class="kv2"><span>Nivel TQAF del sustento</span><b class="mono">'+(sl||"—")+'</b></div>';
+    h+='<div class="kv2"><span>Autoría (TRI)</span><b class="mono">'+(Core.tri(n.tri)?esc(n.tri)+" · "+esc(n.role||"sin rol"):"sin atribuir")+'</b></div>';
+    var st=!S.seal?"sin sello":(ss.mod.indexOf(n.id)>=0?"modificado":(ss.add.indexOf(n.id)>=0?"añadido tras el sello":"íntegro"));
+    h+='<div class="kv2"><span>Sello de datos</span><b>'+st+'</b></div><details><summary class="cap2" style="cursor:pointer">SHA3-512 del átomo</summary><div class="mono" style="font-size:11px;word-break:break-all">'+hs[n.id]+'</div></details>';
+    h+='<h4>Hiperaristas</h4>'+(inc.length?inc.map(function(x){var r=x.raw;return '<div style="margin:5px 0;font-size:12.5px"><b>'+esc(r.label)+'</b> <span class="cap2">fuerza '+r.w+' · rezago '+r.lag+' a · '+(Core.refOk(r.ref)?"con fuente":"sin fuente")+'</span></div>';}).join(""):'<div class="cap2">Ninguna: el átomo está aislado. Créele una hiperarista en la consola.</div>');
+  }else{
+    var atoms=M.domAtoms[n.dom];
+    h+='<h4>Átomos del dominio</h4>'+atoms.map(function(a){return '<div class="kv2"><button type="button" class="rowbtn" data-go="'+esc(M.nodes[a].id)+'">'+esc(M.nodes[a].name)+'</button><b class="mono">'+sg(actOf(sc,t,a))+'</b></div>';}).join("");
+  }
+  h+='<h4>Escenarios A / B / C</h4><div class="tw"><table><thead><tr><th>Año</th>'+["A","B","C"].map(function(k){return '<th class="num">'+k+'</th>';}).join("")+'</tr></thead><tbody>'+
+     [2030,2038,2050].map(function(y){return '<tr><td class="mono">'+y+'</td>'+["A","B","C"].map(function(k){return '<td class="num">'+sg(actOf(k,y-Y0,j))+'</td>';}).join("")+'</tr>';}).join("")+'</tbody></table></div>';
+  h+='<div class="cap2">Activaciones relativas en [−1, 1]; no son probabilidades.</div>';
+  $("detail").innerHTML=h;
+}
+function podOf(n,e){
+  var j=M.idx[n.id],q=S.quar.indexOf(n.id)>=0,ae=Math.abs(e);
+  var yrs=0,t;for(t=0;t<=S.ui.year-Y0;t++)if(Math.abs(actOf(S.ui.scen,t,j))>.05)yrs++;
+  return {st:q?"Cuarentena":(ae>.5?"Acelerado":(ae>.05?"Activo":"Inactivo")),cpu:Math.min(99,8+4*n.deg+80*ae),mem:Math.min(99,10+3*yrs)};
+}
+function renderCore(){
+  var t=S.ui.year-Y0,sc=S.ui.scen,h="";
+  h+='<h3><i style="background:var(--fg)"></i>Ω Core</h3><div class="cap2">Lectura agregada del sistema; no emite señales.</div>';
+  h+='<h4>Lectura en '+S.ui.year+'</h4><div class="tw"><table><thead><tr><th></th>'+["A","B","C"].map(function(k){return '<th class="num">'+k+'</th>';}).join("")+'</tr></thead><tbody>'+
+   '<tr><td>Tensión sistémica</td>'+["A","B","C"].map(function(k){return '<td class="num">'+(Core.tension(M,sims[k],t)*100).toFixed(0)+' %</td>';}).join("")+'</tr>'+
+   '<tr><td>Riesgo ponderado</td>'+["A","B","C"].map(function(k){var r=Core.riskW(M,sims[k],t);return '<td class="num">'+(r===null?"—":r.toFixed(0))+'</td>';}).join("")+'</tr>'+
+   '<tr><td>Nodos activos (|a|&gt;0.05)</td>'+["A","B","C"].map(function(k){var c=0;M.nodes.forEach(function(n,j){if(n.kind==="atom"&&Math.abs(sims[k].a[t][j])>.05)c++;});return '<td class="num">'+c+'</td>';}).join("")+'</tr></tbody></table></div>';
+  h+='<div class="cap2">Tensión: media de |a| ponderada por influencia. Riesgo ponderado: riesgo medio de los nodos activos, ponderado por |a|.</div>';
+  var oc={S:[],P:[],D:[],F:[]};M.nodes.forEach(function(n){if(n.kind==="atom")oc[n.orb].push(n.name);});
+  h+='<h4>Distribución orbital</h4>'+["S","P","D","F"].map(function(o){return '<div class="kv2"><span>'+o+'</span><b class="mono">'+oc[o].length+'</b></div>';}).join("");
+  var iso=M.nodes.filter(function(n){return n.kind==="atom"&&n.deg===0;});
+  h+='<h4>Diagnóstico</h4>';
+  h+='<div class="kv2"><span>Átomos aislados</span><b class="mono">'+iso.length+'</b></div>'+(iso.length?'<div class="cap2">'+iso.map(function(n){return '<button type="button" class="rowbtn" data-go="'+esc(n.id)+'">'+esc(n.name)+'</button>';}).join(", ")+'</div>':"");
+  var nsrc=M.H.filter(function(x){return !x.off&&!Core.refOk(x.raw.ref);}).length,nl=M.H.filter(function(x){return !x.off;}).length;
+  h+='<div class="kv2"><span>Hiperaristas sin fuente</span><b class="mono">'+nsrc+' de '+nl+'</b></div>';
+  var pv=M.nodes.filter(function(n){return n.prov;});
+  h+='<div class="kv2"><span>Puntajes provisionales</span><b class="mono">'+pv.length+'</b></div>'+(pv.length?'<div class="cap2">'+pv.map(function(n){return '<button type="button" class="rowbtn" data-go="'+esc(n.id)+'">'+esc(n.name)+'</button>';}).join(", ")+'</div>':"");
+  h+='<div class="kv2"><span>Choques registrados</span><b class="mono">'+S.shocks.length+'</b></div><div class="kv2"><span>Nodos en cuarentena</span><b class="mono">'+S.quar.length+'</b></div>';
+  var top=M.nodes.map(function(n,j){return {n:n,e:sims[sc].a[t][j]};}).filter(function(x){return x.n.kind==="atom"&&Math.abs(x.e)>.05;}).sort(function(a,b){return Math.abs(b.e)-Math.abs(a.e);}).slice(0,6);
+  h+='<h4>Mayor activación · '+sc+' · '+S.ui.year+'</h4>'+(top.length?top.map(function(x){return '<div class="kv2"><button type="button" class="rowbtn" data-go="'+esc(x.n.id)+'">'+esc(x.n.name)+'</button><b class="mono">'+sg(x.e)+'</b></div>';}).join(""):'<div class="cap2">Sin activación en este año. Registre un choque o avance en la línea temporal.</div>');
+  $("detail").innerHTML=h;
+}
+function renderCaption(){
+  var cap={dom:"Color = dominio · tamaño = influencia · anillo = activación (continuo: intensifica; punteado: reduce).",
+   risk:"Halo = riesgo declarado (más intenso y rojo hacia 100). Pulso en riesgo > 85.",
+   ev:"Arco = evidencia declarada (360° = 100). ✓ sello íntegro · ! modificado desde el sello.",
+   pod:"Cuadrado = pod simulado · barra = carga (índice) · borde: verde activo, ámbar acelerado, rojo cuarentena.",
+   q:"Nube = incertidumbre Q del año visible; se contrae (colapsa) al seleccionar. Punto = fase ψ."}[S.ui.layer];
+  $("cap").textContent=cap;
+  var lg="";
+  if(S.ui.layer==="dom")lg=Core.DOMS.map(function(d,i){return '<span><i style="background:var(--d'+i+')"></i>'+esc(d[0])+'</span>';}).join("");
+  $("lg").innerHTML=lg;
+  $("figcap").innerHTML='Figura 1. Proyección 3D del HCU · año '+S.ui.year+' · escenario '+S.ui.scen+' ('+esc(Core.SC[S.ui.scen].name)+'). Línea discontinua entre nodos: efecto reductor. Datos del expediente v'+esc(S.exp.version)+' · raíz SHA3-512 <span class="mono">'+Core.rootOf(hs).slice(0,16)+'…</span>.';
+}
+function renderControls(){
+  $("yv").textContent=S.ui.year;$("year").value=S.ui.year;
+  [].forEach.call(document.querySelectorAll("#scSeg [data-sc]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-sc")===S.ui.scen);});
+  [].forEach.call(document.querySelectorAll("#layerSeg [data-layer]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-layer")===S.ui.layer);});
+  $("tgH").setAttribute("aria-pressed",S.ui.showH);$("tgF").setAttribute("aria-pressed",S.ui.flow);$("tgR").setAttribute("aria-pressed",S.ui.rotate);
+}
+function renderAll(){
+  renderStatusbar();renderLayers();renderTqaf();renderPipeline();renderReviews();renderSeal();renderLedger();renderConsole();renderSearch();renderCaption();renderControls();renderDetail();renderAff();
+}
+function renderTime(){renderStatusbar();renderCaption();renderControls();renderDetail();}
+
+/* ---------- Formularios ---------- */
+function initForms(){
+  var a=S.actor,E=S.exp;
+  $("aName").value=a.name;$("aTri").value=a.tri;$("aOrcid").value=a.orcid;$("aRole").value=a.role;
+  $("eLevel").value=E.level;$("eRepl").value=E.repl;$("eVer").value=E.version;$("eProblem").value=E.problem;$("eAuth").checked=!!E.auth;
+  $("ePlag").value=E.plag;$("eCode").value=E.code;$("eDoi").value=E.doi;$("eDeposit").value=E.deposit;$("eSig").value=E.sigRef;$("ePub").value=E.pub;
+  actorHint();
+}
+function actorHint(){
+  var a={name:$("aName").value.trim(),tri:$("aTri").value.trim(),orcid:$("aOrcid").value.trim(),role:$("aRole").value},msg=[],ok=true;
+  if(!a.name||a.name.length<3){msg.push("falta el nombre");ok=false;}
+  if(!Core.tri(a.tri)){msg.push("TRI con formato inválido (TRI-TAMV-AAAA-XXXX)");ok=false;}
+  if(!Core.orcid(a.orcid)){msg.push("ORCID inválido o con dígito de control incorrecto");ok=false;}
+  if(!Core.roleOk(a.role)){msg.push("falta el rol");ok=false;}
+  var h=$("aHint");h.className="hint "+(ok?"good":(msg.length===4?"":"bad"));h.textContent=ok?"Identidad válida: formato TRI, dígito de control de ORCID y rol verificados.":"Pendiente: "+msg.join("; ")+".";
+}
+function bind(){
+  document.addEventListener("click",function(e){
+    var el=e.target.closest&&e.target.closest("[data-go],[data-sdel],[data-qdel],[data-hdel],[data-adel],[data-rdel],[data-act],[data-sc],[data-layer]");
+    if(!el)return;
+    if(el.hasAttribute("data-go")){select(el.getAttribute("data-go"),true);return;}
+    if(el.hasAttribute("data-sdel")){var i=+el.getAttribute("data-sdel"),s=S.shocks[i];S.shocks.splice(i,1);commit("choque retirado",s.node+"@"+s.year);return;}
+    if(el.hasAttribute("data-qdel")){var id=el.getAttribute("data-qdel");S.quar=S.quar.filter(function(x){return x!==id;});commit("cuarentena liberada",id);return;}
+    if(el.hasAttribute("data-hdel")){var hi=+el.getAttribute("data-hdel"),hh=S.hyp[hi];S.hyp.splice(hi,1);commit("hiperarista retirada",hh.id);return;}
+    if(el.hasAttribute("data-adel")){removeAtom(+el.getAttribute("data-adel"));return;}
+    if(el.hasAttribute("data-rdel")){var ri=+el.getAttribute("data-rdel");S.reviews.splice(ri,1);commit("dictamen retirado","#"+ri);return;}
+    if(el.hasAttribute("data-sc")){S.ui.scen=el.getAttribute("data-sc");save();renderTime();return;}
+    if(el.hasAttribute("data-layer")){S.ui.layer=el.getAttribute("data-layer");save();renderCaption();renderControls();return;}
+    if(el.hasAttribute("data-act")){
+      var j=selIdx(),n=M.nodes[j];
+      if(el.getAttribute("data-act")==="shock"&&j>0){S.shocks.push({id:"s"+Date.now().toString(36),node:n.id,year:S.ui.year,mag:1});commit("choque registrado",n.id+"@"+S.ui.year+" +1.0");}
+      if(el.getAttribute("data-act")==="quar"&&j>0){var q=S.quar.indexOf(n.id);if(q>=0){S.quar.splice(q,1);commit("cuarentena liberada",n.id);}else{S.quar.push(n.id);commit("cuarentena",n.id);}}
+    }
+  });
+  // identidad
+  ["aName","aTri","aOrcid"].forEach(function(id){$(id).addEventListener("input",actorHint);});
+  ["aName","aTri","aOrcid","aRole"].forEach(function(id){$(id).addEventListener("change",function(){
+    S.actor={name:$("aName").value.trim(),tri:$("aTri").value.trim(),orcid:$("aOrcid").value.trim(),role:$("aRole").value};
+    actorHint();commit("identidad de sesión",Core.tri(S.actor.tri)?S.actor.tri:"incompleta");});});
+  $("aDir").addEventListener("click",function(){$("aName").value="Edwin Oswaldo Castillo Trejo";$("aTri").value="TRI-TAMV-2026-0001";$("aOrcid").value="0009-0008-5050-1539";$("aRole").value="TRI-F";$("aName").dispatchEvent(new Event("change"));});
+  $("fActor").addEventListener("submit",function(e){e.preventDefault();});
+  // expediente
+  var map={eLevel:"level",eRepl:"repl",eVer:"version",eProblem:"problem",ePlag:"plag",eCode:"code",eDoi:"doi",eDeposit:"deposit",eSig:"sigRef",ePub:"pub"};
+  Object.keys(map).forEach(function(id){$(id).addEventListener("change",function(){
+    var v=$(id).value.trim();S.exp[map[id]]=v;
+    var ref=(id==="eDoi"||id==="eDeposit")?(v&&!Core.doi(v)?" (formato DOI inválido)":""):"";
+    $("eHint").className="hint"+(ref?" bad":"");$("eHint").textContent=ref?"Revise el identificador: "+ref:"";
+    commit("declaración "+map[id],id==="eProblem"?v.length+" caracteres":v);});});
+  $("eAuth").addEventListener("change",function(){S.exp.auth=$("eAuth").checked;commit("declaración auth",String(S.exp.auth));});
+  $("fExp").addEventListener("submit",function(e){e.preventDefault();});
+  // dictámenes
+  $("fRev").addEventListener("submit",function(e){
+    e.preventDefault();
+    var tri=$("rTri").value.trim(),obs=$("rObs").value.trim(),H=$("rHint");
+    if(!Core.tri(tri)){H.className="hint bad";H.textContent="El TRI del dictaminador no tiene formato válido.";return;}
+    if(obs.length<10){H.className="hint bad";H.textContent="Las observaciones requieren al menos 10 caracteres.";return;}
+    S.reviews.push({id:"r"+Date.now().toString(36),t:new Date().toISOString(),kind:$("rKind").value,tri:tri,verdict:$("rVerdict").value,obs:obs,resp:$("rResp").value.trim()});
+    $("rObs").value="";$("rResp").value="";H.className="hint good";H.textContent="Dictamen registrado.";
+    commit("dictamen",$("rKind").value+" "+tri+" "+$("rVerdict").value);
+  });
+  // sello y exportación
+  $("bSeal").addEventListener("click",function(){S.seal={t:new Date().toISOString(),root:Core.rootOf(hs),h:JSON.parse(JSON.stringify(hs))};commit("sello de datos",S.seal.root.slice(0,16));$("lStatus").className="hint good";$("lStatus").textContent="Datos sellados.";});
+  $("bVerify").addEventListener("click",function(){var v=Core.ledgerVerify(S.ledger);$("lStatus").className="hint "+(v.ok?"good":"bad");$("lStatus").textContent=v.ok?"Cadena íntegra: "+v.n+" entradas verificadas con SHA3-512.":"Cadena rota en la entrada n.º "+v.at+".";});
+  function show(txt){var o=$("out");o.hidden=false;o.value=txt;$("bCopy").hidden=false;$("cStatus").textContent="";}
+  $("bLd").addEventListener("click",function(){show(JSON.stringify(Core.jsonld(S,M,hs),null,1));});
+  $("bData").addEventListener("click",function(){show(JSON.stringify({version:S.exp.version,atoms:S.atoms,hyperedges:S.hyp,shocks:S.shocks,quarantine:S.quar,scenarios:Core.SC,sensitivity:{runs:200,seed:20261101},integrityRoot:Core.rootOf(hs),seal:S.seal},null,1));});
+  $("bLed").addEventListener("click",function(){show(JSON.stringify({verification:lv,entries:S.ledger},null,1));});
+  $("bCopy").addEventListener("click",function(){var o=$("out");function fb(){o.focus();o.select();$("cStatus").textContent="Selecciona y copia el texto.";}try{navigator.clipboard.writeText(o.value).then(function(){$("cStatus").textContent="Copiado.";},fb);}catch(x){fb();}});
+  var wipe=0;
+  $("bWipe").addEventListener("click",function(ev){
+    if(!wipe){wipe=1;ev.target.textContent="Confirmar: se borrarán todos los datos locales";setTimeout(function(){wipe=0;$("bWipe").textContent="Restaurar semilla y borrar datos locales";},4000);return;}
+    wipe=0;ev.target.textContent="Restaurar semilla y borrar datos locales";
+    try{localStorage.removeItem(KEY);}catch(x){}
+    S=Core.seedState();if(RM){S.ui.rotate=false;S.ui.flow=false;}derive();initForms();renderAll();$("wHint").textContent="Datos restaurados a la semilla.";
+  });
+  // instrumento
+  $("year").addEventListener("input",function(e){S.ui.year=+e.target.value;save();renderTime();});
+  var timer=null;
+  $("play").addEventListener("click",function(){
+    if(timer){clearInterval(timer);timer=null;$("play").textContent="▶ Reproducir";return;}
+    if(S.ui.year>=Y0+T)S.ui.year=Y0;
+    $("play").textContent="❚❚ Pausar";
+    timer=setInterval(function(){if(S.ui.year>=Y0+T){clearInterval(timer);timer=null;$("play").textContent="▶ Reproducir";return;}S.ui.year++;renderTime();},700);
+  });
+  $("tgH").addEventListener("click",function(){S.ui.showH=!S.ui.showH;save();renderControls();});
+  $("tgF").addEventListener("click",function(){S.ui.flow=!S.ui.flow;save();renderControls();});
+  $("tgR").addEventListener("click",function(){S.ui.rotate=!S.ui.rotate;save();renderControls();});
+  $("q").addEventListener("input",renderSearch);
+  $("shMag").addEventListener("input",function(e){var v=+e.target.value;$("shMagV").textContent=sg(v,1);});
+  $("fShock").addEventListener("submit",function(e){
+    e.preventDefault();
+    var node=$("shNode").value,yr=Math.round(clamp($("shYear").value,Y0,Y0+T)),mg=+$("shMag").value;
+    if(!node||M.idx[node]===undefined||!mg)return;
+    S.shocks.push({id:"s"+Date.now().toString(36),node:node,year:yr,mag:mg});commit("choque registrado",node+"@"+yr+" "+sg(mg,1));
+  });
+  $("hList").addEventListener("change",function(e){
+    var el=e.target,i=+el.getAttribute("data-hi"),k=el.getAttribute("data-k"),h=S.hyp[i];if(!h||!k)return;
+    if(k==="w")h.w=clamp(el.value,.05,1);else if(k==="lag")h.lag=Math.round(clamp(el.value,1,15));
+    else if(k==="lvl")h.lvl=el.value;else if(k==="on")h.off=!el.checked;else if(k==="ref")h.ref=el.value.trim();
+    commit("hiperarista "+h.id,k+"="+(k==="on"?(!h.off):h[k]));
+  });
+  $("fHyp").addEventListener("submit",function(e){
+    e.preventDefault();var H=$("hnHint"),label=$("hnLabel").value.trim();
+    function sel(id){return [].filter.call($(id).options,function(o){return o.selected;}).map(function(o){return o.value;});}
+    var s=sel("hnS"),t=sel("hnT");
+    function expand(ids){var out=[];ids.forEach(function(id){if(/^D\d$/.test(id))out.push(id);else out.push(id);});return out;}
+    if(!label||!s.length||!t.length){H.className="hint bad";H.textContent="Se requieren etiqueta, al menos un origen y al menos un destino.";return;}
+    var sign=+$("hnSign").value;
+    S.hyp.push({id:"h"+Date.now().toString(36),label:label,S:expand(s),T:expand(t).map(function(x){return [x,sign];}),w:clamp($("hnW").value,.05,1),lag:Math.round(clamp($("hnLag").value,1,15)),off:false,origin:"user",ref:"",lvl:""});
+    $("hnLabel").value="";H.className="hint good";H.textContent="Hiperarista agregada. Cite su fuente en el listado.";commit("hiperarista creada",label);
+  });
+  $("aList").addEventListener("change",function(e){
+    var el=e.target,i=+el.getAttribute("data-ai"),k=el.getAttribute("data-k"),a=S.atoms[i];if(!a||!k)return;
+    a[k]=el.value.trim();commit("atribución",a.id+" "+k+"="+a[k]);
+  });
+  $("fBulk").addEventListener("submit",function(e){
+    e.preventDefault();var H=$("bkHint"),tri=$("bkTri").value.trim(),role=$("bkRole").value;
+    if(!Core.tri(tri)||!Core.roleOk(role)){H.className="hint bad";H.textContent="Se requiere un TRI con formato válido y un rol.";return;}
+    var c=0;S.atoms.forEach(function(a){if(!(Core.tri(a.tri)&&Core.roleOk(a.role))){a.tri=tri;a.role=role;c++;}});
+    H.className="hint good";H.textContent=c+" átomo(s) atribuido(s).";commit("atribución en bloque",tri+" "+role+" ×"+c);
+  });
+  $("fAtom").addEventListener("submit",function(e){
+    e.preventDefault();var H=$("anHint"),name=$("anName").value.trim();
+    var imp=+$("anImp").value,rk=+$("anRisk").value,ev=+$("anEv").value;
+    if(name.length<3){H.className="hint bad";H.textContent="El nombre requiere al menos 3 caracteres.";return;}
+    if([imp,rk,ev].some(function(v){return isNaN(v)||v<0||v>100;})){H.className="hint bad";H.textContent="Los puntajes deben estar entre 0 y 100.";return;}
+    if(S.atoms.some(function(a){return norm(a.name)===norm(name);})){H.className="hint bad";H.textContent="Ya existe un átomo con ese nombre.";return;}
+    var id="u"+Date.now().toString(36);
+    S.atoms.push({id:id,name:name,dom:+$("anDom").value,impact:imp,risk:rk,ev:ev,note:$("anNote").value.trim()||"Átomo agregado por el usuario.",prov:false,custom:true,tri:"",role:""});
+    var links=[].filter.call($("anLinks").options,function(o){return o.selected;}).map(function(o){return o.value;});
+    if(links.length)S.hyp.push({id:"h"+Date.now().toString(36),label:"Vínculos de "+name,S:[id],T:links.map(function(x){return [x,1];}),w:.3,lag:2,off:false,origin:"user",ref:"",lvl:""});
+    $("anName").value="";$("anNote").value="";S.ui.sel=id;H.className="hint good";H.textContent="Átomo creado"+(links.length?" y vinculado.":"; está aislado hasta que se vincule.");
+    commit("átomo creado",name);
+  });
+  // pestañas
+  var tabs=["explore","shock","hyp","atoms"];
+  tabs.forEach(function(t){$("t-"+t).addEventListener("click",function(){setTab(t);});});
+  tabs.forEach(function(t){$("t-"+t).addEventListener("keydown",function(e){
+    var i=tabs.indexOf(t),n=e.key==="ArrowRight"?i+1:(e.key==="ArrowLeft"?i-1:null);
+    if(n===null)return;n=(n+tabs.length)%tabs.length;setTab(tabs[n]);$("t-"+tabs[n]).focus();e.preventDefault();});});
+}
+function setTab(t){["explore","shock","hyp","atoms"].forEach(function(x){var on=x===t;$("t-"+x).setAttribute("aria-selected",on);$("t-"+x).tabIndex=on?0:-1;$("p-"+x).hidden=!on;});}
+function removeAtom(i){
+  var a=S.atoms[i];if(!a||!a.custom)return;
+  S.atoms.splice(i,1);
+  S.hyp.forEach(function(h){h.S=h.S.filter(function(x){return x!==a.id;});h.T=h.T.filter(function(x){return x[0]!==a.id;});});
+  S.hyp=S.hyp.filter(function(h){return h.S.length&&h.T.length;});
+  S.shocks=S.shocks.filter(function(s){return s.node!==a.id;});S.quar=S.quar.filter(function(x){return x!==a.id;});
+  if(S.ui.sel===a.id)S.ui.sel="ia";
+  commit("átomo retirado",a.name);
+}
+function select(id,scroll){
+  if(M.idx[id]===undefined)return;
+  S.ui.sel=id;col=0;save();renderDetail();renderConsole();
+  if(scroll){var st=$("stage");if(st.getBoundingClientRect().top<0||st.getBoundingClientRect().bottom>window.innerHeight)st.scrollIntoView({block:"center",behavior:RM?"auto":"smooth"});}
+}
+
+/* ---------- Lienzo 3D ---------- */
+var cv=$("cv"),ctx=cv.getContext("2d"),Wd=300,Ht=400,DPR=1,yaw=.55,pitch=.3,zoom=1,orbit=0,tm=0,col=1,hover=-1,PAL={},palN=0,last=0;
+function fit(){var r=$("stage").getBoundingClientRect();DPR=Math.min(window.devicePixelRatio||1,2);Wd=Math.max(200,r.width);Ht=Math.max(240,r.height);cv.width=Math.round(Wd*DPR);cv.height=Math.round(Ht*DPR);cv.style.width=Wd+"px";cv.style.height=Ht+"px";}
+function readPal(){
+  var cs=getComputedStyle(document.documentElement);
+  ["fg","mute","line","rule","accent","accent2","ok","warn","danger","surface","fig"].forEach(function(k){PAL[k]=cs.getPropertyValue("--"+k).trim();});
+  PAL.d=[0,1,2,3,4,5].map(function(i){return cs.getPropertyValue("--d"+i).trim();});
+}
+function rgba(hex,a){var m=/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex||"");if(!m)return "rgba(128,128,128,"+a+")";return "rgba("+parseInt(m[1],16)+","+parseInt(m[2],16)+","+parseInt(m[3],16)+","+a+")";}
+function mix(h1,h2,t){var a=/^#?(..)(..)(..)$/.exec(h1),b=/^#?(..)(..)(..)$/.exec(h2);if(!a||!b)return h1;var o="#";for(var i=1;i<4;i++){var v=Math.round(parseInt(a[i],16)*(1-t)+parseInt(b[i],16)*t);o+=("0"+v.toString(16)).slice(-2);}return o;}
+function v3n(v){var l=Math.hypot(v[0],v[1],v[2])||1;return [v[0]/l,v[1]/l,v[2]/l];}
+function v3x(a,b){return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];}
+var DP=[],BU=[],BV=[],ORR={S:44,P:62,D:80,F:98};
+(function(){for(var i=0;i<6;i++){var phi=Math.acos(-1+(2*i+1)/6),th=Math.sqrt(6*Math.PI)*phi,R=240;var p=[R*Math.sin(phi)*Math.cos(th),.85*R*Math.sin(phi)*Math.sin(th),R*Math.cos(phi)];var d=v3n(p),u=v3x(d,[0,1,0]);if(Math.hypot(u[0],u[1],u[2])<.2)u=v3x(d,[1,0,0]);u=v3n(u);DP.push(p);BU.push(u);BV.push(v3x(d,u));}})();
+function place(){
+  var N=M.nodes;
+  N[0].x=N[0].y=N[0].z=0;
+  for(var d=0;d<6;d++){var n=N[1+d];n.x=DP[d][0];n.y=DP[d][1];n.z=DP[d][2];}
+  for(var i=7;i<N.length;i++){
+    var a=N[i],dm=a.dom,r=ORR[a.orb],ang=orbit+2*Math.PI*a.slot/a.cnt+dm*.9+(a.orb==="S"?0:(a.orb==="P"?.5:(a.orb==="D"?1:1.5))),c=Math.cos(ang),s=Math.sin(ang);
+    a.x=DP[dm][0]+r*(BU[dm][0]*c+BV[dm][0]*s);a.y=DP[dm][1]+r*(BU[dm][1]*c+BV[dm][1]*s);a.z=DP[dm][2]+r*(BU[dm][2]*c+BV[dm][2]*s);
+  }
+}
+var FOC=1500;
+function proj(o){
+  var cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+  var x1=o.x*cy-o.z*sy,z1=o.z*cy+o.x*sy,y2=o.y*cp-z1*sp,z2=z1*cp+o.y*sp,p=FOC/(FOC+z2),sc=Math.min(Wd,Ht)*.54/360*zoom;
+  o.sx=Wd/2+x1*p*sc;o.sy=Ht/2+y2*p*sc;o.sz=z2;o.p=p;o.sc=sc;
+}
+function nrad(n){return n.kind==="core"?20:(n.kind==="domain"?13:clamp(4.5+(n.impact-76)/22*4.5,4,9.5));}
+function line(x0,y0,x1,y1){ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();}
+function arrow(x0,y0,x1,y1,sz){var a=Math.atan2(y1-y0,x1-x0);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x1-sz*Math.cos(a-.4),y1-sz*Math.sin(a-.4));ctx.lineTo(x1-sz*Math.cos(a+.4),y1-sz*Math.sin(a+.4));ctx.closePath();ctx.fill();}
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,Wd,Ht);
+  var N=M.nodes,sim=sims[S.ui.scen],t=S.ui.year-Y0,A=sim.a[t],TX=sim.tx[t],si=selIdx(),i,j,n,L=S.ui.layer;
+  place();N.forEach(proj);
+  // anillos orbitales
+  ctx.lineWidth=1;ctx.strokeStyle=PAL.line;ctx.globalAlpha=.9;
+  for(var d=0;d<6;d++){var used={};M.domAtoms[d].forEach(function(k){used[N[k].orb]=1;});
+    Object.keys(used).forEach(function(o){var r=ORR[o],pts=[];for(var k=0;k<=48;k++){var a=k/48*Math.PI*2,c=Math.cos(a),s=Math.sin(a),q={x:DP[d][0]+r*(BU[d][0]*c+BV[d][0]*s),y:DP[d][1]+r*(BU[d][1]*c+BV[d][1]*s),z:DP[d][2]+r*(BU[d][2]*c+BV[d][2]*s)};proj(q);pts.push(q);}
+      ctx.beginPath();pts.forEach(function(q,k){if(k)ctx.lineTo(q.sx,q.sy);else ctx.moveTo(q.sx,q.sy);});ctx.stroke();});}
+  ctx.globalAlpha=.8;ctx.setLineDash([2,4]);ctx.strokeStyle=PAL.rule;
+  for(d=1;d<=6;d++)line(N[0].sx,N[0].sy,N[d].sx,N[d].sy);
+  ctx.setLineDash([]);ctx.globalAlpha=1;
+  // hiperaristas
+  var flows=[];
+  M.H.forEach(function(h,hi){
+    if(h.off)return;
+    var touches=si>=0&&(h.S.indexOf(si)>=0||h.T.some(function(x){return x[0]===si;})),st=TX[hi],act=st>.02;
+    if(!(S.ui.showH||touches||act))return;
+    var hub={x:0,y:0,z:0},cnt=h.S.length+h.T.length;
+    h.S.forEach(function(k){hub.x+=N[k].x;hub.y+=N[k].y;hub.z+=N[k].z;});h.T.forEach(function(x){hub.x+=N[x[0]].x;hub.y+=N[x[0]].y;hub.z+=N[x[0]].z;});
+    hub.x/=cnt;hub.y/=cnt;hub.z/=cnt;proj(hub);
+    ctx.globalAlpha=touches?.85:(act?.4+Math.min(.5,st*1.5):.2);
+    ctx.strokeStyle=ctx.fillStyle=(touches||act)?PAL.accent:PAL.mute;ctx.lineWidth=1+Math.min(3,st*5)+(touches?.6:0);
+    h.S.forEach(function(k){ctx.setLineDash([]);line(N[k].sx,N[k].sy,hub.sx,hub.sy);if((act||touches)&&S.ui.flow)flows.push([N[k],hub,st]);});
+    h.T.forEach(function(x){
+      var tn=N[x[0]],dx=tn.sx-hub.sx,dy=tn.sy-hub.sy,dl=Math.hypot(dx,dy)||1,rr=Math.max(3,nrad(tn)*tn.p*tn.sc)+3,ex=tn.sx-dx/dl*rr,ey=tn.sy-dy/dl*rr;
+      ctx.setLineDash(x[1]<0?[5,4]:[]);line(hub.sx,hub.sy,ex,ey);ctx.setLineDash([]);arrow(hub.sx,hub.sy,ex,ey,6+Math.min(4,st*6));
+      if((act||touches)&&S.ui.flow)flows.push([hub,tn,st]);
+    });
+    ctx.save();ctx.translate(hub.sx,hub.sy);ctx.rotate(Math.PI/4);ctx.fillRect(-3,-3,6,6);ctx.restore();
+    if(touches)hubLabels.push({t:h.raw.label,x:hub.sx,y:hub.sy-8});
+  });
+  ctx.globalAlpha=1;ctx.setLineDash([]);
+  flows.forEach(function(f,k){var u=(tm*.45+k*.31)%1;ctx.fillStyle=PAL.accent;ctx.globalAlpha=.9;ctx.beginPath();ctx.arc(f[0].sx+(f[1].sx-f[0].sx)*u,f[0].sy+(f[1].sy-f[0].sy)*u,2.2+f[2]*2,0,7);ctx.fill();});
+  ctx.globalAlpha=1;
+  // nodos
+  var order=N.map(function(_,k){return k;}).sort(function(a,b){return N[b].sz-N[a].sz;}),labels=[];
+  order.forEach(function(k){
+    var nd=N[k],e=A[k],r=Math.max(3,nrad(nd)*nd.p*nd.sc),dim=hl&&!hl[nd.id]&&nd.kind!=="core",c=nd.kind==="core"?PAL.fg:PAL.d[nd.dom],qd=S.quar.indexOf(nd.id)>=0;
+    ctx.globalAlpha=dim?.22:1;
+    if(L==="risk"){var rk=clamp((nd.risk-60)/40,0,1),hc=mix(PAL.warn,PAL.danger,rk),hr=r*(1.3+clamp((nd.risk-50)/50,0,1)*2.2),g=ctx.createRadialGradient(nd.sx,nd.sy,r*.5,nd.sx,nd.sy,hr);g.addColorStop(0,rgba(hc,.55));g.addColorStop(1,rgba(hc,0));ctx.fillStyle=g;ctx.beginPath();ctx.arc(nd.sx,nd.sy,hr,0,7);ctx.fill();
+      if(nd.risk>85&&!RM){ctx.strokeStyle=PAL.danger;ctx.lineWidth=1.3;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+9+Math.sin(tm*3)*2,0,7);ctx.stroke();}}
+    if(L==="q"){var qv=Core.Q(nd,S.ui.year),cr=r*(1.6+qv*9)*(k===si?(1-.85*col):1),g2=ctx.createRadialGradient(nd.sx,nd.sy,0,nd.sx,nd.sy,cr);g2.addColorStop(0,rgba(c,.42));g2.addColorStop(1,rgba(c,0));ctx.fillStyle=g2;ctx.beginPath();ctx.arc(nd.sx,nd.sy,cr,0,7);ctx.fill();}
+    if(L==="pod"&&nd.kind!=="core"){
+      var pd=podOf(nd,e),sd=r*2.2,bc=qd?PAL.danger:(pd.st==="Acelerado"?PAL.warn:(pd.st==="Activo"?PAL.ok:PAL.mute));
+      ctx.fillStyle=PAL.surface;ctx.strokeStyle=bc;ctx.lineWidth=1.8;ctx.beginPath();ctx.rect(nd.sx-sd/2,nd.sy-sd/2,sd,sd);ctx.fill();ctx.stroke();
+      ctx.fillStyle=c;ctx.fillRect(nd.sx-sd/2+2,nd.sy+sd/2-5,(sd-4)*pd.cpu/100,3);
+    }else{ctx.fillStyle=c;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r,0,7);ctx.fill();
+      if(nd.kind==="core"){ctx.strokeStyle=PAL.surface;ctx.lineWidth=2;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r*.55,0,7);ctx.stroke();}}
+    if(L==="ev"&&nd.kind!=="core"){ctx.lineWidth=2.6;ctx.strokeStyle=PAL.line;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+6,0,7);ctx.stroke();ctx.strokeStyle=PAL.ok;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+6,-Math.PI/2,-Math.PI/2+Math.PI*2*nd.ev/100);ctx.stroke();
+      if(nd.kind==="atom"&&S.seal){var ok=ss.mod.indexOf(nd.id)<0&&ss.add.indexOf(nd.id)<0;ctx.fillStyle=ok?PAL.ok:PAL.danger;ctx.font="600 11px IBM Plex Sans,sans-serif";ctx.fillText(ok?"✓":"!",nd.sx+r+9,nd.sy-r-3);}}
+    if(L==="q"&&nd.kind!=="core"){ctx.fillStyle=PAL.fg;ctx.beginPath();ctx.arc(nd.sx+Math.cos(nd.psi+tm*(RM?0:.6+Core.coherence(nd,S.ui.year)))*(r+7),nd.sy+Math.sin(nd.psi+tm*(RM?0:.6+Core.coherence(nd,S.ui.year)))*(r+7),2,0,7);ctx.fill();}
+    if(Math.abs(e)>.04){ctx.strokeStyle=PAL.accent;ctx.lineWidth=1.5+Math.abs(e)*3.5;ctx.setLineDash(e<0?[4,3]:[]);ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+4+Math.abs(e)*7+(L==="ev"?6:0),0,7);ctx.stroke();ctx.setLineDash([]);}
+    if(qd){ctx.strokeStyle=PAL.danger;ctx.lineWidth=1.6;ctx.setLineDash([2,2]);ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+3,0,7);ctx.stroke();ctx.setLineDash([]);line(nd.sx-r*.7,nd.sy-r*.7,nd.sx+r*.7,nd.sy+r*.7);line(nd.sx-r*.7,nd.sy+r*.7,nd.sx+r*.7,nd.sy-r*.7);}
+    if(k===si){ctx.globalAlpha=1;ctx.strokeStyle=PAL.fg;ctx.lineWidth=2;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+11,0,7);ctx.stroke();}
+    else if(k===hover){ctx.globalAlpha=1;ctx.strokeStyle=PAL.fg;ctx.lineWidth=1;ctx.beginPath();ctx.arc(nd.sx,nd.sy,r+8,0,7);ctx.stroke();}
+    ctx.globalAlpha=1;
+    var pr=-1,txt="",fnt="500 12px IBM Plex Sans,sans-serif",colr=PAL.fg;
+    if(nd.kind==="core"){pr=100;txt="Ω CORE";fnt="600 12px IBM Plex Mono,monospace";}
+    else if(nd.kind==="domain"){pr=90;txt=nd.name.toUpperCase();fnt="600 11px IBM Plex Mono,monospace";colr=c;}
+    else if(k===si){pr=95;txt=nd.name;fnt="600 12.5px IBM Plex Sans,sans-serif";}
+    else if(k===hover){pr=94;txt=nd.name;}
+    else if(hl&&hl[nd.id]){pr=70;txt=nd.name;}
+    else if(Math.abs(e)>.12){pr=40+Math.abs(e)*20;txt=nd.name+" "+sg(e,2);}
+    if(pr>0&&!dim)labels.push({t:txt,x:nd.sx+r+(L==="ev"?14:9),y:nd.sy+4,pr:pr,f:fnt,c:colr,right:nd.sx>Wd-150,r:r});
+  });
+  hubLabels.forEach(function(h){labels.push({t:h.t,x:h.x,y:h.y,pr:60,f:"italic 11px IBM Plex Sans,sans-serif",c:PAL.accent2,center:true});});
+  hubLabels=[];
+  labels.sort(function(a,b){return b.pr-a.pr;});
+  var boxes=[];
+  labels.forEach(function(lb){
+    ctx.font=lb.f;var w=ctx.measureText(lb.t).width,x=lb.center?lb.x-w/2:(lb.right?lb.x-2*(lb.r+9)-w:lb.x),y=lb.y,b={x0:x-2,x1:x+w+2,y0:y-11,y1:y+4},hit2=false;
+    boxes.forEach(function(o){if(!(b.x1<o.x0||b.x0>o.x1||b.y1<o.y0||b.y0>o.y1))hit2=true;});
+    if(hit2&&lb.pr<90)return;boxes.push(b);
+    ctx.lineWidth=3;ctx.strokeStyle=PAL.fig;ctx.lineJoin="round";ctx.strokeText(lb.t,x,y);ctx.fillStyle=lb.c;ctx.fillText(lb.t,x,y);
+  });
+}
+var hubLabels=[];
+function frame(ts){
+  var dt=Math.min(.05,(ts-last)/1000||0);last=ts;tm+=dt;
+  if(S.ui.rotate&&!dragging&&!RM)orbit+=dt*.12;
+  if(col<1)col=Math.min(1,col+dt*1.6);
+  if(palN++%30===0)readPal();
+  draw();requestAnimationFrame(frame);
+}
+/* Interacción: arrastre, pinza, rueda, selección */
+var dragging=false,ptrs={},pinch0=0,moved=0,down=null;
+function pick(x,y){
+  var N=M.nodes,best=-1,bd=1e9,order=N.map(function(_,k){return k;}).sort(function(a,b){return N[a].sz-N[b].sz;});
+  order.forEach(function(k){var n=N[k],r=Math.max(10,nrad(n)*n.p*n.sc+7),d=Math.hypot(n.sx-x,n.sy-y);if(d<r&&d<bd){bd=d;best=k;}});
+  return best;
+}
+cv.addEventListener("pointerdown",function(e){
+  cv.setPointerCapture(e.pointerId);var r=cv.getBoundingClientRect();ptrs[e.pointerId]={x:e.clientX-r.left,y:e.clientY-r.top};
+  dragging=true;moved=0;down={x:e.clientX,y:e.clientY};cv.style.cursor="grabbing";
+  var ks=Object.keys(ptrs);if(ks.length===2)pinch0=Math.hypot(ptrs[ks[0]].x-ptrs[ks[1]].x,ptrs[ks[0]].y-ptrs[ks[1]].y);
+});
+cv.addEventListener("pointermove",function(e){
+  var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  if(!ptrs[e.pointerId]){hover=pick(x,y);cv.style.cursor=hover>=0?"pointer":"grab";return;}
+  var ks=Object.keys(ptrs),p=ptrs[e.pointerId];
+  if(ks.length===2){ptrs[e.pointerId]={x:x,y:y};var d=Math.hypot(ptrs[ks[0]].x-ptrs[ks[1]].x,ptrs[ks[0]].y-ptrs[ks[1]].y);if(pinch0>0)zoom=clamp(zoom*d/pinch0,.5,3);pinch0=d;moved=99;return;}
+  yaw+=(x-p.x)*.006;pitch=clamp(pitch+(y-p.y)*.006,-1.3,1.3);moved+=Math.abs(x-p.x)+Math.abs(y-p.y);ptrs[e.pointerId]={x:x,y:y};
+});
+function pend(e){
+  var r=cv.getBoundingClientRect();delete ptrs[e.pointerId];
+  if(!Object.keys(ptrs).length){dragging=false;cv.style.cursor="grab";
+    if(e.type==="pointerup"&&moved<5){var k=pick(e.clientX-r.left,e.clientY-r.top);if(k>=0)select(M.nodes[k].id,false);}}
+}
+cv.addEventListener("pointerup",pend);cv.addEventListener("pointercancel",pend);
+cv.addEventListener("pointerleave",function(){hover=-1;});
+cv.addEventListener("wheel",function(e){e.preventDefault();zoom=clamp(zoom*(e.deltaY<0?1.1:.91),.5,3);},{passive:false});
+cv.addEventListener("dblclick",function(){yaw=.55;pitch=.3;zoom=1;});
+
+/* ---------- Navegación del documento ---------- */
+function tocSpy(){
+  var links=[].slice.call(document.querySelectorAll("#toc a")),secs=links.map(function(a){return $(a.getAttribute("href").slice(1));});
+  function upd(){var y=80,cur=0;secs.forEach(function(s,i){if(s&&s.getBoundingClientRect().top<=y)cur=i;});links.forEach(function(a,i){a.setAttribute("aria-current",i===cur?"true":"false");});}
+  window.addEventListener("scroll",upd,{passive:true});upd();
+}
+
+/* ---------- Arranque ---------- */
+derive();readPal();renderRoles();renderValidators();renderSc();initForms();bind();setTab("explore");renderAll();fit();tocSpy();
+if(window.ResizeObserver)new ResizeObserver(fit).observe($("stage"));else window.addEventListener("resize",fit);
+if(window.matchMedia)matchMedia("(prefers-color-scheme: dark)").addEventListener&&matchMedia("(prefers-color-scheme: dark)").addEventListener("change",readPal);
+requestAnimationFrame(frame);
+window.__hcu={S:function(){return S;},M:function(){return M;},derive:derive,select:select,el:function(){return el;},tq:function(){return tq;},pl:function(){return pl;}};
+})();
+</script>
+</body></html>
