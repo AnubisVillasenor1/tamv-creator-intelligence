@@ -27,7 +27,7 @@ for (const entry of config.paths) {
     const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
     const name = frontmatter?.[1].match(/^name:\s*([a-z0-9-]+)\s*$/m)?.[1];
     const description = frontmatter?.[1].match(/^description:\s*(.+)\s*$/m)?.[1];
-    const license = frontmatter?.[1].match(/^license:\s*AGPL-3\.0-only\s*$/m)?.[1];
+    const license = frontmatter?.[1].match(/^license:\s*(AGPL-3\.0-only)\s*$/m)?.[1];
 
     if (!statSync(skillPath).isFile() || !frontmatter || name !== child.name || !description || !license) {
       throw new Error(`Contrato skills.sh inválido: ${entry}/${child.name}/SKILL.md`);

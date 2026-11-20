@@ -21,7 +21,7 @@ if [[ $# -eq 3 ]]; then
     echo "ERROR: el repositorio debe tener formato owner/repo." >&2
     exit 64
   }
-  if [[ "${SOURCE_REPO,,}" != "$CANONICAL_SOURCE_REPO" ]]; then
+  if [[ "${SOURCE_REPO,,}" != "${CANONICAL_SOURCE_REPO,,}" ]]; then
     echo "ERROR: la atestación procede de $SOURCE_REPO; solo se acepta $CANONICAL_SOURCE_REPO." >&2
     exit 64
   fi
@@ -70,7 +70,7 @@ if [[ $# -eq 4 ]]; then
 
   [[ -f "$ARTIFACT" ]] || { echo "ERROR: artefacto ausente: $ARTIFACT" >&2; exit 2; }
   [[ -f "$PROVENANCE" ]] || { echo "ERROR: procedencia ausente: $PROVENANCE" >&2; exit 2; }
-  if [[ "$SOURCE_URI" != "https://github.com/$CANONICAL_SOURCE_REPO" && "$SOURCE_URI" != "git+https://github.com/$CANONICAL_SOURCE_REPO" ]]; then
+  if [[ "${SOURCE_URI,,}" != "https://github.com/${CANONICAL_SOURCE_REPO,,}" && "${SOURCE_URI,,}" != "git+https://github.com/${CANONICAL_SOURCE_REPO,,}" ]]; then
     echo "ERROR: el URI de origen debe apuntar a $CANONICAL_SOURCE_REPO." >&2
     exit 64
   fi

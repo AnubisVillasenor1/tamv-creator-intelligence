@@ -59,7 +59,7 @@
       "src/routes/api.tamv.hypercore.audit.ts": "sha256:4d900de4812ac2f066b3d0e37615854f70c76ef2b7fc197a9e3fdd31b1485776",
       "src/routes/hypercore.tsx": "sha256:279f6e4c552e37ffc871fcdfa7427a0d63c0138fb8d9d667d1ff8e12a45f7552",
       "src/lib/hypercore-turbo/parallel-runner.ts": "sha256:b87991e22e498c2aaa58f7f097ef7c63067e411578445691400fe857df60c465",
-      "scripts/verify-slsa.sh": "sha256:e0026c81e3464dfb3d85138f05e86ad2e6ebab631e0cd222d91965bc98daff45"
+      "scripts/verify-slsa.sh": "sha256:bd77b748c66e361fce0e64258231f1786297558ed98070dfd90a003d198907fe"
     }
   },
   "governance": {
